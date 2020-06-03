@@ -1,4 +1,5 @@
 # Import libraries
+import sys
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
@@ -157,7 +158,7 @@ protocol_generation_title.pack()
 
 # Selection of construct to import
 def select_construct_import():
-    window.filename = filedialog.askopenfilename(initialdir="C:\\", title="select file",
+    window.filename = filedialog.askopenfilename(initialdir=str(sys.argv[0]), title="select file",
                                                  filetypes=(("xml files", "*.xml"), ("all files", "*.*")))
     global single_imported_construct
     single_imported_construct = window.filename
@@ -173,8 +174,6 @@ import_construct_button.pack()
 def objects_in_doc_display_protocol():
     doc_contents_display_protocol = tk.Message(tab3, text=Protocol_Generation.objects_in_doc())
     doc_contents_display_protocol.pack()
-
-
 
 
 ################ Main_loop #################
