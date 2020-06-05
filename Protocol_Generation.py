@@ -5,9 +5,10 @@ from sbol import *
 import Main
 import GUI
 
-#Global variables
+# Global variables
 construct_cd_list = []
 sub_component_quantity = []
+
 
 # Import construct
 def import_construct(event):
@@ -17,7 +18,7 @@ def import_construct(event):
     Main.doc.read(imported_construct)
     GUI.objects_in_doc_display_protocol()
     isolate_design_()
-    design_analysis()
+    initialise_analysis()
 
 
 # Retrieve objects in doc
@@ -26,7 +27,7 @@ def objects_in_doc():
     return dictionary_doc
 
 
-#Isolating the component definition of the construct design
+# Isolating the component definition of the construct design
 def isolate_design_():
     construct_cd = Main.doc.componentDefinitions
     for componentdefinitions in construct_cd:
@@ -37,9 +38,8 @@ def isolate_design_():
             global construct_design
             construct_design = componentdefinitions
 
-def design_analysis():
+
+# First analysis of genetic construct, providing suggested assembly method
+def initialise_analysis():
     for component_definition in construct_design.getPrimaryStructure():
         print(component_definition.identity)
-
-
-

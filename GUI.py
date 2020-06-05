@@ -176,5 +176,7 @@ def objects_in_doc_display_protocol():
     doc_contents_display_protocol.pack()
 
 
+
+
 ################ Main_loop #################
 window.mainloop()
