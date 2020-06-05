@@ -5,6 +5,9 @@ from sbol import *
 import Main
 import GUI
 
+#Global variables
+construct_cd_list = []
+sub_component_quantity = []
 
 # Import construct
 def import_construct(event):
@@ -13,7 +16,8 @@ def import_construct(event):
     print(imported_construct)
     Main.doc.read(imported_construct)
     GUI.objects_in_doc_display_protocol()
-    test_function()
+    isolate_design_()
+    design_analysis()
 
 
 # Retrieve objects in doc
@@ -21,28 +25,21 @@ def objects_in_doc():
     dictionary_doc = [obj for obj in Main.doc]
     return dictionary_doc
 
-def test_function():
+
+#Isolating the component definition of the construct design
+def isolate_design_():
     construct_cd = Main.doc.componentDefinitions
-    for x in construct_cd:
-        print(len(x.components))
+    for componentdefinitions in construct_cd:
+        construct_cd_list.append(componentdefinitions)
+        sub_component_quantity.append(len(componentdefinitions.components))
+    for componentdefinitions in construct_cd_list:
+        if len(componentdefinitions.components) == max(sub_component_quantity):
+            global construct_design
+            construct_design = componentdefinitions
 
-
-    '''uri_list = []
-    for obj in Main.doc:
-        uri_list.append(obj)
-    print(uri_list)
-    for TopLevel in uri_list:
-        print(TopLevel.ComponentDefinition)
-        cd_list = (Main.doc.getComponentDefinition(str(TopLevel)))
-        print(cd_list.sequences)'''
-
-
-
-    '''part1 = Main.doc.getComponentDefinition(str(uri_list[0]))
-    print(len(part1.components))'''
-
-
-
+def design_analysis():
+    for component_definition in construct_design.getPrimaryStructure():
+        print(component_definition.identity)
 
 
 
