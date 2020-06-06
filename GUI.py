@@ -8,6 +8,9 @@ from tkinter import filedialog
 import Construct_Design
 import Protocol_Generation
 
+# Global variables
+construct_display_list = []
+
 ################### General_GUI ########################
 # Creating GUI window
 window = tk.Tk()
@@ -23,8 +26,15 @@ tab4 = ttk.Frame(tab_parent)
 tab_parent.add(tab1, text="Construct Assembly")
 tab_parent.add(tab2, text="Construct Modification")
 tab_parent.add(tab3, text="Protocol Generation")
-tab_parent.add(tab4, text="Liquid Handling Scripts")
+tab_parent.add(tab4, text="MoClo Assembly")
 tab_parent.pack(expand=1, fill='both')
+
+# Assigning SBOL GIF glyphs to variables
+promoter_glyph = tk.PhotoImage(file="SBOL_Glyphs/promoter-specification.gif")
+rbs_glyph = tk.PhotoImage(file="SBOL_Glyphs/ribosome-entry-site-specification.gif")
+cds_glyph = tk.PhotoImage(file="SBOL_Glyphs/cds-specification.gif")
+terminator_glyph = tk.PhotoImage(file="SBOL_Glyphs/terminator-specification.gif")
+other_glyph = tk.PhotoImage(file="SBOL_Glyphs/no-glyph-assigned-specification.gif")
 
 ###################### Construct_Design GUI #####################
 
@@ -169,13 +179,37 @@ import_construct_button = tk.Button(tab3, text="Import Construct")
 import_construct_button.bind("<Button-1>", Protocol_Generation.import_construct)
 import_construct_button.pack()
 
-
-# Display objects in doc GUI
-def objects_in_doc_display_protocol():
-    doc_contents_display_protocol = tk.Message(tab3, text=Protocol_Generation.objects_in_doc())
-    doc_contents_display_protocol.pack()
+# Canvas for construct display in assembly tab
+construct_canvas_assembly = tk.Canvas(tab3, width=1000, height=150)
+construct_canvas_assembly.pack()
 
 
+# Display SBOL glyphs in assembly tab
+def display_construct_GUI(SO_list):
+    counter = 0
+    construct_canvas_assembly.create_text(100, 60, font=("Arial", "11", "bold"), text="Construct structure:")
+    for x in SO_list:
+        counter = counter + 1
+        if "0000167" in x:
+            construct_canvas_assembly.create_image(counter * 70, 100, image=promoter_glyph)
+            construct_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
+                                                  text=Protocol_Generation.part_names[counter - 1])
+        elif "0000139" in x:
+            construct_canvas_assembly.create_image(counter * 70, 100, image=rbs_glyph)
+            construct_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
+                                                  text=Protocol_Generation.part_names[counter - 1])
+        elif "0000316" in x:
+            construct_canvas_assembly.create_image(counter * 70, 100, image=cds_glyph)
+            construct_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
+                                                  text=Protocol_Generation.part_names[counter - 1])
+        elif "0000141" in x:
+            construct_canvas_assembly.create_image(counter * 70, 100, image=terminator_glyph)
+            construct_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
+                                                  text=Protocol_Generation.part_names[counter - 1])
+        else:
+            construct_canvas_assembly.create_image(counter * 70, 100, image=other_glyph)
+            construct_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
+                                                  text=Protocol_Generation.part_names[counter - 1])
 
 
 ################ Main_loop #################

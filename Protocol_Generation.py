@@ -6,9 +6,13 @@ import Main
 import GUI
 
 # Global variables
-construct_cd_list = []
+doc_cd_list = []
 sub_component_quantity = []
-
+construct_components_list = []
+roles_2 = []
+part_roles_list = []
+part_names = []
+construct_name = str
 
 # Import construct
 def import_construct(event):
@@ -16,9 +20,10 @@ def import_construct(event):
     imported_construct = GUI.single_imported_construct
     print(imported_construct)
     Main.doc.read(imported_construct)
-    GUI.objects_in_doc_display_protocol()
     isolate_design_()
-    initialise_analysis()
+    detect_roles()
+    isolate_part_names()
+    GUI.display_construct_GUI(part_roles_list)
 
 
 # Retrieve objects in doc
@@ -27,19 +32,51 @@ def objects_in_doc():
     return dictionary_doc
 
 
-# Isolating the component definition of the construct design
+# Isolating the component definition of the construct design in pySBOL doc
 def isolate_design_():
-    construct_cd = Main.doc.componentDefinitions
-    for componentdefinitions in construct_cd:
-        construct_cd_list.append(componentdefinitions)
+    doc_cd = Main.doc.componentDefinitions
+    for componentdefinitions in doc_cd:
+        doc_cd_list.append(componentdefinitions)
         sub_component_quantity.append(len(componentdefinitions.components))
-    for componentdefinitions in construct_cd_list:
+    for componentdefinitions in doc_cd_list:
         if len(componentdefinitions.components) == max(sub_component_quantity):
-            global construct_design
-            construct_design = componentdefinitions
+            global construct_cd
+            construct_cd = componentdefinitions
 
 
-# First analysis of genetic construct, providing suggested assembly method
-def initialise_analysis():
-    for component_definition in construct_design.getPrimaryStructure():
-        print(component_definition.identity)
+# Retrieving SO identifiers of parts in construct design
+def detect_roles():
+    global part_roles
+    for component_definition in construct_cd.getPrimaryStructure():
+        construct_components_list.append(component_definition)
+    for x in construct_components_list:
+        roles_2.append(x.roles)
+    for y in roles_2:
+        for x in y:
+            if "SO" in str(x):
+                part_roles_list.append(x)
+
+def isolate_part_names():
+    for parts in (construct_components_list):
+        parts_2 = str(parts).replace("https://synbiohub.org/public/igem/", " ")
+        parts_3 = parts_2.replace("/1", " ")
+        part_names.append(parts_3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
