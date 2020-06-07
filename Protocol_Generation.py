@@ -8,31 +8,31 @@ import GUI
 # Global variables
 doc_cd_list = []
 sub_component_quantity = []
-construct_components_list = []
+design_components_list = []
 roles_2 = []
 part_roles_list = []
 part_names = []
-construct_name = str
+part_descriptions = []
+design_name = str
 
-# Import construct
-def import_construct(event):
-    GUI.select_construct_import()
-    imported_construct = GUI.single_imported_construct
-    print(imported_construct)
-    Main.doc.read(imported_construct)
+
+############################### Importing Design ###################################
+
+# Import design
+def import_design(event):
+    GUI.select_design_import()
+    imported_design = GUI.single_imported_design
+    print(imported_design)
+    Main.doc.read(imported_design)
     isolate_design_()
     detect_roles()
     isolate_part_names()
-    GUI.display_construct_GUI(part_roles_list)
+    GUI.display_design_GUI(part_roles_list)
+    isolate_part_descriptions()
+    GUI.create_description_button()
 
 
-# Retrieve objects in doc
-def objects_in_doc():
-    dictionary_doc = [obj for obj in Main.doc]
-    return dictionary_doc
-
-
-# Isolating the component definition of the construct design in pySBOL doc
+# Isolating the component definition of the design in pySBOL doc
 def isolate_design_():
     doc_cd = Main.doc.componentDefinitions
     for componentdefinitions in doc_cd:
@@ -40,43 +40,34 @@ def isolate_design_():
         sub_component_quantity.append(len(componentdefinitions.components))
     for componentdefinitions in doc_cd_list:
         if len(componentdefinitions.components) == max(sub_component_quantity):
-            global construct_cd
-            construct_cd = componentdefinitions
+            global design_cd
+            design_cd = componentdefinitions
 
 
-# Retrieving SO identifiers of parts in construct design
+# Retrieving SO identifiers of parts in design
 def detect_roles():
     global part_roles
-    for component_definition in construct_cd.getPrimaryStructure():
-        construct_components_list.append(component_definition)
-    for x in construct_components_list:
+    for component_definition in design_cd.getPrimaryStructure():
+        design_components_list.append(component_definition)
+    for x in design_components_list:
         roles_2.append(x.roles)
     for y in roles_2:
         for x in y:
             if "SO" in str(x):
                 part_roles_list.append(x)
 
+
+# Isolating part names
 def isolate_part_names():
-    for parts in (construct_components_list):
+    for parts in (design_components_list):
         parts_2 = str(parts).replace("https://synbiohub.org/public/igem/", " ")
         parts_3 = parts_2.replace("/1", " ")
         part_names.append(parts_3)
 
 
+# Isolation part descriptions
+def isolate_part_descriptions():
+    for parts in design_components_list:
+        part_descriptions.append(parts.description)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+############################ Design initial analysis ###################################

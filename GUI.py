@@ -15,7 +15,7 @@ construct_display_list = []
 # Creating GUI window
 window = tk.Tk()
 window.title("SynBioMate")
-window.geometry("700x500")
+window.geometry("1000x700")
 
 # Adding tabs to GUI
 tab_parent = ttk.Notebook(window)
@@ -156,7 +156,7 @@ construct_name_entry = tk.Entry(tab1)
 construct_name_entry.pack()
 
 # Construct assembly button
-construct_assembly_button = tk.Button(tab1, text="Assemble Construct")
+construct_assembly_button = tk.Button(tab1, text="Assemble Design")
 construct_assembly_button.bind("<Button-1>", Construct_Design.construct_assembly_directory)
 construct_assembly_button.pack()
 
@@ -166,50 +166,87 @@ protocol_generation_title = tk.Label(tab3, text="Protocol Generation", font=(Non
 protocol_generation_title.pack()
 
 
-# Selection of construct to import
-def select_construct_import():
+# Selection of design to import
+def select_design_import():
     window.filename = filedialog.askopenfilename(initialdir=str(sys.argv[0]), title="select file",
                                                  filetypes=(("xml files", "*.xml"), ("all files", "*.*")))
-    global single_imported_construct
-    single_imported_construct = window.filename
+    global single_imported_design
+    single_imported_design = window.filename
 
 
-# Import construct button
-import_construct_button = tk.Button(tab3, text="Import Construct")
-import_construct_button.bind("<Button-1>", Protocol_Generation.import_construct)
-import_construct_button.pack()
+# Import design button
+import_design_button = tk.Button(tab3, text="Import Design")
+import_design_button.bind("<Button-1>", Protocol_Generation.import_design)
+import_design_button.pack()
 
-# Canvas for construct display in assembly tab
-construct_canvas_assembly = tk.Canvas(tab3, width=1000, height=150)
-construct_canvas_assembly.pack()
+# Canvas for design display in assembly tab
+design_canvas_assembly = tk.Canvas(tab3, width=1000, height=200)
+design_canvas_assembly.pack()
 
 
 # Display SBOL glyphs in assembly tab
-def display_construct_GUI(SO_list):
+def display_design_GUI(SO_list):
     counter = 0
-    construct_canvas_assembly.create_text(100, 60, font=("Arial", "11", "bold"), text="Construct structure:")
+    design_canvas_assembly.create_text(100, 60, font=("Arial", "11", "bold"), text="Design structure:")
     for x in SO_list:
         counter = counter + 1
         if "0000167" in x:
-            construct_canvas_assembly.create_image(counter * 70, 100, image=promoter_glyph)
-            construct_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
+            design_canvas_assembly.create_image(counter * 70, 100, image=promoter_glyph)
+            design_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
                                                   text=Protocol_Generation.part_names[counter - 1])
         elif "0000139" in x:
-            construct_canvas_assembly.create_image(counter * 70, 100, image=rbs_glyph)
-            construct_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
+            design_canvas_assembly.create_image(counter * 70, 100, image=rbs_glyph)
+            design_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
                                                   text=Protocol_Generation.part_names[counter - 1])
         elif "0000316" in x:
-            construct_canvas_assembly.create_image(counter * 70, 100, image=cds_glyph)
-            construct_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
+            design_canvas_assembly.create_image(counter * 70, 100, image=cds_glyph)
+            design_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
                                                   text=Protocol_Generation.part_names[counter - 1])
         elif "0000141" in x:
-            construct_canvas_assembly.create_image(counter * 70, 100, image=terminator_glyph)
-            construct_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
+            design_canvas_assembly.create_image(counter * 70, 100, image=terminator_glyph)
+            design_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
                                                   text=Protocol_Generation.part_names[counter - 1])
         else:
-            construct_canvas_assembly.create_image(counter * 70, 100, image=other_glyph)
-            construct_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
+            design_canvas_assembly.create_image(counter * 70, 100, image=other_glyph)
+            design_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
                                                   text=Protocol_Generation.part_names[counter - 1])
+
+
+# Show part description in GUI button
+def create_description_button():
+    global part_description_button
+    part_description_button = tk.Button(tab3, text="Show part descriptions")
+    part_description_button.bind("<Button-1>", part_description)
+    part_description_button.pack()
+
+# Show part description in GUI
+def part_description(event):
+    counter = 0
+    for description in Protocol_Generation.part_descriptions:
+        counter = counter +1
+        part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
+        globals()[part_description_button_name] = tk.Label(tab3, text =str(Protocol_Generation.part_names[counter-1]) + " - " + description)
+        globals()[part_description_button_name].pack()
+    hide_description_button()
+
+
+# Hide part description in GUI button
+def hide_description_button():
+    part_description_button.pack_forget()
+    global hide_part_description_button
+    hide_part_description_button = tk.Button(tab3, text = "Hide part descriptions")
+    hide_part_description_button.bind("<Button-1>", hide_description)
+    hide_part_description_button.pack()
+
+def hide_description(event):
+    counter = 0
+    for description in Protocol_Generation.part_descriptions:
+        counter = counter +1
+        part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
+        globals()[part_description_button_name].pack_forget()
+    create_description_button()
+    hide_part_description_button.pack_forget()
+
 
 
 ################ Main_loop #################
