@@ -1,0 +1,35 @@
+LOCUS       X90363                    60 bp    DNA     linear   BCT 04-NOV-1996
+DEFINITION  C.glutamicum DNA for promoter fragment F45.
+ACCESSION   X90363
+VERSION     X90363.1
+KEYWORDS    promoter.
+SOURCE      Corynebacterium glutamicum
+  ORGANISM  Corynebacterium glutamicum
+            Bacteria; Actinobacteria; Corynebacteriales; Corynebacteriaceae;
+            Corynebacterium.
+REFERENCE   1
+  AUTHORS   Patek,M., Eikmanns,B.J., Patek,J. and Sahm,H.
+  TITLE     Promoters from Corynebacterium glutamicum: cloning, molecular
+            analysis and search for a consensus motif
+  JOURNAL   Microbiology (Reading, Engl.) 142 (PT 5), 1297-1309 (1996)
+   PUBMED   8704969
+REFERENCE   2  (bases 1 to 60)
+  AUTHORS   Eikmanns,B.J.
+  TITLE     Direct Submission
+  JOURNAL   Submitted (28-JUL-1995) B.J. Eikmanns, Forschungszentrum Juelich,
+            Inst. fuer Biotechnologie 1, 52425 Juelich, FRG
+FEATURES             Location/Qualifiers
+     source          1..60
+                     /organism="Corynebacterium glutamicum"
+                     /mol_type="genomic DNA"
+                     /strain="ATCC 13032"
+                     /type_material="type strain of Corynebacterium glutamicum"
+                     /db_xref="taxon:1718"
+     regulatory      <1..>60
+                     /regulatory_class="promoter"
+                     /note="prmoter fragment F45"
+     mRNA            51..>60
+ORIGIN      
+        1 ttggtcaggg attttttccc gagggcacta attttgctaa agtaagtgac gaagaagttc
+//
+

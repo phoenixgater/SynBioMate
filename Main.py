@@ -5,12 +5,13 @@ from sbol import *
 
 #Import scripts
 import GUI
-import Construct_Design
+import Genetic_Design
 import Protocol_Generation
+
 
 # Initialise pySBOL document and homespace
 doc = Document()
-setHomespace('https://synbiohub.org')
+setHomespace('https://synbiohub.org/public/igem/')
 
 
 

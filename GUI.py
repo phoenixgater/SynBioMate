@@ -5,11 +5,12 @@ from tkinter import ttk
 from tkinter import filedialog
 
 # Import scripts
-import Construct_Design
+import Genetic_Design
 import Protocol_Generation
+import Part_Creation
 
 # Global variables
-construct_display_list = []
+design_display_list = []
 
 ################### General_GUI ########################
 # Creating GUI window
@@ -23,8 +24,8 @@ tab1 = ttk.Frame(tab_parent)
 tab2 = ttk.Frame(tab_parent)
 tab3 = ttk.Frame(tab_parent)
 tab4 = ttk.Frame(tab_parent)
-tab_parent.add(tab1, text="Construct Assembly")
-tab_parent.add(tab2, text="Construct Modification")
+tab_parent.add(tab1, text="Create Part")
+tab_parent.add(tab2, text="Create Design")
 tab_parent.add(tab3, text="Protocol Generation")
 tab_parent.add(tab4, text="MoClo Assembly")
 tab_parent.pack(expand=1, fill='both')
@@ -36,101 +37,167 @@ cds_glyph = tk.PhotoImage(file="SBOL_Glyphs/cds-specification.gif")
 terminator_glyph = tk.PhotoImage(file="SBOL_Glyphs/terminator-specification.gif")
 other_glyph = tk.PhotoImage(file="SBOL_Glyphs/no-glyph-assigned-specification.gif")
 
-###################### Construct_Design GUI #####################
+################### Create part GUI ################
+create_part_title = tk.Label(tab1, text="Create Part", font=(None, 20))
+create_part_title.pack()
 
-# Title of construct assembly tab
-constructassemblytitle = tk.Label(tab1, text="Construct Assembly", font=(None, 20))
-constructassemblytitle.pack()
+#Create from GenBank file button
+import_file_creation = tk.Button(tab1, text="Convert GenBank file")
+import_file_creation.bind("<Button-1>", Part_Creation.part_creation_genbank)
+import_file_creation.pack()
 
 
-# Display objects in doc in GUI
-def objects_in_doc_display():
-    global doc_contents_display
-    Construct_Design.clear_doc_display()
-    doc_contents_display = tk.Message(tab1, text=Construct_Design.objects_in_doc())
-    doc_contents_display.pack()
+#Manual DNA entry
+or_label = tk.Label(tab1, text= "or")
+or_label.pack()
+
+dna_entry_label = tk.Label(tab1, text="Enter part DNA sequence")
+dna_entry_label.pack()
+sequence_entry = tk.Entry(tab1)
+sequence_entry.pack()
+
+#Part name entry
+part_name_entry_label = tk.Label(tab1, text="Enter part name")
+part_name_entry_label.pack()
+
+part_name_entry = tk.Entry(tab1)
+part_name_entry.pack()
+
+#Part identifier entry
+part_identifier_label = tk.Label(tab1, text = "Enter part identifier (e.g BBa_B0...)")
+part_identifier_label.pack()
+
+part_identifier_entry = tk.Entry(tab1)
+part_identifier_entry.pack()
+
+#Role selection dropdown
+part_role_label = tk.Label(tab1, text = "Select the part role")
+part_role_label.pack()
+
+part_role_combo = ttk.Combobox(tab1, values = ["Promoter",
+                                                 "RBS",
+                                                 "CDS",
+                                                 "Terminator",
+                                                 "Backbone",])
+part_role_combo.pack()
+
+#Part description entry
+part_description_label = tk.Label(tab1, text = "Enter a part description")
+part_description_label.pack()
+
+part_description_entry = tk.Entry(tab1)
+part_description_entry.pack()
+
+#Save part button
+save_part_button = tk.Button(tab1, text = "Save part")
+save_part_button.bind("<Button-1>", Part_Creation.save_created_part)
+save_part_button.pack()
+
+#Upload part to Synbiohub button
+upload_part_synbiohub = tk.Button(tab1, text= "Upload part to SynbioHub")
+#Placeholder for button bind
+upload_part_synbiohub.pack()
+
+#Select GenBank file for conversion
+def select_genbank_file():
+    window.filename = filedialog.askopenfilename(initialdir=str(sys.argv[0]), title="select file",
+                                                 filetypes=(("GenBank Files (gb)", "*.gb"), ("all files", "*.*")))
+    global genbank_file
+    genbank_file = window.filename
+
+#Successful conversion label
+def successful_conversion():
+    successful_conversion_label = tk.Label(tab1, text="Genbank file converted successfully")
+    successful_conversion_label.pack()
+
+
+###################### Genetic_Design GUI #####################
+
+# Title of Genetic Design assembly tab
+designassemblytitle = tk.Label(tab2, text="Create Genetic Design", font=(None, 20))
+designassemblytitle.pack()
 
 
 # Query submission label and entry widget
-query_request_label = tk.Label(tab1, text="Please enter a search term")
+query_request_label = tk.Label(tab2, text="Please enter a search term")
 query_request_label.pack()
-query_request_entry = tk.Entry(tab1)
+query_request_entry = tk.Entry(tab2)
 query_request_entry.pack()
 
 # Query submit button
-query_submit_button = tk.Button(tab1, text="Submit")
-query_submit_button.bind("<Button-1>", Construct_Design.query_submit)
+query_submit_button = tk.Button(tab2, text="Submit")
+query_submit_button.bind("<Button-1>", Genetic_Design.query_submit)
 query_submit_button.pack()
 
 
 # GUI binding of writing queried part to doc
 def part_choice_button_1():
     global query_result_button_1
-    query_result_button_1 = tk.Button(tab1, text=Construct_Design.records[0])
-    query_result_button_1.bind("<Button-1>", Construct_Design.query_to_doc_1)
+    query_result_button_1 = tk.Button(tab2, text=Genetic_Design.records[0])
+    query_result_button_1.bind("<Button-1>", Genetic_Design.query_to_doc_1)
     query_result_button_1.pack()
 
 
 def part_choice_button_2():
     global query_result_button_2
-    query_result_button_2 = tk.Button(tab1, text=Construct_Design.records[1])
-    query_result_button_2.bind("<Button-1>", Construct_Design.query_to_doc_2)
+    query_result_button_2 = tk.Button(tab2, text=Genetic_Design.records[1])
+    query_result_button_2.bind("<Button-1>", Genetic_Design.query_to_doc_2)
     query_result_button_2.pack()
 
 
 def part_choice_button_3():
     global query_result_button_3
-    query_result_button_3 = tk.Button(tab1, text=Construct_Design.records[2])
-    query_result_button_3.bind("<Button-1>", Construct_Design.query_to_doc_3)
+    query_result_button_3 = tk.Button(tab2, text=Genetic_Design.records[2])
+    query_result_button_3.bind("<Button-1>", Genetic_Design.query_to_doc_3)
     query_result_button_3.pack()
 
 
 def part_choice_button_4():
     global query_result_button_4
-    query_result_button_4 = tk.Button(tab1, text=Construct_Design.records[3])
-    query_result_button_4.bind("<Button-1>", Construct_Design.query_to_doc_4)
+    query_result_button_4 = tk.Button(tab2, text=Genetic_Design.records[3])
+    query_result_button_4.bind("<Button-1>", Genetic_Design.query_to_doc_4)
     query_result_button_4.pack()
 
 
 def part_choice_button_5():
     global query_result_button_5
-    query_result_button_5 = tk.Button(tab1, text=Construct_Design.records[4])
-    query_result_button_5.bind("<Button-1>", Construct_Design.query_to_doc_5)
+    query_result_button_5 = tk.Button(tab2, text=Genetic_Design.records[4])
+    query_result_button_5.bind("<Button-1>", Genetic_Design.query_to_doc_5)
     query_result_button_5.pack()
 
 
 def part_choice_button_6():
     global query_result_button_6
-    query_result_button_6 = tk.Button(tab1, text=Construct_Design.records[5])
-    query_result_button_6.bind("<Button-1>", Construct_Design.query_to_doc_6)
+    query_result_button_6 = tk.Button(tab2, text=Genetic_Design.records[5])
+    query_result_button_6.bind("<Button-1>", Genetic_Design.query_to_doc_6)
     query_result_button_6.pack()
 
 
 def part_choice_button_7():
     global query_result_button_7
-    query_result_button_7 = tk.Button(tab1, text=Construct_Design.records[6])
-    query_result_button_7.bind("<Button-1>", Construct_Design.query_to_doc_7)
+    query_result_button_7 = tk.Button(tab2, text=Genetic_Design.records[6])
+    query_result_button_7.bind("<Button-1>", Genetic_Design.query_to_doc_7)
     query_result_button_7.pack()
 
 
 def part_choice_button_8():
     global query_result_button_8
-    query_result_button_8 = tk.Button(tab1, text=Construct_Design.records[7])
-    query_result_button_8.bind("<Button-1>", Construct_Design.query_to_doc_8)
+    query_result_button_8 = tk.Button(tab2, text=Genetic_Design.records[7])
+    query_result_button_8.bind("<Button-1>", Genetic_Design.query_to_doc_8)
     query_result_button_8.pack()
 
 
 def part_choice_button_9():
     global query_result_button_9
-    query_result_button_9 = tk.Button(tab1, text=Construct_Design.records[8])
-    query_result_button_9.bind("<Button-1>", Construct_Design.query_to_doc_9)
+    query_result_button_9 = tk.Button(tab2, text=Genetic_Design.records[8])
+    query_result_button_9.bind("<Button-1>", Genetic_Design.query_to_doc_9)
     query_result_button_9.pack()
 
 
 def part_choice_button_10():
     global query_result_button_10
-    (query_result_button_10) = tk.Button(tab1, text=Construct_Design.records[9])
-    query_result_button_10.bind("<Button-1>", Construct_Design.query_to_doc_10)
+    (query_result_button_10) = tk.Button(tab2, text=Genetic_Design.records[9])
+    query_result_button_10.bind("<Button-1>", Genetic_Design.query_to_doc_10)
     query_result_button_10.pack()
 
 
@@ -147,18 +214,18 @@ def clear_all_query():
     query_result_button_10.pack_forget()
 
 
-# Construct assembly entry label
-name_construct_label = tk.Label(tab1, text="Please enter the name of your genetic construct")
-name_construct_label.pack()
+# Genetic Design assembly entry label
+name_design_label = tk.Label(tab2, text="Please enter the name of your genetic design")
+name_design_label.pack()
 
-# Construct assembly name entry
-construct_name_entry = tk.Entry(tab1)
-construct_name_entry.pack()
+# Design assembly name entry
+design_name_entry = tk.Entry(tab2)
+design_name_entry.pack()
 
-# Construct assembly button
-construct_assembly_button = tk.Button(tab1, text="Assemble Design")
-construct_assembly_button.bind("<Button-1>", Construct_Design.construct_assembly_directory)
-construct_assembly_button.pack()
+# Genetic Design assembly button
+design_assembly_button = tk.Button(tab2, text="Assemble Design")
+design_assembly_button.bind("<Button-1>", Genetic_Design.design_assembly_directory)
+design_assembly_button.pack()
 
 ####################### Protocol_Generation_Main GUI ###################################
 # Protocol generation title label
