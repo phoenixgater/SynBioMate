@@ -148,7 +148,6 @@ def upload_file(event):
 
 
 
-
 ################### Create part GUI ################
 create_part_title = tk.Label(tab1, text="Create Part", font=(None, 20))
 create_part_title.pack()
