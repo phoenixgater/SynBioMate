@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2be6075-ba26-4585-89e7-02a8a4467d90" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Part_Creation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Construct_Design.py" beforeDir="false" afterPath="$PROJECT_DIR$/Genetic_Design.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/synbiohubconstruct.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_construct_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Part_Creation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Part_Creation.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -125,7 +121,8 @@
       <workItem from="1591529576134" duration="10281000" />
       <workItem from="1591657427075" duration="556000" />
       <workItem from="1591789241054" duration="32833000" />
-      <workItem from="1592235068268" duration="12850000" />
+      <workItem from="1592235068268" duration="18779000" />
+      <workItem from="1592307498715" duration="12323000" />
     </task>
     <servers />
   </component>
@@ -147,6 +144,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/SynBioMate$Exam.coverage" NAME="Exam Coverage Results" MODIFIED="1591823416226" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/SynBioMate$Main.coverage" NAME="Main Coverage Results" MODIFIED="1592250754816" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SynBioMate$Main.coverage" NAME="Main Coverage Results" MODIFIED="1592319901918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

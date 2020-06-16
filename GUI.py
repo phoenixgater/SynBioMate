@@ -3,14 +3,17 @@ import sys
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
+from sbol import *
 
 # Import scripts
 import Genetic_Design
 import Protocol_Generation
 import Part_Creation
+import Main
 
 # Global variables
 design_display_list = []
+igem = PartShop('https://synbiohub.org/public/igem')
 
 ################### General_GUI ########################
 # Creating GUI window
@@ -37,18 +40,131 @@ cds_glyph = tk.PhotoImage(file="SBOL_Glyphs/cds-specification.gif")
 terminator_glyph = tk.PhotoImage(file="SBOL_Glyphs/terminator-specification.gif")
 other_glyph = tk.PhotoImage(file="SBOL_Glyphs/no-glyph-assigned-specification.gif")
 
+
+# Upload to synbiohub window
+def synbiohub_upload(event):
+    global upload_window
+    upload_window = tk.Toplevel(window)
+    upload_window.title("Upload to SynBioHub")
+    upload_window.geometry("400x300")
+
+    synbiohub_title = tk.Label(upload_window, text="Upload to SynBioHub", font=(None, 15))
+    synbiohub_title.pack()
+
+    global username_entry_label
+    username_entry_label = tk.Label(upload_window, text="SynBioHub Username")
+    username_entry_label.pack()
+
+    global username_entry
+    username_entry = tk.Entry(upload_window)
+    username_entry.pack()
+
+    global password_entry_label
+    password_entry_label = tk.Label(upload_window, text="SynBioHub Password")
+    password_entry_label.pack()
+
+    global password_entry
+    password_entry = tk.Entry(upload_window)
+    password_entry.pack()
+
+    global login_button
+    login_button = tk.Button(upload_window, text="login")
+    login_button.bind("<Button-1>", synbiohub_login)
+    login_button.pack()
+
+
+# SynBioHub Login
+def synbiohub_login(event):
+    global login_failed_label
+    try:
+        username = username_entry.get()
+        password = password_entry.get()
+        igem.login(str(username), str(password))
+        successful_login()
+
+    except RuntimeError:
+        try:
+            login_failed_label.pack_forget
+        except NameError:
+            login_failed_label = tk.Label(upload_window, text="Login failed")
+            login_failed_label.pack()
+
+
+def successful_login():
+    username_entry_label.pack_forget()
+    username_entry.pack_forget()
+    password_entry_label.pack_forget()
+    password_entry.pack_forget()
+    login_button.pack_forget()
+
+    upload_label = tk.Label(upload_window, text=("Please select the file you wish to upload"))
+    upload_label.pack()
+
+    select_upload_button = tk.Button(upload_window, text="Select file")
+    select_upload_button.bind("<Button-1>", select_upload)
+    select_upload_button.pack()
+
+
+def select_upload(event):
+    upload_window.filename = filedialog.askopenfilename(initialdir=str(sys.argv[0]), title="select file",
+                                                        filetypes=(("SBOL files .xml", "*.xml"), ("all files", "*.*")))
+    global selected_file
+    selected_file = upload_window.filename
+    selected_file_label = tk.Label(upload_window, text=str(selected_file))
+    selected_file_label.pack()
+
+    global collection_id
+    collection_id_label = tk.Label(upload_window, text="Enter collection ID")
+    collection_id_label.pack()
+    collection_id = tk.Entry(upload_window)
+    collection_id.pack()
+
+    global collection_name
+    collection_name_label = tk.Label(upload_window, text="Enter collection name")
+    collection_name_label.pack()
+    collection_name = tk.Entry(upload_window)
+    collection_name.pack()
+
+    global collection_description
+    collection_description_label = tk.Label(upload_window, text="Enter collection description")
+    collection_description_label.pack()
+    collection_description = tk.Entry(upload_window)
+    collection_description.pack()
+
+    upload_file_button = tk.Button(upload_window, text="Upload")
+    upload_file_button.bind("<Button-1>", upload_file)
+    upload_file_button.pack()
+
+
+
+def upload_file(event):
+    Main.doc.read(str(selected_file))
+    Main.doc.displayId = collection_id.get()
+    Main.doc.name = collection_name.get()
+    Main.doc.description = collection_description.get()
+    igem.submit(Main.doc)
+    successful_upload_label = tk.Label(upload_window, text="File uploaded")
+    successful_upload_label.pack()
+
+
+
+
 ################### Create part GUI ################
 create_part_title = tk.Label(tab1, text="Create Part", font=(None, 20))
 create_part_title.pack()
 
-#Create from GenBank file button
-import_file_creation = tk.Button(tab1, text="Convert GenBank file")
+# Upload part to Synbiohub button
+upload_part_synbiohub = tk.Button(tab1, text="Upload part to SynbioHub")
+upload_part_synbiohub.bind("<Button-1>", synbiohub_upload)
+upload_part_synbiohub.pack()
+
+# Create from GenBank file button
+import_file_creation = tk.Button(tab1, text="Create from GenBank file")
 import_file_creation.bind("<Button-1>", Part_Creation.part_creation_genbank)
 import_file_creation.pack()
 
-
-#Manual DNA entry
-or_label = tk.Label(tab1, text= "or")
+# Manual DNA entry
+or_label = tk.Label(tab1, text="or")
 or_label.pack()
 
 dna_entry_label = tk.Label(tab1, text="Enter part DNA sequence")
@@ -56,56 +172,53 @@ dna_entry_label.pack()
 sequence_entry = tk.Entry(tab1)
 sequence_entry.pack()
 
-#Part name entry
+# Part name entry
 part_name_entry_label = tk.Label(tab1, text="Enter part name")
 part_name_entry_label.pack()
 
 part_name_entry = tk.Entry(tab1)
 part_name_entry.pack()
 
-#Part identifier entry
-part_identifier_label = tk.Label(tab1, text = "Enter part identifier (e.g BBa_B0...)")
+# Part identifier entry
+part_identifier_label = tk.Label(tab1, text="Enter part identifier (e.g BBa_B0...)")
 part_identifier_label.pack()
 
 part_identifier_entry = tk.Entry(tab1)
 part_identifier_entry.pack()
 
-#Role selection dropdown
-part_role_label = tk.Label(tab1, text = "Select the part role")
+# Role selection dropdown
+part_role_label = tk.Label(tab1, text="Select the part role")
 part_role_label.pack()
 
-part_role_combo = ttk.Combobox(tab1, values = ["Promoter",
-                                                 "RBS",
-                                                 "CDS",
-                                                 "Terminator",
-                                                 "Backbone",])
+part_role_combo = ttk.Combobox(tab1, values=["Promoter",
+                                             "RBS",
+                                             "CDS",
+                                             "Terminator",
+                                             "Backbone", ])
 part_role_combo.pack()
 
-#Part description entry
-part_description_label = tk.Label(tab1, text = "Enter a part description")
+# Part description entry
+part_description_label = tk.Label(tab1, text="Enter a part description")
 part_description_label.pack()
 
 part_description_entry = tk.Entry(tab1)
 part_description_entry.pack()
 
-#Save part button
-save_part_button = tk.Button(tab1, text = "Save part")
+# Save part button
+save_part_button = tk.Button(tab1, text="Save part")
 save_part_button.bind("<Button-1>", Part_Creation.save_created_part)
 save_part_button.pack()
 
-#Upload part to Synbiohub button
-upload_part_synbiohub = tk.Button(tab1, text= "Upload part to SynbioHub")
-#Placeholder for button bind
-upload_part_synbiohub.pack()
 
-#Select GenBank file for conversion
+# Select GenBank file for conversion
 def select_genbank_file():
     window.filename = filedialog.askopenfilename(initialdir=str(sys.argv[0]), title="select file",
                                                  filetypes=(("GenBank Files (gb)", "*.gb"), ("all files", "*.*")))
     global genbank_file
     genbank_file = window.filename
 
-#Successful conversion label
+
+# Successful conversion label
 def successful_conversion():
     successful_conversion_label = tk.Label(tab1, text="Genbank file converted successfully")
     successful_conversion_label.pack()
@@ -116,7 +229,6 @@ def successful_conversion():
 # Title of Genetic Design assembly tab
 designassemblytitle = tk.Label(tab2, text="Create Genetic Design", font=(None, 20))
 designassemblytitle.pack()
-
 
 # Query submission label and entry widget
 query_request_label = tk.Label(tab2, text="Please enter a search term")
@@ -260,23 +372,23 @@ def display_design_GUI(SO_list):
         if "0000167" in x:
             design_canvas_assembly.create_image(counter * 70, 100, image=promoter_glyph)
             design_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
-                                                  text=Protocol_Generation.part_names[counter - 1])
+                                               text=Protocol_Generation.part_names[counter - 1])
         elif "0000139" in x:
             design_canvas_assembly.create_image(counter * 70, 100, image=rbs_glyph)
             design_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
-                                                  text=Protocol_Generation.part_names[counter - 1])
+                                               text=Protocol_Generation.part_names[counter - 1])
         elif "0000316" in x:
             design_canvas_assembly.create_image(counter * 70, 100, image=cds_glyph)
             design_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
-                                                  text=Protocol_Generation.part_names[counter - 1])
+                                               text=Protocol_Generation.part_names[counter - 1])
         elif "0000141" in x:
             design_canvas_assembly.create_image(counter * 70, 100, image=terminator_glyph)
             design_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
-                                                  text=Protocol_Generation.part_names[counter - 1])
+                                               text=Protocol_Generation.part_names[counter - 1])
         else:
             design_canvas_assembly.create_image(counter * 70, 100, image=other_glyph)
             design_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
-                                                  text=Protocol_Generation.part_names[counter - 1])
+                                               text=Protocol_Generation.part_names[counter - 1])
 
 
 # Show part description in GUI button
@@ -286,13 +398,15 @@ def create_description_button():
     part_description_button.bind("<Button-1>", part_description)
     part_description_button.pack()
 
+
 # Show part description in GUI
 def part_description(event):
     counter = 0
     for description in Protocol_Generation.part_descriptions:
-        counter = counter +1
+        counter = counter + 1
         part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
-        globals()[part_description_button_name] = tk.Label(tab3, text =str(Protocol_Generation.part_names[counter-1]) + " - " + description)
+        globals()[part_description_button_name] = tk.Label(tab3, text=str(
+            Protocol_Generation.part_names[counter - 1]) + " - " + description)
         globals()[part_description_button_name].pack()
     hide_description_button()
 
@@ -301,19 +415,19 @@ def part_description(event):
 def hide_description_button():
     part_description_button.pack_forget()
     global hide_part_description_button
-    hide_part_description_button = tk.Button(tab3, text = "Hide part descriptions")
+    hide_part_description_button = tk.Button(tab3, text="Hide part descriptions")
     hide_part_description_button.bind("<Button-1>", hide_description)
     hide_part_description_button.pack()
+
 
 def hide_description(event):
     counter = 0
     for description in Protocol_Generation.part_descriptions:
-        counter = counter +1
+        counter = counter + 1
         part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
         globals()[part_description_button_name].pack_forget()
     create_description_button()
     hide_part_description_button.pack_forget()
-
 
 
 ################ Main_loop #################

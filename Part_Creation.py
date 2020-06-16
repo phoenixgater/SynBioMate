@@ -35,6 +35,12 @@ def create_part():
     Main.doc.addComponentDefinition(part)
 
 
+#Part creation genbank
+def part_creation_genbank(event):
+    GUI.select_genbank_file()
+    converter.convert(GUI.genbank_file)
+
+
 #Save part
 def save_created_part(event):
     create_part()
@@ -46,10 +52,4 @@ def save_created_part(event):
 def part_creation_genbank(event):
     GUI.select_genbank_file()
     converter.convert(GUI.genbank_file)
-
-
-#Upload part
-def upload_created_part(event):
-    create_part()
-
 
