@@ -14,7 +14,7 @@ def create_part():
     global part_name
     part_name = GUI.part_name_entry.get().replace(" ", "_")
     global dna_sequence
-    dna_sequence = GUI.sequence_entry.get().replace
+    dna_sequence = GUI.sequence_entry.get()
     global part_role
     part_role = GUI.part_role_combo.get()
     global description

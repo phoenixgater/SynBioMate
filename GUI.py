@@ -136,7 +136,6 @@ def select_upload(event):
     upload_file_button.pack()
 
 
-
 def upload_file(event):
     Main.doc.read(str(selected_file))
     Main.doc.displayId = collection_id.get()
@@ -145,7 +144,6 @@ def upload_file(event):
     igem.submit(Main.doc)
     successful_upload_label = tk.Label(upload_window, text="File uploaded")
     successful_upload_label.pack()
-
 
 
 ################### Create part GUI ################
@@ -228,6 +226,21 @@ def successful_conversion():
 # Title of Genetic Design assembly tab
 designassemblytitle = tk.Label(tab2, text="Create Genetic Design", font=(None, 20))
 designassemblytitle.pack()
+
+
+# Part from file selection
+def part_file_selection(event):
+    window.filename = filedialog.askopenfilename(initialdir=str(sys.argv[0]), title="select file",
+                                                 filetypes=(("SBOL files (.xml)", "*.xml"), ("all files", "*.*")))
+    global imported_part
+    imported_part = window.filename
+    Genetic_Design.add_file_part()
+
+
+# Import part from file button
+import_file_button = tk.Button(tab2, text="Import part from file")
+import_file_button.bind("<Button-1>", part_file_selection)
+import_file_button.pack()
 
 # Query submission label and entry widget
 query_request_label = tk.Label(tab2, text="Please enter a search term")
@@ -335,7 +348,7 @@ design_name_entry.pack()
 
 # Genetic Design assembly button
 design_assembly_button = tk.Button(tab2, text="Assemble Design")
-design_assembly_button.bind("<Button-1>", Genetic_Design.design_assembly_directory)
+design_assembly_button.bind("<Button-1>", Genetic_Design.design_assembly)
 design_assembly_button.pack()
 
 ####################### Protocol_Generation_Main GUI ###################################

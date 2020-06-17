@@ -4,6 +4,11 @@
     <list default="true" id="d2be6075-ba26-4585-89e7-02a8a4467d90" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Genetic_Design.py" beforeDir="false" afterPath="$PROJECT_DIR$/Genetic_Design.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Part_Creation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Part_Creation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sequence.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_construct.xml" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +47,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Upload test">
+  <component name="RunManager" selected="Python.Main">
     <configuration name="Exam" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SynBioMate" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -111,8 +116,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.Upload test" />
         <item itemvalue="Python.Main" />
+        <item itemvalue="Python.Upload test" />
         <item itemvalue="Python.Exam" />
       </list>
     </recent_temporary>
@@ -144,7 +149,10 @@
       <workItem from="1591657427075" duration="556000" />
       <workItem from="1591789241054" duration="32833000" />
       <workItem from="1592235068268" duration="18779000" />
-      <workItem from="1592307498715" duration="16332000" />
+      <workItem from="1592307498715" duration="30270000" />
+      <workItem from="1592344943519" duration="10015000" />
+      <workItem from="1592361607149" duration="15698000" />
+      <workItem from="1592423333065" duration="14061000" />
     </task>
     <servers />
   </component>
@@ -167,6 +175,6 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/SynBioMate$Upload_test.coverage" NAME="Upload test Coverage Results" MODIFIED="1592322678596" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SynBioMate$Exam.coverage" NAME="Exam Coverage Results" MODIFIED="1591823416226" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/SynBioMate$Main.coverage" NAME="Main Coverage Results" MODIFIED="1592322190907" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SynBioMate$Main.coverage" NAME="Main Coverage Results" MODIFIED="1592437449891" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
