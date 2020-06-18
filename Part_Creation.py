@@ -17,7 +17,7 @@ def create_part():
     dna_sequence = GUI.sequence_entry.get()
     global part_role
     part_role = GUI.part_role_combo.get()
-    global description
+    global part_description
     part_description = GUI.part_description_entry.get()
     part = ComponentDefinition(str(identifier))
     if part_role == "Promoter":

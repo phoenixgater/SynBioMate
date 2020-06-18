@@ -49,6 +49,7 @@ def add_file_part():
             Main.doc.append(str(GUI.imported_part))
 
 
+
 # SynBioHub part query
 def part_search(query):
     query2 = query.replace(" ", "_")
