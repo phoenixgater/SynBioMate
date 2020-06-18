@@ -9,6 +9,7 @@ import converter
 
 #Get user input for part creation
 def create_part():
+    Main.doc = Document()
     global identifier
     identifier = GUI.part_identifier_entry.get().replace(" ", "_")
     global part_name

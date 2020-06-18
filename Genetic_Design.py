@@ -9,7 +9,6 @@ import GUI
 igem = PartShop('https://synbiohub.org/public/igem')
 
 # Global variables (Not all)
-part_count = 0
 component_definition_list = []
 
 
@@ -441,7 +440,8 @@ def query_to_doc_10(event):
 
 
 def design_assembly(event):
-    assembled_design = ComponentDefinition(str(GUI.design_name_entry.get()))
+    design_name = (str(GUI.design_name_entry.get())).replace(" ", "_")
+    assembled_design = ComponentDefinition(design_name)
     Main.doc.addComponentDefinition(assembled_design)
     temp_list = []
     for component in component_definition_list:
@@ -451,5 +451,11 @@ def design_assembly(event):
     assembled_design.assemblePrimaryStructure(temp_list)
     compile_design = assembled_design.compile()
     print(assembled_design.getPrimaryStructure())
-    result = Main.doc.write((str(GUI.design_name_entry.get())) + ".xml")
+    result = Main.doc.write(design_name + ".xml")
     print(result)
+    component_definition_list.clear()
+    Main.doc = Document()
+
+
+
+
