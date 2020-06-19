@@ -257,70 +257,70 @@ query_submit_button.pack()
 # GUI binding of writing queried part to doc
 def part_choice_button_1():
     global query_result_button_1
-    query_result_button_1 = tk.Button(tab2, text=Genetic_Design.records[0])
+    query_result_button_1 = tk.Button(tab2, text=Genetic_Design.button_1_display)
     query_result_button_1.bind("<Button-1>", Genetic_Design.query_to_doc_1)
     query_result_button_1.pack()
 
 
 def part_choice_button_2():
     global query_result_button_2
-    query_result_button_2 = tk.Button(tab2, text=Genetic_Design.records[1])
+    query_result_button_2 = tk.Button(tab2, text=Genetic_Design.button_2_display)
     query_result_button_2.bind("<Button-1>", Genetic_Design.query_to_doc_2)
     query_result_button_2.pack()
 
 
 def part_choice_button_3():
     global query_result_button_3
-    query_result_button_3 = tk.Button(tab2, text=Genetic_Design.records[2])
+    query_result_button_3 = tk.Button(tab2, text=Genetic_Design.button_3_display)
     query_result_button_3.bind("<Button-1>", Genetic_Design.query_to_doc_3)
     query_result_button_3.pack()
 
 
 def part_choice_button_4():
     global query_result_button_4
-    query_result_button_4 = tk.Button(tab2, text=Genetic_Design.records[3])
+    query_result_button_4 = tk.Button(tab2, text=Genetic_Design.button_4_display)
     query_result_button_4.bind("<Button-1>", Genetic_Design.query_to_doc_4)
     query_result_button_4.pack()
 
 
 def part_choice_button_5():
     global query_result_button_5
-    query_result_button_5 = tk.Button(tab2, text=Genetic_Design.records[4])
+    query_result_button_5 = tk.Button(tab2, text=Genetic_Design.button_5_display)
     query_result_button_5.bind("<Button-1>", Genetic_Design.query_to_doc_5)
     query_result_button_5.pack()
 
 
 def part_choice_button_6():
     global query_result_button_6
-    query_result_button_6 = tk.Button(tab2, text=Genetic_Design.records[5])
+    query_result_button_6 = tk.Button(tab2, text=Genetic_Design.button_6_display)
     query_result_button_6.bind("<Button-1>", Genetic_Design.query_to_doc_6)
     query_result_button_6.pack()
 
 
 def part_choice_button_7():
     global query_result_button_7
-    query_result_button_7 = tk.Button(tab2, text=Genetic_Design.records[6])
+    query_result_button_7 = tk.Button(tab2, text=Genetic_Design.button_7_display)
     query_result_button_7.bind("<Button-1>", Genetic_Design.query_to_doc_7)
     query_result_button_7.pack()
 
 
 def part_choice_button_8():
     global query_result_button_8
-    query_result_button_8 = tk.Button(tab2, text=Genetic_Design.records[7])
+    query_result_button_8 = tk.Button(tab2, text=Genetic_Design.button_8_display)
     query_result_button_8.bind("<Button-1>", Genetic_Design.query_to_doc_8)
     query_result_button_8.pack()
 
 
 def part_choice_button_9():
     global query_result_button_9
-    query_result_button_9 = tk.Button(tab2, text=Genetic_Design.records[8])
+    query_result_button_9 = tk.Button(tab2, text=Genetic_Design.button_9_display)
     query_result_button_9.bind("<Button-1>", Genetic_Design.query_to_doc_9)
     query_result_button_9.pack()
 
 
 def part_choice_button_10():
     global query_result_button_10
-    (query_result_button_10) = tk.Button(tab2, text=Genetic_Design.records[9])
+    query_result_button_10 = tk.Button(tab2, text=Genetic_Design.button_10_display)
     query_result_button_10.bind("<Button-1>", Genetic_Design.query_to_doc_10)
     query_result_button_10.pack()
 
