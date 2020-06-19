@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d2be6075-ba26-4585-89e7-02a8a4467d90" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Genetic_Design.py" beforeDir="false" afterPath="$PROJECT_DIR$/Genetic_Design.py" afterDir="false" />
-    </list>
+    <list default="true" id="d2be6075-ba26-4585-89e7-02a8a4467d90" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -174,7 +170,7 @@
       <workItem from="1592423333065" duration="15162000" />
       <workItem from="1592471828817" duration="946000" />
       <workItem from="1592473196181" duration="19288000" />
-      <workItem from="1592528323442" duration="9951000" />
+      <workItem from="1592528323442" duration="10048000" />
     </task>
     <servers />
   </component>
