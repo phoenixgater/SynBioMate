@@ -147,7 +147,7 @@ def upload_file(event):
 
 
 ################### Create part GUI ################
-create_part_title = tk.Label(tab1, text="Create Part", font=(None, 20))
+create_part_title = tk.Label(tab1, text="Create Part", font=(None, 15))
 create_part_title.pack()
 
 # Upload part to Synbiohub button
@@ -224,8 +224,90 @@ def successful_conversion():
 ###################### Genetic_Design GUI #####################
 
 # Title of Genetic Design assembly tab
-designassemblytitle = tk.Label(tab2, text="Create Genetic Design", font=(None, 20))
+designassemblytitle = tk.Label(tab2, text="Create Genetic Design", font=(None, 15))
 designassemblytitle.pack()
+
+# Canvas for design display in assembly tab
+design_canvas_display = tk.Canvas(tab2, width=1000, height=200)
+design_canvas_display.pack()
+
+# Display design glyphs in genetic design tab
+def display_assembled_design(SO_list):
+    counter = 0
+    design_canvas_display.create_text(100, 60, font=("Arial", "11", "bold"), text="Design structure:")
+    for x in SO_list:
+        counter = counter + 1
+        if "0000167" in x:
+            design_canvas_display.create_image(counter * 70, 100, image=promoter_glyph)
+            design_canvas_display.create_text(counter * 70, 140, font=("arial", "8"),
+                                               text=Genetic_Design.design_identities[counter - 1])
+        elif "0000139" in x:
+            design_canvas_display.create_image(counter * 70, 100, image=rbs_glyph)
+            design_canvas_display.create_text(counter * 70, 140, font=("arial", "8"),
+                                               text=Genetic_Design.design_identities[counter - 1])
+        elif "0000316" in x:
+            design_canvas_display.create_image(counter * 70, 100, image=cds_glyph)
+            design_canvas_display.create_text(counter * 70, 140, font=("arial", "8"),
+                                               text=Genetic_Design.design_identities[counter - 1])
+        elif "0000141" in x:
+            design_canvas_display.create_image(counter * 70, 100, image=terminator_glyph)
+            design_canvas_display.create_text(counter * 70, 140, font=("arial", "8"),
+                                               text=Genetic_Design.design_identities[counter - 1])
+        else:
+            design_canvas_display.create_image(counter * 70, 100, image=other_glyph)
+            design_canvas_display.create_text(counter * 70, 140, font=("arial", "8"),
+                                               text=Genetic_Design.design_identities[counter - 1])
+
+# Button to show part descriptions in genetic design tab
+def create_description_button_design():
+    global part_description_button_design
+    try:
+        part_description_button_design.pack_forget()
+        hide_part_description_button_design.pack_forget()
+        hide_description_design("<Button-1>")
+        part_description_button_design = tk.Button(tab2, text="Show part descriptions")
+        part_description_button_design.bind("<Button-1>", part_description_design)
+        part_description_button_design.pack()
+    except KeyError:
+        part_description_button_design.pack_forget()
+        hide_part_description_button_design.pack_forget()
+        part_description_button_design = tk.Button(tab2, text="Show part descriptions")
+        part_description_button_design.bind("<Button-1>", part_description_design)
+        part_description_button_design.pack()
+    except NameError:
+        part_description_button_design = tk.Button(tab2, text="Show part descriptions")
+        part_description_button_design.bind("<Button-1>", part_description_design)
+        part_description_button_design.pack()
+
+# Show part description in genetic design tab
+def part_description_design(event):
+    counter = 0
+    for description in Genetic_Design.design_descriptions:
+        counter = counter + 1
+        part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
+        globals()[part_description_button_name] = tk.Label(tab2, text=str(
+            Genetic_Design.design_identities[counter - 1]) + " - " + description)
+        globals()[part_description_button_name].pack()
+    hide_description_button_design()
+
+
+# Button for hiding part descriptions in genetic design tab
+def hide_description_button_design():
+    part_description_button_design.pack_forget()
+    global hide_part_description_button_design
+    hide_part_description_button_design = tk.Button(tab2, text="Hide part descriptions")
+    hide_part_description_button_design.bind("<Button-1>", hide_description_design)
+    hide_part_description_button_design.pack()
+
+# Hiding part descriptions in genetic design tab
+def hide_description_design(event):
+    counter = 0
+    for description in Genetic_Design.design_descriptions:
+        counter = counter + 1
+        part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
+        globals()[part_description_button_name].pack_forget()
+    part_description_button_design.pack()
+    hide_part_description_button_design.pack_forget()
 
 
 # Part from file selection
@@ -351,9 +433,16 @@ design_assembly_button = tk.Button(tab2, text="Assemble Design")
 design_assembly_button.bind("<Button-1>", Genetic_Design.design_assembly)
 design_assembly_button.pack()
 
+# Incompatible part error
+def incompatible_part():
+    incompatible_part_label = tk.Label(tab2, font=(None, 12), fg="red", text="Error: This design contains an incompatible part")
+    incompatible_part_label.pack()
+
+
+
 ####################### Protocol_Generation_Main GUI ###################################
 # Protocol generation title label
-protocol_generation_title = tk.Label(tab3, text="Protocol Generation", font=(None, 20))
+protocol_generation_title = tk.Label(tab3, text="Protocol Generation", font=(None, 15))
 protocol_generation_title.pack()
 
 
@@ -440,6 +529,16 @@ def hide_description(event):
         globals()[part_description_button_name].pack_forget()
     create_description_button()
     hide_part_description_button.pack_forget()
+
+
+##################### MoClo Assembly GUI #########################
+# Tab title
+moclo_title = tk.Label(tab4, font = (None, 15), text="MoClo Assembly")
+moclo_title.pack()
+
+
+
+
 
 
 ################ Main_loop #################
