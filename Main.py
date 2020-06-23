@@ -7,6 +7,7 @@ from sbol import *
 import GUI
 import Genetic_Design
 import Protocol_Generation
+import MoClo
 
 
 # Initialise pySBOL document and homespace

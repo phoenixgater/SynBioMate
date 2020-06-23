@@ -10,6 +10,7 @@ import Genetic_Design
 import Protocol_Generation
 import Part_Creation
 import Main
+import MoClo
 
 # Global variables
 design_display_list = []
@@ -227,14 +228,17 @@ def successful_conversion():
 designassemblytitle = tk.Label(tab2, text="Create Genetic Design", font=(None, 15))
 designassemblytitle.pack()
 
-#Canvas for design display in Genetic Design tab
+
+# Canvas for design display in Genetic Design tab
 def genetic_design_display_canvas():
     global design_canvas_display
     design_canvas_display = tk.Canvas(tab2, width=1000, height=200)
     design_canvas_display.pack()
 
+
 # Initialise genetic design display for Genetic_Design tab
 genetic_design_display_canvas()
+
 
 # Display design glyphs in genetic design tab
 def display_assembled_design(SO_list):
@@ -245,23 +249,24 @@ def display_assembled_design(SO_list):
         if "0000167" in x:
             design_canvas_display.create_image(counter * 70, 100, image=promoter_glyph)
             design_canvas_display.create_text(counter * 70, 140, font=("arial", "8"),
-                                               text=Genetic_Design.design_identities[counter - 1])
+                                              text=Genetic_Design.design_identities[counter - 1])
         elif "0000139" in x:
             design_canvas_display.create_image(counter * 70, 100, image=rbs_glyph)
             design_canvas_display.create_text(counter * 70, 140, font=("arial", "8"),
-                                               text=Genetic_Design.design_identities[counter - 1])
+                                              text=Genetic_Design.design_identities[counter - 1])
         elif "0000316" in x:
             design_canvas_display.create_image(counter * 70, 100, image=cds_glyph)
             design_canvas_display.create_text(counter * 70, 140, font=("arial", "8"),
-                                               text=Genetic_Design.design_identities[counter - 1])
+                                              text=Genetic_Design.design_identities[counter - 1])
         elif "0000141" in x:
             design_canvas_display.create_image(counter * 70, 100, image=terminator_glyph)
             design_canvas_display.create_text(counter * 70, 140, font=("arial", "8"),
-                                               text=Genetic_Design.design_identities[counter - 1])
+                                              text=Genetic_Design.design_identities[counter - 1])
         else:
             design_canvas_display.create_image(counter * 70, 100, image=other_glyph)
             design_canvas_display.create_text(counter * 70, 140, font=("arial", "8"),
-                                               text=Genetic_Design.design_identities[counter - 1])
+                                              text=Genetic_Design.design_identities[counter - 1])
+
 
 # Button to show part descriptions in genetic design tab
 def create_description_button_design():
@@ -284,6 +289,7 @@ def create_description_button_design():
         part_description_button_design.bind("<Button-1>", part_description_design)
         part_description_button_design.pack()
 
+
 # Show part description in genetic design tab
 def part_description_design(event):
     counter = 0
@@ -303,6 +309,7 @@ def hide_description_button_design():
     hide_part_description_button_design = tk.Button(tab2, text="Hide part descriptions")
     hide_part_description_button_design.bind("<Button-1>", hide_description_design)
     hide_part_description_button_design.pack()
+
 
 # Hiding part descriptions in genetic design tab
 def hide_description_design(event):
@@ -468,25 +475,27 @@ design_assembly_button = tk.Button(tab2, text="Assemble Design")
 design_assembly_button.bind("<Button-1>", Genetic_Design.design_assembly)
 design_assembly_button.pack()
 
+
 # Incompatible part error
 def incompatible_part():
     global incompatible_part_label
-    incompatible_part_label = tk.Label(tab2, font=(None, 12), fg="red", text="Error: Your selection contains multiple "
-                                                                             "parts")
+    incompatible_part_label = tk.Label(tab2, font=(None, 12), fg="red", text="Error: Importing multiple parts is not "
+                                                                             "supported")
     incompatible_part_label.pack()
 
-#Failed assembly error
+
+# Failed assembly error
 def failed_assembly():
     global failed_assembly_label
     failed_assembly_label = tk.Label(tab2, font=(None, 12), fg="red", text="Assembly failed")
     failed_assembly_label.pack()
 
-#Successful assembly
+
+# Successful assembly
 def successful_assembly():
     global successful_assembly_label
     successful_assembly_label = tk.Label(tab2, font=(None, 12), fg="green", text="Assembly Successful")
     successful_assembly_label.pack()
-
 
 
 ####################### Protocol_Generation_Main GUI ###################################
@@ -581,9 +590,30 @@ def hide_description(event):
 
 
 ##################### MoClo Assembly GUI #########################
+
 # Tab title
-moclo_title = tk.Label(tab4, font = (None, 15), text="MoClo Assembly")
-moclo_title.pack()
+moclo_title = tk.Label(tab4, font=(None, 15), text="MoClo Assembly")
+moclo_title.grid(row=1, column=1)
+
+# Import part button
+import_part_button = tk.Button(tab4, text="Import part from file")
+import_part_button.bind("<Button-1>", MoClo.part_from_file)
+import_part_button.grid(row=2, column=2)
+
+
+# Canvas for design display in Genetic Design tab
+def moclo_display_canvas():
+    global moclo_design_canvas_display
+    moclo_design_canvas_display = tk.Canvas(tab4, width=1000, height=200)
+    moclo_design_canvas_display.grid(row=3, column=3)
+
+# Initialise MoClo display canvas
+moclo_display_canvas()
+
+
+
+
+
 
 
 
