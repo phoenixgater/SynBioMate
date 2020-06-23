@@ -227,9 +227,14 @@ def successful_conversion():
 designassemblytitle = tk.Label(tab2, text="Create Genetic Design", font=(None, 15))
 designassemblytitle.pack()
 
-# Canvas for design display in assembly tab
-design_canvas_display = tk.Canvas(tab2, width=1000, height=200)
-design_canvas_display.pack()
+#Canvas for design display in Genetic Design tab
+def genetic_design_display_canvas():
+    global design_canvas_display
+    design_canvas_display = tk.Canvas(tab2, width=1000, height=200)
+    design_canvas_display.pack()
+
+# Initialise genetic design display for Genetic_Design tab
+genetic_design_display_canvas()
 
 # Display design glyphs in genetic design tab
 def display_assembled_design(SO_list):
@@ -408,16 +413,46 @@ def part_choice_button_10():
 
 
 def clear_all_query():
-    query_result_button_1.pack_forget()
-    query_result_button_2.pack_forget()
-    query_result_button_3.pack_forget()
-    query_result_button_4.pack_forget()
-    query_result_button_5.pack_forget()
-    query_result_button_6.pack_forget()
-    query_result_button_7.pack_forget()
-    query_result_button_8.pack_forget()
-    query_result_button_9.pack_forget()
-    query_result_button_10.pack_forget()
+    try:
+        query_result_button_1.pack_forget()
+    except NameError:
+        return
+    try:
+        query_result_button_2.pack_forget()
+    except NameError:
+        return
+    try:
+        query_result_button_3.pack_forget()
+    except NameError:
+        return
+    try:
+        query_result_button_4.pack_forget()
+    except NameError:
+        return
+    try:
+        query_result_button_5.pack_forget()
+    except NameError:
+        return
+    try:
+        query_result_button_6.pack_forget()
+    except NameError:
+        return
+    try:
+        query_result_button_7.pack_forget()
+    except NameError:
+        return
+    try:
+        query_result_button_8.pack_forget()
+    except NameError:
+        return
+    try:
+        query_result_button_9.pack_forget()
+    except NameError:
+        return
+    try:
+        query_result_button_10.pack_forget()
+    except NameError:
+        return
 
 
 # Genetic Design assembly entry label
@@ -435,8 +470,22 @@ design_assembly_button.pack()
 
 # Incompatible part error
 def incompatible_part():
-    incompatible_part_label = tk.Label(tab2, font=(None, 12), fg="red", text="Error: This design contains an incompatible part")
+    global incompatible_part_label
+    incompatible_part_label = tk.Label(tab2, font=(None, 12), fg="red", text="Error: Your selection contains multiple "
+                                                                             "parts")
     incompatible_part_label.pack()
+
+#Failed assembly error
+def failed_assembly():
+    global failed_assembly_label
+    failed_assembly_label = tk.Label(tab2, font=(None, 12), fg="red", text="Assembly failed")
+    failed_assembly_label.pack()
+
+#Successful assembly
+def successful_assembly():
+    global successful_assembly_label
+    successful_assembly_label = tk.Label(tab2, font=(None, 12), fg="green", text="Assembly Successful")
+    successful_assembly_label.pack()
 
 
 
