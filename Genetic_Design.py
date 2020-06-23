@@ -45,7 +45,7 @@ def add_file_part():
             BBa_B0015_fixed = BBa_B0015.compile()
             for obj in Main.doc:
                 temp_list_2.append(obj)
-            component_definition_list.append(temp_list_2[0])
+            component_definition_list.append("https://synbiohub.org/public/igem//ComponentDefinition/BBa_B0015/1")
             design_roles.append("http://identifiers.org/so/SO:0000141")
             design_identities.append("BBa_B0015")
             design_descriptions.append("Double terminator BBa_B0010 + BBa_B0012")
@@ -54,7 +54,7 @@ def add_file_part():
         except RuntimeError:
             for obj in Main.doc:
                 temp_list_2.append(obj)
-            component_definition_list.append(temp_list_2[0])
+            component_definition_list.append("https://synbiohub.org/public/igem//ComponentDefinition/BBa_B0015/1")
             design_roles.append("http://identifiers.org/so/SO:0000141")
             design_identities.append("BBa_B0015")
             design_descriptions.append("Double terminator BBa_B0010 + BBa_B0012")
@@ -71,6 +71,8 @@ def add_file_part():
             Main.doc.append(str(GUI.imported_part))
             design_display_lists(components)
             GUI.display_assembled_design(design_roles)
+
+
 
 
 # SynBioHub part query
@@ -105,22 +107,46 @@ def button_display():
                             str(records[1].description))
     except ValueError:
         return
-    button_3_display = ("Part identity: " + str(records[2].displayId) + "\n" + "Part description: " +
-                        str(records[2].description))
-    button_4_display = ("Part identity: " + str(records[3].displayId) + "\n" + "Part description: " +
-                        str(records[3].description))
-    button_5_display = ("Part identity: " + str(records[4].displayId) + "\n" + "Part description: " +
-                        str(records[4].description))
-    button_6_display = ("Part identity: " + str(records[5].displayId) + "\n" + "Part description: " +
-                        str(records[5].description))
-    button_7_display = ("Part identity: " + str(records[6].displayId) + "\n" + "Part description: " +
-                        str(records[6].description))
-    button_8_display = ("Part identity: " + str(records[7].displayId) + "\n" + "Part description: " +
-                        str(records[7].description))
-    button_9_display = ("Part identity: " + str(records[8].displayId) + "\n" + "Part description: " +
-                        str(records[8].description))
-    button_10_display = ("Part identity: " + str(records[9].displayId) + "\n" + "Part description: " +
-                         str(records[9].description))
+    try:
+        button_3_display = ("Part identity: " + str(records[2].displayId) + "\n" + "Part description: " +
+                            str(records[2].description))
+    except ValueError:
+        return
+    try:
+        button_4_display = ("Part identity: " + str(records[3].displayId) + "\n" + "Part description: " +
+                            str(records[3].description))
+    except ValueError:
+        return
+    try:
+        button_5_display = ("Part identity: " + str(records[4].displayId) + "\n" + "Part description: " +
+                            str(records[4].description))
+    except ValueError:
+        return
+    try:
+        button_6_display = ("Part identity: " + str(records[5].displayId) + "\n" + "Part description: " +
+                            str(records[5].description))
+    except ValueError:
+        return
+    try:
+        button_7_display = ("Part identity: " + str(records[6].displayId) + "\n" + "Part description: " +
+                            str(records[6].description))
+    except ValueError:
+        return
+    try:
+        button_8_display = ("Part identity: " + str(records[7].displayId) + "\n" + "Part description: " +
+                            str(records[7].description))
+    except ValueError:
+        return
+    try:
+        button_9_display = ("Part identity: " + str(records[8].displayId) + "\n" + "Part description: " +
+                            str(records[8].description))
+    except ValueError:
+        return
+    try:
+        button_10_display = ("Part identity: " + str(records[9].displayId) + "\n" + "Part description: " +
+                             str(records[9].description))
+    except ValueError:
+        return
 
 
 # Addition of queried parts to the lists used to create the GUI display of the design

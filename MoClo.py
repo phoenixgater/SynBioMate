@@ -7,5 +7,7 @@ import GUI
 
 
 # Import part from file
-def part_from_file():
-    print("test")
+def import_design():
+    GUI.select_design_import()
+    imported_design = GUI.single_imported_design
+    print(imported_design)

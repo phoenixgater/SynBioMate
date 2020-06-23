@@ -149,63 +149,61 @@ def upload_file(event):
 
 ################### Create part GUI ################
 create_part_title = tk.Label(tab1, text="Create Part", font=(None, 15))
-create_part_title.pack()
+create_part_title.grid(column=1, row=0)
 
 # Upload part to Synbiohub button
 upload_part_synbiohub = tk.Button(tab1, text="Upload part to SynbioHub")
 upload_part_synbiohub.bind("<Button-1>", synbiohub_upload)
-upload_part_synbiohub.pack()
+upload_part_synbiohub.grid(column=1, row=14)
 
 # Create from GenBank file button
 import_file_creation = tk.Button(tab1, text="Create from GenBank file")
 import_file_creation.bind("<Button-1>", Part_Creation.part_creation_genbank)
-import_file_creation.pack()
+import_file_creation.grid(column=1, row=15)
 
-# Manual DNA entry
-or_label = tk.Label(tab1, text="or")
-or_label.pack()
-
+# DNA sequence entry
 dna_entry_label = tk.Label(tab1, text="Enter part DNA sequence")
-dna_entry_label.pack()
+dna_entry_label.grid(column=0, row=3)
+
 sequence_entry = tk.Entry(tab1)
-sequence_entry.pack()
+sequence_entry.grid(column=1, row=3)
 
 # Part name entry
 part_name_entry_label = tk.Label(tab1, text="Enter part name")
-part_name_entry_label.pack()
+part_name_entry_label.grid(column=0, row=5)
 
 part_name_entry = tk.Entry(tab1)
-part_name_entry.pack()
+part_name_entry.grid(column=1, row=5)
 
 # Part identifier entry
 part_identifier_label = tk.Label(tab1, text="Enter part identifier (e.g BBa_B0...)")
-part_identifier_label.pack()
+part_identifier_label.grid(column=0, row=7)
 
 part_identifier_entry = tk.Entry(tab1)
-part_identifier_entry.pack()
+part_identifier_entry.grid(column=1, row=7)
 
 # Role selection dropdown
 part_role_label = tk.Label(tab1, text="Select the part role")
-part_role_label.pack()
+part_role_label.grid(column=0, row=9)
 
 part_role_combo = ttk.Combobox(tab1, values=["Promoter",
                                              "RBS",
                                              "CDS",
                                              "Terminator",
                                              "Backbone", ])
-part_role_combo.pack()
+part_role_combo.grid(column=1, row=9)
 
 # Part description entry
 part_description_label = tk.Label(tab1, text="Enter a part description")
-part_description_label.pack()
+part_description_label.grid(column=0, row=11)
 
 part_description_entry = tk.Entry(tab1)
-part_description_entry.pack()
+part_description_entry.grid(column=1, row=11)
 
 # Save part button
 save_part_button = tk.Button(tab1, text="Save part")
 save_part_button.bind("<Button-1>", Part_Creation.save_created_part)
-save_part_button.pack()
+save_part_button.grid(column=1, row=13)
 
 
 # Select GenBank file for conversion
@@ -219,7 +217,7 @@ def select_genbank_file():
 # Successful conversion label
 def successful_conversion():
     successful_conversion_label = tk.Label(tab1, text="Genbank file converted successfully")
-    successful_conversion_label.pack()
+    successful_conversion_label.grid()
 
 
 ###################### Genetic_Design GUI #####################
@@ -498,10 +496,10 @@ def successful_assembly():
     successful_assembly_label.pack()
 
 
-####################### Protocol_Generation_Main GUI ###################################
+####################### Protocol_Generation GUI ###################################
 # Protocol generation title label
 protocol_generation_title = tk.Label(tab3, text="Protocol Generation", font=(None, 15))
-protocol_generation_title.pack()
+protocol_generation_title.grid()
 
 
 # Selection of design to import
@@ -515,104 +513,153 @@ def select_design_import():
 # Import design button
 import_design_button = tk.Button(tab3, text="Import Design")
 import_design_button.bind("<Button-1>", Protocol_Generation.import_design)
-import_design_button.pack()
-
-# Canvas for design display in assembly tab
-design_canvas_assembly = tk.Canvas(tab3, width=1000, height=200)
-design_canvas_assembly.pack()
+import_design_button.grid()
 
 
-# Display SBOL glyphs in assembly tab
-def display_design_GUI(SO_list):
+# Function to create design display canvas in protocol tab
+def display_canvas_pg():
+    global design_canvas_display_pg
+    design_canvas_display_pg = tk.Canvas(tab3, width=1000, height=200)
+    design_canvas_display_pg.grid()
+
+# Create design display in protocol tab
+def display_assembled_design_pg(SO_list):
     counter = 0
-    design_canvas_assembly.create_text(100, 60, font=("Arial", "11", "bold"), text="Design structure:")
+    design_canvas_display_pg.create_text(100, 60, font=("Arial", "11", "bold"), text="Design structure:")
     for x in SO_list:
         counter = counter + 1
         if "0000167" in x:
-            design_canvas_assembly.create_image(counter * 70, 100, image=promoter_glyph)
-            design_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
-                                               text=Protocol_Generation.part_names[counter - 1])
+            design_canvas_display_pg.create_image(counter * 70, 100, image=promoter_glyph)
+            design_canvas_display_pg.create_text(counter * 70, 140, font=("arial", "8"),
+                                              text=Protocol_Generation.primary_structure_identities[counter - 1])
         elif "0000139" in x:
-            design_canvas_assembly.create_image(counter * 70, 100, image=rbs_glyph)
-            design_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
-                                               text=Protocol_Generation.part_names[counter - 1])
+            design_canvas_display_pg.create_image(counter * 70, 100, image=rbs_glyph)
+            design_canvas_display_pg.create_text(counter * 70, 140, font=("arial", "8"),
+                                              text=Protocol_Generation.primary_structure_identities[counter - 1])
         elif "0000316" in x:
-            design_canvas_assembly.create_image(counter * 70, 100, image=cds_glyph)
-            design_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
-                                               text=Protocol_Generation.part_names[counter - 1])
+            design_canvas_display_pg.create_image(counter * 70, 100, image=cds_glyph)
+            design_canvas_display_pg.create_text(counter * 70, 140, font=("arial", "8"),
+                                              text=Protocol_Generation.primary_structure_identities[counter - 1])
         elif "0000141" in x:
-            design_canvas_assembly.create_image(counter * 70, 100, image=terminator_glyph)
-            design_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
-                                               text=Protocol_Generation.part_names[counter - 1])
+            design_canvas_display_pg.create_image(counter * 70, 100, image=terminator_glyph)
+            design_canvas_display_pg.create_text(counter * 70, 140, font=("arial", "8"),
+                                              text=Protocol_Generation.primary_structure_identities[counter - 1])
         else:
-            design_canvas_assembly.create_image(counter * 70, 100, image=other_glyph)
-            design_canvas_assembly.create_text(counter * 70, 140, font=("arial", "8"),
-                                               text=Protocol_Generation.part_names[counter - 1])
+            design_canvas_display_pg.create_image(counter * 70, 100, image=other_glyph)
+            design_canvas_display_pg.create_text(counter * 70, 140, font=("arial", "8"),
+                                              text=Protocol_Generation.primary_structure_identities[counter - 1])
 
 
-# Show part description in GUI button
-def create_description_button():
-    global part_description_button
-    part_description_button = tk.Button(tab3, text="Show part descriptions")
-    part_description_button.bind("<Button-1>", part_description)
-    part_description_button.pack()
+# Create part description button in protocol tab
+def create_description_button_pg():
+    global part_description_button_pg
+    try:
+        part_description_button_pg.grid_forget()
+        hide_part_description_button_pg.grid_forget()
+        hide_description_pg("<Button-1>")
+        part_description_button_pg = tk.Button(tab3, text="Show part descriptions")
+        part_description_button_pg.bind("<Button-1>", part_description_pg)
+        part_description_button_pg.grid()
+    except KeyError:
+        part_description_button_pg.grid_forget()
+        hide_part_description_button_pg.grid_forget()
+        part_description_button_pg = tk.Button(tab3, text="Show part descriptions")
+        part_description_button_pg.bind("<Button-1>", part_description_pg)
+        part_description_button_pg.grid()
+    except NameError:
+        part_description_button_pg = tk.Button(tab3, text="Show part descriptions")
+        part_description_button_pg.bind("<Button-1>", part_description_pg)
+        part_description_button_pg.grid()
 
-
-# Show part description in GUI
-def part_description(event):
+# Show part description in protocol tab
+def part_description_pg(event):
     counter = 0
-    for description in Protocol_Generation.part_descriptions:
+    for description in Protocol_Generation.primary_structure_descriptions:
         counter = counter + 1
         part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
         globals()[part_description_button_name] = tk.Label(tab3, text=str(
-            Protocol_Generation.part_names[counter - 1]) + " - " + description)
-        globals()[part_description_button_name].pack()
-    hide_description_button()
+            Protocol_Generation.primary_structure_identities[counter - 1]) + " - " + description)
+        globals()[part_description_button_name].grid()
+    hide_description_button_pg()
 
 
-# Hide part description in GUI button
-def hide_description_button():
-    part_description_button.pack_forget()
-    global hide_part_description_button
-    hide_part_description_button = tk.Button(tab3, text="Hide part descriptions")
-    hide_part_description_button.bind("<Button-1>", hide_description)
-    hide_part_description_button.pack()
+# Button for hiding part descriptions in protocol tab
+def hide_description_button_pg():
+    part_description_button_pg.grid_forget()
+    global hide_part_description_button_pg
+    hide_part_description_button_pg = tk.Button(tab3, text="Hide part descriptions")
+    hide_part_description_button_pg.bind("<Button-1>", hide_description_pg)
+    hide_part_description_button_pg.grid()
 
 
-def hide_description(event):
+# Hiding part descriptions in protocol tab
+def hide_description_pg(event):
     counter = 0
-    for description in Protocol_Generation.part_descriptions:
+    for description in Protocol_Generation.primary_structure_descriptions:
         counter = counter + 1
         part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
-        globals()[part_description_button_name].pack_forget()
-    create_description_button()
-    hide_part_description_button.pack_forget()
+        globals()[part_description_button_name].grid_forget()
+    part_description_button_pg.grid()
+    hide_part_description_button_pg.grid_forget()
+
+# Create analysis button pg tab
+def create_analysis_button_pg():
+    global design_analysis_button_pg
+    try:
+        design_analysis_button_pg.grid_forget()
+        hide_design_analysis_button_pg.grid_forget()
+        hide_analysis_pg("<Button-1>")
+        design_analysis_button_pg = tk.Button(tab3, text="Show design analysis")
+        design_analysis_button_pg.bind("<Button-1>", design_analysis_pg)
+        design_analysis_button_pg.grid()
+    except KeyError:
+        design_analysis_button_pg.grid_forget()
+        hide_design_analysis_button_pg.grid_forget()
+        design_analysis_button_pg = tk.Button(tab3, text="Show design analysis")
+        design_analysis_button_pg.bind("<Button-1>", design_analysis_pg)
+        design_analysis_button_pg.grid()
+    except NameError:
+        design_analysis_button_pg = tk.Button(tab3, text="Show design analysis")
+        design_analysis_button_pg.bind("<Button-1>", design_analysis_pg)
+        design_analysis_button_pg.grid()
+
+# Show analysis in pg tab
+def design_analysis_pg(event):
+    counter = 0
+    for rfc10_detection in Protocol_Generation.detected_rfc10_sites:
+        counter = counter + 1
+        design_analysis_label_name = "design_analysis" + "_" + str(counter) + "label"
+        globals()[design_analysis_label_name] = tk.Label(tab3, text=str(rfc10_detection))
+        globals()[design_analysis_label_name].grid()
+        global base_composition_pg
+    base_composition_pg = tk.Label(tab3, text = Protocol_Generation.base_composition)
+    base_composition_pg.grid()
+    create_hide_design_analysis_button_pg()
 
 
-##################### MoClo Assembly GUI #########################
-
-# Tab title
-moclo_title = tk.Label(tab4, font=(None, 15), text="MoClo Assembly")
-moclo_title.grid(row=1, column=1)
-
-# Import part button
-import_part_button = tk.Button(tab4, text="Import part from file")
-import_part_button.bind("<Button-1>", MoClo.part_from_file)
-import_part_button.grid(row=2, column=2)
+# Button for hiding analysis in pg tab
+def create_hide_design_analysis_button_pg():
+    design_analysis_button_pg.grid_forget()
+    global hide_design_analysis_button_pg
+    hide_design_analysis_button_pg = tk.Button(tab3, text="Hide design analysis")
+    hide_design_analysis_button_pg.bind("<Button-1>", hide_analysis_pg)
+    hide_design_analysis_button_pg.grid()
 
 
-# Canvas for design display in Genetic Design tab
-def moclo_display_canvas():
-    global moclo_design_canvas_display
-    moclo_design_canvas_display = tk.Canvas(tab4, width=1000, height=200)
-    moclo_design_canvas_display.grid(row=3, column=3)
-
-# Initialise MoClo display canvas
-moclo_display_canvas()
-
+# Hiding analysis in pg tab
+def hide_analysis_pg(event):
+    counter = 0
+    for rfc10_detection in Protocol_Generation.detected_rfc10_sites:
+        counter = counter + 1
+        design_analysis_label_name = "design_analysis" + "_" + str(counter) + "label"
+        globals()[design_analysis_label_name].grid_forget()
+    design_analysis_button_pg.grid()
+    base_composition_pg.grid_forget()
+    hide_design_analysis_button_pg.grid_forget()
 
 
 
+############################# MoClo GUI ##############################################
 
 
 
