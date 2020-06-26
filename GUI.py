@@ -897,7 +897,7 @@ def display_level_0_library():
     rbs_moclo = tk.Label(tab4, text=MoClo.level_0_rbs_display)
     cds_moclo = tk.Label(tab4, text=MoClo.level_0_cds_display)
     terminator_moclo = tk.Label(tab4, text=MoClo.level_0_terminator_display)
-    signal_moclo = tk.Label(tab4, text=MoClo.level_0_signal_peptide_display)
+    signal_moclo = tk.Label(tab4, text=MoClo.level_0_signal_display)
     other_moclo = tk.Label(tab4, text=MoClo.level_0_other_display)
     promoters_moclo.grid()
     rbs_moclo.grid()
@@ -913,12 +913,12 @@ import_file_button_moclo.bind("<Button-1>", MoClo.import_part_from_file)
 import_file_button_moclo.grid()
 
 # Option to include signal peptide label
-include_signal_peptide_label = tk.Label(tab4, text="Include signal peptide?")
-include_signal_peptide_label.grid()
+include_signal_label = tk.Label(tab4, text="Include signal peptide?")
+include_signal_label.grid()
 
 # Option to include signal peptide combo selection
-include_signal_peptide_combo = ttk.Combobox(tab4, values=["Yes", "No"])
-include_signal_peptide_combo.grid()
+include_signal_combo = ttk.Combobox(tab4, values=["Yes", "No"])
+include_signal_combo.grid()
 
 
 # Select chassis system label
@@ -956,7 +956,7 @@ def create_transcription_unit_entry(event):
         transcription_unit_1_rbs_entry = tk.Entry(tab4)
         transcription_unit_1_rbs_entry.grid()
 
-        if include_signal_peptide_combo.get() == "Yes":
+        if include_signal_combo.get() == "Yes":
             transcription_unit_1_signal_label = tk.Label(tab4, text="Signal peptides")
             transcription_unit_1_signal_label.grid()
             global transcription_unit_1_signal_entry
@@ -994,7 +994,7 @@ def create_transcription_unit_entry(event):
         transcription_unit_2_rbs_entry = tk.Entry(tab4)
         transcription_unit_2_rbs_entry.grid()
 
-        if include_signal_peptide_combo.get() == "Yes":
+        if include_signal_combo.get() == "Yes":
             transcription_unit_2_signal_label = tk.Label(tab4, text="Signal peptides")
             transcription_unit_2_signal_label.grid()
             global transcription_unit_2_signal_entry
@@ -1031,7 +1031,7 @@ def create_transcription_unit_entry(event):
         transcription_unit_3_rbs_entry = tk.Entry(tab4)
         transcription_unit_3_rbs_entry.grid()
 
-        if include_signal_peptide_combo.get() == "Yes":
+        if include_signal_combo.get() == "Yes":
             transcription_unit_3_signal_label = tk.Label(tab4, text="Signal peptides")
             transcription_unit_3_signal_label.grid()
             global transcription_unit_3_signal_entry
@@ -1067,7 +1067,7 @@ def create_transcription_unit_entry(event):
         transcription_unit_4_rbs_entry = tk.Entry(tab4)
         transcription_unit_4_rbs_entry.grid()
 
-        if include_signal_peptide_combo.get() == "Yes":
+        if include_signal_combo.get() == "Yes":
             transcription_unit_4_signal_label = tk.Label(tab4, text="Signal peptides")
             transcription_unit_4_signal_label.grid()
             global transcription_unit_4_signal_entry
@@ -1104,7 +1104,7 @@ def create_transcription_unit_entry(event):
         transcription_unit_5_rbs_entry = tk.Entry(tab4)
         transcription_unit_5_rbs_entry.grid()
 
-        if include_signal_peptide_combo.get() == "Yes":
+        if include_signal_combo.get() == "Yes":
             transcription_unit_5_signal_label = tk.Label(tab4, text="Signal peptides")
             transcription_unit_5_signal_label.grid()
             global transcription_unit_5_signal_entry
@@ -1149,7 +1149,7 @@ primer_selection_combo.grid()
 def create_protocol_button():
     create_protocol_button = tk.Button(tab4, text="Create protocol")
     create_protocol_button.bind("<Button-1>", MoClo.create_protocol_directory)
-    create_protocol_button.grid()
+    create_protocol_button.grid(row=1, column=1)
 
 
 

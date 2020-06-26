@@ -19,8 +19,8 @@ level_0_cds = {}
 level_0_cds_display = []
 level_0_terminator = {}
 level_0_terminator_display = []
-level_0_signal_peptide = {}
-level_0_signal_peptide_display = []
+level_0_signal = {}
+level_0_signal_display = []
 level_0_other = {}
 level_0_other_display = []
 level_2_template = []
@@ -145,22 +145,22 @@ def import_design_parts_to_library(event):
     primary_structure_cd = design_uri.getPrimaryStructure()
     for component in primary_structure_cd:
         if "0000167" in str(component.roles):
-            level_0_promoter["p" + str(len(level_0_promoter))] = component
+            level_0_promoter["p" + str(len(level_0_promoter)+1)] = component
             level_0_promoter_display.append("p" + str(len(level_0_promoter)) + ". " + str(component.displayId))
         elif "0000139" in str(component.roles):
-            level_0_rbs["r" + str(len(level_0_rbs))] = component
+            level_0_rbs["r" + str(len(level_0_rbs)+1)] = component
             level_0_rbs_display.append("r" + str(len(level_0_rbs)) + ". " + str(component.displayId))
         elif "0000316" in str(component.roles):
-            level_0_cds["c" + str(len(level_0_cds))] = component
+            level_0_cds["c" + str(len(level_0_cds)+1)] = component
             level_0_cds_display.append("c" + str(len(level_0_cds)) + ". " + str(component.displayId))
         elif "0000141" in str(component.roles):
-            level_0_terminator["t" + str(len(level_0_terminator))] = component
+            level_0_terminator["t" + str(len(level_0_terminator)+1)] = component
             level_0_terminator_display.append("t" + str(len(level_0_terminator)) + ". " + str(component.displayId))
         elif "0000324" in str(component.roles):
-            level_0_signal_peptide["s" + str(len(level_0_signal_peptide))] = component
-            level_0_signal_peptide_display.append("s" + str(len(level_0_signal_peptide)) + ". " + str(component.displayId))
+            level_0_signal["s" + str(len(level_0_signal)+1)] = component
+            level_0_signal_display.append("s" + str(len(level_0_signal)) + ". " + str(component.displayId))
         else:
-            level_0_other["o" + str(len(level_0_other))] = component
+            level_0_other["o" + str(len(level_0_other)+1)] = component
             level_0_other_display.append("o" + str(len(level_0_other)) + ". " + str(component.displayId))
 
     GUI.refresh_level_0_library()
@@ -186,8 +186,8 @@ def import_part_from_file(event):
         level_0_terminator["t" + str(len(level_0_terminator))] = design_uri
         level_0_terminator_display.append("t" + str(len(level_0_terminator)) + ". " + str(design_uri.displayId))
     elif "0000324" in str(design_uri.roles):
-        level_0_signal_peptide["s" + str(len(level_0_signal_peptide))] = design_uri
-        level_0_signal_peptide_display.append("s" + str(len(level_0_signal_peptide)) + ". " + str(design_uri.displayId))
+        level_0_signal["s" + str(len(level_0_signal))] = design_uri
+        level_0_signal_display.append("s" + str(len(level_0_signal)) + ". " + str(design_uri.displayId))
     else:
         level_0_other["o" + str(len(level_0_other))] = design_uri
         level_0_other_display.append("o" + str(len(level_0_other)) + ". " + str(design_uri.displayId))
@@ -196,7 +196,7 @@ def import_part_from_file(event):
 def create_protocol_directory(event):
     chassis_choice = GUI.chassis_selection_combo.get()
     transcription_unit_quantity = GUI.transcription_unit_quantity_combo.get()
-    signal_peptide_choice = GUI.include_signal_peptide_combo.get()
+    signal_choice = GUI.include_signal_combo.get()
     primer_selection = GUI.primer_selection_combo.get()
     liquid_handler_choice = GUI.liquid_handler_combo.get()
     part_selection_lists()
@@ -204,102 +204,193 @@ def create_protocol_directory(event):
         from EcoFlex_Protocol import create_protocol
         create_protocol()
 
-# create part selection component definition lists
+# create part selection component definition lists for transcription units
 def part_selection_lists():
     transcription_unit_quantity = int(GUI.transcription_unit_quantity_combo.get())
-    signal_peptide_choice = GUI.include_signal_peptide_combo.get()
+    signal_choice = GUI.include_signal_combo.get()
     if transcription_unit_quantity > 1:
-        #### Transcription unit 1 ####
-        selected_promoters_1 = (GUI.transcription_unit_1_promoter_entry.get())
-        transcription_unit_1_promoters = (selected_promoters_1.split(","))
-        print(transcription_unit_1_promoters)
+        selected_promoter_1 = (GUI.transcription_unit_1_promoter_entry.get())
+        transcription_unit_1_promoter_keys = (selected_promoter_1.split(", "))
+        global transcription_unit_1_promoter
+        transcription_unit_1_promoter = []
+        for selection in transcription_unit_1_promoter_keys:
+            transcription_unit_1_promoter.append(level_0_promoter[selection])
 
         selected_rbs_1 = (GUI.transcription_unit_1_rbs_entry.get())
-        transcription_unit_1_rbs = (selected_rbs_1.split(","))
+        transcription_unit_1_rbs_keys = (selected_rbs_1.split(","))
+        global transcription_unit_1_rbs
+        transcription_unit_1_rbs = []
+        for selection in transcription_unit_1_rbs_keys:
+            transcription_unit_1_rbs.append(level_0_rbs[selection])
 
-        if signal_peptide_choice == "Yes":
+        if signal_choice == "Yes":
             selected_signal_1 = (GUI.transcription_unit_1_signal_entry.get())
-            transcription_unit_1_rbs = (selected_signal_1.split(","))
+            transcription_unit_1_signal_keys = (selected_signal_1.split(","))
+            global transcription_unit_1_signal
+            transcription_unit_1_signal = []
+            for selection in transcription_unit_1_signal_keys:
+                transcription_unit_1_signal.append(level_0_signal[selection])
 
         selected_cds_1 = (GUI.transcription_unit_1_cds_entry.get())
-        transcription_unit_1_rbs = (selected_cds_1.split(","))
+        transcription_unit_1_cds_keys = (selected_cds_1.split(","))
+        global transcription_unit_1_cds
+        transcription_unit_1_cds = []
+        for selection in transcription_unit_1_cds_keys:
+            transcription_unit_1_cds.append(level_0_cds[selection])
 
         selected_terminator_1 = (GUI.transcription_unit_1_terminator_entry.get())
-        transcription_unit_1_terminator = (selected_terminator_1.split(","))
+        transcription_unit_1_terminator_keys = (selected_terminator_1.split(","))
+        global transcription_unit_1_terminator
+        transcription_unit_1_terminator = []
+        for selection in transcription_unit_1_terminator_keys:
+            transcription_unit_1_terminator.append(level_0_terminator[selection])
 
-        #### Transcription unit 2 ####
-        selected_promoters_2 = (GUI.transcription_unit_2_promoter_entry.get())
-        transcription_unit_2_promoters = (selected_promoters_2.split(","))
+        selected_promoter_2 = (GUI.transcription_unit_2_promoter_entry.get())
+        transcription_unit_2_promoter_keys = (selected_promoter_2.split(","))
+        global transcription_unit_2_promoter
+        transcription_unit_2_promoter = []
+        for selection in transcription_unit_2_promoter_keys:
+            transcription_unit_2_promoter.append(level_0_promoter[selection])
 
         selected_rbs_2 = (GUI.transcription_unit_2_rbs_entry.get())
-        transcription_unit_2_rbs = (selected_rbs_2.split(","))
+        transcription_unit_2_rbs_keys = (selected_rbs_2.split(","))
+        global transcription_unit_2_rbs
+        transcription_unit_2_rbs = []
+        for selection in transcription_unit_2_rbs_keys:
+            transcription_unit_2_rbs.append(level_0_rbs[selection])
 
-        if signal_peptide_choice == "Yes":
+        if signal_choice == "Yes":
             selected_signal_2 = (GUI.transcription_unit_2_signal_entry.get())
-            transcription_unit_2_rbs = (selected_signal_2.split(","))
+            transcription_unit_2_signal_keys = (selected_signal_2.split(","))
+            global transcription_unit_2_signal
+            transcription_unit_2_signal = []
+            for selection in transcription_unit_2_signal_keys:
+                transcription_unit_2_signal.append(level_0_signal[selection])
 
         selected_cds_2 = (GUI.transcription_unit_2_cds_entry.get())
-        transcription_unit_2_rbs = (selected_cds_2.split(","))
+        transcription_unit_2_cds_keys = (selected_cds_2.split(","))
+        global transcription_unit_2_cds
+        transcription_unit_2_cds = []
+        for selection in transcription_unit_2_cds_keys:
+            transcription_unit_2_cds.append(level_0_cds[selection])
 
         selected_terminator_2 = (GUI.transcription_unit_2_terminator_entry.get())
-        transcription_unit_2_terminator = (selected_terminator_2.split(","))
+        transcription_unit_2_terminator_keys = (selected_terminator_2.split(","))
+        global transcription_unit_2_terminator
+        transcription_unit_2_terminator = []
+        for selection in transcription_unit_2_terminator_keys:
+            transcription_unit_2_terminator.append(level_0_terminator[selection])
 
     if transcription_unit_quantity > 2:
-        #### Transcription unit 3 ####
-        selected_promoters_3 = (GUI.transcription_unit_3_promoter_entry.get())
-        transcription_unit_3_promoters = (selected_promoters_3.split(","))
-        print(transcription_unit_3_promoters)
+        selected_promoter_3 = (GUI.transcription_unit_3_promoter_entry.get())
+        transcription_unit_3_promoter_keys = (selected_promoter_3.split(","))
+        global transcription_unit_3_promoter
+        transcription_unit_3_promoter = []
+        for selection in transcription_unit_3_promoter_keys:
+            transcription_unit_3_promoter.append(level_0_promoter[selection])
 
         selected_rbs_3 = (GUI.transcription_unit_3_rbs_entry.get())
-        transcription_unit_3_rbs = (selected_rbs_3.split(","))
+        transcription_unit_3_rbs_keys = (selected_rbs_3.split(","))
+        global transcription_unit_3_rbs
+        transcription_unit_3_rbs = []
+        for selection in transcription_unit_3_rbs_keys:
+            transcription_unit_3_rbs.append(level_0_rbs[selection])
 
-        if signal_peptide_choice == "Yes":
+        if signal_choice == "Yes":
             selected_signal_3 = (GUI.transcription_unit_3_signal_entry.get())
-            transcription_unit_3_rbs = (selected_signal_3.split(","))
+            transcription_unit_3_signal_keys = (selected_signal_3.split(","))
+            global transcription_unit_3_signal
+            transcription_unit_3_signal = []
+            for selection in transcription_unit_3_signal_keys:
+                transcription_unit_3_signal.append(level_0_signal[selection])
 
         selected_cds_3 = (GUI.transcription_unit_3_cds_entry.get())
-        transcription_unit_3_rbs = (selected_cds_3.split(","))
+        transcription_unit_3_cds_keys = (selected_cds_3.split(","))
+        global transcription_unit_3_cds
+        transcription_unit_3_cds = []
+        for selection in transcription_unit_3_cds_keys:
+            transcription_unit_3_cds.append(level_0_cds[selection])
 
         selected_terminator_3 = (GUI.transcription_unit_3_terminator_entry.get())
-        transcription_unit_3_terminator = (selected_terminator_3.split(","))
+        transcription_unit_3_terminator_keys = (selected_terminator_3.split(","))
+        global transcription_unit_3_terminator
+        transcription_unit_3_terminator = []
+        for selection in transcription_unit_3_terminator_keys:
+            transcription_unit_3_terminator.append(level_0_terminator[selection])
 
     if transcription_unit_quantity > 3:
-        #### Transcription unit 4 ####
-        selected_promoters_4 = (GUI.transcription_unit_4_promoter_entry.get())
-        transcription_unit_4_promoters = (selected_promoters_4.split(","))
-        print(transcription_unit_4_promoters)
+        selected_promoter_4 = (GUI.transcription_unit_4_promoter_entry.get())
+        transcription_unit_4_promoter_keys = (selected_promoter_4.split(","))
+        global transcription_unit_4_promoter
+        transcription_unit_4_promoter = []
+        for selection in transcription_unit_4_promoter_keys:
+            transcription_unit_4_promoter.append(level_0_promoter[selection])
 
         selected_rbs_4 = (GUI.transcription_unit_4_rbs_entry.get())
-        transcription_unit_4_rbs = (selected_rbs_4.split(","))
+        transcription_unit_4_rbs_keys = (selected_rbs_4.split(","))
+        global transcription_unit_4_rbs
+        transcription_unit_4_rbs = []
+        for selection in transcription_unit_4_rbs_keys:
+            transcription_unit_4_rbs.append(level_0_rbs[selection])
 
-        if signal_peptide_choice == "Yes":
+        if signal_choice == "Yes":
             selected_signal_4 = (GUI.transcription_unit_4_signal_entry.get())
-            transcription_unit_4_rbs = (selected_signal_4.split(","))
+            transcription_unit_4_signal_keys = (selected_signal_4.split(","))
+            global transcription_unit_4_signal
+            transcription_unit_4_signal = []
+            for selection in transcription_unit_4_signal_keys:
+                transcription_unit_4_signal.append(level_0_signal[selection])
 
         selected_cds_4 = (GUI.transcription_unit_4_cds_entry.get())
-        transcription_unit_4_rbs = (selected_cds_4.split(","))
+        transcription_unit_4_cds_keys = (selected_cds_4.split(","))
+        global transcription_unit_4_cds
+        transcription_unit_4_cds = []
+        for selection in transcription_unit_4_cds_keys:
+            transcription_unit_4_cds.append(level_0_cds[selection])
 
         selected_terminator_4 = (GUI.transcription_unit_4_terminator_entry.get())
-        transcription_unit_4_terminator = (selected_terminator_4.split(","))
+        transcription_unit_4_terminator_keys = (selected_terminator_4.split(","))
+        global transcription_unit_4_terminator
+        transcription_unit_4_terminator = []
+        for selection in transcription_unit_4_terminator_keys:
+            transcription_unit_4_terminator.append(level_0_terminator[selection])
 
     if transcription_unit_quantity > 4:
-        #### Transcription unit 5 ####
-        selected_promoters_5 = (GUI.transcription_unit_5_promoter_entry.get())
-        transcription_unit_5_promoters = (selected_promoters_5.split(","))
-        print(transcription_unit_5_promoters)
+        selected_promoter_5 = (GUI.transcription_unit_5_promoter_entry.get())
+        transcription_unit_5_promoter_keys = (selected_promoter_5.split(","))
+        global transcription_unit_5_promoter
+        transcription_unit_5_promoter = []
+        for selection in transcription_unit_5_promoter_keys:
+            transcription_unit_5_promoter.append(level_0_promoter[selection])
 
         selected_rbs_5 = (GUI.transcription_unit_5_rbs_entry.get())
-        transcription_unit_5_rbs = (selected_rbs_5.split(","))
+        transcription_unit_5_rbs_keys = (selected_rbs_5.split(","))
+        global transcription_unit_5_rbs
+        transcription_unit_5_rbs = []
+        for selection in transcription_unit_5_rbs_keys:
+            transcription_unit_5_rbs.append(level_0_rbs[selection])
 
-        if signal_peptide_choice == "Yes":
+        if signal_choice == "Yes":
             selected_signal_5 = (GUI.transcription_unit_5_signal_entry.get())
-            transcription_unit_5_rbs = (selected_signal_5.split(","))
+            transcription_unit_5_signal_keys = (selected_signal_5.split(","))
+            global transcription_unit_5_signal
+            transcription_unit_5_signal = []
+            for selection in transcription_unit_5_signal_keys:
+                transcription_unit_5_signal.append(level_0_signal[selection])
 
         selected_cds_5 = (GUI.transcription_unit_5_cds_entry.get())
-        transcription_unit_5_rbs = (selected_cds_5.split(","))
+        transcription_unit_5_cds_keys = (selected_cds_5.split(","))
+        global transcription_unit_5_cds
+        transcription_unit_5_cds = []
+        for selection in transcription_unit_5_cds_keys:
+            transcription_unit_5_cds.append(level_0_cds[selection])
 
         selected_terminator_5 = (GUI.transcription_unit_5_terminator_entry.get())
-        transcription_unit_5_terminator = (selected_terminator_5.split(","))
+        transcription_unit_5_terminator_keys = (selected_terminator_5.split(","))
+        global transcription_unit_5_terminator
+        transcription_unit_5_terminator = []
+        for selection in transcription_unit_5_terminator_keys:
+            transcription_unit_5_terminator.append(level_0_terminator[selection])
 
 
 
