@@ -190,7 +190,8 @@ part_role_combo = ttk.Combobox(tab1, values=["Promoter",
                                              "RBS",
                                              "CDS",
                                              "Terminator",
-                                             "Backbone", ])
+                                             "Signal peptide",
+                                             "Other", ])
 part_role_combo.grid(column=1, row=9)
 
 # Part description entry
@@ -877,6 +878,10 @@ def refresh_level_0_library():
         other_moclo.grid_forget()
     except NameError:
         pass
+    try:
+        signal_moclo.grid_forget()
+    except NameError:
+        pass
     display_level_0_library()
 
 
@@ -886,16 +891,19 @@ def display_level_0_library():
     global rbs_moclo
     global cds_moclo
     global terminator_moclo
+    global signal_moclo
     global other_moclo
     promoters_moclo = tk.Label(tab4, text=MoClo.level_0_promoter_display)
     rbs_moclo = tk.Label(tab4, text=MoClo.level_0_rbs_display)
     cds_moclo = tk.Label(tab4, text=MoClo.level_0_cds_display)
     terminator_moclo = tk.Label(tab4, text=MoClo.level_0_terminator_display)
+    signal_moclo = tk.Label(tab4, text=MoClo.level_0_signal_peptide_display)
     other_moclo = tk.Label(tab4, text=MoClo.level_0_other_display)
     promoters_moclo.grid()
     rbs_moclo.grid()
     cds_moclo.grid()
     terminator_moclo.grid()
+    signal_moclo.grid()
     other_moclo.grid()
 
 
@@ -926,7 +934,7 @@ transcription_unit_quantity_label = tk.Label(tab4, text="Please choose transcrip
 transcription_unit_quantity_label.grid()
 
 # Entry for transcription unit quantity
-transcription_unit_quantity_combo = ttk.Combobox(tab4, values=["1", "2", "3", "4", "5"])
+transcription_unit_quantity_combo = ttk.Combobox(tab4, values=["2", "3", "4", "5"])
 transcription_unit_quantity_combo.grid()
 
 # Create transcription unit entries and labels
@@ -936,35 +944,37 @@ def create_transcription_unit_entry(event):
         transcription_unit_1_label = tk.Label(tab4, text="Transcription unit 1")
         transcription_unit_1_label.grid()
 
-        transcription_unit_1_length_label = tk.Label(tab4, text="Length")
-        transcription_unit_1_length_label.grid()
-        transcription_unit_1_length_entry = tk.Entry(tab4)
-        transcription_unit_1_length_entry.grid()
-
         transcription_unit_1_promoter_label = tk.Label(tab4, text="Promoters")
         transcription_unit_1_promoter_label.grid()
+        global transcription_unit_1_promoter_entry
         transcription_unit_1_promoter_entry = tk.Entry(tab4)
         transcription_unit_1_promoter_entry.grid()
 
-        transcription_unit_1_rbs_label = tk.Label(tab4, text="RBS")
+        transcription_unit_1_rbs_label = tk.Label(tab4, text="RBSs")
         transcription_unit_1_rbs_label.grid()
+        global transcription_unit_1_rbs_entry
         transcription_unit_1_rbs_entry = tk.Entry(tab4)
         transcription_unit_1_rbs_entry.grid()
 
-        transcription_unit_1_cds_label = tk.Label(tab4, text="CDS")
+        if include_signal_peptide_combo.get() == "Yes":
+            transcription_unit_1_signal_label = tk.Label(tab4, text="Signal peptides")
+            transcription_unit_1_signal_label.grid()
+            global transcription_unit_1_signal_entry
+            transcription_unit_1_signal_entry = tk.Entry(tab4)
+            transcription_unit_1_signal_entry.grid()
+
+        transcription_unit_1_cds_label = tk.Label(tab4, text="CDSs")
         transcription_unit_1_cds_label.grid()
+        global transcription_unit_1_cds_entry
         transcription_unit_1_cds_entry = tk.Entry(tab4)
         transcription_unit_1_cds_entry.grid()
 
         transcription_unit_1_terminator_label = tk.Label(tab4, text="Terminators")
         transcription_unit_1_terminator_label.grid()
+        global transcription_unit_1_terminator_entry
         transcription_unit_1_terminator_entry = tk.Entry(tab4)
         transcription_unit_1_terminator_entry.grid()
 
-        transcription_unit_1_other_label = tk.Label(tab4, text="Other")
-        transcription_unit_1_other_label.grid()
-        transcription_unit_1_other_entry = tk.Entry(tab4)
-        transcription_unit_1_other_entry.grid()
 
     else:
         pass
@@ -972,148 +982,178 @@ def create_transcription_unit_entry(event):
         transcription_unit_2_label = tk.Label(tab4, text="Transcription unit 2")
         transcription_unit_2_label.grid()
 
-        transcription_unit_2_length_label = tk.Label(tab4, text="Length")
-        transcription_unit_2_length_label.grid()
-        transcription_unit_2_length_entry = tk.Entry(tab4)
-        transcription_unit_2_length_entry.grid()
-
         transcription_unit_2_promoter_label = tk.Label(tab4, text="Promoters")
         transcription_unit_2_promoter_label.grid()
+        global transcription_unit_2_promoter_entry
         transcription_unit_2_promoter_entry = tk.Entry(tab4)
         transcription_unit_2_promoter_entry.grid()
 
-        transcription_unit_2_rbs_label = tk.Label(tab4, text="RBS")
+        transcription_unit_2_rbs_label = tk.Label(tab4, text="RBSs")
         transcription_unit_2_rbs_label.grid()
+        global transcription_unit_2_rbs_entry
         transcription_unit_2_rbs_entry = tk.Entry(tab4)
         transcription_unit_2_rbs_entry.grid()
 
-        transcription_unit_2_cds_label = tk.Label(tab4, text="CDS")
+        if include_signal_peptide_combo.get() == "Yes":
+            transcription_unit_2_signal_label = tk.Label(tab4, text="Signal peptides")
+            transcription_unit_2_signal_label.grid()
+            global transcription_unit_2_signal_entry
+            transcription_unit_2_signal_entry = tk.Entry(tab4)
+            transcription_unit_2_signal_entry.grid()
+
+        transcription_unit_2_cds_label = tk.Label(tab4, text="CDSs")
         transcription_unit_2_cds_label.grid()
+        global transcription_unit_2_cds_entry
         transcription_unit_2_cds_entry = tk.Entry(tab4)
         transcription_unit_2_cds_entry.grid()
 
         transcription_unit_2_terminator_label = tk.Label(tab4, text="Terminators")
         transcription_unit_2_terminator_label.grid()
+        global transcription_unit_2_terminator_entry
         transcription_unit_2_terminator_entry = tk.Entry(tab4)
         transcription_unit_2_terminator_entry.grid()
 
-        transcription_unit_2_other_label = tk.Label(tab4, text="Other")
-        transcription_unit_2_other_label.grid()
-        transcription_unit_2_other_entry = tk.Entry(tab4)
-        transcription_unit_2_other_entry.grid()
     else:
         pass
     if int(transcription_unit_quantity) > 2:
         transcription_unit_3_label = tk.Label(tab4, text="Transcription unit 3")
         transcription_unit_3_label.grid()
 
-        transcription_unit_3_length_label = tk.Label(tab4, text="Length")
-        transcription_unit_3_length_label.grid()
-        transcription_unit_3_length_entry = tk.Entry(tab4)
-        transcription_unit_3_length_entry.grid()
-
         transcription_unit_3_promoter_label = tk.Label(tab4, text="Promoters")
         transcription_unit_3_promoter_label.grid()
+        global transcription_unit_3_promoter_entry
         transcription_unit_3_promoter_entry = tk.Entry(tab4)
         transcription_unit_3_promoter_entry.grid()
 
-        transcription_unit_3_rbs_label = tk.Label(tab4, text="RBS")
+        transcription_unit_3_rbs_label = tk.Label(tab4, text="RBSs")
         transcription_unit_3_rbs_label.grid()
+        global transcription_unit_3_rbs_entry
         transcription_unit_3_rbs_entry = tk.Entry(tab4)
         transcription_unit_3_rbs_entry.grid()
 
-        transcription_unit_3_cds_label = tk.Label(tab4, text="CDS")
+        if include_signal_peptide_combo.get() == "Yes":
+            transcription_unit_3_signal_label = tk.Label(tab4, text="Signal peptides")
+            transcription_unit_3_signal_label.grid()
+            global transcription_unit_3_signal_entry
+            transcription_unit_3_signal_entry = tk.Entry(tab4)
+            transcription_unit_3_signal_entry.grid()
+
+        transcription_unit_3_cds_label = tk.Label(tab4, text="CDSs")
         transcription_unit_3_cds_label.grid()
+        global transcription_unit_3_cds_entry
         transcription_unit_3_cds_entry = tk.Entry(tab4)
         transcription_unit_3_cds_entry.grid()
 
         transcription_unit_3_terminator_label = tk.Label(tab4, text="Terminators")
         transcription_unit_3_terminator_label.grid()
+        global transcription_unit_3_terminator_entry
         transcription_unit_3_terminator_entry = tk.Entry(tab4)
         transcription_unit_3_terminator_entry.grid()
-
-        transcription_unit_3_other_label = tk.Label(tab4, text="Other")
-        transcription_unit_3_other_label.grid()
-        transcription_unit_3_other_entry = tk.Entry(tab4)
-        transcription_unit_3_other_entry.grid()
     else:
         pass
     if int(transcription_unit_quantity) > 3:
         transcription_unit_4_label = tk.Label(tab4, text="Transcription unit 4")
         transcription_unit_4_label.grid()
 
-        transcription_unit_4_length_label = tk.Label(tab4, text="Length")
-        transcription_unit_4_length_label.grid()
-        transcription_unit_4_length_entry = tk.Entry(tab4)
-        transcription_unit_4_length_entry.grid()
-
         transcription_unit_4_promoter_label = tk.Label(tab4, text="Promoters")
         transcription_unit_4_promoter_label.grid()
+        global transcription_unit_4_promoter_entry
         transcription_unit_4_promoter_entry = tk.Entry(tab4)
         transcription_unit_4_promoter_entry.grid()
 
-        transcription_unit_4_rbs_label = tk.Label(tab4, text="RBS")
+        transcription_unit_4_rbs_label = tk.Label(tab4, text="RBSs")
         transcription_unit_4_rbs_label.grid()
+        global transcription_unit_4_rbs_entry
         transcription_unit_4_rbs_entry = tk.Entry(tab4)
         transcription_unit_4_rbs_entry.grid()
 
-        transcription_unit_4_cds_label = tk.Label(tab4, text="CDS")
+        if include_signal_peptide_combo.get() == "Yes":
+            transcription_unit_4_signal_label = tk.Label(tab4, text="Signal peptides")
+            transcription_unit_4_signal_label.grid()
+            global transcription_unit_4_signal_entry
+            transcription_unit_4_signal_entry = tk.Entry(tab4)
+            transcription_unit_4_signal_entry.grid()
+
+        transcription_unit_4_cds_label = tk.Label(tab4, text="CDSs")
         transcription_unit_4_cds_label.grid()
+        global transcription_unit_4_cds_entry
         transcription_unit_4_cds_entry = tk.Entry(tab4)
         transcription_unit_4_cds_entry.grid()
 
         transcription_unit_4_terminator_label = tk.Label(tab4, text="Terminators")
         transcription_unit_4_terminator_label.grid()
+        global transcription_unit_4_terminator_entry
         transcription_unit_4_terminator_entry = tk.Entry(tab4)
         transcription_unit_4_terminator_entry.grid()
 
-        transcription_unit_4_other_label = tk.Label(tab4, text="Other")
-        transcription_unit_4_other_label.grid()
-        transcription_unit_4_other_entry = tk.Entry(tab4)
-        transcription_unit_4_other_entry.grid()
     else:
         pass
     if int(transcription_unit_quantity) > 4:
         transcription_unit_5_label = tk.Label(tab4, text="Transcription unit 5")
         transcription_unit_5_label.grid()
 
-        transcription_unit_5_length_label = tk.Label(tab4, text="Length")
-        transcription_unit_5_length_label.grid()
-        transcription_unit_5_length_entry = tk.Entry(tab4)
-        transcription_unit_5_length_entry.grid()
-
         transcription_unit_5_promoter_label = tk.Label(tab4, text="Promoters")
         transcription_unit_5_promoter_label.grid()
+        global transcription_unit_5_promoter_entry
         transcription_unit_5_promoter_entry = tk.Entry(tab4)
         transcription_unit_5_promoter_entry.grid()
 
-        transcription_unit_5_rbs_label = tk.Label(tab4, text="RBS")
+        transcription_unit_5_rbs_label = tk.Label(tab4, text="RBSs")
         transcription_unit_5_rbs_label.grid()
+        global transcription_unit_5_rbs_entry
         transcription_unit_5_rbs_entry = tk.Entry(tab4)
         transcription_unit_5_rbs_entry.grid()
 
-        transcription_unit_5_cds_label = tk.Label(tab4, text="CDS")
+        if include_signal_peptide_combo.get() == "Yes":
+            transcription_unit_5_signal_label = tk.Label(tab4, text="Signal peptides")
+            transcription_unit_5_signal_label.grid()
+            global transcription_unit_5_signal_entry
+            transcription_unit_5_signal_entry = tk.Entry(tab4)
+            transcription_unit_5_signal_entry.grid()
+
+        transcription_unit_5_cds_label = tk.Label(tab4, text="CDSs")
         transcription_unit_5_cds_label.grid()
+        global transcription_unit_5_cds_entry
         transcription_unit_5_cds_entry = tk.Entry(tab4)
         transcription_unit_5_cds_entry.grid()
 
         transcription_unit_5_terminator_label = tk.Label(tab4, text="Terminators")
         transcription_unit_5_terminator_label.grid()
+        global transcription_unit_5_terminator_entry
         transcription_unit_5_terminator_entry = tk.Entry(tab4)
         transcription_unit_5_terminator_entry.grid()
 
-        transcription_unit_5_other_label = tk.Label(tab4, text="Other")
-        transcription_unit_5_other_label.grid()
-        transcription_unit_5_other_entry = tk.Entry(tab4)
-        transcription_unit_5_other_entry.grid()
     else:
         pass
+    create_protocol_button()
 
 
 # Create transcription unit entries and labels button
 transcription_unit_create = tk.Button(tab4, text="Create")
 transcription_unit_create.bind("<Button-1>", create_transcription_unit_entry)
 transcription_unit_create.grid()
+
+
+#Liquid handler selection label and combobox
+liquid_handler_label = tk.Label(tab4, text="Select a liquid handler")
+liquid_handler_label.grid()
+liquid_handler_combo = ttk.Combobox(tab4, values=["Echo 525"])
+liquid_handler_combo.grid()
+
+# Primer selection label and combo
+primer_selection_label = tk.Label(tab4, text="Include primer design for fusion and restriction sites?")
+primer_selection_label.grid()
+primer_selection_combo = ttk.Combobox(tab4, values=["Yes", "No"])
+primer_selection_combo.grid()
+
+def create_protocol_button():
+    create_protocol_button = tk.Button(tab4, text="Create protocol")
+    create_protocol_button.bind("<Button-1>", MoClo.create_protocol_directory)
+    create_protocol_button.grid()
+
+
+
+
 
 ################ Main_loop #################
 window.mainloop()

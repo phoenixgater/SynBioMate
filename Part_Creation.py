@@ -29,8 +29,11 @@ def create_part():
         part.roles = SO_CDS
     elif part_role == "Terminator":
         part.roles = SO_TERMINATOR
-    elif part_role == "Backbone":
-        part.roles = SO_PLASMID
+    elif part_role == "Signal peptide":
+        part.roles = ["http://identifiers.org/so/SO:0000324", "http://wiki.synbiohub.org/wiki/Terms/igem#partType/Tag"]
+    elif part_role == "Other":
+        part.roles = SO_MISC
+
     part.sequence = Sequence(str(identifier), str(dna_sequence))
     part.description = str(part_description)
     Main.doc.addComponentDefinition(part)
