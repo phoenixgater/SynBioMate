@@ -9,7 +9,6 @@ import GUI
 primary_structure_identities = []
 primary_structure_roles = []
 primary_structure_descriptions = []
-primary_structure_component_definitions = []
 detected_rfc10_sites = []
 base_composition = []
 
@@ -28,7 +27,7 @@ def import_design(event):
     GUI.display_assembled_design_pg(primary_structure_roles)
     get_design_descriptions()
     GUI.create_description_button_pg()
-    initial_design_analysis()
+    initial_design_analysis(design_uri)
     GUI.create_analysis_button_pg()
 
 
@@ -72,8 +71,8 @@ def get_design_descriptions():
 
 
 ############################ Design initial analysis ###################################
-def initial_design_analysis():
-    design_sequence = design_uri.sequence.elements
+def initial_design_analysis(uri):
+    design_sequence = uri.sequence.elements
     nucleotide_content(design_sequence)
     rfc10_restriction_sites(design_sequence)
 
