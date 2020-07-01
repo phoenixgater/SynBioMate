@@ -34,7 +34,7 @@ def create_part():
     elif part_role == "Other":
         part.roles = SO_MISC
 
-    part.sequence = Sequence(str(identifier), str(dna_sequence))
+    part.sequence = Sequence(str(identifier), (str(dna_sequence)).lower())
     part.description = str(part_description)
     Main.doc.addComponentDefinition(part)
 

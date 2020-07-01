@@ -11,7 +11,7 @@
   </sbol:ComponentDefinition>
   <sbol:Sequence rdf:about="https://synbiohub.org/public/igem//Sequence/BBa_promoter/1">
     <sbol:displayId>BBa_promoter</sbol:displayId>
-    <sbol:elements>tatatata</sbol:elements>
+    <sbol:elements>tata</sbol:elements>
     <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
     <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//Sequence/BBa_promoter"/>
     <sbol:version>1</sbol:version>
