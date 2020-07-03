@@ -1,5 +1,6 @@
 # Import libraries
 from sbol import *
+import re
 
 # Import scripts
 import Main
@@ -28,6 +29,12 @@ ecoflex_check_list = []
 bacilloflex_check_list = []
 forbidden_sites_ecoflex = ["catatg", "gtatac", "ggatcc", "cctagg", "ggtctc", "ccagag", "cgtctc", "gcagag"]
 modification_dictionary = {}
+transcription_unit_1_variants = {}
+transcription_unit_2_variants = {}
+transcription_unit_3_variants = {}
+transcription_unit_4_variants = {}
+transcription_unit_5_variants = {}
+level_2_variants = {}
 
 
 # clear globals function
@@ -647,6 +654,7 @@ def restriction_site_name_library(sequence):
 # Create codon-swapped variants of CDS parts that contain excluded restriction sites - For EcoFlex
 def swap_codons_ecoflex():
     if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+        # Transcription unit 1
         cds_number = 0
         for cds in transcription_unit_1_cds:
             cds_number = cds_number + 1
@@ -656,58 +664,1618 @@ def swap_codons_ecoflex():
             modification_dictionary[part_key].append(cds)
             global sequence
             sequence = cds.sequence.elements
+            detected_sites = True
+            while detected_sites:
+                for forbidden_site in forbidden_sites_ecoflex:
+                    count = (sequence.count(forbidden_site))
+                    if count == 0:
+                        if forbidden_site == "gcagag":
+                            no_sites_detected = 0
+                            for forbidden_site in forbidden_sites_ecoflex:
+                                count_2 = (sequence.count(forbidden_site))
+                                if count_2 == 0:
+                                    no_sites_detected = no_sites_detected + 1
+                                    if no_sites_detected == 8:
+                                        detected_sites = False
+                                    else:
+                                        pass
+                                else:
+                                    continue
+                        else:
+                            pass
+                    else:
+                        while count > 0:
+                            location = (sequence.find(forbidden_site))
+                            codon_list = ([sequence[i:i + 3] for i in range(0, len(sequence), 3)])
+                            codon = codon_list[int((location / 3) + 1)]
+                            new_codon = ecoflex_codon_library(codon)
+                            if new_codon == "invalid":
+                                modification_dictionary[part_key].append("Restriction site " + forbidden_site +
+                                                                         " (" + site_name + ")" + " detected at " +
+                                                                         "position " + str(location + 2) + "-" +
+                                                                         str(location + 4) +
+                                                                         " but was unable to be changed due " +
+                                                                         "to unavailable codon alternative " + "for " +
+                                                                         str(codon))
+                                count = count - 1
+                                if count == 0:
+                                    if forbidden_site == "gcagag":
+                                        no_sites_detected = 0
+                                        for forbidden_site in forbidden_sites_ecoflex:
+                                            count_4 = (sequence.count(forbidden_site))
+                                            if count_4 == 0:
+                                                no_sites_detected = no_sites_detected + 1
+                                                if no_sites_detected == 8:
+                                                    detected_sites = False
+                                                else:
+                                                    pass
+                                            else:
+                                                continue
+                                    else:
+                                        pass
+
+                            else:
+                                codon_list[int((location / 3) + 1)] = new_codon
+                                codon_string = (", ".join(codon_list))
+                                sequence = codon_string.replace(", ", "")
+                                site_name = restriction_site_name_library(forbidden_site)
+                                modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
+                                                                         str(new_codon) + " at position " +
+                                                                         str(location + 2) + "-" + str(location + 4)
+                                                                         + " to remove " +
+                                                                         forbidden_site + " (" + site_name + ")" +
+                                                                         " restriction site")
+                                count = count - 1
+                                if count == 0:
+                                    if forbidden_site == "gcagag":
+                                        no_sites_detected = 0
+                                        for forbidden_site in forbidden_sites_ecoflex:
+                                            count_3 = (sequence.count(forbidden_site))
+                                            if count_3 == 0:
+                                                no_sites_detected = no_sites_detected + 1
+                                                if no_sites_detected == 8:
+                                                    detected_sites = False
+                                                else:
+                                                    pass
+                                            else:
+                                                continue
+                                    else:
+                                        pass
+            cds.sequence.elements = sequence
+
+        # Transcription unit 2
+        cds_number = 0
+        for cds in transcription_unit_2_cds:
+            cds_number = cds_number + 1
+            part_key = "unit2_c" + str(cds_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(cds)
+            sequence = cds.sequence.elements
+            detected_sites = True
+            while detected_sites:
+                for forbidden_site in forbidden_sites_ecoflex:
+                    count = (sequence.count(forbidden_site))
+                    if count == 0:
+                        if forbidden_site == "gcagag":
+                            no_sites_detected = 0
+                            for forbidden_site in forbidden_sites_ecoflex:
+                                count_2 = (sequence.count(forbidden_site))
+                                if count_2 == 0:
+                                    no_sites_detected = no_sites_detected + 1
+                                    if no_sites_detected == 8:
+                                        detected_sites = False
+                                    else:
+                                        pass
+                                else:
+                                    continue
+                        else:
+                            pass
+                    else:
+                        while count > 0:
+                            location = (sequence.find(forbidden_site))
+                            codon_list = ([sequence[i:i + 3] for i in range(0, len(sequence), 3)])
+                            codon = codon_list[int((location / 3) + 1)]
+                            new_codon = ecoflex_codon_library(codon)
+                            if new_codon == "invalid":
+                                modification_dictionary[part_key].append("Restriction site " + forbidden_site +
+                                                                         " (" + site_name + ")" + " detected at " +
+                                                                         "position " + str(location + 2) + "-" +
+                                                                         str(location + 4) +
+                                                                         " but was unable to be changed due " +
+                                                                         "to unavailable codon alternative " + "for " +
+                                                                         str(codon))
+                                count = count - 1
+                                if count == 0:
+                                    if forbidden_site == "gcagag":
+                                        no_sites_detected = 0
+                                        for forbidden_site in forbidden_sites_ecoflex:
+                                            count_4 = (sequence.count(forbidden_site))
+                                            if count_4 == 0:
+                                                no_sites_detected = no_sites_detected + 1
+                                                if no_sites_detected == 8:
+                                                    detected_sites = False
+                                                else:
+                                                    pass
+                                            else:
+                                                continue
+                                    else:
+                                        pass
+
+                            else:
+                                codon_list[int((location / 3) + 1)] = new_codon
+                                codon_string = (", ".join(codon_list))
+                                sequence = codon_string.replace(", ", "")
+                                site_name = restriction_site_name_library(forbidden_site)
+                                modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
+                                                                         str(new_codon) + " at position " +
+                                                                         str(location + 2) + "-" + str(location + 4)
+                                                                         + " to remove " +
+                                                                         forbidden_site + " (" + site_name + ")" +
+                                                                         " restriction site")
+                                count = count - 1
+                                if count == 0:
+                                    if forbidden_site == "gcagag":
+                                        no_sites_detected = 0
+                                        for forbidden_site in forbidden_sites_ecoflex:
+                                            count_3 = (sequence.count(forbidden_site))
+                                            if count_3 == 0:
+                                                no_sites_detected = no_sites_detected + 1
+                                                if no_sites_detected == 8:
+                                                    detected_sites = False
+                                                else:
+                                                    pass
+                                            else:
+                                                continue
+                                    else:
+                                        pass
+            cds.sequence.elements = sequence
+
+    if int(GUI.transcription_unit_quantity_combo.get()) > 2:
+        # Transcription unit 3
+        cds_number = 0
+        for cds in transcription_unit_3_cds:
+            cds_number = cds_number + 1
+            part_key = "unit3_c" + str(cds_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(cds)
+            sequence = cds.sequence.elements
+            detected_sites = True
+            while detected_sites:
+                for forbidden_site in forbidden_sites_ecoflex:
+                    count = (sequence.count(forbidden_site))
+                    if count == 0:
+                        if forbidden_site == "gcagag":
+                            no_sites_detected = 0
+                            for forbidden_site in forbidden_sites_ecoflex:
+                                count_2 = (sequence.count(forbidden_site))
+                                if count_2 == 0:
+                                    no_sites_detected = no_sites_detected + 1
+                                    if no_sites_detected == 8:
+                                        detected_sites = False
+                                    else:
+                                        pass
+                                else:
+                                    continue
+                        else:
+                            pass
+                    else:
+                        while count > 0:
+                            location = (sequence.find(forbidden_site))
+                            codon_list = ([sequence[i:i + 3] for i in range(0, len(sequence), 3)])
+                            codon = codon_list[int((location / 3) + 1)]
+                            new_codon = ecoflex_codon_library(codon)
+                            if new_codon == "invalid":
+                                modification_dictionary[part_key].append("Restriction site " + forbidden_site +
+                                                                         " (" + site_name + ")" + " detected at " +
+                                                                         "position " + str(location + 2) + "-" +
+                                                                         str(location + 4) +
+                                                                         " but was unable to be changed due " +
+                                                                         "to unavailable codon alternative " + "for " +
+                                                                         str(codon))
+                                count = count - 1
+                                if count == 0:
+                                    if forbidden_site == "gcagag":
+                                        no_sites_detected = 0
+                                        for forbidden_site in forbidden_sites_ecoflex:
+                                            count_4 = (sequence.count(forbidden_site))
+                                            if count_4 == 0:
+                                                no_sites_detected = no_sites_detected + 1
+                                                if no_sites_detected == 8:
+                                                    detected_sites = False
+                                                else:
+                                                    pass
+                                            else:
+                                                continue
+                                    else:
+                                        pass
+
+                            else:
+                                codon_list[int((location / 3) + 1)] = new_codon
+                                codon_string = (", ".join(codon_list))
+                                sequence = codon_string.replace(", ", "")
+                                site_name = restriction_site_name_library(forbidden_site)
+                                modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
+                                                                         str(new_codon) + " at position " +
+                                                                         str(location + 2) + "-" + str(location + 4)
+                                                                         + " to remove " +
+                                                                         forbidden_site + " (" + site_name + ")" +
+                                                                         " restriction site")
+                                count = count - 1
+                                if count == 0:
+                                    if forbidden_site == "gcagag":
+                                        no_sites_detected = 0
+                                        for forbidden_site in forbidden_sites_ecoflex:
+                                            count_3 = (sequence.count(forbidden_site))
+                                            if count_3 == 0:
+                                                no_sites_detected = no_sites_detected + 1
+                                                if no_sites_detected == 8:
+                                                    detected_sites = False
+                                                else:
+                                                    pass
+                                            else:
+                                                continue
+                                    else:
+                                        pass
+            cds.sequence.elements = sequence
+
+    if int(GUI.transcription_unit_quantity_combo.get()) > 3:
+        # Transcription unit 4
+        cds_number = 0
+        for cds in transcription_unit_4_cds:
+            cds_number = cds_number + 1
+            part_key = "unit4_c" + str(cds_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(cds)
+            sequence = cds.sequence.elements
+            detected_sites = True
+            while detected_sites:
+                for forbidden_site in forbidden_sites_ecoflex:
+                    count = (sequence.count(forbidden_site))
+                    if count == 0:
+                        if forbidden_site == "gcagag":
+                            no_sites_detected = 0
+                            for forbidden_site in forbidden_sites_ecoflex:
+                                count_2 = (sequence.count(forbidden_site))
+                                if count_2 == 0:
+                                    no_sites_detected = no_sites_detected + 1
+                                    if no_sites_detected == 8:
+                                        detected_sites = False
+                                    else:
+                                        pass
+                                else:
+                                    continue
+                        else:
+                            pass
+                    else:
+                        while count > 0:
+                            location = (sequence.find(forbidden_site))
+                            codon_list = ([sequence[i:i + 3] for i in range(0, len(sequence), 3)])
+                            codon = codon_list[int((location / 3) + 1)]
+                            new_codon = ecoflex_codon_library(codon)
+                            if new_codon == "invalid":
+                                modification_dictionary[part_key].append("Restriction site " + forbidden_site +
+                                                                         " (" + site_name + ")" + " detected at " +
+                                                                         "position " + str(location + 2) + "-" +
+                                                                         str(location + 4) +
+                                                                         " but was unable to be changed due " +
+                                                                         "to unavailable codon alternative " + "for " +
+                                                                         str(codon))
+                                count = count - 1
+                                if count == 0:
+                                    if forbidden_site == "gcagag":
+                                        no_sites_detected = 0
+                                        for forbidden_site in forbidden_sites_ecoflex:
+                                            count_4 = (sequence.count(forbidden_site))
+                                            if count_4 == 0:
+                                                no_sites_detected = no_sites_detected + 1
+                                                if no_sites_detected == 8:
+                                                    detected_sites = False
+                                                else:
+                                                    pass
+                                            else:
+                                                continue
+                                    else:
+                                        pass
+
+                            else:
+                                codon_list[int((location / 3) + 1)] = new_codon
+                                codon_string = (", ".join(codon_list))
+                                sequence = codon_string.replace(", ", "")
+                                site_name = restriction_site_name_library(forbidden_site)
+                                modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
+                                                                         str(new_codon) + " at position " +
+                                                                         str(location + 2) + "-" + str(location + 4)
+                                                                         + " to remove " +
+                                                                         forbidden_site + " (" + site_name + ")" +
+                                                                         " restriction site")
+                                count = count - 1
+                                if count == 0:
+                                    if forbidden_site == "gcagag":
+                                        no_sites_detected = 0
+                                        for forbidden_site in forbidden_sites_ecoflex:
+                                            count_3 = (sequence.count(forbidden_site))
+                                            if count_3 == 0:
+                                                no_sites_detected = no_sites_detected + 1
+                                                if no_sites_detected == 8:
+                                                    detected_sites = False
+                                                else:
+                                                    pass
+                                            else:
+                                                continue
+                                    else:
+                                        pass
+            cds.sequence.elements = sequence
+
+    if int(GUI.transcription_unit_quantity_combo.get()) > 4:
+        # Transcription unit 5
+        cds_number = 0
+        for cds in transcription_unit_5_cds:
+            cds_number = cds_number + 1
+            part_key = "unit5_c" + str(cds_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(cds)
+            sequence = cds.sequence.elements
+            detected_sites = True
+            while detected_sites:
+                for forbidden_site in forbidden_sites_ecoflex:
+                    count = (sequence.count(forbidden_site))
+                    if count == 0:
+                        if forbidden_site == "gcagag":
+                            no_sites_detected = 0
+                            for forbidden_site in forbidden_sites_ecoflex:
+                                count_2 = (sequence.count(forbidden_site))
+                                if count_2 == 0:
+                                    no_sites_detected = no_sites_detected + 1
+                                    if no_sites_detected == 8:
+                                        detected_sites = False
+                                    else:
+                                        pass
+                                else:
+                                    continue
+                        else:
+                            pass
+                    else:
+                        while count > 0:
+                            location = (sequence.find(forbidden_site))
+                            codon_list = ([sequence[i:i + 3] for i in range(0, len(sequence), 3)])
+                            codon = codon_list[int((location / 3) + 1)]
+                            new_codon = ecoflex_codon_library(codon)
+                            if new_codon == "invalid":
+                                modification_dictionary[part_key].append("Restriction site " + forbidden_site +
+                                                                         " (" + site_name + ")" + " detected at " +
+                                                                         "position " + str(location + 2) + "-" +
+                                                                         str(location + 4) +
+                                                                         " but was unable to be changed due " +
+                                                                         "to unavailable codon alternative " + "for " +
+                                                                         str(codon))
+                                count = count - 1
+                                if count == 0:
+                                    if forbidden_site == "gcagag":
+                                        no_sites_detected = 0
+                                        for forbidden_site in forbidden_sites_ecoflex:
+                                            count_4 = (sequence.count(forbidden_site))
+                                            if count_4 == 0:
+                                                no_sites_detected = no_sites_detected + 1
+                                                if no_sites_detected == 8:
+                                                    detected_sites = False
+                                                else:
+                                                    pass
+                                            else:
+                                                continue
+                                    else:
+                                        pass
+
+                            else:
+                                codon_list[int((location / 3) + 1)] = new_codon
+                                codon_string = (", ".join(codon_list))
+                                sequence = codon_string.replace(", ", "")
+                                site_name = restriction_site_name_library(forbidden_site)
+                                modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
+                                                                         str(new_codon) + " at position " +
+                                                                         str(location + 2) + "-" + str(location + 4)
+                                                                         + " to remove " +
+                                                                         forbidden_site + " (" + site_name + ")" +
+                                                                         " restriction site")
+                                count = count - 1
+                                if count == 0:
+                                    if forbidden_site == "gcagag":
+                                        no_sites_detected = 0
+                                        for forbidden_site in forbidden_sites_ecoflex:
+                                            count_3 = (sequence.count(forbidden_site))
+                                            if count_3 == 0:
+                                                no_sites_detected = no_sites_detected + 1
+                                                if no_sites_detected == 8:
+                                                    detected_sites = False
+                                                else:
+                                                    pass
+                                            else:
+                                                continue
+                                    else:
+                                        pass
+            cds.sequence.elements = sequence
+
+
+# Note restriction sites present in bioparts (promoter, rbs, signal peptide, terminator)
+def check_biopart_sites_ecoflex():
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+        # Transcription unit 1
+        promoter_number = 0
+        for promoter in transcription_unit_1_promoter:
+            promoter_number = promoter_number + 1
+            part_key = "unit1_p" + str(promoter_number)
+            global modification_dictionary
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(promoter)
+            global sequence
+            sequence = promoter.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
                 count = (sequence.count(forbidden_site))
                 if count == 0:
-                    if forbidden_site == "gcagag":
-                        cds.sequence.elements = sequence
-                    else:
-                        pass
+                    pass
                 else:
-                    while count > 0:
-                        location = (sequence.find(forbidden_site))
-                        codon_list = ([sequence[i:i + 3] for i in range(0, len(sequence), 3)])
-                        codon = codon_list[int((location / 3) + 1)]
-                        new_codon = ecoflex_codon_library(codon)
-                        if new_codon == "invalid":
-                            modification_dictionary[part_key].append("Restriction site " + forbidden_site +
-                                                                     " (" + site_name + ")" + " detected at " +
-                                                                     "position " + str(location+2) + "-" +
-                                                                     str(location+4) +
-                                                                     " but was unable to be changed due " +
-                                                                     "to unavailable codon alternative " + "for " +
-                                                                     str(codon))
-                            count = count-1
-                            if count == 0:
-                                if forbidden_site == "gcagag":
-                                    cds.sequence.elements = sequence
-                                else:
-                                    pass
-                            else:
-                                continue
+                    for location in re.finditer(forbidden_site, sequence):
+                        site_name = restriction_site_name_library(forbidden_site)
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + " detected at position " +
+                                                                 str(location.start() + 1) + "-" +
+                                                                 str(location.end()))
 
-                        else:
-                            codon_list[int((location / 3) + 1)] = new_codon
-                            codon_string = (", ".join(codon_list))
-                            sequence = codon_string.replace(", ", "")
+        rbs_number = 0
+        for rbs in transcription_unit_1_rbs:
+            rbs_number = rbs_number + 1
+            part_key = "unit1_r" + str(rbs_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(rbs)
+            sequence = rbs.sequence.elements
+            for forbidden_site in forbidden_sites_ecoflex:
+                count = (sequence.count(forbidden_site))
+                if count == 0:
+                    pass
+                else:
+                    for location in re.finditer(forbidden_site, sequence):
+                        site_name = restriction_site_name_library(forbidden_site)
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + " detected at position " +
+                                                                 str(location.start() + 1) + "-" +
+                                                                 str(location.end()))
+
+        if GUI.include_signal_combo.get() == "Yes":
+            signal_number = 0
+            for signal in transcription_unit_1_signal:
+                signal_number = signal_number + 1
+                part_key = "unit1_s" + str(signal_number)
+                modification_dictionary[part_key] = []
+                modification_dictionary[part_key].append(signal)
+                sequence = signal.sequence.elements
+                for forbidden_site in forbidden_sites_ecoflex:
+                    count = (sequence.count(forbidden_site))
+                    if count == 0:
+                        pass
+                    else:
+                        for location in re.finditer(forbidden_site, sequence):
                             site_name = restriction_site_name_library(forbidden_site)
-                            modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
-                                                                     str(new_codon) + " at position " +
-                                                                     str(location+2) + "-" + str(location+4)
-                                                                     + " to remove " +
-                                                                     forbidden_site + " (" + site_name + ")" +
-                                                                     " restriction site")
-                            count = count - 1
-                            if count == 0:
-                                if forbidden_site == "gcagag":
-                                    cds.sequence.elements = sequence
-                                else:
-                                    pass
-                            else:
-                                continue
-    print(modification_dictionary)
-    print(modification_dictionary["unit1_c1"][0].sequence.elements)
-    print(modification_dictionary)
+                            modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                     site_name + ")" + " detected at position " +
+                                                                     str(location.start() + 1) + "-" +
+                                                                     str(location.end()))
+
+        terminator_number = 0
+        for terminator in transcription_unit_1_terminator:
+            terminator_number = terminator_number + 1
+            part_key = "unit1_t" + str(terminator_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(terminator)
+            sequence = terminator.sequence.elements
+            for forbidden_site in forbidden_sites_ecoflex:
+                count = (sequence.count(forbidden_site))
+                if count == 0:
+                    pass
+                else:
+                    for location in re.finditer(forbidden_site, sequence):
+                        site_name = restriction_site_name_library(forbidden_site)
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + " detected at position " +
+                                                                 str(location.start() + 1) + "-" +
+                                                                 str(location.end()))
+
+        # Transcription unit 2
+        promoter_number = 0
+        for promoter in transcription_unit_2_promoter:
+            promoter_number = promoter_number + 1
+            part_key = "unit2_p" + str(promoter_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(promoter)
+            sequence = promoter.sequence.elements
+            for forbidden_site in forbidden_sites_ecoflex:
+                count = (sequence.count(forbidden_site))
+                if count == 0:
+                    pass
+                else:
+                    for location in re.finditer(forbidden_site, sequence):
+                        site_name = restriction_site_name_library(forbidden_site)
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + " detected at position " +
+                                                                 str(location.start() + 1) + "-" +
+                                                                 str(location.end()))
+
+        rbs_number = 0
+        for rbs in transcription_unit_2_rbs:
+            rbs_number = rbs_number + 1
+            part_key = "unit2_r" + str(rbs_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(rbs)
+            sequence = rbs.sequence.elements
+            for forbidden_site in forbidden_sites_ecoflex:
+                count = (sequence.count(forbidden_site))
+                if count == 0:
+                    pass
+                else:
+                    for location in re.finditer(forbidden_site, sequence):
+                        site_name = restriction_site_name_library(forbidden_site)
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + " detected at position " +
+                                                                 str(location.start() + 1) + "-" +
+                                                                 str(location.end()))
+
+        if GUI.include_signal_combo.get() == "Yes":
+            signal_number = 0
+            for signal in transcription_unit_2_signal:
+                signal_number = signal_number + 1
+                part_key = "unit2_s" + str(signal_number)
+                modification_dictionary[part_key] = []
+                modification_dictionary[part_key].append(signal)
+                sequence = signal.sequence.elements
+                for forbidden_site in forbidden_sites_ecoflex:
+                    count = (sequence.count(forbidden_site))
+                    if count == 0:
+                        pass
+                    else:
+                        for location in re.finditer(forbidden_site, sequence):
+                            site_name = restriction_site_name_library(forbidden_site)
+                            modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                     site_name + ")" + " detected at position " +
+                                                                     str(location.start() + 1) + "-" +
+                                                                     str(location.end()))
+
+        terminator_number = 0
+        for terminator in transcription_unit_2_terminator:
+            terminator_number = terminator_number + 1
+            part_key = "unit2_t" + str(terminator_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(terminator)
+            sequence = terminator.sequence.elements
+            for forbidden_site in forbidden_sites_ecoflex:
+                count = (sequence.count(forbidden_site))
+                if count == 0:
+                    pass
+                else:
+                    for location in re.finditer(forbidden_site, sequence):
+                        site_name = restriction_site_name_library(forbidden_site)
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + " detected at position " +
+                                                                 str(location.start() + 1) + "-" +
+                                                                 str(location.end()))
+
+    if int(GUI.transcription_unit_quantity_combo.get()) > 2:
+        # Transcription unit 3
+        promoter_number = 0
+        for promoter in transcription_unit_3_promoter:
+            promoter_number = promoter_number + 1
+            part_key = "unit3_p" + str(promoter_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(promoter)
+            sequence = promoter.sequence.elements
+            for forbidden_site in forbidden_sites_ecoflex:
+                count = (sequence.count(forbidden_site))
+                if count == 0:
+                    pass
+                else:
+                    for location in re.finditer(forbidden_site, sequence):
+                        site_name = restriction_site_name_library(forbidden_site)
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + " detected at position " +
+                                                                 str(location.start() + 1) + "-" +
+                                                                 str(location.end()))
+
+        rbs_number = 0
+        for rbs in transcription_unit_3_rbs:
+            rbs_number = rbs_number + 1
+            part_key = "unit3_r" + str(rbs_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(rbs)
+            sequence = rbs.sequence.elements
+            for forbidden_site in forbidden_sites_ecoflex:
+                count = (sequence.count(forbidden_site))
+                if count == 0:
+                    pass
+                else:
+                    for location in re.finditer(forbidden_site, sequence):
+                        site_name = restriction_site_name_library(forbidden_site)
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + " detected at position " +
+                                                                 str(location.start() + 1) + "-" +
+                                                                 str(location.end()))
+
+        if GUI.include_signal_combo.get() == "Yes":
+            signal_number = 0
+            for signal in transcription_unit_3_signal:
+                signal_number = signal_number + 1
+                part_key = "unit3_s" + str(signal_number)
+                modification_dictionary[part_key] = []
+                modification_dictionary[part_key].append(signal)
+                sequence = signal.sequence.elements
+                for forbidden_site in forbidden_sites_ecoflex:
+                    count = (sequence.count(forbidden_site))
+                    if count == 0:
+                        pass
+                    else:
+                        for location in re.finditer(forbidden_site, sequence):
+                            site_name = restriction_site_name_library(forbidden_site)
+                            modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                     site_name + ")" + " detected at position " +
+                                                                     str(location.start() + 1) + "-" +
+                                                                     str(location.end()))
+
+        terminator_number = 0
+        for terminator in transcription_unit_3_terminator:
+            terminator_number = terminator_number + 1
+            part_key = "unit3_t" + str(terminator_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(terminator)
+            sequence = terminator.sequence.elements
+            for forbidden_site in forbidden_sites_ecoflex:
+                count = (sequence.count(forbidden_site))
+                if count == 0:
+                    pass
+                else:
+                    for location in re.finditer(forbidden_site, sequence):
+                        site_name = restriction_site_name_library(forbidden_site)
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + " detected at position " +
+                                                                 str(location.start() + 1) + "-" +
+                                                                 str(location.end()))
+
+    if int(GUI.transcription_unit_quantity_combo.get()) > 3:
+        # Transcription unit 4
+        promoter_number = 0
+        for promoter in transcription_unit_4_promoter:
+            promoter_number = promoter_number + 1
+            part_key = "unit4_p" + str(promoter_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(promoter)
+            sequence = promoter.sequence.elements
+            for forbidden_site in forbidden_sites_ecoflex:
+                count = (sequence.count(forbidden_site))
+                if count == 0:
+                    pass
+                else:
+                    for location in re.finditer(forbidden_site, sequence):
+                        site_name = restriction_site_name_library(forbidden_site)
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + " detected at position " +
+                                                                 str(location.start() + 1) + "-" +
+                                                                 str(location.end()))
+
+        rbs_number = 0
+        for rbs in transcription_unit_4_rbs:
+            rbs_number = rbs_number + 1
+            part_key = "unit4_r" + str(rbs_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(rbs)
+            sequence = rbs.sequence.elements
+            for forbidden_site in forbidden_sites_ecoflex:
+                count = (sequence.count(forbidden_site))
+                if count == 0:
+                    pass
+                else:
+                    for location in re.finditer(forbidden_site, sequence):
+                        site_name = restriction_site_name_library(forbidden_site)
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + " detected at position " +
+                                                                 str(location.start() + 1) + "-" +
+                                                                 str(location.end()))
+
+        if GUI.include_signal_combo.get() == "Yes":
+            signal_number = 0
+            for signal in transcription_unit_4_signal:
+                signal_number = signal_number + 1
+                part_key = "unit4_s" + str(signal_number)
+                modification_dictionary[part_key] = []
+                modification_dictionary[part_key].append(signal)
+                sequence = signal.sequence.elements
+                for forbidden_site in forbidden_sites_ecoflex:
+                    count = (sequence.count(forbidden_site))
+                    if count == 0:
+                        pass
+                    else:
+                        for location in re.finditer(forbidden_site, sequence):
+                            site_name = restriction_site_name_library(forbidden_site)
+                            modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                     site_name + ")" + " detected at position " +
+                                                                     str(location.start() + 1) + "-" +
+                                                                     str(location.end()))
+
+        terminator_number = 0
+        for terminator in transcription_unit_4_terminator:
+            terminator_number = terminator_number + 1
+            part_key = "unit4_t" + str(terminator_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(terminator)
+            sequence = terminator.sequence.elements
+            for forbidden_site in forbidden_sites_ecoflex:
+                count = (sequence.count(forbidden_site))
+                if count == 0:
+                    pass
+                else:
+                    for location in re.finditer(forbidden_site, sequence):
+                        site_name = restriction_site_name_library(forbidden_site)
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + " detected at position " +
+                                                                 str(location.start() + 1) + "-" +
+                                                                 str(location.end()))
+
+    if int(GUI.transcription_unit_quantity_combo.get()) > 4:
+        # Transcription unit 5
+        promoter_number = 0
+        for promoter in transcription_unit_5_promoter:
+            promoter_number = promoter_number + 1
+            part_key = "unit5_p" + str(promoter_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(promoter)
+            sequence = promoter.sequence.elements
+            for forbidden_site in forbidden_sites_ecoflex:
+                count = (sequence.count(forbidden_site))
+                if count == 0:
+                    pass
+                else:
+                    for location in re.finditer(forbidden_site, sequence):
+                        site_name = restriction_site_name_library(forbidden_site)
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + " detected at position " +
+                                                                 str(location.start() + 1) + "-" +
+                                                                 str(location.end()))
+
+        rbs_number = 0
+        for rbs in transcription_unit_5_rbs:
+            rbs_number = rbs_number + 1
+            part_key = "unit5_r" + str(rbs_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(rbs)
+            sequence = rbs.sequence.elements
+            for forbidden_site in forbidden_sites_ecoflex:
+                count = (sequence.count(forbidden_site))
+                if count == 0:
+                    pass
+                else:
+                    for location in re.finditer(forbidden_site, sequence):
+                        site_name = restriction_site_name_library(forbidden_site)
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + " detected at position " +
+                                                                 str(location.start() + 1) + "-" +
+                                                                 str(location.end()))
+
+        if GUI.include_signal_combo.get() == "Yes":
+            signal_number = 0
+            for signal in transcription_unit_5_signal:
+                signal_number = signal_number + 1
+                part_key = "unit5_s" + str(signal_number)
+                modification_dictionary[part_key] = []
+                modification_dictionary[part_key].append(signal)
+                sequence = signal.sequence.elements
+                for forbidden_site in forbidden_sites_ecoflex:
+                    count = (sequence.count(forbidden_site))
+                    if count == 0:
+                        pass
+                    else:
+                        for location in re.finditer(forbidden_site, sequence):
+                            site_name = restriction_site_name_library(forbidden_site)
+                            modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                     site_name + ")" + " detected at position " +
+                                                                     str(location.start() + 1) + "-" +
+                                                                     str(location.end()))
+
+        terminator_number = 0
+        for terminator in transcription_unit_5_terminator:
+            terminator_number = terminator_number + 1
+            part_key = "unit5_t" + str(terminator_number)
+            modification_dictionary[part_key] = []
+            modification_dictionary[part_key].append(terminator)
+            sequence = terminator.sequence.elements
+            for forbidden_site in forbidden_sites_ecoflex:
+                count = (sequence.count(forbidden_site))
+                if count == 0:
+                    pass
+                else:
+                    for location in re.finditer(forbidden_site, sequence):
+                        site_name = restriction_site_name_library(forbidden_site)
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + " detected at position " +
+                                                                 str(location.start() + 1) + "-" +
+                                                                 str(location.end()))
+
+
+# Adding EcoFlex prefix and suffix to parts
+def ecoflex_fusion_sites():
+    # Transcription unit 1
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+        counter = 0
+        for promoter in transcription_unit_1_promoter:
+            counter = counter + 1
+            if promoter.sequence.elements.startswith("taggtctcactat"):
+                pass
+            else:
+                promoter.sequence.elements = "taggtctcactat" + promoter.sequence.elements
+                modification_dictionary["unit1_p" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                         " BsaI restriction site (ggtctca)" +
+                                                                         " and golden gate promoter fusion site" +
+                                                                         " (ctat)")
+            if promoter.sequence.elements.endswith("gtacagagacccatg"):
+                pass
+            else:
+                promoter.sequence.elements = promoter.sequence.elements + "gtacagagacccatg"
+                modification_dictionary["unit1_p" + str(counter)].append("Suffix added for golden gate promoter" +
+                                                                         " fusion site (gtac), BsaI restriction site" +
+                                                                         " (agagacc), and SphI overhang (catg)")
+
+        if GUI.include_signal_combo.get() == "No":
+            counter = 0
+            for rbs in transcription_unit_1_rbs:
+                counter = counter + 1
+                if rbs.sequence.elements.startswith("taggtctcagtac"):
+                    pass
+                else:
+                    rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
+                    modification_dictionary["unit1_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                             " BsaI restriction site (ggtctca)" +
+                                                                             " and golden gate RBS fusion site" +
+                                                                             " (gtac)")
+                if rbs.sequence.elements.endswith("cataagagacccatg"):
+                    pass
+                else:
+                    modification_dictionary["unit1_r" + str(counter)].append("Suffix added for golden gate RBS" +
+                                                                             "fusion site (cata), BsaI restriction "
+                                                                             "site" +
+                                                                             " (agagacc), and SphI overhang (catg)")
+        else:
+            counter = 0
+            for rbs in transcription_unit_1_rbs:
+                counter = counter + 1
+                if rbs.sequence.elements.startswith("taggtctcagtac"):
+                    pass
+                else:
+                    rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
+                    modification_dictionary["unit1_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                             " BsaI restriction site (ggtctca)" +
+                                                                             " and golden gate RBS fusion site" +
+                                                                             " (gtac)")
+                if rbs.sequence.elements.endswith("taaaagagacccatg"):
+                    pass
+                else:
+                    rbs.sequence.elements = rbs.sequence.elements + "taaaagagacccatg"
+                    modification_dictionary["unit1_r" + str(counter)].append("Suffix added for golden gate RBS" +
+                                                                             "fusion site (taaa), BsaI restriction "
+                                                                             "site" +
+                                                                             " (agagacc), and SphI overhang (catg)")
+
+            counter = 0
+            for signal in transcription_unit_1_signal:
+                counter = counter + 1
+                if signal.sequence.elements.startswith("taggtctcataaa"):
+                    pass
+                else:
+                    signal.sequence.elements = "taggtctcataaa" + signal.sequence.elements
+                    modification_dictionary["unit1_s" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                             " BsaI restriction site (ggtctca)" +
+                                                                             " and golden gate signal peptide fusion" +
+                                                                             " site (taaa)")
+                if signal.sequence.elements.endswith("cataagagacccatg"):
+                    pass
+                else:
+                    signal.sequence.elements = signal.sequence.elements + "cataagagacccatg"
+                    modification_dictionary["unit1_s" + str(counter)].append("Suffix added for golden gate signal" +
+                                                                             " peptide fusion site (cata), BsaI" +
+                                                                             " restriction site (agagacc), and" +
+                                                                             " SphI overhang (catg)")
+
+        counter = 0
+        for cds in transcription_unit_1_cds:
+            counter = counter + 1
+            if cds.sequence.elements.startswith("taatg"):
+                pass
+            elif cds.sequence.elements.startswith("atg"):
+                cds.sequence.elements = "ta" + cds.sequence.elements
+                modification_dictionary["unit1_c" + str(counter)].append("Prefix added for NdeI overhang (ta)")
+            else:
+                modification_dictionary["unit1_c" + str(counter)].append("Start codon (atg) could not be found at" +
+                                                                         " start of CDS region, please ensure that" +
+                                                                         " this SBOL part contains only the CDS")
+            if cds.sequence.elements.endswith("ctag"):
+                pass
+            else:
+                cds.sequence.elements = cds.sequence.elements + "ctag"
+                modification_dictionary["unit1_c" + str(counter)].append("Suffix added for BamHI overhang (ctag)")
+
+        counter = 0
+        for terminator in transcription_unit_1_terminator:
+            counter = counter + 1
+            if terminator.sequence.elements.startswith("taggtctcatcga"):
+                pass
+            else:
+                terminator.sequence.elements = "taggtctcatcga" + terminator.sequence.elements
+                modification_dictionary["unit1_t" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                         " BsaI restriction site (ggtctca)" +
+                                                                         " and golden gate terminator fusion site" +
+                                                                         " (tcga)")
+            if terminator.sequence.elements.endswith("tgttagagccccatg"):
+                pass
+            else:
+                terminator.sequence.elements = terminator.sequence.elements + "tgttagagccccatg"
+                modification_dictionary["unit1_t" + str(counter)].append("Suffix added for golden gate terminator" +
+                                                                         " fusion site (tgtt), BsaI restriction site" +
+                                                                         " (agagacc), and SphI overhang (catg)")
+
+        # Transcription unit 2
+        counter = 0
+        for promoter in transcription_unit_2_promoter:
+            counter = counter + 1
+            if promoter.sequence.elements.startswith("taggtctcactat"):
+                pass
+            else:
+                promoter.sequence.elements = "taggtctcactat" + promoter.sequence.elements
+                modification_dictionary["unit2_p" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                         " BsaI restriction site (ggtctca)" +
+                                                                         " and golden gate promoter fusion site" +
+                                                                         " (ctat)")
+            if promoter.sequence.elements.endswith("gtacagagacccatg"):
+                pass
+            else:
+                promoter.sequence.elements = promoter.sequence.elements + "gtacagagacccatg"
+                modification_dictionary["unit2_p" + str(counter)].append("Suffix added for golden gate promoter" +
+                                                                         " fusion site (gtac), BsaI restriction site" +
+                                                                         " (agagacc), and SphI overhang (catg)")
+
+        if GUI.include_signal_combo.get() == "No":
+            counter = 0
+            for rbs in transcription_unit_2_rbs:
+                counter = counter + 1
+                if rbs.sequence.elements.startswith("taggtctcagtac"):
+                    pass
+                else:
+                    rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
+                    modification_dictionary["unit2_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                             " BsaI restriction site (ggtctca)" +
+                                                                             " and golden gate RBS fusion site" +
+                                                                             " (gtac)")
+                if rbs.sequence.elements.endswith("cataagagacccatg"):
+                    pass
+                else:
+                    modification_dictionary["unit2_r" + str(counter)].append("Suffix added for golden gate RBS" +
+                                                                             "fusion site (cata), BsaI restriction "
+                                                                             "site" +
+                                                                             " (agagacc), and SphI overhang (catg)")
+        else:
+            counter = 0
+            for rbs in transcription_unit_2_rbs:
+                counter = counter + 1
+                if rbs.sequence.elements.startswith("taggtctcagtac"):
+                    pass
+                else:
+                    rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
+                    modification_dictionary["unit2_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                             " BsaI restriction site (ggtctca)" +
+                                                                             " and golden gate RBS fusion site" +
+                                                                             " (gtac)")
+                if rbs.sequence.elements.endswith("taaaagagacccatg"):
+                    pass
+                else:
+                    rbs.sequence.elements = rbs.sequence.elements + "taaaagagacccatg"
+                    modification_dictionary["unit2_r" + str(counter)].append("Suffix added for golden gate RBS" +
+                                                                             "fusion site (taaa), BsaI restriction "
+                                                                             "site" +
+                                                                             " (agagacc), and SphI overhang (catg)")
+
+            counter = 0
+            for signal in transcription_unit_2_signal:
+                counter = counter + 1
+                if signal.sequence.elements.startswith("taggtctcataaa"):
+                    pass
+                else:
+                    signal.sequence.elements = "taggtctcataaa" + signal.sequence.elements
+                    modification_dictionary["unit2_s" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                             " BsaI restriction site (ggtctca)" +
+                                                                             " and golden gate signal peptide fusion" +
+                                                                             " site (taaa)")
+                if signal.sequence.elements.endswith("cataagagacccatg"):
+                    pass
+                else:
+                    signal.sequence.elements = signal.sequence.elements + "cataagagacccatg"
+                    modification_dictionary["unit2_s" + str(counter)].append("Suffix added for golden gate signal" +
+                                                                             " peptide fusion site (cata), BsaI" +
+                                                                             " restriction site (agagacc), and" +
+                                                                             " SphI overhang (catg)")
+
+        counter = 0
+        for cds in transcription_unit_2_cds:
+            counter = counter + 1
+            if cds.sequence.elements.startswith("taatg"):
+                pass
+            elif cds.sequence.elements.startswith("atg"):
+                cds.sequence.elements = "ta" + cds.sequence.elements
+                modification_dictionary["unit2_c" + str(counter)].append("Prefix added for NdeI overhang (ta)")
+            else:
+                modification_dictionary["unit2_c" + str(counter)].append("Start codon (atg) could not be found at" +
+                                                                         " start of CDS region, please ensure that" +
+                                                                         " this SBOL part contains only the CDS")
+            if cds.sequence.elements.endswith("ctag"):
+                pass
+            else:
+                cds.sequence.elements = cds.sequence.elements + "ctag"
+                modification_dictionary["unit2_c" + str(counter)].append("Suffix added for BamHI overhang (ctag)")
+
+        counter = 0
+        for terminator in transcription_unit_1_terminator:
+            counter = counter + 1
+            if terminator.sequence.elements.startswith("taggtctcatcga"):
+                pass
+            else:
+                terminator.sequence.elements = "taggtctcatcga" + terminator.sequence.elements
+                modification_dictionary["unit2_t" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                         " BsaI restriction site (ggtctca)" +
+                                                                         " and golden gate terminator fusion site" +
+                                                                         " (tcga)")
+            if terminator.sequence.elements.endswith("tgttagagccccatg"):
+                pass
+            else:
+                terminator.sequence.elements = terminator.sequence.elements + "tgttagagccccatg"
+                modification_dictionary["unit2_t" + str(counter)].append("Suffix added for golden gate terminator" +
+                                                                         " fusion site (tgtt), BsaI restriction site" +
+                                                                         " (agagacc), and SphI overhang (catg)")
+
+    # Transcription unit 3
+    if int(GUI.transcription_unit_quantity_combo.get()) > 2:
+        counter = 0
+        for promoter in transcription_unit_3_promoter:
+            counter = counter + 1
+            if promoter.sequence.elements.startswith("taggtctcactat"):
+                pass
+            else:
+                promoter.sequence.elements = "taggtctcactat" + promoter.sequence.elements
+                modification_dictionary["unit3_p" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                         " BsaI restriction site (ggtctca)" +
+                                                                         " and golden gate promoter fusion site" +
+                                                                         " (ctat)")
+            if promoter.sequence.elements.endswith("gtacagagacccatg"):
+                pass
+            else:
+                promoter.sequence.elements = promoter.sequence.elements + "gtacagagacccatg"
+                modification_dictionary["unit3_p" + str(counter)].append("Suffix added for golden gate promoter" +
+                                                                         " fusion site (gtac), BsaI restriction site" +
+                                                                         " (agagacc), and SphI overhang (catg)")
+
+        if GUI.include_signal_combo.get() == "No":
+            counter = 0
+            for rbs in transcription_unit_3_rbs:
+                counter = counter + 1
+                if rbs.sequence.elements.startswith("taggtctcagtac"):
+                    pass
+                else:
+                    rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
+                    modification_dictionary["unit3_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                             " BsaI restriction site (ggtctca)" +
+                                                                             " and golden gate RBS fusion site" +
+                                                                             " (gtac)")
+                if rbs.sequence.elements.endswith("cataagagacccatg"):
+                    pass
+                else:
+                    modification_dictionary["unit3_r" + str(counter)].append("Suffix added for golden gate RBS" +
+                                                                             "fusion site (cata), BsaI restriction "
+                                                                             "site" +
+                                                                             " (agagacc), and SphI overhang (catg)")
+        else:
+            counter = 0
+            for rbs in transcription_unit_3_rbs:
+                counter = counter + 1
+                if rbs.sequence.elements.startswith("taggtctcagtac"):
+                    pass
+                else:
+                    rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
+                    modification_dictionary["unit3_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                             " BsaI restriction site (ggtctca)" +
+                                                                             " and golden gate RBS fusion site" +
+                                                                             " (gtac)")
+                if rbs.sequence.elements.endswith("taaaagagacccatg"):
+                    pass
+                else:
+                    rbs.sequence.elements = rbs.sequence.elements + "taaaagagacccatg"
+                    modification_dictionary["unit3_r" + str(counter)].append("Suffix added for golden gate RBS" +
+                                                                             "fusion site (taaa), BsaI restriction "
+                                                                             "site" +
+                                                                             " (agagacc), and SphI overhang (catg)")
+
+            counter = 0
+            for signal in transcription_unit_3_signal:
+                counter = counter + 1
+                if signal.sequence.elements.startswith("taggtctcataaa"):
+                    pass
+                else:
+                    signal.sequence.elements = "taggtctcataaa" + signal.sequence.elements
+                    modification_dictionary["unit3_s" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                             " BsaI restriction site (ggtctca)" +
+                                                                             " and golden gate signal peptide fusion" +
+                                                                             " site (taaa)")
+                if signal.sequence.elements.endswith("cataagagacccatg"):
+                    pass
+                else:
+                    signal.sequence.elements = signal.sequence.elements + "cataagagacccatg"
+                    modification_dictionary["unit3_s" + str(counter)].append("Suffix added for golden gate signal" +
+                                                                             " peptide fusion site (cata), BsaI" +
+                                                                             " restriction site (agagacc), and" +
+                                                                             " SphI overhang (catg)")
+
+        counter = 0
+        for cds in transcription_unit_3_cds:
+            counter = counter + 1
+            if cds.sequence.elements.startswith("taatg"):
+                pass
+            elif cds.sequence.elements.startswith("atg"):
+                cds.sequence.elements = "ta" + cds.sequence.elements
+                modification_dictionary["unit3_c" + str(counter)].append("Prefix added for NdeI overhang (ta)")
+            else:
+                modification_dictionary["unit3_c" + str(counter)].append("Start codon (atg) could not be found at" +
+                                                                         " start of CDS region, please ensure that" +
+                                                                         " this SBOL part contains only the CDS")
+            if cds.sequence.elements.endswith("ctag"):
+                pass
+            else:
+                cds.sequence.elements = cds.sequence.elements + "ctag"
+                modification_dictionary["unit3_c" + str(counter)].append("Suffix added for BamHI overhang (ctag)")
+
+        counter = 0
+        for terminator in transcription_unit_3_terminator:
+            counter = counter + 1
+            if terminator.sequence.elements.startswith("taggtctcatcga"):
+                pass
+            else:
+                terminator.sequence.elements = "taggtctcatcga" + terminator.sequence.elements
+                modification_dictionary["unit3_t" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                         " BsaI restriction site (ggtctca)" +
+                                                                         " and golden gate terminator fusion site" +
+                                                                         " (tcga)")
+            if terminator.sequence.elements.endswith("tgttagagccccatg"):
+                pass
+            else:
+                terminator.sequence.elements = terminator.sequence.elements + "tgttagagccccatg"
+                modification_dictionary["unit3_t" + str(counter)].append("Suffix added for golden gate terminator" +
+                                                                         " fusion site (tgtt), BsaI restriction site" +
+                                                                         " (agagacc), and SphI overhang (catg)")
+
+    # Transcription unit 4
+    if int(GUI.transcription_unit_quantity_combo.get()) > 3:
+        counter = 0
+        for promoter in transcription_unit_4_promoter:
+            counter = counter + 1
+            if promoter.sequence.elements.startswith("taggtctcactat"):
+                pass
+            else:
+                promoter.sequence.elements = "taggtctcactat" + promoter.sequence.elements
+                modification_dictionary["unit4_p" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                         " BsaI restriction site (ggtctca)" +
+                                                                         " and golden gate promoter fusion site" +
+                                                                         " (ctat)")
+            if promoter.sequence.elements.endswith("gtacagagacccatg"):
+                pass
+            else:
+                promoter.sequence.elements = promoter.sequence.elements + "gtacagagacccatg"
+                modification_dictionary["unit4_p" + str(counter)].append("Suffix added for golden gate promoter" +
+                                                                         " fusion site (gtac), BsaI restriction site" +
+                                                                         " (agagacc), and SphI overhang (catg)")
+
+        if GUI.include_signal_combo.get() == "No":
+            counter = 0
+            for rbs in transcription_unit_4_rbs:
+                counter = counter + 1
+                if rbs.sequence.elements.startswith("taggtctcagtac"):
+                    pass
+                else:
+                    rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
+                    modification_dictionary["unit4_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                             " BsaI restriction site (ggtctca)" +
+                                                                             " and golden gate RBS fusion site" +
+                                                                             " (gtac)")
+                if rbs.sequence.elements.endswith("cataagagacccatg"):
+                    pass
+                else:
+                    modification_dictionary["unit4_r" + str(counter)].append("Suffix added for golden gate RBS" +
+                                                                             "fusion site (cata), BsaI restriction "
+                                                                             "site" +
+                                                                             " (agagacc), and SphI overhang (catg)")
+        else:
+            counter = 0
+            for rbs in transcription_unit_4_rbs:
+                counter = counter + 1
+                if rbs.sequence.elements.startswith("taggtctcagtac"):
+                    pass
+                else:
+                    rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
+                    modification_dictionary["unit4_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                             " BsaI restriction site (ggtctca)" +
+                                                                             " and golden gate RBS fusion site" +
+                                                                             " (gtac)")
+                if rbs.sequence.elements.endswith("taaaagagacccatg"):
+                    pass
+                else:
+                    rbs.sequence.elements = rbs.sequence.elements + "taaaagagacccatg"
+                    modification_dictionary["unit4_r" + str(counter)].append("Suffix added for golden gate RBS" +
+                                                                             "fusion site (taaa), BsaI restriction "
+                                                                             "site" +
+                                                                             " (agagacc), and SphI overhang (catg)")
+
+            counter = 0
+            for signal in transcription_unit_4_signal:
+                counter = counter + 1
+                if signal.sequence.elements.startswith("taggtctcataaa"):
+                    pass
+                else:
+                    signal.sequence.elements = "taggtctcataaa" + signal.sequence.elements
+                    modification_dictionary["unit4_s" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                             " BsaI restriction site (ggtctca)" +
+                                                                             " and golden gate signal peptide fusion" +
+                                                                             " site (taaa)")
+                if signal.sequence.elements.endswith("cataagagacccatg"):
+                    pass
+                else:
+                    signal.sequence.elements = signal.sequence.elements + "cataagagacccatg"
+                    modification_dictionary["unit4_s" + str(counter)].append("Suffix added for golden gate signal" +
+                                                                             " peptide fusion site (cata), BsaI" +
+                                                                             " restriction site (agagacc), and" +
+                                                                             " SphI overhang (catg)")
+
+        counter = 0
+        for cds in transcription_unit_4_cds:
+            counter = counter + 1
+            if cds.sequence.elements.startswith("taatg"):
+                pass
+            elif cds.sequence.elements.startswith("atg"):
+                cds.sequence.elements = "ta" + cds.sequence.elements
+                modification_dictionary["unit4_c" + str(counter)].append("Prefix added for NdeI overhang (ta)")
+            else:
+                modification_dictionary["unit4_c" + str(counter)].append("Start codon (atg) could not be found at" +
+                                                                         " start of CDS region, please ensure that" +
+                                                                         " this SBOL part contains only the CDS")
+            if cds.sequence.elements.endswith("ctag"):
+                pass
+            else:
+                cds.sequence.elements = cds.sequence.elements + "ctag"
+                modification_dictionary["unit4_c" + str(counter)].append("Suffix added for BamHI overhang (ctag)")
+
+        counter = 0
+        for terminator in transcription_unit_4_terminator:
+            counter = counter + 1
+            if terminator.sequence.elements.startswith("taggtctcatcga"):
+                pass
+            else:
+                terminator.sequence.elements = "taggtctcatcga" + terminator.sequence.elements
+                modification_dictionary["unit4_t" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                         " BsaI restriction site (ggtctca)" +
+                                                                         " and golden gate terminator fusion site" +
+                                                                         " (tcga)")
+            if terminator.sequence.elements.endswith("tgttagagccccatg"):
+                pass
+            else:
+                terminator.sequence.elements = terminator.sequence.elements + "tgttagagccccatg"
+                modification_dictionary["unit4_t" + str(counter)].append("Suffix added for golden gate terminator" +
+                                                                         " fusion site (tgtt), BsaI restriction site" +
+                                                                         " (agagacc), and SphI overhang (catg)")
+
+    # Transcription unit 5
+    if int(GUI.transcription_unit_quantity_combo.get()) > 4:
+        counter = 0
+        for promoter in transcription_unit_5_promoter:
+            counter = counter + 1
+            if promoter.sequence.elements.startswith("taggtctcactat"):
+                pass
+            else:
+                promoter.sequence.elements = "taggtctcactat" + promoter.sequence.elements
+                modification_dictionary["unit5_p" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                         " BsaI restriction site (ggtctca)" +
+                                                                         " and golden gate promoter fusion site" +
+                                                                         " (ctat)")
+            if promoter.sequence.elements.endswith("gtacagagacccatg"):
+                pass
+            else:
+                promoter.sequence.elements = promoter.sequence.elements + "gtacagagacccatg"
+                modification_dictionary["unit5_p" + str(counter)].append("Suffix added for golden gate promoter" +
+                                                                         " fusion site (gtac), BsaI restriction site" +
+                                                                         " (agagacc), and SphI overhang (catg)")
+
+        if GUI.include_signal_combo.get() == "No":
+            counter = 0
+            for rbs in transcription_unit_5_rbs:
+                counter = counter + 1
+                if rbs.sequence.elements.startswith("taggtctcagtac"):
+                    pass
+                else:
+                    rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
+                    modification_dictionary["unit5_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                             " BsaI restriction site (ggtctca)" +
+                                                                             " and golden gate RBS fusion site" +
+                                                                             " (gtac)")
+                if rbs.sequence.elements.endswith("cataagagacccatg"):
+                    pass
+                else:
+                    modification_dictionary["unit5_r" + str(counter)].append("Suffix added for golden gate RBS" +
+                                                                             "fusion site (cata), BsaI restriction "
+                                                                             "site" +
+                                                                             " (agagacc), and SphI overhang (catg)")
+        else:
+            counter = 0
+            for rbs in transcription_unit_5_rbs:
+                counter = counter + 1
+                if rbs.sequence.elements.startswith("taggtctcagtac"):
+                    pass
+                else:
+                    rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
+                    modification_dictionary["unit5_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                             " BsaI restriction site (ggtctca)" +
+                                                                             " and golden gate RBS fusion site" +
+                                                                             " (gtac)")
+                if rbs.sequence.elements.endswith("taaaagagacccatg"):
+                    pass
+                else:
+                    rbs.sequence.elements = rbs.sequence.elements + "taaaagagacccatg"
+                    modification_dictionary["unit5_r" + str(counter)].append("Suffix added for golden gate RBS" +
+                                                                             "fusion site (taaa), BsaI restriction "
+                                                                             "site" +
+                                                                             " (agagacc), and SphI overhang (catg)")
+
+            counter = 0
+            for signal in transcription_unit_5_signal:
+                counter = counter + 1
+                if signal.sequence.elements.startswith("taggtctcataaa"):
+                    pass
+                else:
+                    signal.sequence.elements = "taggtctcataaa" + signal.sequence.elements
+                    modification_dictionary["unit5_s" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                             " BsaI restriction site (ggtctca)" +
+                                                                             " and golden gate signal peptide fusion" +
+                                                                             " site (taaa)")
+                if signal.sequence.elements.endswith("cataagagacccatg"):
+                    pass
+                else:
+                    signal.sequence.elements = signal.sequence.elements + "cataagagacccatg"
+                    modification_dictionary["unit5_s" + str(counter)].append("Suffix added for golden gate signal" +
+                                                                             " peptide fusion site (cata), BsaI" +
+                                                                             " restriction site (agagacc), and" +
+                                                                             " SphI overhang (catg)")
+
+        counter = 0
+        for cds in transcription_unit_5_cds:
+            counter = counter + 1
+            if cds.sequence.elements.startswith("taatg"):
+                pass
+            elif cds.sequence.elements.startswith("atg"):
+                cds.sequence.elements = "ta" + cds.sequence.elements
+                modification_dictionary["unit5_c" + str(counter)].append("Prefix added for NdeI overhang (ta)")
+            else:
+                modification_dictionary["unit5_c" + str(counter)].append("Start codon (atg) could not be found at" +
+                                                                         " start of CDS region, please ensure that" +
+                                                                         " this SBOL part contains only the CDS")
+            if cds.sequence.elements.endswith("ctag"):
+                pass
+            else:
+                cds.sequence.elements = cds.sequence.elements + "ctag"
+                modification_dictionary["unit5_c" + str(counter)].append("Suffix added for BamHI overhang (ctag)")
+
+        counter = 0
+        for terminator in transcription_unit_5_terminator:
+            counter = counter + 1
+            if terminator.sequence.elements.startswith("taggtctcatcga"):
+                pass
+            else:
+                terminator.sequence.elements = "taggtctcatcga" + terminator.sequence.elements
+                modification_dictionary["unit5_t" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
+                                                                         " BsaI restriction site (ggtctca)" +
+                                                                         " and golden gate terminator fusion site" +
+                                                                         " (tcga)")
+            if terminator.sequence.elements.endswith("tgttagagccccatg"):
+                pass
+            else:
+                terminator.sequence.elements = terminator.sequence.elements + "tgttagagccccatg"
+                modification_dictionary["unit5_t" + str(counter)].append("Suffix added for golden gate terminator" +
+                                                                         " fusion site (tgtt), BsaI restriction site" +
+                                                                         " (agagacc), and SphI overhang (catg)")
+
+
+def create_transcription_unit_variants():
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+        # Variants for transcription unit 1
+        global transcription_unit_1_variants
+        counter = 0
+        for promoter in transcription_unit_1_promoter:
+            for rbs in transcription_unit_1_rbs:
+                if GUI.include_signal_combo.get() == "Yes":
+                    for signal in transcription_unit_1_signal:
+                        for cds in transcription_unit_1_cds:
+                            for terminator in transcription_unit_1_terminator:
+                                counter = counter + 1
+                                transcription_unit_1_variants["unit1_v" + str(counter)] = []
+                                transcription_unit_1_variants["unit1_v" + str(counter)].append(promoter)
+                                transcription_unit_1_variants["unit1_v" + str(counter)].append(rbs)
+                                transcription_unit_1_variants["unit1_v" + str(counter)].append(signal)
+                                transcription_unit_1_variants["unit1_v" + str(counter)].append(cds)
+                                transcription_unit_1_variants["unit1_v" + str(counter)].append(terminator)
+                else:
+                    for cds in transcription_unit_1_cds:
+                        for terminator in transcription_unit_1_terminator:
+                            counter = counter + 1
+                            transcription_unit_1_variants["unit1_v" + str(counter)] = []
+                            transcription_unit_1_variants["unit1_v" + str(counter)].append(promoter)
+                            transcription_unit_1_variants["unit1_v" + str(counter)].append(rbs)
+                            transcription_unit_1_variants["unit1_v" + str(counter)].append(cds)
+                            transcription_unit_1_variants["unit1_v" + str(counter)].append(terminator)
+
+        # Variants for transcription unit 2
+        global transcription_unit_2_variants
+        counter = 0
+        for promoter in transcription_unit_2_promoter:
+            for rbs in transcription_unit_2_rbs:
+                if GUI.include_signal_combo.get() == "Yes":
+                    for signal in transcription_unit_2_signal:
+                        for cds in transcription_unit_2_cds:
+                            for terminator in transcription_unit_2_terminator:
+                                counter = counter + 1
+                                transcription_unit_2_variants["unit2_v" + str(counter)] = []
+                                transcription_unit_2_variants["unit2_v" + str(counter)].append(promoter)
+                                transcription_unit_2_variants["unit2_v" + str(counter)].append(rbs)
+                                transcription_unit_2_variants["unit2_v" + str(counter)].append(signal)
+                                transcription_unit_2_variants["unit2_v" + str(counter)].append(cds)
+                                transcription_unit_2_variants["unit2_v" + str(counter)].append(terminator)
+                else:
+                    for cds in transcription_unit_2_cds:
+                        for terminator in transcription_unit_2_terminator:
+                            counter = counter + 1
+                            transcription_unit_2_variants["unit2_v" + str(counter)] = []
+                            transcription_unit_2_variants["unit2_v" + str(counter)].append(promoter)
+                            transcription_unit_2_variants["unit2_v" + str(counter)].append(rbs)
+                            transcription_unit_2_variants["unit2_v" + str(counter)].append(cds)
+                            transcription_unit_2_variants["unit2_v" + str(counter)].append(terminator)
+
+    if int(GUI.transcription_unit_quantity_combo.get()) > 2:
+        # Variants for transcription unit 3
+        global transcription_unit_3_variants
+        counter = 0
+        for promoter in transcription_unit_3_promoter:
+            for rbs in transcription_unit_3_rbs:
+                if GUI.include_signal_combo.get() == "Yes":
+                    for signal in transcription_unit_3_signal:
+                        for cds in transcription_unit_3_cds:
+                            for terminator in transcription_unit_3_terminator:
+                                counter = counter + 1
+                                transcription_unit_3_variants["unit3_v" + str(counter)] = []
+                                transcription_unit_3_variants["unit3_v" + str(counter)].append(promoter)
+                                transcription_unit_3_variants["unit3_v" + str(counter)].append(rbs)
+                                transcription_unit_3_variants["unit3_v" + str(counter)].append(signal)
+                                transcription_unit_3_variants["unit3_v" + str(counter)].append(cds)
+                                transcription_unit_3_variants["unit3_v" + str(counter)].append(terminator)
+                else:
+                    for cds in transcription_unit_3_cds:
+                        for terminator in transcription_unit_3_terminator:
+                            counter = counter + 1
+                            transcription_unit_3_variants["unit3_v" + str(counter)] = []
+                            transcription_unit_3_variants["unit3_v" + str(counter)].append(promoter)
+                            transcription_unit_3_variants["unit3_v" + str(counter)].append(rbs)
+                            transcription_unit_3_variants["unit3_v" + str(counter)].append(cds)
+                            transcription_unit_3_variants["unit3_v" + str(counter)].append(terminator)
+
+    if int(GUI.transcription_unit_quantity_combo.get()) > 3:
+        # Variants for transcription unit 4
+        global transcription_unit_4_variants
+        counter = 0
+        for promoter in transcription_unit_4_promoter:
+            for rbs in transcription_unit_4_rbs:
+                if GUI.include_signal_combo.get() == "Yes":
+                    for signal in transcription_unit_4_signal:
+                        for cds in transcription_unit_4_cds:
+                            for terminator in transcription_unit_4_terminator:
+                                counter = counter + 1
+                                transcription_unit_4_variants["unit4_v" + str(counter)] = []
+                                transcription_unit_4_variants["unit4_v" + str(counter)].append(promoter)
+                                transcription_unit_4_variants["unit4_v" + str(counter)].append(rbs)
+                                transcription_unit_4_variants["unit4_v" + str(counter)].append(signal)
+                                transcription_unit_4_variants["unit4_v" + str(counter)].append(cds)
+                                transcription_unit_4_variants["unit4_v" + str(counter)].append(terminator)
+                else:
+                    for cds in transcription_unit_4_cds:
+                        for terminator in transcription_unit_4_terminator:
+                            counter = counter + 1
+                            transcription_unit_4_variants["unit4_v" + str(counter)] = []
+                            transcription_unit_4_variants["unit4_v" + str(counter)].append(promoter)
+                            transcription_unit_4_variants["unit4_v" + str(counter)].append(rbs)
+                            transcription_unit_4_variants["unit4_v" + str(counter)].append(cds)
+                            transcription_unit_4_variants["unit4_v" + str(counter)].append(terminator)
+
+    if int(GUI.transcription_unit_quantity_combo.get()) > 4:
+        # Variants for transcription unit 5
+        global transcription_unit_5_variants
+        counter = 0
+        for promoter in transcription_unit_5_promoter:
+            for rbs in transcription_unit_5_rbs:
+                if GUI.include_signal_combo.get() == "Yes":
+                    for signal in transcription_unit_5_signal:
+                        for cds in transcription_unit_5_cds:
+                            for terminator in transcription_unit_5_terminator:
+                                counter = counter + 1
+                                transcription_unit_5_variants["unit5_v" + str(counter)] = []
+                                transcription_unit_5_variants["unit5_v" + str(counter)].append(promoter)
+                                transcription_unit_5_variants["unit5_v" + str(counter)].append(rbs)
+                                transcription_unit_5_variants["unit5_v" + str(counter)].append(signal)
+                                transcription_unit_5_variants["unit5_v" + str(counter)].append(cds)
+                                transcription_unit_5_variants["unit5_v" + str(counter)].append(terminator)
+                else:
+                    for cds in transcription_unit_5_cds:
+                        for terminator in transcription_unit_5_terminator:
+                            counter = counter + 1
+                            transcription_unit_5_variants["unit5_v" + str(counter)] = []
+                            transcription_unit_5_variants["unit5_v" + str(counter)].append(promoter)
+                            transcription_unit_5_variants["unit5_v" + str(counter)].append(rbs)
+                            transcription_unit_5_variants["unit5_v" + str(counter)].append(cds)
+                            transcription_unit_5_variants["unit5_v" + str(counter)].append(terminator)
+
+
+def create_level_2_variants():
+    global level_2_variants
+    if int(GUI.transcription_unit_quantity_combo.get()) == 2:
+        counter = 0
+        for unit1 in transcription_unit_1_variants:
+            for unit2 in transcription_unit_2_variants:
+                counter = counter + 1
+                level_2_variants["v" + str(counter)] = (transcription_unit_1_variants[unit1] +
+                                                        transcription_unit_2_variants[unit2])
+
+    if int(GUI.transcription_unit_quantity_combo.get()) == 3:
+        counter = 0
+        for unit1 in transcription_unit_1_variants:
+            for unit2 in transcription_unit_2_variants:
+                for unit3 in transcription_unit_3_variants:
+                    counter = counter + 1
+                    level_2_variants["v" + str(counter)] = (transcription_unit_1_variants[unit1] +
+                                                            transcription_unit_2_variants[unit2] +
+                                                            transcription_unit_3_variants[unit3])
+
+    if int(GUI.transcription_unit_quantity_combo.get()) == 4:
+        counter = 0
+        for unit1 in transcription_unit_1_variants:
+            for unit2 in transcription_unit_2_variants:
+                for unit3 in transcription_unit_3_variants:
+                    for unit4 in transcription_unit_4_variants:
+                        counter = counter + 1
+                        level_2_variants["v" + str(counter)] = (transcription_unit_1_variants[unit1] +
+                                                                transcription_unit_2_variants[unit2] +
+                                                                transcription_unit_3_variants[unit3] +
+                                                                transcription_unit_4_variants[unit4])
+
+    if int(GUI.transcription_unit_quantity_combo.get()) == 5:
+        counter = 0
+        for unit1 in transcription_unit_1_variants:
+            for unit2 in transcription_unit_2_variants:
+                for unit3 in transcription_unit_3_variants:
+                    for unit4 in transcription_unit_4_variants:
+                        for unit5 in transcription_unit_5_variants:
+                            counter = counter + 1
+                            level_2_variants["v" + str(counter)] = (transcription_unit_1_variants[unit1] +
+                                                                    transcription_unit_2_variants[unit2] +
+                                                                    transcription_unit_3_variants[unit3] +
+                                                                    transcription_unit_4_variants[unit4] +
+                                                                    transcription_unit_5_variants[unit5])
+
+def final_structure_sequences():
+    print("test")
+
+
+
+
+
+
 
 
 

@@ -49,6 +49,11 @@ def create_appendix():
 # Create EcoFlex protocol
 def create_protocol(event):
     MoClo.swap_codons_ecoflex()
+    MoClo.check_biopart_sites_ecoflex()
+    MoClo.ecoflex_fusion_sites()
+    MoClo.create_transcription_unit_variants()
+    MoClo.create_level_2_variants()
+    MoClo.final_structure_sequences()
+
     title_introduction()
-    create_appendix()
     document.save("test.docx")

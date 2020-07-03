@@ -1,0 +1,223 @@
+<?xml version="1.0" ?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:sbol="http://sbols.org/v2#" xmlns:prov="http://www.w3.org/ns/prov#" xmlns:sys-bio="http://sys-bio.org#">
+  <sbol:Sequence rdf:about="https://synbiohub.org/public/igem//Sequence/BBa_rbs/1">
+    <sbol:displayId>BBa_rbs</sbol:displayId>
+    <sbol:elements>tata</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//Sequence/BBa_rbs"/>
+    <sbol:version>1</sbol:version>
+  </sbol:Sequence>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/BBa_fusion/1">
+    <dcterms:description>tetgwe</dcterms:description>
+    <sbol:displayId>BBa_fusion</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/BBa_fusion"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000167"/>
+    <sbol:sequence rdf:resource="https://synbiohub.org/public/igem//Sequence/BBa_fusion/1"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:version>1</sbol:version>
+  </sbol:ComponentDefinition>
+  <sbol:Sequence rdf:about="https://synbiohub.org/public/igem//Sequence/BBa_fusion/1">
+    <sbol:displayId>BBa_fusion</sbol:displayId>
+    <sbol:elements>taggtctcactatatatatatagtacagagacccatg</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//Sequence/BBa_fusion"/>
+    <sbol:version>1</sbol:version>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="https://synbiohub.org/public/igem//Sequence/test_fusion_addition/1">
+    <sbol:displayId>test_fusion_addition</sbol:displayId>
+    <sbol:elements>taggtctcactatatatatatagtacagagacccatgtataggggggcagagggggggcctaggtata</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//Sequence/test_fusion_addition"/>
+    <sbol:version>1</sbol:version>
+  </sbol:Sequence>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/BBa_rbs/1">
+    <dcterms:description>test rbs</dcterms:description>
+    <sbol:displayId>BBa_rbs</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/BBa_rbs"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000139"/>
+    <sbol:sequence rdf:resource="https://synbiohub.org/public/igem//Sequence/BBa_rbs/1"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:version>1</sbol:version>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/1">
+    <sbol:displayId>test_fusion_addition</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition"/>
+    <sbol:sequence rdf:resource="https://synbiohub.org/public/igem//Sequence/test_fusion_addition/1"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:version>1</sbol:version>
+    <sbol:component>
+      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_fusion_0/1">
+        <sbol:access rdf:resource="http://sbols.org/v2#public"/>
+        <sbol:definition rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/BBa_fusion/1"/>
+        <sbol:displayId>BBa_fusion_0</sbol:displayId>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_fusion_0"/>
+        <sbol:roleIntegration rdf:resource="http://sbols.org/v2#mergeRoles"/>
+        <sbol:version>1</sbol:version>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:component>
+      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_rbs_0/1">
+        <sbol:access rdf:resource="http://sbols.org/v2#public"/>
+        <sbol:definition rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/BBa_rbs/1"/>
+        <sbol:displayId>BBa_rbs_0</sbol:displayId>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_rbs_0"/>
+        <sbol:roleIntegration rdf:resource="http://sbols.org/v2#mergeRoles"/>
+        <sbol:version>1</sbol:version>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:component>
+      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_cdsrestrict2_0/1">
+        <sbol:access rdf:resource="http://sbols.org/v2#public"/>
+        <sbol:definition rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/BBa_cdsrestrict2/1"/>
+        <sbol:displayId>BBa_cdsrestrict2_0</sbol:displayId>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_cdsrestrict2_0"/>
+        <sbol:roleIntegration rdf:resource="http://sbols.org/v2#mergeRoles"/>
+        <sbol:version>1</sbol:version>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:component>
+      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_term_0/1">
+        <sbol:access rdf:resource="http://sbols.org/v2#public"/>
+        <sbol:definition rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/BBa_term/1"/>
+        <sbol:displayId>BBa_term_0</sbol:displayId>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_term_0"/>
+        <sbol:roleIntegration rdf:resource="http://sbols.org/v2#mergeRoles"/>
+        <sbol:version>1</sbol:version>
+      </sbol:Component>
+    </sbol:component>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_fusion_annotation_0/1">
+        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_fusion_0/1"/>
+        <sbol:displayId>BBa_fusion_annotation_0</sbol:displayId>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_fusion_annotation_0"/>
+        <sbol:version>1</sbol:version>
+        <sbol:location>
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_fusion_annotation_0/BBa_fusion_annotation_0_range/1">
+            <sbol:displayId>BBa_fusion_annotation_0_range</sbol:displayId>
+            <sbol:end>37</sbol:end>
+            <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_fusion_annotation_0/BBa_fusion_annotation_0_range"/>
+            <sbol:start>1</sbol:start>
+            <sbol:version>1</sbol:version>
+          </sbol:Range>
+        </sbol:location>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_rbs_annotation_0/1">
+        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_rbs_0/1"/>
+        <sbol:displayId>BBa_rbs_annotation_0</sbol:displayId>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_rbs_annotation_0"/>
+        <sbol:version>1</sbol:version>
+        <sbol:location>
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_rbs_annotation_0/BBa_rbs_annotation_0_range/1">
+            <sbol:displayId>BBa_rbs_annotation_0_range</sbol:displayId>
+            <sbol:end>41</sbol:end>
+            <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_rbs_annotation_0/BBa_rbs_annotation_0_range"/>
+            <sbol:start>38</sbol:start>
+            <sbol:version>1</sbol:version>
+          </sbol:Range>
+        </sbol:location>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_cdsrestrict2_annotation_0/1">
+        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_cdsrestrict2_0/1"/>
+        <sbol:displayId>BBa_cdsrestrict2_annotation_0</sbol:displayId>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_cdsrestrict2_annotation_0"/>
+        <sbol:version>1</sbol:version>
+        <sbol:location>
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_cdsrestrict2_annotation_0/BBa_cdsrestrict2_annotation_0_range/1">
+            <sbol:displayId>BBa_cdsrestrict2_annotation_0_range</sbol:displayId>
+            <sbol:end>64</sbol:end>
+            <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_cdsrestrict2_annotation_0/BBa_cdsrestrict2_annotation_0_range"/>
+            <sbol:start>42</sbol:start>
+            <sbol:version>1</sbol:version>
+          </sbol:Range>
+        </sbol:location>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_term_annotation_0/1">
+        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_term_0/1"/>
+        <sbol:displayId>BBa_term_annotation_0</sbol:displayId>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_term_annotation_0"/>
+        <sbol:version>1</sbol:version>
+        <sbol:location>
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_term_annotation_0/BBa_term_annotation_0_range/1">
+            <sbol:displayId>BBa_term_annotation_0_range</sbol:displayId>
+            <sbol:end>68</sbol:end>
+            <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_term_annotation_0/BBa_term_annotation_0_range"/>
+            <sbol:start>65</sbol:start>
+            <sbol:version>1</sbol:version>
+          </sbol:Range>
+        </sbol:location>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceConstraint>
+      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/constraint1/1">
+        <sbol:displayId>constraint1</sbol:displayId>
+        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_rbs_0/1"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/constraint1"/>
+        <sbol:restriction rdf:resource="http://sbols.org/v2#precedes"/>
+        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_fusion_0/1"/>
+        <sbol:version>1</sbol:version>
+      </sbol:SequenceConstraint>
+    </sbol:sequenceConstraint>
+    <sbol:sequenceConstraint>
+      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/constraint2/1">
+        <sbol:displayId>constraint2</sbol:displayId>
+        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_cdsrestrict2_0/1"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/constraint2"/>
+        <sbol:restriction rdf:resource="http://sbols.org/v2#precedes"/>
+        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_rbs_0/1"/>
+        <sbol:version>1</sbol:version>
+      </sbol:SequenceConstraint>
+    </sbol:sequenceConstraint>
+    <sbol:sequenceConstraint>
+      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/constraint3/1">
+        <sbol:displayId>constraint3</sbol:displayId>
+        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_term_0/1"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/constraint3"/>
+        <sbol:restriction rdf:resource="http://sbols.org/v2#precedes"/>
+        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/test_fusion_addition/BBa_cdsrestrict2_0/1"/>
+        <sbol:version>1</sbol:version>
+      </sbol:SequenceConstraint>
+    </sbol:sequenceConstraint>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/BBa_cdsrestrict2/1">
+    <dcterms:description>test restriction site</dcterms:description>
+    <sbol:displayId>BBa_cdsrestrict2</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/BBa_cdsrestrict2"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
+    <sbol:sequence rdf:resource="https://synbiohub.org/public/igem//Sequence/BBa_cdsrestrict2/1"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:version>1</sbol:version>
+  </sbol:ComponentDefinition>
+  <sbol:Sequence rdf:about="https://synbiohub.org/public/igem//Sequence/BBa_term/1">
+    <sbol:displayId>BBa_term</sbol:displayId>
+    <sbol:elements>tata</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//Sequence/BBa_term"/>
+    <sbol:version>1</sbol:version>
+  </sbol:Sequence>
+  <sbol:Sequence rdf:about="https://synbiohub.org/public/igem//Sequence/BBa_cdsrestrict2/1">
+    <sbol:displayId>BBa_cdsrestrict2</sbol:displayId>
+    <sbol:elements>ggggggcagagggggggcctagg</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//Sequence/BBa_cdsrestrict2"/>
+    <sbol:version>1</sbol:version>
+  </sbol:Sequence>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/BBa_term/1">
+    <dcterms:description>test term</dcterms:description>
+    <sbol:displayId>BBa_term</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/BBa_term"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000141"/>
+    <sbol:sequence rdf:resource="https://synbiohub.org/public/igem//Sequence/BBa_term/1"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:version>1</sbol:version>
+  </sbol:ComponentDefinition>
+</rdf:RDF>
