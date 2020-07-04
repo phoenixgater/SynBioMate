@@ -37,6 +37,7 @@ transcription_unit_5_variants = {}
 level_2_variants = {}
 
 
+
 # clear globals function
 def clear_globals():
     primary_structure_identities.clear()
@@ -2268,8 +2269,328 @@ def create_level_2_variants():
                                                                     transcription_unit_4_variants[unit4] +
                                                                     transcription_unit_5_variants[unit5])
 
-def final_structure_sequences():
-    print("test")
+
+# List of final 5' to 3' oligonucleotides for selected parts. Duplicates removed.
+def final_oligonucleotides_1():
+    all_promoters_1 = []
+    for promoter in transcription_unit_1_promoter:
+        all_promoters_1.append(promoter)
+    for promoter in transcription_unit_2_promoter:
+        all_promoters_1.append(promoter)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 2:
+        for promoter in transcription_unit_3_promoter:
+            all_promoters_1.append(promoter)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 3:
+        for promoter in transcription_unit_4_promoter:
+            all_promoters_1.append(promoter)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 4:
+        for promoter in transcription_unit_5_promoter:
+            all_promoters_1.append(promoter)
+    all_promoters_1 = list(dict.fromkeys(all_promoters_1))
+
+    all_rbs_1 = []
+    for rbs in transcription_unit_1_rbs:
+        all_rbs_1.append(rbs)
+    for rbs in transcription_unit_2_rbs:
+        all_rbs_1.append(rbs)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 2:
+        for rbs in transcription_unit_3_rbs:
+            all_rbs_1.append(rbs)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 3:
+        for rbs in transcription_unit_4_rbs:
+            all_rbs_1.append(rbs)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 4:
+        for rbs in transcription_unit_5_rbs:
+            all_rbs_1.append(rbs)
+    all_rbs_1 = list(dict.fromkeys(all_rbs_1))
+
+
+    if GUI.include_signal_combo.get() == "Yes":
+        all_signal_1 = []
+        for signal in transcription_unit_1_signal:
+            all_signal_1.append(signal)
+        for signal in transcription_unit_2_signal:
+            all_signal_1.append(signal)
+        if int(GUI.transcription_unit_quantity_combo.get()) > 2:
+            for signal in transcription_unit_3_signal:
+                all_signal_1.append(signal)
+        if int(GUI.transcription_unit_quantity_combo.get()) > 3:
+            for signal in transcription_unit_4_signal:
+                all_signal_1.append(signal)
+        if int(GUI.transcription_unit_quantity_combo.get()) > 4:
+            for signal in transcription_unit_5_signal:
+                all_signal_1.append(signal)
+        all_signal_1 = list(dict.fromkeys(all_signal_1))
+
+    all_cds_1 = []
+    for cds in transcription_unit_1_cds:
+        all_cds_1.append(cds)
+    for cds in transcription_unit_2_cds:
+        all_cds_1.append(cds)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 2:
+        for cds in transcription_unit_3_cds:
+            all_cds_1.append(cds)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 3:
+        for cds in transcription_unit_4_cds:
+            all_cds_1.append(cds)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 4:
+        for cds in transcription_unit_5_cds:
+            all_cds_1.append(cds)
+    all_cds_1 = list(dict.fromkeys(all_cds_1))
+
+    all_terminator_1 = []
+    for terminator in transcription_unit_1_terminator:
+        all_terminator_1.append(terminator)
+    for terminator in transcription_unit_2_terminator:
+        all_terminator_1.append(terminator)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 2:
+        for terminator in transcription_unit_3_terminator:
+            all_terminator_1.append(terminator)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 3:
+        for terminator in transcription_unit_4_terminator:
+            all_terminator_1.append(terminator)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 4:
+        for terminator in transcription_unit_5_terminator:
+            all_terminator_1.append(terminator)
+    all_terminator_1 = list(dict.fromkeys(all_terminator_1))
+
+    if GUI.include_signal_combo.get() == "Yes":
+        return [all_promoters_1, all_rbs_1, all_signal_1, all_cds_1, all_terminator_1]
+    if GUI.include_signal_combo.get() == "No":
+        return [all_promoters_1, all_rbs_1, all_cds_1, all_terminator_1]
+
+
+# Create complement sequence, will also remove DNA regions corresponding to overhangs in 5' to 3' sequence
+def create_complement(sequence):
+    sequence_complement = ""
+    for base in sequence:
+        if base == "a":
+            sequence_complement = sequence_complement + "t"
+        if base == "t":
+            sequence_complement = sequence_complement + "a"
+        if base == "g":
+            sequence_complement = sequence_complement + "c"
+        if base == "c":
+            sequence_complement = sequence_complement + "g"
+
+    sequence_complement = sequence_complement[:-4]
+    sequence_complement = sequence_complement[2:]
+
+    return sequence_complement
+
+
+
+# Creating 3' to 5' strands, getting part sequences, getting modifications, preparing lists for protocol generation
+def final_oligonucleotides_2():
+    global promoter_identities
+    promoter_identities = []
+    global promoter_descriptions
+    promoter_descriptions = []
+    global promoter_sequences_1
+    promoter_sequences_1 = []
+    global promoter_sequences_2
+    promoter_sequences_2 = []
+    global promoter_modifications
+    promoter_modifications = []
+    global rbs_identities
+    rbs_identities = []
+    global rbs_descriptions
+    rbs_descriptions = []
+    global rbs_sequences_1
+    rbs_sequences_1 = []
+    global rbs_sequences_2
+    rbs_sequences_2 = []
+    global rbs_modifications
+    rbs_modifications = []
+    global cds_identities
+    cds_identities = []
+    global cds_descriptions
+    cds_descriptions = []
+    global cds_sequences_1
+    cds_sequences_1 = []
+    global cds_sequences_2
+    cds_sequences_2 = []
+    global cds_modifications
+    cds_modifications = []
+    global terminator_identities
+    terminator_identities = []
+    global terminator_descriptions
+    terminator_descriptions = []
+    global terminator_sequences_1
+    terminator_sequences_1 = []
+    global terminator_sequences_2
+    terminator_sequences_2 = []
+    global terminator_modifications
+    terminator_modifications = []
+
+    strand_1 = final_oligonucleotides_1()
+    if GUI.include_signal_combo.get() == "No":
+        for promoter in strand_1[0]:
+            promoter_identities.append("Modified " + promoter.displayId)
+            promoter_descriptions.append(promoter.description)
+            promoter_sequences_1.append(promoter.sequence.elements)
+            promoter_sequences_2.append(create_complement(promoter.sequence.elements))
+
+        for rbs in strand_1[1]:
+            rbs_identities.append("Modified " + rbs.displayId)
+            rbs_descriptions.append(rbs.description)
+            rbs_sequences_1.append(rbs.sequence.elements)
+            rbs_sequences_2.append(create_complement(rbs.sequence.elements))
+
+        for cds in strand_1[2]:
+            cds_identities.append("Modified " + cds.displayId)
+            cds_descriptions.append(cds.description)
+            cds_sequences_1.append(cds.sequence.elements)
+            cds_sequences_2.append(create_complement(cds.sequence.elements))
+
+        for terminator in strand_1[3]:
+            terminator_identities.append("Modified " + terminator.displayId)
+            terminator_descriptions.append(terminator.description)
+            terminator_sequences_1.append(terminator.sequence.elements)
+            terminator_sequences_2.append(create_complement(terminator.sequence.elements))
+
+        for key in modification_dictionary:
+            for promoter in strand_1[0]:
+                if promoter == modification_dictionary[key][0]:
+                    if not modification_dictionary[key][1:]:
+                        pass
+                    else:
+                        promoter_modifications.append(modification_dictionary[key][1:])
+
+        for key in modification_dictionary:
+            for rbs in strand_1[1]:
+                if rbs == modification_dictionary[key][0]:
+                    if not modification_dictionary[key][1:]:
+                        pass
+                    else:
+                        rbs_modifications.append(modification_dictionary[key][1:])
+
+        for key in modification_dictionary:
+            for cds in strand_1[2]:
+                if cds == modification_dictionary[key][0]:
+                    if not modification_dictionary[key][1:]:
+                        pass
+                    else:
+                        cds_modifications.append(modification_dictionary[key][1:])
+
+        for key in modification_dictionary:
+            for terminator in strand_1[3]:
+                if terminator == modification_dictionary[key][0]:
+                    if not modification_dictionary[key][1:]:
+                        pass
+                    else:
+                        terminator_modifications.append(modification_dictionary[key][1:])
+
+
+
+
+    if GUI.include_signal_combo.get() == "Yes":
+        global signal_identities
+        signal_identities = []
+        global signal_descriptions
+        signal_descriptions = []
+        global signal_sequences_1
+        signal_sequences_1 = []
+        global signal_sequences_2
+        signal_sequences_2 = []
+        global signal_modifications
+        signal_modifications = []
+
+        for promoter in strand_1[0]:
+            promoter_identities.append("Modified " + promoter.displayId)
+            promoter_descriptions.append(promoter.description)
+            promoter_sequences_1.append(promoter.sequence.elements)
+            promoter_sequences_2.append(create_complement(promoter.sequence.elements))
+
+        for rbs in strand_1[1]:
+            rbs_identities.append("Modified " + rbs.displayId)
+            rbs_descriptions.append(rbs.description)
+            rbs_sequences_1.append(rbs.sequence.elements)
+            rbs_sequences_2.append(create_complement(rbs.sequence.elements))
+
+        for signal in strand_1[2]:
+            signal_identities.append("Modified " + signal.displayId)
+            signal_descriptions.append(signal.description)
+            signal_sequences_1.append(signal.sequence.elements)
+            signal_sequences_2.append(create_complement(signal.sequence.elements))
+
+        for cds in strand_1[3]:
+            cds_identities.append("Modified " + cds.displayId)
+            cds_descriptions.append(cds.description)
+            cds_sequences_1.append(cds.sequence.elements)
+            cds_sequences_2.append(create_complement(cds.sequence.elements))
+
+        for terminator in strand_1[4]:
+            terminator_identities.append("Modified " + terminator.displayId)
+            terminator_descriptions.append(terminator.description)
+            terminator_sequences_1.append(terminator.sequence.elements)
+            terminator_sequences_2.append(create_complement(terminator.sequence.elements))
+
+        for key in modification_dictionary:
+            for promoter in strand_1[0]:
+                if promoter == modification_dictionary[key][0]:
+                    if not modification_dictionary[key][1:]:
+                        pass
+                    else:
+                        promoter_modifications.append(modification_dictionary[key][1:])
+
+        for key in modification_dictionary:
+            for rbs in strand_1[1]:
+                if rbs == modification_dictionary[key][0]:
+                    if not modification_dictionary[key][1:]:
+                        pass
+                    else:
+                        rbs_modifications.append(modification_dictionary[key][1:])
+
+        for key in modification_dictionary:
+            for signal in strand_1[2]:
+                if signal == modification_dictionary[key][0]:
+                    if not modification_dictionary[key][1:]:
+                        pass
+                    else:
+                        signal_modifications.append(modification_dictionary[key][1:])
+
+        for key in modification_dictionary:
+            for cds in strand_1[3]:
+                if cds == modification_dictionary[key][0]:
+                    if not modification_dictionary[key][1:]:
+                        pass
+                    else:
+                        cds_modifications.append(modification_dictionary[key][1:])
+
+        for key in modification_dictionary:
+            for terminator in strand_1[4]:
+                if terminator == modification_dictionary[key][0]:
+                    if not modification_dictionary[key][1:]:
+                        pass
+                    else:
+                        terminator_modifications.append(modification_dictionary[key][1:])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

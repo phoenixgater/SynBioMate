@@ -41,9 +41,18 @@ def get_designs():
     print("placeholder")
 
 
-# Appendix of document, containing all parts, sequences, and designs
+# Appendix of document, containing all parts, transcription units, and final designs
 def create_appendix():
-    print("test")
+    document.add_heading("Appendix", 1)
+    document.add_heading("Promoters", 2)
+    for promoter in MoClo.promoter_identities:
+        document.add_heading(promoter, 3)
+        document.add_paragraph(MoClo.promoter_descriptions)
+        document.add_paragraph(MoClo.promoter_sequences_1)
+        document.add_paragraph(MoClo.promoter_sequences_2)
+
+
+
 
 
 # Create EcoFlex protocol
@@ -53,7 +62,7 @@ def create_protocol(event):
     MoClo.ecoflex_fusion_sites()
     MoClo.create_transcription_unit_variants()
     MoClo.create_level_2_variants()
-    MoClo.final_structure_sequences()
-
+    MoClo.final_oligonucleotides_2()
     title_introduction()
+    create_appendix()
     document.save("test.docx")
