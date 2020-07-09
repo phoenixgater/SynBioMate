@@ -34,8 +34,6 @@ transcription_unit_2_variants = {}
 transcription_unit_3_variants = {}
 transcription_unit_4_variants = {}
 transcription_unit_5_variants = {}
-level_2_variants = {}
-
 
 
 # clear globals function
@@ -693,8 +691,8 @@ def swap_codons_ecoflex():
                             if new_codon == "invalid":
                                 modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                          " (" + site_name + ")" + " detected at " +
-                                                                         "position " + str(location + 2) + "-" +
-                                                                         str(location + 4) +
+                                                                         "position " + str(location + 4) + "-" +
+                                                                         str(location + 6) +
                                                                          " but was unable to be changed due " +
                                                                          "to unavailable codon alternative " + "for " +
                                                                          str(codon))
@@ -722,7 +720,7 @@ def swap_codons_ecoflex():
                                 site_name = restriction_site_name_library(forbidden_site)
                                 modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
                                                                          str(new_codon) + " at position " +
-                                                                         str(location + 2) + "-" + str(location + 4)
+                                                                         str(location + 4) + "-" + str(location + 6)
                                                                          + " to remove " +
                                                                          forbidden_site + " (" + site_name + ")" +
                                                                          " restriction site")
@@ -780,8 +778,8 @@ def swap_codons_ecoflex():
                             if new_codon == "invalid":
                                 modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                          " (" + site_name + ")" + " detected at " +
-                                                                         "position " + str(location + 2) + "-" +
-                                                                         str(location + 4) +
+                                                                         "position " + str(location + 4) + "-" +
+                                                                         str(location + 6) +
                                                                          " but was unable to be changed due " +
                                                                          "to unavailable codon alternative " + "for " +
                                                                          str(codon))
@@ -809,7 +807,7 @@ def swap_codons_ecoflex():
                                 site_name = restriction_site_name_library(forbidden_site)
                                 modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
                                                                          str(new_codon) + " at position " +
-                                                                         str(location + 2) + "-" + str(location + 4)
+                                                                         str(location + 4) + "-" + str(location + 6)
                                                                          + " to remove " +
                                                                          forbidden_site + " (" + site_name + ")" +
                                                                          " restriction site")
@@ -868,8 +866,8 @@ def swap_codons_ecoflex():
                             if new_codon == "invalid":
                                 modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                          " (" + site_name + ")" + " detected at " +
-                                                                         "position " + str(location + 2) + "-" +
-                                                                         str(location + 4) +
+                                                                         "position " + str(location + 4) + "-" +
+                                                                         str(location + 6) +
                                                                          " but was unable to be changed due " +
                                                                          "to unavailable codon alternative " + "for " +
                                                                          str(codon))
@@ -897,7 +895,7 @@ def swap_codons_ecoflex():
                                 site_name = restriction_site_name_library(forbidden_site)
                                 modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
                                                                          str(new_codon) + " at position " +
-                                                                         str(location + 2) + "-" + str(location + 4)
+                                                                         str(location + 4) + "-" + str(location + 6)
                                                                          + " to remove " +
                                                                          forbidden_site + " (" + site_name + ")" +
                                                                          " restriction site")
@@ -956,8 +954,8 @@ def swap_codons_ecoflex():
                             if new_codon == "invalid":
                                 modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                          " (" + site_name + ")" + " detected at " +
-                                                                         "position " + str(location + 2) + "-" +
-                                                                         str(location + 4) +
+                                                                         "position " + str(location + 4) + "-" +
+                                                                         str(location + 6) +
                                                                          " but was unable to be changed due " +
                                                                          "to unavailable codon alternative " + "for " +
                                                                          str(codon))
@@ -985,7 +983,7 @@ def swap_codons_ecoflex():
                                 site_name = restriction_site_name_library(forbidden_site)
                                 modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
                                                                          str(new_codon) + " at position " +
-                                                                         str(location + 2) + "-" + str(location + 4)
+                                                                         str(location + 4) + "-" + str(location + 6)
                                                                          + " to remove " +
                                                                          forbidden_site + " (" + site_name + ")" +
                                                                          " restriction site")
@@ -1044,8 +1042,8 @@ def swap_codons_ecoflex():
                             if new_codon == "invalid":
                                 modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                          " (" + site_name + ")" + " detected at " +
-                                                                         "position " + str(location + 2) + "-" +
-                                                                         str(location + 4) +
+                                                                         "position " + str(location + 4) + "-" +
+                                                                         str(location + 6) +
                                                                          " but was unable to be changed due " +
                                                                          "to unavailable codon alternative " + "for " +
                                                                          str(codon))
@@ -1073,7 +1071,7 @@ def swap_codons_ecoflex():
                                 site_name = restriction_site_name_library(forbidden_site)
                                 modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
                                                                          str(new_codon) + " at position " +
-                                                                         str(location + 2) + "-" + str(location + 4)
+                                                                         str(location + 4) + "-" + str(location + 6)
                                                                          + " to remove " +
                                                                          forbidden_site + " (" + site_name + ")" +
                                                                          " restriction site")
@@ -1118,8 +1116,8 @@ def check_biopart_sites_ecoflex():
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 1) + "-" +
-                                                                 str(location.end()))
+                                                                 str(location.start() + 14) + "-" +
+                                                                 str(location.end() + 13))
 
         rbs_number = 0
         for rbs in transcription_unit_1_rbs:
@@ -1137,8 +1135,8 @@ def check_biopart_sites_ecoflex():
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 1) + "-" +
-                                                                 str(location.end()))
+                                                                 str(location.start() + 14) + "-" +
+                                                                 str(location.end() + 13))
 
         if GUI.include_signal_combo.get() == "Yes":
             signal_number = 0
@@ -1157,8 +1155,8 @@ def check_biopart_sites_ecoflex():
                             site_name = restriction_site_name_library(forbidden_site)
                             modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                      site_name + ")" + " detected at position " +
-                                                                     str(location.start() + 1) + "-" +
-                                                                     str(location.end()))
+                                                                     str(location.start() + 14) + "-" +
+                                                                     str(location.end() + 13))
 
         terminator_number = 0
         for terminator in transcription_unit_1_terminator:
@@ -1176,8 +1174,8 @@ def check_biopart_sites_ecoflex():
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 1) + "-" +
-                                                                 str(location.end()))
+                                                                 str(location.start() + 14) + "-" +
+                                                                 str(location.end() + 13))
 
         # Transcription unit 2
         promoter_number = 0
@@ -1196,8 +1194,8 @@ def check_biopart_sites_ecoflex():
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 1) + "-" +
-                                                                 str(location.end()))
+                                                                 str(location.start() + 14) + "-" +
+                                                                 str(location.end() + 13))
 
         rbs_number = 0
         for rbs in transcription_unit_2_rbs:
@@ -1215,8 +1213,8 @@ def check_biopart_sites_ecoflex():
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 1) + "-" +
-                                                                 str(location.end()))
+                                                                 str(location.start() + 14) + "-" +
+                                                                 str(location.end() + 13))
 
         if GUI.include_signal_combo.get() == "Yes":
             signal_number = 0
@@ -1235,8 +1233,8 @@ def check_biopart_sites_ecoflex():
                             site_name = restriction_site_name_library(forbidden_site)
                             modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                      site_name + ")" + " detected at position " +
-                                                                     str(location.start() + 1) + "-" +
-                                                                     str(location.end()))
+                                                                     str(location.start() + 14) + "-" +
+                                                                     str(location.end() + 13))
 
         terminator_number = 0
         for terminator in transcription_unit_2_terminator:
@@ -1254,8 +1252,8 @@ def check_biopart_sites_ecoflex():
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 1) + "-" +
-                                                                 str(location.end()))
+                                                                 str(location.start() + 14) + "-" +
+                                                                 str(location.end() + 13))
 
     if int(GUI.transcription_unit_quantity_combo.get()) > 2:
         # Transcription unit 3
@@ -1275,8 +1273,8 @@ def check_biopart_sites_ecoflex():
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 1) + "-" +
-                                                                 str(location.end()))
+                                                                 str(location.start() + 14) + "-" +
+                                                                 str(location.end() + 13))
 
         rbs_number = 0
         for rbs in transcription_unit_3_rbs:
@@ -1294,9 +1292,8 @@ def check_biopart_sites_ecoflex():
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 1) + "-" +
-                                                                 str(location.end()))
-
+                                                                 str(location.start() + 14) + "-" +
+                                                                 str(location.end() + 13))
         if GUI.include_signal_combo.get() == "Yes":
             signal_number = 0
             for signal in transcription_unit_3_signal:
@@ -1314,9 +1311,8 @@ def check_biopart_sites_ecoflex():
                             site_name = restriction_site_name_library(forbidden_site)
                             modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                      site_name + ")" + " detected at position " +
-                                                                     str(location.start() + 1) + "-" +
-                                                                     str(location.end()))
-
+                                                                     str(location.start() + 14) + "-" +
+                                                                     str(location.end() + 13))
         terminator_number = 0
         for terminator in transcription_unit_3_terminator:
             terminator_number = terminator_number + 1
@@ -1333,8 +1329,8 @@ def check_biopart_sites_ecoflex():
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 1) + "-" +
-                                                                 str(location.end()))
+                                                                 str(location.start() + 14) + "-" +
+                                                                 str(location.end() + 13))
 
     if int(GUI.transcription_unit_quantity_combo.get()) > 3:
         # Transcription unit 4
@@ -1354,8 +1350,8 @@ def check_biopart_sites_ecoflex():
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 1) + "-" +
-                                                                 str(location.end()))
+                                                                 str(location.start() + 14) + "-" +
+                                                                 str(location.end() + 13))
 
         rbs_number = 0
         for rbs in transcription_unit_4_rbs:
@@ -1373,8 +1369,8 @@ def check_biopart_sites_ecoflex():
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 1) + "-" +
-                                                                 str(location.end()))
+                                                                 str(location.start() + 14) + "-" +
+                                                                 str(location.end() + 13))
 
         if GUI.include_signal_combo.get() == "Yes":
             signal_number = 0
@@ -1393,8 +1389,8 @@ def check_biopart_sites_ecoflex():
                             site_name = restriction_site_name_library(forbidden_site)
                             modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                      site_name + ")" + " detected at position " +
-                                                                     str(location.start() + 1) + "-" +
-                                                                     str(location.end()))
+                                                                     str(location.start() + 14) + "-" +
+                                                                     str(location.end() + 13))
 
         terminator_number = 0
         for terminator in transcription_unit_4_terminator:
@@ -1412,8 +1408,8 @@ def check_biopart_sites_ecoflex():
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 1) + "-" +
-                                                                 str(location.end()))
+                                                                 str(location.start() + 14) + "-" +
+                                                                 str(location.end() + 13))
 
     if int(GUI.transcription_unit_quantity_combo.get()) > 4:
         # Transcription unit 5
@@ -1433,8 +1429,8 @@ def check_biopart_sites_ecoflex():
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 1) + "-" +
-                                                                 str(location.end()))
+                                                                 str(location.start() + 14) + "-" +
+                                                                 str(location.end() + 13))
 
         rbs_number = 0
         for rbs in transcription_unit_5_rbs:
@@ -1452,8 +1448,8 @@ def check_biopart_sites_ecoflex():
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 1) + "-" +
-                                                                 str(location.end()))
+                                                                 str(location.start() + 14) + "-" +
+                                                                 str(location.end() + 13))
 
         if GUI.include_signal_combo.get() == "Yes":
             signal_number = 0
@@ -1472,8 +1468,8 @@ def check_biopart_sites_ecoflex():
                             site_name = restriction_site_name_library(forbidden_site)
                             modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                      site_name + ")" + " detected at position " +
-                                                                     str(location.start() + 1) + "-" +
-                                                                     str(location.end()))
+                                                                     str(location.start() + 14) + "-" +
+                                                                     str(location.end() + 13))
 
         terminator_number = 0
         for terminator in transcription_unit_5_terminator:
@@ -1491,8 +1487,8 @@ def check_biopart_sites_ecoflex():
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 1) + "-" +
-                                                                 str(location.end()))
+                                                                 str(location.start() + 14) + "-" +
+                                                                 str(location.end() + 13))
 
 
 # Adding EcoFlex prefix and suffix to parts
@@ -1533,6 +1529,7 @@ def ecoflex_fusion_sites():
                 if rbs.sequence.elements.endswith("cataagagacccatg"):
                     pass
                 else:
+                    rbs.sequence.elements = rbs.sequence.elements + "cataagagacccatg"
                     modification_dictionary["unit1_r" + str(counter)].append("Suffix added for golden gate RBS" +
                                                                              "fusion site (cata), BsaI restriction "
                                                                              "site" +
@@ -1584,12 +1581,14 @@ def ecoflex_fusion_sites():
             if cds.sequence.elements.startswith("taatg"):
                 pass
             elif cds.sequence.elements.startswith("atg"):
-                cds.sequence.elements = "ta" + cds.sequence.elements
-                modification_dictionary["unit1_c" + str(counter)].append("Prefix added for NdeI overhang (ta)")
+                cds.sequence.elements = "t" + cds.sequence.elements
+                modification_dictionary["unit1_c" + str(counter)].append("Prefix added for NdeI overhang (t)")
             else:
                 modification_dictionary["unit1_c" + str(counter)].append("Start codon (atg) could not be found at" +
                                                                          " start of CDS region, please ensure that" +
-                                                                         " this SBOL part contains only the CDS")
+                                                                         " this SBOL part contains only the CDS. " +
+                                                                         "MoClo CDS fusion site prefix could not be" +
+                                                                         "added")
             if cds.sequence.elements.endswith("ctag"):
                 pass
             else:
@@ -1701,12 +1700,14 @@ def ecoflex_fusion_sites():
             if cds.sequence.elements.startswith("taatg"):
                 pass
             elif cds.sequence.elements.startswith("atg"):
-                cds.sequence.elements = "ta" + cds.sequence.elements
-                modification_dictionary["unit2_c" + str(counter)].append("Prefix added for NdeI overhang (ta)")
+                cds.sequence.elements = "t" + cds.sequence.elements
+                modification_dictionary["unit2_c" + str(counter)].append("Prefix added for NdeI overhang (t)")
             else:
                 modification_dictionary["unit2_c" + str(counter)].append("Start codon (atg) could not be found at" +
                                                                          " start of CDS region, please ensure that" +
-                                                                         " this SBOL part contains only the CDS")
+                                                                         " this SBOL part contains only the CDS. " +
+                                                                         "MoClo CDS fusion site prefix could not be" +
+                                                                         "added")
             if cds.sequence.elements.endswith("ctag"):
                 pass
             else:
@@ -1819,12 +1820,14 @@ def ecoflex_fusion_sites():
             if cds.sequence.elements.startswith("taatg"):
                 pass
             elif cds.sequence.elements.startswith("atg"):
-                cds.sequence.elements = "ta" + cds.sequence.elements
-                modification_dictionary["unit3_c" + str(counter)].append("Prefix added for NdeI overhang (ta)")
+                cds.sequence.elements = "t" + cds.sequence.elements
+                modification_dictionary["unit3_c" + str(counter)].append("Prefix added for NdeI overhang (t)")
             else:
                 modification_dictionary["unit3_c" + str(counter)].append("Start codon (atg) could not be found at" +
                                                                          " start of CDS region, please ensure that" +
-                                                                         " this SBOL part contains only the CDS")
+                                                                         " this SBOL part contains only the CDS. " +
+                                                                         "MoClo CDS fusion site prefix could not be" +
+                                                                         "added")
             if cds.sequence.elements.endswith("ctag"):
                 pass
             else:
@@ -1937,12 +1940,14 @@ def ecoflex_fusion_sites():
             if cds.sequence.elements.startswith("taatg"):
                 pass
             elif cds.sequence.elements.startswith("atg"):
-                cds.sequence.elements = "ta" + cds.sequence.elements
-                modification_dictionary["unit4_c" + str(counter)].append("Prefix added for NdeI overhang (ta)")
+                cds.sequence.elements = "t" + cds.sequence.elements
+                modification_dictionary["unit4_c" + str(counter)].append("Prefix added for NdeI overhang (t)")
             else:
                 modification_dictionary["unit4_c" + str(counter)].append("Start codon (atg) could not be found at" +
                                                                          " start of CDS region, please ensure that" +
-                                                                         " this SBOL part contains only the CDS")
+                                                                         " this SBOL part contains only the CDS. " +
+                                                                         "MoClo CDS fusion site prefix could not be" +
+                                                                         "added")
             if cds.sequence.elements.endswith("ctag"):
                 pass
             else:
@@ -2055,12 +2060,14 @@ def ecoflex_fusion_sites():
             if cds.sequence.elements.startswith("taatg"):
                 pass
             elif cds.sequence.elements.startswith("atg"):
-                cds.sequence.elements = "ta" + cds.sequence.elements
-                modification_dictionary["unit5_c" + str(counter)].append("Prefix added for NdeI overhang (ta)")
+                cds.sequence.elements = "t" + cds.sequence.elements
+                modification_dictionary["unit5_c" + str(counter)].append("Prefix added for NdeI overhang (t)")
             else:
                 modification_dictionary["unit5_c" + str(counter)].append("Start codon (atg) could not be found at" +
                                                                          " start of CDS region, please ensure that" +
-                                                                         " this SBOL part contains only the CDS")
+                                                                         " this SBOL part contains only the CDS. " +
+                                                                         "MoClo CDS fusion site prefix could not be" +
+                                                                         "added")
             if cds.sequence.elements.endswith("ctag"):
                 pass
             else:
@@ -2223,53 +2230,6 @@ def create_transcription_unit_variants():
                             transcription_unit_5_variants["unit5_v" + str(counter)].append(terminator)
 
 
-def create_level_2_variants():
-    global level_2_variants
-    if int(GUI.transcription_unit_quantity_combo.get()) == 2:
-        counter = 0
-        for unit1 in transcription_unit_1_variants:
-            for unit2 in transcription_unit_2_variants:
-                counter = counter + 1
-                level_2_variants["v" + str(counter)] = (transcription_unit_1_variants[unit1] +
-                                                        transcription_unit_2_variants[unit2])
-
-    if int(GUI.transcription_unit_quantity_combo.get()) == 3:
-        counter = 0
-        for unit1 in transcription_unit_1_variants:
-            for unit2 in transcription_unit_2_variants:
-                for unit3 in transcription_unit_3_variants:
-                    counter = counter + 1
-                    level_2_variants["v" + str(counter)] = (transcription_unit_1_variants[unit1] +
-                                                            transcription_unit_2_variants[unit2] +
-                                                            transcription_unit_3_variants[unit3])
-
-    if int(GUI.transcription_unit_quantity_combo.get()) == 4:
-        counter = 0
-        for unit1 in transcription_unit_1_variants:
-            for unit2 in transcription_unit_2_variants:
-                for unit3 in transcription_unit_3_variants:
-                    for unit4 in transcription_unit_4_variants:
-                        counter = counter + 1
-                        level_2_variants["v" + str(counter)] = (transcription_unit_1_variants[unit1] +
-                                                                transcription_unit_2_variants[unit2] +
-                                                                transcription_unit_3_variants[unit3] +
-                                                                transcription_unit_4_variants[unit4])
-
-    if int(GUI.transcription_unit_quantity_combo.get()) == 5:
-        counter = 0
-        for unit1 in transcription_unit_1_variants:
-            for unit2 in transcription_unit_2_variants:
-                for unit3 in transcription_unit_3_variants:
-                    for unit4 in transcription_unit_4_variants:
-                        for unit5 in transcription_unit_5_variants:
-                            counter = counter + 1
-                            level_2_variants["v" + str(counter)] = (transcription_unit_1_variants[unit1] +
-                                                                    transcription_unit_2_variants[unit2] +
-                                                                    transcription_unit_3_variants[unit3] +
-                                                                    transcription_unit_4_variants[unit4] +
-                                                                    transcription_unit_5_variants[unit5])
-
-
 # List of final 5' to 3' oligonucleotides for selected parts. Duplicates removed.
 def final_oligonucleotides_1():
     all_promoters_1 = []
@@ -2303,7 +2263,6 @@ def final_oligonucleotides_1():
         for rbs in transcription_unit_5_rbs:
             all_rbs_1.append(rbs)
     all_rbs_1 = list(dict.fromkeys(all_rbs_1))
-
 
     if GUI.include_signal_combo.get() == "Yes":
         all_signal_1 = []
@@ -2377,7 +2336,6 @@ def create_complement(sequence):
     sequence_complement = sequence_complement[2:]
 
     return sequence_complement
-
 
 
 # Creating 3' to 5' strands, getting part sequences, getting modifications, preparing lists for protocol generation
@@ -2481,9 +2439,6 @@ def final_oligonucleotides_2():
                     else:
                         terminator_modifications.append(modification_dictionary[key][1:])
 
-
-
-
     if GUI.include_signal_combo.get() == "Yes":
         global signal_identities
         signal_identities = []
@@ -2567,37 +2522,411 @@ def final_oligonucleotides_2():
                         terminator_modifications.append(modification_dictionary[key][1:])
 
 
+# Creating transcription unit sequences, formatting for display in generated protocol
+def transcription_unit_format():
+    global transcription_unit_1_sequences
+    transcription_unit_1_sequences = []
+    global transcription_unit_1_names
+    transcription_unit_1_names = []
+    global transcription_unit_1_part_id
+    transcription_unit_1_part_id = []
+    global transcription_unit_1_notes
+    transcription_unit_1_notes = []
+    global transcription_unit_2_sequences
+    transcription_unit_2_sequences = []
+    global transcription_unit_2_names
+    transcription_unit_2_names = []
+    global transcription_unit_2_part_id
+    transcription_unit_2_part_id = []
+    global transcription_unit_2_notes
+    transcription_unit_2_notes = []
+    global transcription_unit_3_sequences
+    transcription_unit_3_sequences = []
+    global transcription_unit_3_names
+    transcription_unit_3_names = []
+    global transcription_unit_3_part_id
+    transcription_unit_3_part_id = []
+    global transcription_unit_3_notes
+    transcription_unit_3_notes = []
+    global transcription_unit_4_sequences
+    transcription_unit_4_sequences = []
+    global transcription_unit_4_names
+    transcription_unit_4_names = []
+    global transcription_unit_4_part_id
+    transcription_unit_4_part_id = []
+    global transcription_unit_4_notes
+    transcription_unit_4_notes = []
+    global transcription_unit_5_sequences
+    transcription_unit_5_sequences = []
+    global transcription_unit_5_names
+    transcription_unit_5_names = []
+    global transcription_unit_5_part_id
+    transcription_unit_5_part_id = []
+    global transcription_unit_5_notes
+    transcription_unit_5_notes = []
 
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+        # Transcription unit 1
+        if GUI.include_signal_combo.get() == "No":
+            counter = 0
+            for key in transcription_unit_1_variants:
+                promoter = transcription_unit_1_variants[key][0].sequence.elements
+                rbs = transcription_unit_1_variants[key][1].sequence.elements
+                cds = transcription_unit_1_variants[key][2].sequence.elements
+                terminator = transcription_unit_1_variants[key][3].sequence.elements
+                promoter_sequence = promoter[9:-15]
+                rbs_sequence = rbs[9:-15]
+                cds_sequence = "ca" + cds[:-4]
+                terminator_sequence = terminator[9:-11]
+                counter = counter + 1
+                transcription_unit_1_notes.append("Prefix atct and suffix tgcc fusion sites conferred to sequence by "
+                                                  "level 1 plasmid backbone pTU1-A-lacZ")
+                transcription_unit_1_sequences.append(
+                    ["atct" + promoter_sequence + rbs_sequence + cds_sequence + terminator_sequence + "tgcc"])
+                transcription_unit_1_names.append("Transcription unit 1 variant " + str(counter))
+                transcription_unit_1_part_id.append([transcription_unit_1_variants[key][0].displayId,
+                                                     transcription_unit_1_variants[key][1].displayId,
+                                                     transcription_unit_1_variants[key][2].displayId,
+                                                     transcription_unit_1_variants[key][3].displayId])
 
+        if GUI.include_signal_combo.get() == "Yes":
+            counter = 0
+            for key in transcription_unit_1_variants:
+                promoter = transcription_unit_1_variants[key][0].sequence.elements
+                rbs = transcription_unit_1_variants[key][1].sequence.elements
+                signal = transcription_unit_1_variants[key][2].sequence.elements
+                cds = transcription_unit_1_variants[key][3].sequence.elements
+                terminator = transcription_unit_1_variants[key][4].sequence.elements
+                promoter_sequence = promoter[9:-15]
+                rbs_sequence = rbs[9:-15]
+                signal_sequence = signal[9:-15]
+                cds_sequence = "ca" + cds[:-4]
+                terminator_sequence = terminator[9:-11]
+                counter = counter + 1
+                transcription_unit_1_notes.append("Prefix atct and suffix tgcc fusion sites conferred to sequence by "
+                                                  "level 1 plasmid backbone pTU1-A-lacZ")
+                transcription_unit_1_sequences.append(
+                    ["atct" + promoter_sequence + rbs_sequence + signal_sequence + cds_sequence + terminator_sequence +
+                     "tgcc"])
 
+                transcription_unit_1_names.append("Transcription unit 1 variant " + str(counter))
+                transcription_unit_1_part_id.append([transcription_unit_1_variants[key][0].displayId,
+                                                     transcription_unit_1_variants[key][1].displayId,
+                                                     transcription_unit_1_variants[key][2].displayId,
+                                                     transcription_unit_1_variants[key][3].displayId,
+                                                     transcription_unit_1_variants[key][4].displayId])
 
+        # Transcription unit 2
+        if GUI.include_signal_combo.get() == "No":
+            counter = 0
+            for key in transcription_unit_2_variants:
+                promoter = transcription_unit_2_variants[key][0].sequence.elements
+                rbs = transcription_unit_2_variants[key][1].sequence.elements
+                cds = transcription_unit_2_variants[key][2].sequence.elements
+                terminator = transcription_unit_2_variants[key][3].sequence.elements
+                promoter_sequence = promoter[9:-15]
+                rbs_sequence = rbs[9:-15]
+                cds_sequence = "ca" + cds[:-4]
+                terminator_sequence = terminator[9:-11]
+                counter = counter + 1
+                transcription_unit_2_notes.append("Prefix tgcc and suffix ccgg fusion sites conferred to sequence by "
+                                                  "level 1 plasmid backbone pTU1-B-LacZ")
+                transcription_unit_2_sequences.append(
+                    ["tgcc" + promoter_sequence + rbs_sequence + cds_sequence + terminator_sequence +
+                     "ccgg"])
+                transcription_unit_2_names.append("Transcription unit 2 variant " + str(counter))
+                transcription_unit_2_part_id.append([transcription_unit_2_variants[key][0].displayId,
+                                                     transcription_unit_2_variants[key][1].displayId,
+                                                     transcription_unit_2_variants[key][2].displayId,
+                                                     transcription_unit_2_variants[key][3].displayId])
 
+        if GUI.include_signal_combo.get() == "Yes":
+            counter = 0
+            for key in transcription_unit_2_variants:
+                promoter = transcription_unit_2_variants[key][0].sequence.elements
+                rbs = transcription_unit_2_variants[key][1].sequence.elements
+                signal = transcription_unit_2_variants[key][2].sequence.elements
+                cds = transcription_unit_2_variants[key][3].sequence.elements
+                terminator = transcription_unit_2_variants[key][4].sequence.elements
+                promoter_sequence = promoter[9:-15]
+                rbs_sequence = rbs[9:-15]
+                signal_sequence = signal[9:-15]
+                cds_sequence = "ca" + cds[:-4]
+                terminator_sequence = terminator[9:-11]
+                counter = counter + 1
+                transcription_unit_2_notes.append("Prefix tgcc and suffix ccgg fusion sites conferred to sequence by "
+                                                  "level 1 plasmid backbone pTU1-B-LacZ")
+                transcription_unit_2_sequences.append(
+                    ["tgcc" + promoter_sequence + rbs_sequence + signal_sequence + cds_sequence + terminator_sequence +
+                     "ccgg"])
+                transcription_unit_2_names.append("Transcription unit 2 variant " + str(counter))
+                transcription_unit_2_part_id.append([transcription_unit_2_variants[key][0].displayId,
+                                                     transcription_unit_2_variants[key][1].displayId,
+                                                     transcription_unit_2_variants[key][2].displayId,
+                                                     transcription_unit_2_variants[key][3].displayId,
+                                                     transcription_unit_2_variants[key][4].displayId])
 
+    if int(GUI.transcription_unit_quantity_combo.get()) > 2:
+        # Transcription unit 3
+        if GUI.include_signal_combo.get() == "No":
+            counter = 0
+            for key in transcription_unit_3_variants:
+                promoter = transcription_unit_3_variants[key][0].sequence.elements
+                rbs = transcription_unit_3_variants[key][1].sequence.elements
+                cds = transcription_unit_3_variants[key][2].sequence.elements
+                terminator = transcription_unit_3_variants[key][3].sequence.elements
+                promoter_sequence = promoter[9:-15]
+                rbs_sequence = rbs[9:-15]
+                cds_sequence = "ca" + cds[:-4]
+                terminator_sequence = terminator[9:-11]
+                counter = counter + 1
+                transcription_unit_3_notes.append("Prefix ccgg and suffix gaag fusion sites conferred to sequence by "
+                                                  "level 1 plasmid backbone pTU1-C-LacZ")
+                transcription_unit_3_sequences.append(
+                    ["ccgg" + promoter_sequence + rbs_sequence + cds_sequence + terminator_sequence +
+                     "gaag"])
+                transcription_unit_3_names.append("Transcription unit 3 variant " + str(counter))
+                transcription_unit_3_part_id.append([transcription_unit_3_variants[key][0].displayId,
+                                                     transcription_unit_3_variants[key][1].displayId,
+                                                     transcription_unit_3_variants[key][2].displayId,
+                                                     transcription_unit_3_variants[key][3].displayId])
 
+        if GUI.include_signal_combo.get() == "Yes":
+            counter = 0
+            for key in transcription_unit_3_variants:
+                promoter = transcription_unit_3_variants[key][0].sequence.elements
+                rbs = transcription_unit_3_variants[key][1].sequence.elements
+                signal = transcription_unit_3_variants[key][2].sequence.elements
+                cds = transcription_unit_3_variants[key][3].sequence.elements
+                terminator = transcription_unit_3_variants[key][4].sequence.elements
+                promoter_sequence = promoter[9:-15]
+                rbs_sequence = rbs[9:-15]
+                signal_sequence = signal[9:-15]
+                cds_sequence = "ca" + cds[:-4]
+                terminator_sequence = terminator[9:-11]
+                counter = counter + 1
+                transcription_unit_3_notes.append("Prefix ccgg and suffix gaag fusion sites conferred to sequence by "
+                                                  "level 1 plasmid backbone pTU1-C-LacZ")
+                transcription_unit_3_sequences.append(
+                    ["ccgg" + promoter_sequence + rbs_sequence + signal_sequence + cds_sequence + terminator_sequence +
+                     "gaag"])
+                transcription_unit_3_names.append("Transcription unit 3 variant " + str(counter))
+                transcription_unit_3_part_id.append([transcription_unit_3_variants[key][0].displayId,
+                                                     transcription_unit_3_variants[key][1].displayId,
+                                                     transcription_unit_3_variants[key][2].displayId,
+                                                     transcription_unit_3_variants[key][3].displayId,
+                                                     transcription_unit_3_variants[key][4].displayId])
 
+    if int(GUI.transcription_unit_quantity_combo.get()) > 3:
+        # Transcription unit 4
+        if GUI.include_signal_combo.get() == "No":
+            counter = 0
+            for key in transcription_unit_4_variants:
+                promoter = transcription_unit_4_variants[key][0].sequence.elements
+                rbs = transcription_unit_4_variants[key][1].sequence.elements
+                cds = transcription_unit_4_variants[key][2].sequence.elements
+                terminator = transcription_unit_4_variants[key][3].sequence.elements
+                promoter_sequence = promoter[9:-15]
+                rbs_sequence = rbs[9:-15]
+                cds_sequence = "ca" + cds[:-4]
+                terminator_sequence = terminator[9:-11]
+                counter = counter + 1
+                if int(GUI.transcription_unit_quantity_combo.get()) == 4:
+                    transcription_unit_4_notes.append(
+                        "Prefix gaag and suffix ttag fusion sites conferred to sequence by "
+                        "level 1 plasmid backbone pTU1-D-LacZ")
+                    transcription_unit_4_sequences.append(
+                        ["gaag" + promoter_sequence + rbs_sequence + cds_sequence + terminator_sequence + "ttag"])
+                if int(GUI.transcription_unit_quantity_combo.get()) == 5:
+                    transcription_unit_4_notes.append(
+                        "Prefix gaag and suffix cttc fusion sites conferred to sequence by "
+                        "level 1 plasmid backbone pTU1-D1-LacZ")
+                    transcription_unit_4_sequences.append(
+                        ["gaag" + promoter_sequence + rbs_sequence + cds_sequence + terminator_sequence + "cttc"])
+                transcription_unit_4_names.append("Transcription unit 4 variant " + str(counter))
+                transcription_unit_4_part_id.append([transcription_unit_4_variants[key][0].displayId,
+                                                     transcription_unit_4_variants[key][1].displayId,
+                                                     transcription_unit_4_variants[key][2].displayId,
+                                                     transcription_unit_4_variants[key][3].displayId])
 
+        if GUI.include_signal_combo.get() == "Yes":
+            counter = 0
+            for key in transcription_unit_4_variants:
+                promoter = transcription_unit_4_variants[key][0].sequence.elements
+                rbs = transcription_unit_4_variants[key][1].sequence.elements
+                signal = transcription_unit_4_variants[key][2].sequence.elements
+                cds = transcription_unit_4_variants[key][3].sequence.elements
+                terminator = transcription_unit_4_variants[key][4].sequence.elements
+                promoter_sequence = promoter[9:-15]
+                rbs_sequence = rbs[9:-15]
+                signal_sequence = signal[9:-15]
+                cds_sequence = "ca" + cds[:-4]
+                terminator_sequence = terminator[9:-11]
+                counter = counter + 1
+                if int(GUI.transcription_unit_quantity_combo.get()) == 4:
+                    transcription_unit_4_notes.append(
+                        "Prefix gaag and suffix ttag fusion sites conferred to sequence by "
+                        "level 1 plasmid backbone pTU1-D-LacZ")
+                    transcription_unit_4_sequences.append(
+                        ["gaag" + promoter_sequence + rbs_sequence + signal_sequence + cds_sequence
+                         + terminator_sequence + "ttag"])
 
+                if int(GUI.transcription_unit_quantity_combo.get()) == 5:
+                    transcription_unit_4_notes.append(
+                        "Prefix gaag and suffix cttc fusion sites conferred to sequence by "
+                        "level 1 plasmid backbone pTU1-D1-LacZ")
+                    transcription_unit_4_sequences.append(
+                        ["gaag" + promoter_sequence + rbs_sequence + signal_sequence + cds_sequence
+                         + terminator_sequence + "cttc"])
 
+                transcription_unit_4_names.append("Transcription unit 4 variant " + str(counter))
+                transcription_unit_4_part_id.append([transcription_unit_4_variants[key][0].displayId,
+                                                     transcription_unit_4_variants[key][1].displayId,
+                                                     transcription_unit_4_variants[key][2].displayId,
+                                                     transcription_unit_4_variants[key][3].displayId,
+                                                     transcription_unit_4_variants[key][4].displayId])
 
+    if int(GUI.transcription_unit_quantity_combo.get()) > 4:
+        # Transcription unit 5
+        if GUI.include_signal_combo.get() == "No":
+            counter = 0
+            for key in transcription_unit_5_variants:
+                promoter = transcription_unit_5_variants[key][0].sequence.elements
+                rbs = transcription_unit_5_variants[key][1].sequence.elements
+                cds = transcription_unit_5_variants[key][2].sequence.elements
+                terminator = transcription_unit_5_variants[key][3].sequence.elements
+                promoter_sequence = promoter[9:-15]
+                rbs_sequence = rbs[9:-15]
+                cds_sequence = "ca" + cds[:-4]
+                terminator_sequence = terminator[9:-11]
+                counter = counter + 1
+                transcription_unit_3_notes.append("Prefix cttc and suffix ttag fusion sites conferred to sequence by "
+                                                  "level 1 plasmid backbone pTU1-E-LacZ")
+                transcription_unit_5_sequences.append(
+                    ["cttc" + promoter_sequence + rbs_sequence + cds_sequence + terminator_sequence + "ttag"])
+                transcription_unit_5_names.append("Transcription unit 5 variant " + str(counter))
+                transcription_unit_5_part_id.append([transcription_unit_5_variants[key][0].displayId,
+                                                     transcription_unit_5_variants[key][1].displayId,
+                                                     transcription_unit_5_variants[key][2].displayId,
+                                                     transcription_unit_5_variants[key][3].displayId])
 
+        if GUI.include_signal_combo.get() == "Yes":
+            counter = 0
+            for key in transcription_unit_5_variants:
+                promoter = transcription_unit_5_variants[key][0].sequence.elements
+                rbs = transcription_unit_5_variants[key][1].sequence.elements
+                signal = transcription_unit_5_variants[key][2].sequence.elements
+                cds = transcription_unit_5_variants[key][3].sequence.elements
+                terminator = transcription_unit_5_variants[key][4].sequence.elements
+                promoter_sequence = promoter[9:-15]
+                rbs_sequence = rbs[9:-15]
+                signal_sequence = signal[9:-15]
+                cds_sequence = "ca" + cds[:-4]
+                terminator_sequence = terminator[9:-11]
+                counter = counter + 1
+                transcription_unit_3_notes.append("Prefix cttc and suffix ttag fusion sites conferred to sequence by "
+                                                  "level 1 plasmid backbone pTU1-E-LacZ")
+                transcription_unit_5_sequences.append(
+                    ["cttc" + promoter_sequence + rbs_sequence + signal_sequence + cds_sequence + terminator_sequence
+                     + "ttag"])
+                transcription_unit_5_names.append("Transcription unit 5 variant " + str(counter))
+                transcription_unit_5_part_id.append([transcription_unit_5_variants[key][0].displayId,
+                                                     transcription_unit_5_variants[key][1].displayId,
+                                                     transcription_unit_5_variants[key][2].displayId,
+                                                     transcription_unit_5_variants[key][3].displayId,
+                                                     transcription_unit_5_variants[key][4].displayId])
 
+# Creating sequences for level 2 constructs, formatting for display in generated protocol
+def level_2_format():
+    global level_2_names
+    level_2_names = []
+    global level_2_sub_units
+    level_2_sub_units = []
+    global level_2_sequences
+    level_2_sequences = []
+    global level_2_vector_name
+    level_2_vector_name = ""
 
+    counter = 0
+    if int(GUI.transcription_unit_quantity_combo.get()) == 2:
+        level_2_vector_name = "PLACEHOLDER"
+        counter = counter + 1
+        level_2_names.append("Level 2 construct variant " + str(counter))
 
+        for variant in transcription_unit_1_names:
+            for variant2 in transcription_unit_2_names:
+                level_2_sub_units.append([variant, variant2])
 
+        for sequence1 in transcription_unit_1_sequences:
+            for sequence2 in transcription_unit_2_sequences:
+                unit_1_sequence = str(sequence1[0])
+                unit_2_sequence = str(sequence2[0])
+                level_2_sequences.append([unit_1_sequence + unit_2_sequence])
 
+    if int(GUI.transcription_unit_quantity_combo.get()) == 3:
+        level_2_vector_name = "PLACEHOLDER"
+        counter = counter + 1
+        level_2_names.append("Level 2 construct variant " + str(counter))
 
+        for variant in transcription_unit_1_names:
+            for variant2 in transcription_unit_2_names:
+                for variant3 in transcription_unit_3_names:
+                    level_2_sub_units.append([variant, variant2, variant3])
 
+        for sequence1 in transcription_unit_1_sequences:
+            for sequence2 in transcription_unit_2_sequences:
+                for sequence3 in transcription_unit_3_sequences:
+                    unit_1_sequence = str(sequence1[0])
+                    unit_2_sequence = str(sequence2[0])
+                    unit_3_sequence = str(sequence3[0])
+                    level_2_sequences.append([unit_1_sequence + unit_2_sequence + unit_3_sequence])
 
+    if int(GUI.transcription_unit_quantity_combo.get()) == 4:
+        level_2_vector_name = "PLACEHOLDER"
+        counter = counter + 1
+        level_2_names.append("Level 2 construct variant " + str(counter))
 
+        for variant in transcription_unit_1_names:
+            for variant2 in transcription_unit_2_names:
+                for variant3 in transcription_unit_3_names:
+                    for variant4 in transcription_unit_4_names:
+                        level_2_sub_units.append([variant, variant2, variant3, variant4])
 
+        for sequence1 in transcription_unit_1_sequences:
+            for sequence2 in transcription_unit_2_sequences:
+                for sequence3 in transcription_unit_3_sequences:
+                    for sequence4 in transcription_unit_4_sequences:
+                        unit_1_sequence = str(sequence1[0])
+                        unit_2_sequence = str(sequence2[0])
+                        unit_3_sequence = str(sequence3[0])
+                        unit_4_sequence = str(sequence4[0])
+                        level_2_sequences.append([unit_1_sequence + unit_2_sequence + unit_3_sequence +
+                                                  unit_4_sequence])
 
+    if int(GUI.transcription_unit_quantity_combo.get()) == 5:
+        level_2_vector_name = "PLACEHOLDER"
+        counter = counter + 1
+        level_2_names.append("Level 2 construct variant " + str(counter))
 
+        for variant in transcription_unit_1_names:
+            for variant2 in transcription_unit_2_names:
+                for variant3 in transcription_unit_3_names:
+                    for variant4 in transcription_unit_4_names:
+                        for variant5 in transcription_unit_5_names:
+                            level_2_sub_units.append([variant, variant2, variant3, variant4, variant5])
 
-
-
-
-
-
+        for sequence1 in transcription_unit_1_sequences:
+            for sequence2 in transcription_unit_2_sequences:
+                for sequence3 in transcription_unit_3_sequences:
+                    for sequence4 in transcription_unit_4_sequences:
+                        for sequence5 in transcription_unit_5_sequences:
+                            unit_1_sequence = str(sequence1[0])
+                            unit_2_sequence = str(sequence2[0])
+                            unit_3_sequence = str(sequence3[0])
+                            unit_4_sequence = str(sequence4[0])
+                            unit_5_sequence = str(sequence5[0])
+                            level_2_sequences.append([unit_1_sequence + unit_2_sequence + unit_3_sequence +
+                                                      unit_4_sequence + unit_5_sequence])
 
 
 # Directory for protocol creation
