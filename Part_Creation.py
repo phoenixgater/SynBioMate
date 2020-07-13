@@ -7,7 +7,7 @@ import GUI
 import converter
 
 
-#Get user input for part creation
+# Get user input for part creation
 def create_part():
     Main.doc = Document()
     global identifier
@@ -20,6 +20,7 @@ def create_part():
     part_role = GUI.part_role_combo.get()
     global part_description
     part_description = GUI.part_description_entry.get()
+
     part = ComponentDefinition(str(identifier))
     if part_role == "Promoter":
         part.roles = SO_PROMOTER
@@ -39,21 +40,20 @@ def create_part():
     Main.doc.addComponentDefinition(part)
 
 
-#Part creation genbank
+# Part creation genbank
 def part_creation_genbank(event):
     GUI.select_genbank_file()
     converter.convert(GUI.genbank_file)
 
 
-#Save part
+# Save part
 def save_created_part(event):
     create_part()
     result = Main.doc.write(str(part_name) + ".xml")
     print(result)
 
 
-#Part creation genbank
+# Part creation genbank
 def part_creation_genbank(event):
     GUI.select_genbank_file()
     converter.convert(GUI.genbank_file)
-

@@ -6,7 +6,6 @@ from sbol import *
 #Import scripts
 import GUI
 import Genetic_Design
-import Protocol_Generation
 import MoClo
 
 

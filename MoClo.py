@@ -1578,17 +1578,19 @@ def ecoflex_fusion_sites():
         counter = 0
         for cds in transcription_unit_1_cds:
             counter = counter + 1
-            if cds.sequence.elements.startswith("taatg"):
+            if cds.sequence.elements.startswith("tatg"):
                 pass
             elif cds.sequence.elements.startswith("atg"):
                 cds.sequence.elements = "t" + cds.sequence.elements
                 modification_dictionary["unit1_c" + str(counter)].append("Prefix added for NdeI overhang (t)")
             else:
+                cds.sequence.elements = "tatg" + cds.sequence.elements
                 modification_dictionary["unit1_c" + str(counter)].append("Start codon (atg) could not be found at" +
                                                                          " start of CDS region, please ensure that" +
                                                                          " this SBOL part contains only the CDS. " +
-                                                                         "MoClo CDS fusion site prefix could not be" +
-                                                                         "added")
+                                                                         "The atg start codon has been added to this" +
+                                                                         " part, in addition to the prefix for the" +
+                                                                         " NdeI overhang (t)")
             if cds.sequence.elements.endswith("ctag"):
                 pass
             else:
@@ -1697,17 +1699,19 @@ def ecoflex_fusion_sites():
         counter = 0
         for cds in transcription_unit_2_cds:
             counter = counter + 1
-            if cds.sequence.elements.startswith("taatg"):
+            if cds.sequence.elements.startswith("tatg"):
                 pass
             elif cds.sequence.elements.startswith("atg"):
                 cds.sequence.elements = "t" + cds.sequence.elements
                 modification_dictionary["unit2_c" + str(counter)].append("Prefix added for NdeI overhang (t)")
             else:
+                cds.sequence.elements = "tatg" + cds.sequence.elements
                 modification_dictionary["unit2_c" + str(counter)].append("Start codon (atg) could not be found at" +
                                                                          " start of CDS region, please ensure that" +
                                                                          " this SBOL part contains only the CDS. " +
-                                                                         "MoClo CDS fusion site prefix could not be" +
-                                                                         "added")
+                                                                         "The atg start codon has been added to this" +
+                                                                         " part, in addition to the prefix for the" +
+                                                                         " NdeI overhang (t)")
             if cds.sequence.elements.endswith("ctag"):
                 pass
             else:
@@ -1817,17 +1821,19 @@ def ecoflex_fusion_sites():
         counter = 0
         for cds in transcription_unit_3_cds:
             counter = counter + 1
-            if cds.sequence.elements.startswith("taatg"):
+            if cds.sequence.elements.startswith("tatg"):
                 pass
             elif cds.sequence.elements.startswith("atg"):
                 cds.sequence.elements = "t" + cds.sequence.elements
                 modification_dictionary["unit3_c" + str(counter)].append("Prefix added for NdeI overhang (t)")
             else:
+                cds.sequence.elements = "tatg" + cds.sequence.elements
                 modification_dictionary["unit3_c" + str(counter)].append("Start codon (atg) could not be found at" +
                                                                          " start of CDS region, please ensure that" +
                                                                          " this SBOL part contains only the CDS. " +
-                                                                         "MoClo CDS fusion site prefix could not be" +
-                                                                         "added")
+                                                                         "The atg start codon has been added to this" +
+                                                                         " part, in addition to the prefix for the" +
+                                                                         " NdeI overhang (t)")
             if cds.sequence.elements.endswith("ctag"):
                 pass
             else:
@@ -1937,17 +1943,19 @@ def ecoflex_fusion_sites():
         counter = 0
         for cds in transcription_unit_4_cds:
             counter = counter + 1
-            if cds.sequence.elements.startswith("taatg"):
+            if cds.sequence.elements.startswith("tatg"):
                 pass
             elif cds.sequence.elements.startswith("atg"):
                 cds.sequence.elements = "t" + cds.sequence.elements
                 modification_dictionary["unit4_c" + str(counter)].append("Prefix added for NdeI overhang (t)")
             else:
+                cds.sequence.elements = "tatg" + cds.sequence.elements
                 modification_dictionary["unit4_c" + str(counter)].append("Start codon (atg) could not be found at" +
                                                                          " start of CDS region, please ensure that" +
                                                                          " this SBOL part contains only the CDS. " +
-                                                                         "MoClo CDS fusion site prefix could not be" +
-                                                                         "added")
+                                                                         "The atg start codon has been added to this" +
+                                                                         " part, in addition to the prefix for the" +
+                                                                         " NdeI overhang (t)")
             if cds.sequence.elements.endswith("ctag"):
                 pass
             else:
@@ -2057,17 +2065,19 @@ def ecoflex_fusion_sites():
         counter = 0
         for cds in transcription_unit_5_cds:
             counter = counter + 1
-            if cds.sequence.elements.startswith("taatg"):
+            if cds.sequence.elements.startswith("tatg"):
                 pass
             elif cds.sequence.elements.startswith("atg"):
                 cds.sequence.elements = "t" + cds.sequence.elements
                 modification_dictionary["unit5_c" + str(counter)].append("Prefix added for NdeI overhang (t)")
             else:
+                cds.sequence.elements = "tatg" + cds.sequence.elements
                 modification_dictionary["unit5_c" + str(counter)].append("Start codon (atg) could not be found at" +
                                                                          " start of CDS region, please ensure that" +
                                                                          " this SBOL part contains only the CDS. " +
-                                                                         "MoClo CDS fusion site prefix could not be" +
-                                                                         "added")
+                                                                         "The atg start codon has been added to this" +
+                                                                         " part, in addition to the prefix for the" +
+                                                                         " NdeI overhang (t)")
             if cds.sequence.elements.endswith("ctag"):
                 pass
             else:
@@ -2849,12 +2859,12 @@ def level_2_format():
 
     counter = 0
     if int(GUI.transcription_unit_quantity_combo.get()) == 2:
-        level_2_vector_name = "PLACEHOLDER"
-        counter = counter + 1
-        level_2_names.append("Level 2 construct variant " + str(counter))
+        level_2_vector_name = "pTU2-a-RFP"
 
         for variant in transcription_unit_1_names:
             for variant2 in transcription_unit_2_names:
+                counter = counter + 1
+                level_2_names.append("Level 2 construct variant " + str(counter))
                 level_2_sub_units.append([variant, variant2])
 
         for sequence1 in transcription_unit_1_sequences:
@@ -2864,7 +2874,7 @@ def level_2_format():
                 level_2_sequences.append([unit_1_sequence + unit_2_sequence])
 
     if int(GUI.transcription_unit_quantity_combo.get()) == 3:
-        level_2_vector_name = "PLACEHOLDER"
+        level_2_vector_name = "pTU2-b-RFP"
         counter = counter + 1
         level_2_names.append("Level 2 construct variant " + str(counter))
 
@@ -2882,14 +2892,14 @@ def level_2_format():
                     level_2_sequences.append([unit_1_sequence + unit_2_sequence + unit_3_sequence])
 
     if int(GUI.transcription_unit_quantity_combo.get()) == 4:
-        level_2_vector_name = "PLACEHOLDER"
-        counter = counter + 1
-        level_2_names.append("Level 2 construct variant " + str(counter))
+        level_2_vector_name = "pTU2-A-RFP"
 
         for variant in transcription_unit_1_names:
             for variant2 in transcription_unit_2_names:
                 for variant3 in transcription_unit_3_names:
                     for variant4 in transcription_unit_4_names:
+                        counter = counter + 1
+                        level_2_names.append("Level 2 construct variant " + str(counter))
                         level_2_sub_units.append([variant, variant2, variant3, variant4])
 
         for sequence1 in transcription_unit_1_sequences:
@@ -2904,15 +2914,15 @@ def level_2_format():
                                                   unit_4_sequence])
 
     if int(GUI.transcription_unit_quantity_combo.get()) == 5:
-        level_2_vector_name = "PLACEHOLDER"
-        counter = counter + 1
-        level_2_names.append("Level 2 construct variant " + str(counter))
+        level_2_vector_name = "pTU2-A-RFP"
 
         for variant in transcription_unit_1_names:
             for variant2 in transcription_unit_2_names:
                 for variant3 in transcription_unit_3_names:
                     for variant4 in transcription_unit_4_names:
                         for variant5 in transcription_unit_5_names:
+                            counter = counter + 1
+                            level_2_names.append("Level 2 construct variant " + str(counter))
                             level_2_sub_units.append([variant, variant2, variant3, variant4, variant5])
 
         for sequence1 in transcription_unit_1_sequences:
@@ -2927,7 +2937,6 @@ def level_2_format():
                             unit_5_sequence = str(sequence5[0])
                             level_2_sequences.append([unit_1_sequence + unit_2_sequence + unit_3_sequence +
                                                       unit_4_sequence + unit_5_sequence])
-
 
 # Directory for protocol creation
 def create_protocol_directory(event):

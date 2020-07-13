@@ -7,7 +7,6 @@ from sbol import *
 
 # Import scripts
 import Genetic_Design
-import Protocol_Generation
 import Part_Creation
 import Main
 import MoClo
@@ -26,11 +25,9 @@ window.geometry("1000x700")
 tab_parent = ttk.Notebook(window)
 tab1 = ttk.Frame(tab_parent)
 tab2 = ttk.Frame(tab_parent)
-tab3 = ttk.Frame(tab_parent)
 tab4 = ttk.Frame(tab_parent)
 tab_parent.add(tab1, text="Create Part")
 tab_parent.add(tab2, text="Create Design")
-tab_parent.add(tab3, text="Protocol Generation")
 tab_parent.add(tab4, text="MoClo Assembly")
 tab_parent.pack(expand=1, fill='both')
 
@@ -497,11 +494,7 @@ def successful_assembly():
     successful_assembly_label.pack()
 
 
-####################### Protocol_Generation GUI ###################################
-# Protocol generation title label
-protocol_generation_title = tk.Label(tab3, text="Protocol Generation", font=(None, 15))
-protocol_generation_title.grid()
-
+############################# MoClo GUI ##############################################
 
 # Selection of design to import
 def select_design_import():
@@ -510,160 +503,6 @@ def select_design_import():
     global single_imported_design
     single_imported_design = window.filename
 
-
-# Import design button
-import_design_button = tk.Button(tab3, text="Import Design")
-import_design_button.bind("<Button-1>", Protocol_Generation.import_design)
-import_design_button.grid()
-
-
-# Function to create design display canvas in protocol tab
-def display_canvas_pg():
-    global design_canvas_display_pg
-    design_canvas_display_pg = tk.Canvas(tab3, width=1000, height=200)
-    design_canvas_display_pg.grid()
-
-
-# Create design display in protocol tab
-def display_assembled_design_pg(SO_list):
-    counter = 0
-    design_canvas_display_pg.create_text(100, 60, font=("Arial", "11", "bold"), text="Design structure:")
-    for x in SO_list:
-        counter = counter + 1
-        if "0000167" in x:
-            design_canvas_display_pg.create_image(counter * 70, 100, image=promoter_glyph)
-            design_canvas_display_pg.create_text(counter * 70, 140, font=("arial", "8"),
-                                                 text=Protocol_Generation.primary_structure_identities[counter - 1])
-        elif "0000139" in x:
-            design_canvas_display_pg.create_image(counter * 70, 100, image=rbs_glyph)
-            design_canvas_display_pg.create_text(counter * 70, 140, font=("arial", "8"),
-                                                 text=Protocol_Generation.primary_structure_identities[counter - 1])
-        elif "0000316" in x:
-            design_canvas_display_pg.create_image(counter * 70, 100, image=cds_glyph)
-            design_canvas_display_pg.create_text(counter * 70, 140, font=("arial", "8"),
-                                                 text=Protocol_Generation.primary_structure_identities[counter - 1])
-        elif "0000141" in x:
-            design_canvas_display_pg.create_image(counter * 70, 100, image=terminator_glyph)
-            design_canvas_display_pg.create_text(counter * 70, 140, font=("arial", "8"),
-                                                 text=Protocol_Generation.primary_structure_identities[counter - 1])
-        else:
-            design_canvas_display_pg.create_image(counter * 70, 100, image=other_glyph)
-            design_canvas_display_pg.create_text(counter * 70, 140, font=("arial", "8"),
-                                                 text=Protocol_Generation.primary_structure_identities[counter - 1])
-
-
-# Create part description button in protocol tab
-def create_description_button_pg():
-    global part_description_button_pg
-    try:
-        part_description_button_pg.grid_forget()
-        hide_part_description_button_pg.grid_forget()
-        hide_description_pg("<Button-1>")
-        part_description_button_pg = tk.Button(tab3, text="Show part descriptions")
-        part_description_button_pg.bind("<Button-1>", part_description_pg)
-        part_description_button_pg.grid()
-    except KeyError:
-        part_description_button_pg.grid_forget()
-        hide_part_description_button_pg.grid_forget()
-        part_description_button_pg = tk.Button(tab3, text="Show part descriptions")
-        part_description_button_pg.bind("<Button-1>", part_description_pg)
-        part_description_button_pg.grid()
-    except NameError:
-        part_description_button_pg = tk.Button(tab3, text="Show part descriptions")
-        part_description_button_pg.bind("<Button-1>", part_description_pg)
-        part_description_button_pg.grid()
-
-
-# Show part description in protocol tab
-def part_description_pg(event):
-    counter = 0
-    for description in Protocol_Generation.primary_structure_descriptions:
-        counter = counter + 1
-        part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
-        globals()[part_description_button_name] = tk.Label(tab3, text=str(
-            Protocol_Generation.primary_structure_identities[counter - 1]) + " - " + description)
-        globals()[part_description_button_name].grid()
-    hide_description_button_pg()
-
-
-# Button for hiding part descriptions in protocol tab
-def hide_description_button_pg():
-    part_description_button_pg.grid_forget()
-    global hide_part_description_button_pg
-    hide_part_description_button_pg = tk.Button(tab3, text="Hide part descriptions")
-    hide_part_description_button_pg.bind("<Button-1>", hide_description_pg)
-    hide_part_description_button_pg.grid()
-
-
-# Hiding part descriptions in protocol tab
-def hide_description_pg(event):
-    counter = 0
-    for description in Protocol_Generation.primary_structure_descriptions:
-        counter = counter + 1
-        part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
-        globals()[part_description_button_name].grid_forget()
-    part_description_button_pg.grid()
-    hide_part_description_button_pg.grid_forget()
-
-
-# Create analysis button pg tab
-def create_analysis_button_pg():
-    global design_analysis_button_pg
-    try:
-        design_analysis_button_pg.grid_forget()
-        hide_design_analysis_button_pg.grid_forget()
-        hide_analysis_pg("<Button-1>")
-        design_analysis_button_pg = tk.Button(tab3, text="Show design analysis")
-        design_analysis_button_pg.bind("<Button-1>", design_analysis_pg)
-        design_analysis_button_pg.grid()
-    except KeyError:
-        design_analysis_button_pg.grid_forget()
-        hide_design_analysis_button_pg.grid_forget()
-        design_analysis_button_pg = tk.Button(tab3, text="Show design analysis")
-        design_analysis_button_pg.bind("<Button-1>", design_analysis_pg)
-        design_analysis_button_pg.grid()
-    except NameError:
-        design_analysis_button_pg = tk.Button(tab3, text="Show design analysis")
-        design_analysis_button_pg.bind("<Button-1>", design_analysis_pg)
-        design_analysis_button_pg.grid()
-
-
-# Show analysis in pg tab
-def design_analysis_pg(event):
-    counter = 0
-    for rfc10_detection in Protocol_Generation.detected_rfc10_sites:
-        counter = counter + 1
-        design_analysis_label_name = "design_analysis" + "_" + str(counter) + "label"
-        globals()[design_analysis_label_name] = tk.Label(tab3, text=str(rfc10_detection))
-        globals()[design_analysis_label_name].grid()
-        global base_composition_pg
-    base_composition_pg = tk.Label(tab3, text=Protocol_Generation.base_composition)
-    base_composition_pg.grid()
-    create_hide_design_analysis_button_pg()
-
-
-# Button for hiding analysis in pg tab
-def create_hide_design_analysis_button_pg():
-    design_analysis_button_pg.grid_forget()
-    global hide_design_analysis_button_pg
-    hide_design_analysis_button_pg = tk.Button(tab3, text="Hide design analysis")
-    hide_design_analysis_button_pg.bind("<Button-1>", hide_analysis_pg)
-    hide_design_analysis_button_pg.grid()
-
-
-# Hiding analysis in pg tab
-def hide_analysis_pg(event):
-    counter = 0
-    for rfc10_detection in Protocol_Generation.detected_rfc10_sites:
-        counter = counter + 1
-        design_analysis_label_name = "design_analysis" + "_" + str(counter) + "label"
-        globals()[design_analysis_label_name].grid_forget()
-    design_analysis_button_pg.grid()
-    base_composition_pg.grid_forget()
-    hide_design_analysis_button_pg.grid_forget()
-
-
-############################# MoClo GUI ##############################################
 
 # tab title
 moclo_title = tk.Label(tab4, text="MoClo assembly", font=(None, 15))
@@ -922,7 +761,7 @@ include_signal_combo.grid(column=0, row=11)
 
 
 # Select chassis system label
-chassis_selection_label = tk.Label(tab4, text="Please select a chassis system")
+chassis_selection_label = tk.Label(tab4, text="Chassis system")
 chassis_selection_label.grid(column=1, row=10)
 
 # Select chassis system combo box
@@ -930,7 +769,7 @@ chassis_selection_combo = ttk.Combobox(tab4, values=["E. coli", "B. subtilis"])
 chassis_selection_combo.grid(column=1, row=11)
 
 # Label for transcription unit quantity entry
-transcription_unit_quantity_label = tk.Label(tab4, text="Please choose transcription unit quantity (max 6)")
+transcription_unit_quantity_label = tk.Label(tab4, text="transcription unit (TU) quantity")
 transcription_unit_quantity_label.grid(column=2, row=10)
 
 # Entry for transcription unit quantity
@@ -1134,11 +973,11 @@ transcription_unit_create.bind("<Button-1>", create_transcription_unit_entry)
 transcription_unit_create.grid(column=4, row=11)
 
 
-#Liquid handler selection label and combobox
-liquid_handler_label = tk.Label(tab4, text="Select a liquid handler")
-liquid_handler_label.grid(column=3, row=10)
-liquid_handler_combo = ttk.Combobox(tab4, values=["Echo 525"])
-liquid_handler_combo.grid(column=3, row=11)
+# Automatic/Manual selection
+assembly_method_label = tk.Label(tab4, text="Assembly method")
+assembly_method_label.grid(column=3, row=10)
+assembly_method_combo = ttk.Combobox(tab4, values=["Automatic", "Manual"])
+assembly_method_combo.grid(column=3, row=11)
 
 
 def create_protocol_button():
