@@ -5,7 +5,6 @@ from docx import Document
 import GUI
 import MoClo
 
-
 # Document for writing protocol with docx (This is NOT a pySBOL document)
 document = Document()
 
@@ -13,17 +12,17 @@ document = Document()
 level_1_384PP = {}
 level_1_LDV = {}
 level_1_6RES = {}
+level_1_output = {}
 well_letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"]
 well_numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18",
                 "19", "20", "21", "22", "23", "24"]
-
 
 # Imported user input parameters
 transcription_unit_quantity = GUI.transcription_unit_quantity_combo.get()
 signal_peptide_choice = GUI.include_signal_combo.get()
 
 
-# Assign wells to genetic parts and reagents (excluding 6res)
+# Assign wells to genetic parts and reagents (excluding 6res), specify volumes
 def assign_well(plate_dictionary, item):
     if not plate_dictionary.keys():
         plate_dictionary["A1"] = item
@@ -31,7 +30,7 @@ def assign_well(plate_dictionary, item):
         taken_wells = list(plate_dictionary.keys())
         if len(taken_wells[-1]) == 2:
             pos = well_numbers.index(taken_wells[-1][1])
-            new_number = well_numbers[pos+1]
+            new_number = well_numbers[pos + 1]
             plate_dictionary[taken_wells[-1][0] + new_number] = item
         else:
             if taken_wells[-1][-2:] == "24":
@@ -179,7 +178,7 @@ def create_manual_protocol():
                      "by heat shock transformation")
 
 
-# Write automatic protocol to word document
+# Write automatic protocol to word document, create plate dictionaries
 def create_automatic_protocol():
     document.add_heading("Protocol", 1)
     document.add_heading("Creating level 0 library and cloning into level 0 plasmid backbones", 2)
@@ -234,19 +233,15 @@ def create_automatic_protocol():
                         "into their corresponding wells in" +
                         " the Echo® Qualified 384-Well Polypropylene Source Microplate (384PP) as" +
                         " specified in the table below")
-    if GUI.include_signal_combo.get() == "No":
-        part_lists = [MoClo.promoter_identities, MoClo.rbs_identities, MoClo.cds_identities,
-                      MoClo.terminator_identities]
-    if GUI.include_signal_combo.get() == "Yes":
-        part_lists = [MoClo.promoter_identities, MoClo.rbs_identities, MoClo.signal_identities,
-                      MoClo.cds_identities, MoClo.terminator_identities]
 
-    # 384 source plate for parts and plasmid backbones
+    ########################## level 1 384 source plate for parts and plasmid backbones ###########################
     level_1_protocol_table = document.add_table(rows=1, cols=3)
     row_1_cells = level_1_protocol_table.rows[0].cells
     row_1_cells[0].text = "Well"
     row_1_cells[1].text = "Genetic part"
     row_1_cells[2].text = "Quantity (ul)"
+
+    # Assigning wells and volumes for parts (level 1)
     part_quantities = MoClo.part_quantities
     dead_volume = 15
     for key in part_quantities.keys():
@@ -266,6 +261,7 @@ def create_automatic_protocol():
                 row_cells[2].text = str(dead_volume + required_transfer_volume)
                 volume_fulfilled = True
 
+    # Assigning wells and volumes for level 1 plasmid backbone A (level 1)
     if int(GUI.transcription_unit_quantity_combo.get()) > 1:
         volume_fulfilled = 0
         previous_fulfilment = 0
@@ -274,7 +270,7 @@ def create_automatic_protocol():
             assign_well(level_1_384PP, "pTU1-A-lacZ")
             row_cells[0].text = list(level_1_384PP.keys())[-1]
             row_cells[1].text = "pTU1-A-lacZ"
-            required_transfer_volume = 0.25*(len(MoClo.transcription_unit_1_names)) - previous_fulfilment
+            required_transfer_volume = 0.25 * (len(MoClo.transcription_unit_1_names)) - previous_fulfilment
             if dead_volume + required_transfer_volume > 65:
                 row_cells[2].text = "65"
                 previous_fulfilment += 50
@@ -283,6 +279,7 @@ def create_automatic_protocol():
                 row_cells[2].text = str(dead_volume + required_transfer_volume)
                 volume_fulfilled = True
 
+        # Assigning wells and volumes for level 1 plasmid backbone B (level 1)
         volume_fulfilled = 0
         previous_fulfilment = 0
         while not volume_fulfilled:
@@ -290,7 +287,7 @@ def create_automatic_protocol():
             assign_well(level_1_384PP, "pTU1-B-lacZ")
             row_cells[0].text = list(level_1_384PP.keys())[-1]
             row_cells[1].text = "pTU1-B-lacZ"
-            required_transfer_volume = 0.25*(len(MoClo.transcription_unit_2_names)) - previous_fulfilment
+            required_transfer_volume = 0.25 * (len(MoClo.transcription_unit_2_names)) - previous_fulfilment
             if dead_volume + required_transfer_volume > 65:
                 row_cells[2].text = "65"
                 previous_fulfilment += 50
@@ -299,6 +296,7 @@ def create_automatic_protocol():
                 row_cells[2].text = str(dead_volume + required_transfer_volume)
                 volume_fulfilled = True
 
+    # Assigning wells and volumes for level 1 plasmid backbone C (level 1)
     if int(GUI.transcription_unit_quantity_combo.get()) > 2:
         volume_fulfilled = 0
         previous_fulfilment = 0
@@ -307,7 +305,7 @@ def create_automatic_protocol():
             assign_well(level_1_384PP, "pTU1-C-lacZ")
             row_cells[0].text = list(level_1_384PP.keys())[-1]
             row_cells[1].text = "pTU1-C-lacZ"
-            required_transfer_volume = 0.25*(len(MoClo.transcription_unit_3_names)) - previous_fulfilment
+            required_transfer_volume = 0.25 * (len(MoClo.transcription_unit_3_names)) - previous_fulfilment
             if dead_volume + required_transfer_volume > 65:
                 row_cells[2].text = "65"
                 previous_fulfilment += 50
@@ -316,6 +314,7 @@ def create_automatic_protocol():
                 row_cells[2].text = str(dead_volume + required_transfer_volume)
                 volume_fulfilled = True
 
+    # Assigning wells and volumes for level 1 plasmid backbone D or D1 (level 1)
     if int(GUI.transcription_unit_quantity_combo.get()) > 3:
         volume_fulfilled = 0
         previous_fulfilment = 0
@@ -325,7 +324,7 @@ def create_automatic_protocol():
                 assign_well(level_1_384PP, "pTU1-D-lacZ")
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
                 row_cells[1].text = "pTU1-D-lacZ"
-                required_transfer_volume = 0.25*(len(MoClo.transcription_unit_4_names)) - previous_fulfilment
+                required_transfer_volume = 0.25 * (len(MoClo.transcription_unit_4_names)) - previous_fulfilment
                 if dead_volume + required_transfer_volume > 65:
                     row_cells[2].text = "65"
                     previous_fulfilment += 50
@@ -340,7 +339,7 @@ def create_automatic_protocol():
                 assign_well(level_1_384PP, "pTU1-D1-lacZ")
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
                 row_cells[1].text = "pTU1-D1-lacZ"
-                required_transfer_volume = 0.25*(len(MoClo.transcription_unit_4_names)) - previous_fulfilment
+                required_transfer_volume = 0.25 * (len(MoClo.transcription_unit_4_names)) - previous_fulfilment
                 if dead_volume + required_transfer_volume > 65:
                     row_cells[2].text = "65"
                     previous_fulfilment += 50
@@ -349,6 +348,7 @@ def create_automatic_protocol():
                     row_cells[2].text = str(dead_volume + required_transfer_volume)
                     volume_fulfilled = True
 
+    # Assigning wells and volumes for level 1 plasmid backbone E (level 1)
     if int(GUI.transcription_unit_quantity_combo.get()) > 4:
         volume_fulfilled = 0
         previous_fulfilment = 0
@@ -357,7 +357,7 @@ def create_automatic_protocol():
             assign_well(level_1_384PP, "pTU1-E-lacZ")
             row_cells[0].text = list(level_1_384PP.keys())[-1]
             row_cells[1].text = "pTU1-E-lacZ"
-            required_transfer_volume = 0.25*(len(MoClo.transcription_unit_5_names)) - previous_fulfilment
+            required_transfer_volume = 0.25 * (len(MoClo.transcription_unit_5_names)) - previous_fulfilment
             if dead_volume + required_transfer_volume > 65:
                 row_cells[2].text = "65"
                 previous_fulfilment += 50
@@ -366,11 +366,14 @@ def create_automatic_protocol():
                 row_cells[2].text = str(dead_volume + required_transfer_volume)
                 volume_fulfilled = True
 
-    # 6 RES source plate for deionised water
+    print(level_1_384PP)
+
+    #################### level 1 6 RES source plate for deionised water ###########################
     level_1_prep_6res = document.add_paragraph("")
     level_1_prep_6res.add_run("\n" + "b) Add deionised water to the corresponding well(s) in the Echo®" +
                               " Qualified reservoir (6RES) as specified in the table below:")
 
+    # Assigning well and volume for deionised water (level 1)
     level_1_6res_table = document.add_table(rows=1, cols=3)
     row_1_cells = level_1_6res_table.rows[0].cells
     row_1_cells[0].text = "Well"
@@ -381,44 +384,120 @@ def create_automatic_protocol():
     row_cells[1].text = "Deionised water"
     row_cells[2].text = "2800"
 
-    # LDV source plate for other reagents (enzymes and buffers)
+    ################# level 1 LDV source plate for other reagents (enzymes and buffers) #################
     level_1_prep_ldv = document.add_paragraph("")
     level_1_prep_ldv.add_run("\n" + "c) Add reagents to their corresponding wells in the" +
                              " Low Dead Volume Echo® Qualified 384-Well COC Source Microplate (384LDV) as" +
                              " specified in the table below:")
-    ldv_well_counter = 0
     level_1_ldv_table = document.add_table(rows=1, cols=3)
     row_1_cells = level_1_ldv_table.rows[0].cells
     row_1_cells[0].text = "Well"
     row_1_cells[1].text = "Reagent"
     row_1_cells[2].text = "Quantity (ul)"
 
-    unfulfilled_buffer_transfers = level_1_tu_quantity
-    while unfulfilled_buffer_transfers > 0:
+    # Assigning wells and volumes for DNA ligase buffer (level 1)
+    dead_volume = 3
+    volume_fulfilled = 0
+    previous_fulfilment = 0
+    while not volume_fulfilled:
         row_cells = level_1_ldv_table.add_row().cells
-        ldv_well_counter = ldv_well_counter + 1
-        row_cells[0].text = "A" + str(ldv_well_counter)
+        assign_well(level_1_LDV, "10x DNA ligase buffer (Promega)")
+        row_cells[0].text = list(level_1_LDV.keys())[-1]
         row_cells[1].text = "10x DNA ligase buffer (Promega)"
-        row_cells[2].text = "12"
-        unfulfilled_buffer_transfers = unfulfilled_buffer_transfers - 18
+        required_transfer_volume = 0.5 * level_1_tu_quantity - previous_fulfilment
+        if dead_volume + required_transfer_volume > 12:
+            row_cells[2].text = "12"
+            previous_fulfilment += 9
+            continue
+        else:
+            row_cells[2].text = str(dead_volume + required_transfer_volume)
+            volume_fulfilled = True
 
-    unfulfilled_ligase_transfers = level_1_tu_quantity
-    while unfulfilled_ligase_transfers > 0:
+    # Assigning wells and volumes for DNA ligase (level 1)
+    dead_volume = 6
+    volume_fulfilled = 0
+    previous_fulfilment = 0
+    while not volume_fulfilled:
         row_cells = level_1_ldv_table.add_row().cells
-        ldv_well_counter = ldv_well_counter + 1
-        row_cells[0].text = "A" + str(ldv_well_counter)
-        row_cells[1].text = "T4 DNA ligase (Promega)"
-        row_cells[2].text = "14"
-        unfulfilled_ligase_transfers = unfulfilled_ligase_transfers - 32
+        assign_well(level_1_LDV, "1-3 units T4 DNA ligase (Promega)")
+        row_cells[0].text = list(level_1_LDV.keys())[-1]
+        row_cells[1].text = "1-3 units T4 DNA ligase (Promega)"
+        required_transfer_volume = 0.125 * level_1_tu_quantity - previous_fulfilment
+        if dead_volume + required_transfer_volume > 14:
+            row_cells[2].text = "14"
+            previous_fulfilment += 8
+            continue
+        else:
+            row_cells[2].text = str(dead_volume + required_transfer_volume)
+            volume_fulfilled = True
 
-    unfulfilled_bsai_transfers = level_1_tu_quantity
-    while unfulfilled_bsai_transfers > 0:
+    # Assigning wells and volumes for BsaI-HF (level 1)
+    volume_fulfilled = 0
+    previous_fulfilment = 0
+    while not volume_fulfilled:
         row_cells = level_1_ldv_table.add_row().cells
-        ldv_well_counter = ldv_well_counter + 1
-        row_cells[0].text = "A" + str(ldv_well_counter)
+        assign_well(level_1_LDV, "BsaI-HF (NEB)")
+        row_cells[0].text = list(level_1_LDV.keys())[-1]
         row_cells[1].text = "BsaI-HF (NEB)"
-        row_cells[2].text = "14"
-        unfulfilled_bsai_transfers = unfulfilled_bsai_transfers - 32
+        required_transfer_volume = 0.25 * level_1_tu_quantity - previous_fulfilment
+        if dead_volume + required_transfer_volume > 14:
+            row_cells[2].text = "14"
+            previous_fulfilment += 8
+            continue
+        else:
+            row_cells[2].text = str(dead_volume + required_transfer_volume)
+            volume_fulfilled = True
+
+    ######################### Assigning wells in level 1 output plate ###############################
+    level_1_output_intro = document.add_paragraph("")
+    level_1_output_intro.add_run("\n" + "Locations of produced transcription unit variants in" +
+                                 " output plate:").bold = True
+
+    level_1_output_table = document.add_table(rows=1, cols=3)
+    row_1_cells = level_1_output_table.rows[0].cells
+    row_1_cells[0].text = "Well"
+    row_1_cells[1].text = "contained TU variant"
+    row_1_cells[2].text = "volume (ul)"
+
+    # Level 1 transcription unit variant 1
+    for variant in MoClo.transcription_unit_1_names:
+        row_cells = level_1_output_table.add_row().cells
+        assign_well(level_1_output, variant)
+        row_cells[0].text = list(level_1_output.keys())[-1]
+        row_cells[1].text = variant
+        row_cells[2].text = "5"
+
+    # Level 1 transcription unit variant 2
+    for variant in MoClo.transcription_unit_2_names:
+        row_cells = level_1_output_table.add_row().cells
+        assign_well(level_1_output, variant)
+        row_cells[0].text = list(level_1_output.keys())[-1]
+        row_cells[1].text = variant
+        row_cells[2].text = "5"
+
+    # Level 1 transcription unit variant 3
+    for variant in MoClo.transcription_unit_3_names:
+        row_cells = level_1_output_table.add_row().cells
+        assign_well(level_1_output, variant)
+        row_cells[0].text = list(level_1_output.keys())[-1]
+        row_cells[1].text = variant
+        row_cells[2].text = "5"
+
+    # Level 1 transcription unit variant 4
+    for variant in MoClo.transcription_unit_4_names:
+        row_cells = level_1_output_table.add_row().cells
+        assign_well(level_1_output, variant)
+        row_cells[0].text = list(level_1_output.keys())[-1]
+        row_cells[1].text = variant
+        row_cells[2].text = "5"
+
+    # Level 1 transcription unit variant 5
+    for variant in MoClo.transcription_unit_5_names:
+        row_cells = level_1_output_table.add_row().cells
+        assign_well(level_1_output, variant)
+        row_cells[0].text = list(level_1_output.keys())[-1]
+        row_cells[1].text = variant
+        row_cells[2].text = "5"
 
 
 # Appendix of document, containing all parts, transcription units, and final designs
@@ -627,12 +706,6 @@ def create_appendix():
         sequences.add_run(MoClo.level_2_sequences[counter])
         sequences.add_run(" 3'")
         counter = counter + 1
-
-    # Level 0 plasmid backbones
-
-    # Level 1 plasmid backbones
-
-    # Level 2 plasmid backbone
 
 
 # Create EcoFlex protocol

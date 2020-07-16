@@ -20,8 +20,7 @@ uid_counter = 0
 
 
 def create_scripts():
-    reagents_scripts_level_1()
-
+    level_1_transcription_units()
 
 
 
@@ -44,20 +43,19 @@ def script_headers(worksheet):
 
 
 # Scripts for reagents in 6RES plate level 1 assembly
-def reagents_scripts_level_1():
-    workbook = xlsxwriter.Workbook("script2.xlsx")
+def level_1_transcription_units():
+    workbook = xlsxwriter.Workbook("script1.xlsx")
     worksheet = workbook.add_worksheet()
     script_headers(worksheet)
 
-    ######################### deionised water ##################################
-    all_variants = []
-    counter_col_j = 0
-    counter_col_k = 0
-    counter_col_l = 0
-    counter_col_m = 0
-    counter_col_n = 0
-    counter_col_o = 0
-    counter_col_p = 0
+    # Transcription unit 1 variations
+
+    # Transcription unit 2 variations
+
+    # Transcription unit 3 variations
+
+    # Transcription unit 4 variations
+
 
 
 
