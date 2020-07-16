@@ -2846,6 +2846,7 @@ def transcription_unit_format():
                                                      transcription_unit_5_variants[key][3].displayId,
                                                      transcription_unit_5_variants[key][4].displayId])
 
+
 # Creating sequences for level 2 constructs, formatting for display in generated protocol
 def level_2_format():
     global level_2_names
@@ -2938,6 +2939,55 @@ def level_2_format():
                             level_2_sequences.append([unit_1_sequence + unit_2_sequence + unit_3_sequence +
                                                       unit_4_sequence + unit_5_sequence])
 
+
+# Calculate the amount of times that each part occurs across produced level 1 TU variants
+def part_use_quantity():
+    global part_quantities
+    part_quantities = {}
+    for list in transcription_unit_1_part_id:
+        for part in list:
+            keys = part_quantities.keys()
+            if str(part) in keys:
+                part_quantities[str(part)] += 1
+            else:
+                part_quantities[str(part)] = 1
+
+    for list in transcription_unit_2_part_id:
+        for part in list:
+            keys = part_quantities.keys()
+            if str(part) in keys:
+                part_quantities[str(part)] += 1
+            else:
+                part_quantities[str(part)] = 1
+
+    if int(GUI.transcription_unit_quantity_combo.get()) > 2:
+        for list in transcription_unit_3_part_id:
+            for part in list:
+                keys = part_quantities.keys()
+                if str(part) in keys:
+                    part_quantities[str(part)] += 1
+                else:
+                    part_quantities[str(part)] = 1
+
+    if int(GUI.transcription_unit_quantity_combo.get()) > 3:
+        for list in transcription_unit_4_part_id:
+            for part in list:
+                keys = part_quantities.keys()
+                if str(part) in keys:
+                    part_quantities[str(part)] += 1
+                else:
+                    part_quantities[str(part)] = 1
+
+    if int(GUI.transcription_unit_quantity_combo.get()) > 4:
+        for list in transcription_unit_5_part_id:
+            for part in list:
+                keys = part_quantities.keys()
+                if str(part) in keys:
+                    part_quantities[str(part)] += 1
+                else:
+                    part_quantities[str(part)] = 1
+
+
 # Directory for protocol creation
 def create_protocol_directory(event):
     chassis_choice = GUI.chassis_selection_combo.get()
@@ -2949,4 +2999,4 @@ def create_protocol_directory(event):
         else:
             GUI.restriction_site_warning_ecoflex()
     if chassis_choice == "B. subtilis":
-        print("test")
+        print("PLACEHOLDER B. SUBTILIS PROTOCOL DIRECTORY")

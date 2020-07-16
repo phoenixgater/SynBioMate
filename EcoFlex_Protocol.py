@@ -5,15 +5,43 @@ from docx import Document
 import GUI
 import MoClo
 
-# Global variables
+
 # Document for writing protocol with docx (This is NOT a pySBOL document)
 document = Document()
-parts_level_1 = []
-level_1_wells = {}
+
+# Dictionaries for well allocations
+level_1_384PP = {}
+level_1_LDV = {}
+level_1_6RES = {}
+well_letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"]
+well_numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18",
+                "19", "20", "21", "22", "23", "24"]
+
 
 # Imported user input parameters
 transcription_unit_quantity = GUI.transcription_unit_quantity_combo.get()
 signal_peptide_choice = GUI.include_signal_combo.get()
+
+
+# Assign wells to genetic parts and reagents (excluding 6res)
+def assign_well(plate_dictionary, item):
+    if not plate_dictionary.keys():
+        plate_dictionary["A1"] = item
+    else:
+        taken_wells = list(plate_dictionary.keys())
+        if len(taken_wells[-1]) == 2:
+            pos = well_numbers.index(taken_wells[-1][1])
+            new_number = well_numbers[pos+1]
+            plate_dictionary[taken_wells[-1][0] + new_number] = item
+        else:
+            if taken_wells[-1][-2:] == "24":
+                pos = well_letters.index(taken_wells[-1][0])
+                new_letter = well_letters[pos + 1]
+                plate_dictionary[new_letter + "1"] = item
+            else:
+                pos = well_numbers.index(taken_wells[-1][-2:])
+                new_number = well_numbers[pos + 1]
+                plate_dictionary[taken_wells[-1][0] + new_number] = item
 
 
 # Calculate part quantity
@@ -25,6 +53,23 @@ def calculate_part_quantity():
     elif GUI.include_signal_combo.get() == "No":
         part_quantity = (len(MoClo.promoter_identities) + len(MoClo.rbs_identities)
                          + len(MoClo.cds_identities) + len(MoClo.terminator_identities))
+
+
+# Calculate quantity of level 1 transcription units
+def calculate_level_1_quantity():
+    global level_1_tu_quantity
+    if int(GUI.transcription_unit_quantity_combo.get()) == 2:
+        level_1_tu_quantity = len(MoClo.transcription_unit_1_names) + len(MoClo.transcription_unit_2_names)
+    if int(GUI.transcription_unit_quantity_combo.get()) == 3:
+        level_1_tu_quantity = (len(MoClo.transcription_unit_1_names) + len(MoClo.transcription_unit_2_names) +
+                               len(MoClo.transcription_unit_3_names))
+    if int(GUI.transcription_unit_quantity_combo.get()) == 4:
+        level_1_tu_quantity = (len(MoClo.transcription_unit_1_names) + len(MoClo.transcription_unit_2_names) +
+                               len(MoClo.transcription_unit_3_names) + len(MoClo.transcription_unit_4_names))
+    if int(GUI.transcription_unit_quantity_combo.get()) == 5:
+        level_1_tu_quantity = (len(MoClo.transcription_unit_1_names) + len(MoClo.transcription_unit_2_names) +
+                               len(MoClo.transcription_unit_3_names) + len(MoClo.transcription_unit_4_names) +
+                               len(MoClo.transcription_unit_5_names))
 
 
 # Title and introduction of document
@@ -177,11 +222,18 @@ def create_automatic_protocol():
     document.add_page_break()
 
     document.add_heading("Creating level 1 transcription units (TUs)", 2)
+    tu_1_prep_1_intro = document.add_paragraph("")
+    tu_1_prep_1_intro.add_run("Plates required:").bold = True
+    tu_1_prep_1_intro.add_run("\n" + "-2x Echo® Qualified 384-Well Polypropylene Source Microplate (384PP) (One of "
+                                     "these is used as an output plate and must remain empty)")
+    tu_1_prep_1_intro.add_run("\n" + "-Echo® Qualified 384-Well COC Source Microplate, Low Dead Volume (384LDV)")
+    tu_1_prep_1_intro.add_run("\n" + "-Echo® Qualified Reservoir (6RES)" + "\n")
+
     tu_1_prep_1 = document.add_paragraph("")
     tu_1_prep_1.add_run("a) Add genetic parts and level 1 transcription unit backbones "
                         "into their corresponding wells in" +
                         " the Echo® Qualified 384-Well Polypropylene Source Microplate (384PP) as" +
-                        " outlined below")
+                        " specified in the table below")
     if GUI.include_signal_combo.get() == "No":
         part_lists = [MoClo.promoter_identities, MoClo.rbs_identities, MoClo.cds_identities,
                       MoClo.terminator_identities]
@@ -189,98 +241,184 @@ def create_automatic_protocol():
         part_lists = [MoClo.promoter_identities, MoClo.rbs_identities, MoClo.signal_identities,
                       MoClo.cds_identities, MoClo.terminator_identities]
 
+    # 384 source plate for parts and plasmid backbones
     level_1_protocol_table = document.add_table(rows=1, cols=3)
     row_1_cells = level_1_protocol_table.rows[0].cells
     row_1_cells[0].text = "Well"
     row_1_cells[1].text = "Genetic part"
     row_1_cells[2].text = "Quantity (ul)"
-    counter = 0
-    for list in part_lists:
-        for part in list:
-            counter = counter + 1
+    part_quantities = MoClo.part_quantities
+    dead_volume = 15
+    for key in part_quantities.keys():
+        volume_fulfilled = False
+        previous_fulfilment = 0
+        while not volume_fulfilled:
             row_cells = level_1_protocol_table.add_row().cells
-            row_cells[0].text = "A" + str(counter)
-            row_cells[1].text = part
-            row_cells[2].text = "PLACEHOLDER"
-            level_1_wells["A" + str(counter)] = part
-            parts_level_1.append(part)
+            assign_well(level_1_384PP, key)
+            row_cells[0].text = list(level_1_384PP.keys())[-1]
+            row_cells[1].text = key
+            required_transfer_volume = 0.5 * part_quantities[key] - previous_fulfilment
+            if dead_volume + required_transfer_volume > 65:
+                row_cells[2].text = "65"
+                previous_fulfilment += 50
+                continue
+            else:
+                row_cells[2].text = str(dead_volume + required_transfer_volume)
+                volume_fulfilled = True
 
-    counter_col_f = 0
     if int(GUI.transcription_unit_quantity_combo.get()) > 1:
-        counter_col_f = counter_col_f + 1
-        row_cells = level_1_protocol_table.add_row().cells
-        row_cells[0].text = "F" + str(counter_col_f)
-        level_1_wells["F" + str(counter_col_f)] = "pTU1-A-lacZ"
-        row_cells[1].text = "pTU1-A-lacZ"
-        row_cells[2].text = "PLACEHOLDER"
-        counter_col_f = counter_col_f + 1
-        row_cells = level_1_protocol_table.add_row().cells
-        row_cells[0].text = "F" + str(counter_col_f)
-        level_1_wells["F" + str(counter_col_f)] = "pTU1-B-lacZ"
-        row_cells[1].text = "pTU1-B-lacZ"
-        row_cells[2].text = "PLACEHOLDER"
+        volume_fulfilled = 0
+        previous_fulfilment = 0
+        while not volume_fulfilled:
+            row_cells = level_1_protocol_table.add_row().cells
+            assign_well(level_1_384PP, "pTU1-A-lacZ")
+            row_cells[0].text = list(level_1_384PP.keys())[-1]
+            row_cells[1].text = "pTU1-A-lacZ"
+            required_transfer_volume = 0.25*(len(MoClo.transcription_unit_1_names)) - previous_fulfilment
+            if dead_volume + required_transfer_volume > 65:
+                row_cells[2].text = "65"
+                previous_fulfilment += 50
+                continue
+            else:
+                row_cells[2].text = str(dead_volume + required_transfer_volume)
+                volume_fulfilled = True
+
+        volume_fulfilled = 0
+        previous_fulfilment = 0
+        while not volume_fulfilled:
+            row_cells = level_1_protocol_table.add_row().cells
+            assign_well(level_1_384PP, "pTU1-B-lacZ")
+            row_cells[0].text = list(level_1_384PP.keys())[-1]
+            row_cells[1].text = "pTU1-B-lacZ"
+            required_transfer_volume = 0.25*(len(MoClo.transcription_unit_2_names)) - previous_fulfilment
+            if dead_volume + required_transfer_volume > 65:
+                row_cells[2].text = "65"
+                previous_fulfilment += 50
+                continue
+            else:
+                row_cells[2].text = str(dead_volume + required_transfer_volume)
+                volume_fulfilled = True
 
     if int(GUI.transcription_unit_quantity_combo.get()) > 2:
-        counter_col_f = counter_col_f + 1
-        row_cells = level_1_protocol_table.add_row().cells
-        row_cells[0].text = "F" + str(counter_col_f)
-        level_1_wells["F" + str(counter_col_f)] = "pTU1-C-lacZ"
-        row_cells[1].text = "pTU1-C-lacZ"
-        row_cells[2].text = "PLACEHOLDER"
+        volume_fulfilled = 0
+        previous_fulfilment = 0
+        while not volume_fulfilled:
+            row_cells = level_1_protocol_table.add_row().cells
+            assign_well(level_1_384PP, "pTU1-C-lacZ")
+            row_cells[0].text = list(level_1_384PP.keys())[-1]
+            row_cells[1].text = "pTU1-C-lacZ"
+            required_transfer_volume = 0.25*(len(MoClo.transcription_unit_3_names)) - previous_fulfilment
+            if dead_volume + required_transfer_volume > 65:
+                row_cells[2].text = "65"
+                previous_fulfilment += 50
+                continue
+            else:
+                row_cells[2].text = str(dead_volume + required_transfer_volume)
+                volume_fulfilled = True
 
     if int(GUI.transcription_unit_quantity_combo.get()) > 3:
-        counter_col_f = counter_col_f + 1
-        row_cells = level_1_protocol_table.add_row().cells
-        row_cells[0].text = "F" + str(counter_col_f)
+        volume_fulfilled = 0
+        previous_fulfilment = 0
         if int(GUI.transcription_unit_quantity_combo.get()) == 4:
-            level_1_wells["F" + str(counter_col_f)] = "pTU1-D-lacZ"
-            row_cells[1].text = "pTU1-D-lacZ"
+            while not volume_fulfilled:
+                row_cells = level_1_protocol_table.add_row().cells
+                assign_well(level_1_384PP, "pTU1-D-lacZ")
+                row_cells[0].text = list(level_1_384PP.keys())[-1]
+                row_cells[1].text = "pTU1-D-lacZ"
+                required_transfer_volume = 0.25*(len(MoClo.transcription_unit_4_names)) - previous_fulfilment
+                if dead_volume + required_transfer_volume > 65:
+                    row_cells[2].text = "65"
+                    previous_fulfilment += 50
+                    continue
+                else:
+                    row_cells[2].text = str(dead_volume + required_transfer_volume)
+                    volume_fulfilled = True
+
         elif int(GUI.transcription_unit_quantity_combo.get()) == 5:
-            level_1_wells["F" + str(counter_col_f)] = "pTU1-D1-lacZ"
-            row_cells[1].text = "pTU1-D1-lacZ"
-        row_cells[2].text = "PLACEHOLDER"
+            while not volume_fulfilled:
+                row_cells = level_1_protocol_table.add_row().cells
+                assign_well(level_1_384PP, "pTU1-D1-lacZ")
+                row_cells[0].text = list(level_1_384PP.keys())[-1]
+                row_cells[1].text = "pTU1-D1-lacZ"
+                required_transfer_volume = 0.25*(len(MoClo.transcription_unit_4_names)) - previous_fulfilment
+                if dead_volume + required_transfer_volume > 65:
+                    row_cells[2].text = "65"
+                    previous_fulfilment += 50
+                    continue
+                else:
+                    row_cells[2].text = str(dead_volume + required_transfer_volume)
+                    volume_fulfilled = True
 
     if int(GUI.transcription_unit_quantity_combo.get()) > 4:
-        counter_col_f = counter_col_f + 1
-        row_cells = level_1_protocol_table.add_row().cells
-        row_cells[0].text = "F" + str(counter_col_f)
-        level_1_wells["F" + str(counter_col_f)] = "PTU1-E-lacZ"
-        row_cells[1].text = "pTU1-E-lacZ"
-        row_cells[2].text = "PLACEHOLDER"
+        volume_fulfilled = 0
+        previous_fulfilment = 0
+        while not volume_fulfilled:
+            row_cells = level_1_protocol_table.add_row().cells
+            assign_well(level_1_384PP, "pTU1-E-lacZ")
+            row_cells[0].text = list(level_1_384PP.keys())[-1]
+            row_cells[1].text = "pTU1-E-lacZ"
+            required_transfer_volume = 0.25*(len(MoClo.transcription_unit_5_names)) - previous_fulfilment
+            if dead_volume + required_transfer_volume > 65:
+                row_cells[2].text = "65"
+                previous_fulfilment += 50
+                continue
+            else:
+                row_cells[2].text = str(dead_volume + required_transfer_volume)
+                volume_fulfilled = True
 
-    # 6 RES reagents
+    # 6 RES source plate for deionised water
     level_1_prep_6res = document.add_paragraph("")
-    level_1_prep_6res.add_run("\n" + "b) Add reagents to their corresponding wells in the Echo® Qualified Reservoir "
-                                     "as outlined below")
+    level_1_prep_6res.add_run("\n" + "b) Add deionised water to the corresponding well(s) in the Echo®" +
+                              " Qualified reservoir (6RES) as specified in the table below:")
 
     level_1_6res_table = document.add_table(rows=1, cols=3)
     row_1_cells = level_1_6res_table.rows[0].cells
     row_1_cells[0].text = "Well"
-    row_1_cells[1].text = "Genetic part"
+    row_1_cells[1].text = "Reagent"
     row_1_cells[2].text = "Quantity (ul)"
     row_cells = level_1_6res_table.add_row().cells
     row_cells[0].text = "A1"
     row_cells[1].text = "Deionised water"
-    row_cells[2].text = "PLACEHOLDER"
-    row_cells = level_1_6res_table.add_row().cells
-    row_cells[0].text = "A2"
-    row_cells[1].text = "10x T4 DNA ligase buffer (Promega)"
-    row_cells[2].text = "PLACEHOLDER"
-    row_cells = level_1_6res_table.add_row().cells
-    row_cells[0].text = "A3"
-    row_cells[1].text = "1-3 units T4 DNA ligase (Promega)"
-    row_cells[2].text = "PLACEHOLDER"
-    row_cells = level_1_6res_table.add_row().cells
-    row_cells[0].text = "B1"
-    row_cells[1].text = "BsaI-HF (NEB)"
-    row_cells[2].text = "PLACEHOLDER"
+    row_cells[2].text = "2800"
 
+    # LDV source plate for other reagents (enzymes and buffers)
+    level_1_prep_ldv = document.add_paragraph("")
+    level_1_prep_ldv.add_run("\n" + "c) Add reagents to their corresponding wells in the" +
+                             " Low Dead Volume Echo® Qualified 384-Well COC Source Microplate (384LDV) as" +
+                             " specified in the table below:")
+    ldv_well_counter = 0
+    level_1_ldv_table = document.add_table(rows=1, cols=3)
+    row_1_cells = level_1_ldv_table.rows[0].cells
+    row_1_cells[0].text = "Well"
+    row_1_cells[1].text = "Reagent"
+    row_1_cells[2].text = "Quantity (ul)"
 
+    unfulfilled_buffer_transfers = level_1_tu_quantity
+    while unfulfilled_buffer_transfers > 0:
+        row_cells = level_1_ldv_table.add_row().cells
+        ldv_well_counter = ldv_well_counter + 1
+        row_cells[0].text = "A" + str(ldv_well_counter)
+        row_cells[1].text = "10x DNA ligase buffer (Promega)"
+        row_cells[2].text = "12"
+        unfulfilled_buffer_transfers = unfulfilled_buffer_transfers - 18
 
+    unfulfilled_ligase_transfers = level_1_tu_quantity
+    while unfulfilled_ligase_transfers > 0:
+        row_cells = level_1_ldv_table.add_row().cells
+        ldv_well_counter = ldv_well_counter + 1
+        row_cells[0].text = "A" + str(ldv_well_counter)
+        row_cells[1].text = "T4 DNA ligase (Promega)"
+        row_cells[2].text = "14"
+        unfulfilled_ligase_transfers = unfulfilled_ligase_transfers - 32
 
-
-
-
+    unfulfilled_bsai_transfers = level_1_tu_quantity
+    while unfulfilled_bsai_transfers > 0:
+        row_cells = level_1_ldv_table.add_row().cells
+        ldv_well_counter = ldv_well_counter + 1
+        row_cells[0].text = "A" + str(ldv_well_counter)
+        row_cells[1].text = "BsaI-HF (NEB)"
+        row_cells[2].text = "14"
+        unfulfilled_bsai_transfers = unfulfilled_bsai_transfers - 32
 
 
 # Appendix of document, containing all parts, transcription units, and final designs
@@ -505,8 +643,11 @@ def create_protocol(event):
     MoClo.create_transcription_unit_variants()
     MoClo.final_oligonucleotides_2()
     MoClo.transcription_unit_format()
+    MoClo.part_use_quantity()
     MoClo.level_2_format()
     calculate_part_quantity()
+    calculate_level_1_quantity()
+
     title_introduction()
     if GUI.assembly_method_combo.get() == "Manual":
         create_manual_protocol()

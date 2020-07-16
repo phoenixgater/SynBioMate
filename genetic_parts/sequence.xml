@@ -1,0 +1,112 @@
+<?xml version="1.0" ?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:gbConv="http://sbols.org/genBankConversion#" xmlns:sbol="http://sbols.org/v2#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:genbank="http://www.ncbi.nlm.nih.gov/genbank#" xmlns:prov="http://www.w3.org/ns/prov#" xmlns:obo="http://purl.obolibrary.org/obo/" xmlns:om="http://www.ontology-of-units-of-measure.org/resource/om-2/">
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.org/public/igem/X90363/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/X90363"/>
+    <sbol:displayId>X90363</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <dcterms:description>C.glutamicum DNA for promoter fragment F45.</dcterms:description>
+    <genbank:locus>X90363</genbank:locus>
+    <genbank:molecule>DNA</genbank:molecule>
+    <genbank:division>BCT</genbank:division>
+    <genbank:date>04-NOV-1996</genbank:date>
+    <genbank:keywords>promoter.</genbank:keywords>
+    <genbank:source>Corynebacterium glutamicum</genbank:source>
+    <genbank:organism>Corynebacterium glutamicum Bacteria; Actinobacteria; Corynebacteriales; Corynebacteriaceae; Corynebacterium.</genbank:organism>
+    <genbank:reference>
+      <genbank:Reference rdf:about="https://synbiohub.org/public/igem/X90363/reference0">
+        <genbank:label>1</genbank:label>
+        <genbank:authors>Patek,M., Eikmanns,B.J., Patek,J. and Sahm,H.</genbank:authors>
+        <genbank:title>Promoters from Corynebacterium glutamicum: cloning, molecular analysis and search for a consensus motif</genbank:title>
+        <genbank:journal>Microbiology (Reading, Engl.) 142 (PT 5), 1297-1309 (1996)</genbank:journal>
+        <genbank:pubmed>8704969</genbank:pubmed>
+      </genbank:Reference>
+    </genbank:reference>
+    <obo:OBI_0001617>8704969</obo:OBI_0001617>
+    <genbank:reference>
+      <genbank:Reference rdf:about="https://synbiohub.org/public/igem/X90363/reference1">
+        <genbank:label>2  (bases 1 to 60)</genbank:label>
+        <genbank:authors>Eikmanns,B.J.</genbank:authors>
+        <genbank:title>Direct Submission</genbank:title>
+        <genbank:journal>Submitted (28-JUL-1995) B.J. Eikmanns, Forschungszentrum Juelich, Inst. fuer Biotechnologie 1, 52425 Juelich, FRG</genbank:journal>
+      </genbank:Reference>
+    </genbank:reference>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000987"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0000804"/>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem/X90363/annotation2/1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/X90363/annotation2"/>
+        <sbol:displayId>annotation2</sbol:displayId>
+        <sbol:version>1</sbol:version>
+        <dcterms:title>mRNA</dcterms:title>
+        <sbol:role rdf:resource="http://identifiers.org/so/SO:0000234"/>
+        <sbol:location>
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem/X90363/annotation2/range/1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/X90363/annotation2/range"/>
+            <sbol:displayId>range</sbol:displayId>
+            <sbol:version>1</sbol:version>
+            <gbConv:endGreaterThan>true</gbConv:endGreaterThan>
+            <sbol:start>51</sbol:start>
+            <sbol:end>60</sbol:end>
+            <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
+          </sbol:Range>
+        </sbol:location>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem/X90363/annotation1/1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/X90363/annotation1"/>
+        <sbol:displayId>annotation1</sbol:displayId>
+        <sbol:version>1</sbol:version>
+        <dcterms:title>prmoter fragment F45</dcterms:title>
+        <gbConv:regulatory_class>promoter</gbConv:regulatory_class>
+        <gbConv:note>prmoter fragment F45</gbConv:note>
+        <sbol:role rdf:resource="http://identifiers.org/so/SO:0005836"/>
+        <sbol:location>
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem/X90363/annotation1/range/1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/X90363/annotation1/range"/>
+            <sbol:displayId>range</sbol:displayId>
+            <sbol:version>1</sbol:version>
+            <gbConv:startLessThan>true</gbConv:startLessThan>
+            <gbConv:endGreaterThan>true</gbConv:endGreaterThan>
+            <sbol:start>1</sbol:start>
+            <sbol:end>60</sbol:end>
+            <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
+          </sbol:Range>
+        </sbol:location>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem/X90363/annotation0/1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/X90363/annotation0"/>
+        <sbol:displayId>annotation0</sbol:displayId>
+        <sbol:version>1</sbol:version>
+        <dcterms:title>Corynebacterium glutamicum</dcterms:title>
+        <gbConv:organism>Corynebacterium glutamicum</gbConv:organism>
+        <gbConv:mol_type>genomic DNA</gbConv:mol_type>
+        <gbConv:strain>ATCC 13032</gbConv:strain>
+        <gbConv:type_material>type strain of Corynebacterium glutamicum</gbConv:type_material>
+        <gbConv:db_xref>taxon:1718</gbConv:db_xref>
+        <sbol:role rdf:resource="http://identifiers.org/so/SO:0002206"/>
+        <sbol:location>
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem/X90363/annotation0/range/1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/X90363/annotation0/range"/>
+            <sbol:displayId>range</sbol:displayId>
+            <sbol:version>1</sbol:version>
+            <sbol:start>1</sbol:start>
+            <sbol:end>60</sbol:end>
+            <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
+          </sbol:Range>
+        </sbol:location>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequence rdf:resource="https://synbiohub.org/public/igem/X90363_seq/1"/>
+  </sbol:ComponentDefinition>
+  <sbol:Sequence rdf:about="https://synbiohub.org/public/igem/X90363_seq/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/X90363_seq"/>
+    <sbol:displayId>X90363_seq</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <sbol:elements>ttggtcagggattttttcccgagggcactaattttgctaaagtaagtgacgaagaagttc</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+</rdf:RDF>

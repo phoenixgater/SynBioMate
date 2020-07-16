@@ -59,7 +59,11 @@ def reagents_scripts_level_1():
     counter_col_o = 0
     counter_col_p = 0
 
-    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+
+
+
+
+    '''if int(GUI.transcription_unit_quantity_combo.get()) > 1:
         row = 1
         col = 4
         for variant in MoClo.transcription_unit_1_names:
@@ -375,7 +379,7 @@ def reagents_scripts_level_1():
                     worksheet.write(row, 6, "P" + str(counter_col_p))
                 if len(all_variants) > 113:
                     worksheet.write(row, 6, "ERROR: WELL CAPACITY REACHED")
-                row = row + 1
+                row = row + 1'''
 
 
 

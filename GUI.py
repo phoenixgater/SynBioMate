@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 from sbol import *
+import os
 
 # Import scripts
 import Genetic_Design
@@ -37,6 +38,40 @@ rbs_glyph = tk.PhotoImage(file="SBOL_Glyphs/ribosome-entry-site-specification.gi
 cds_glyph = tk.PhotoImage(file="SBOL_Glyphs/cds-specification.gif")
 terminator_glyph = tk.PhotoImage(file="SBOL_Glyphs/terminator-specification.gif")
 other_glyph = tk.PhotoImage(file="SBOL_Glyphs/no-glyph-assigned-specification.gif")
+
+
+# toolbar (top of GUI)
+class MenuBar(ttk.Frame):
+
+    def __init__(self):
+        super().__init__()
+
+        self.init_gui()
+
+    def init_gui(self):
+        self.master.title("Main menu")
+
+        menu_bar = tk.Menu(self.master)
+        self.master.config(menu=menu_bar)
+
+        file_menu = tk.Menu(menu_bar)
+        file_menu.add_command(label="Upload to SynbioHub", command=self.upload_window)
+        file_menu.add_command(label="About", command=self.about_popup)
+        file_menu.add_command(label="Exit", command=self.exit_software)
+        menu_bar.add_cascade(label="File", menu=file_menu)
+
+    def exit_software(self):
+        self.quit()
+
+    def upload_window(self):
+        synbiohub_upload("<Button-1>")
+
+    def about_popup(self):
+        print("PLACEHOLDER")
+
+
+# Initialising toolbar
+MenuBar()
 
 
 # Upload to synbiohub window
@@ -148,11 +183,6 @@ def upload_file(event):
 create_part_title = tk.Label(tab1, text="Create Part", font=(None, 15))
 create_part_title.grid(column=1, row=0)
 
-# Upload part to Synbiohub button
-upload_part_synbiohub = tk.Button(tab1, text="Upload part to SynbioHub")
-upload_part_synbiohub.bind("<Button-1>", synbiohub_upload)
-upload_part_synbiohub.grid(column=1, row=14)
-
 # Create from GenBank file button
 import_file_creation = tk.Button(tab1, text="Create from GenBank file")
 import_file_creation.bind("<Button-1>", Part_Creation.part_creation_genbank)
@@ -198,11 +228,6 @@ part_description_label.grid(column=0, row=11)
 part_description_entry = tk.Entry(tab1)
 part_description_entry.grid(column=1, row=11)
 
-# Save part button
-save_part_button = tk.Button(tab1, text="Save part")
-save_part_button.bind("<Button-1>", Part_Creation.save_created_part)
-save_part_button.grid(column=1, row=13)
-
 
 # Select GenBank file for conversion
 def select_genbank_file():
@@ -214,8 +239,112 @@ def select_genbank_file():
 
 # Successful conversion label
 def successful_conversion():
-    successful_conversion_label = tk.Label(tab1, text="Genbank file converted successfully")
-    successful_conversion_label.grid()
+    global successful_conversion_label
+    successful_conversion_label = tk.Label(tab1, font=(None, 10), fg="green", text="Genbank file converted successfully"
+                                           )
+    successful_conversion_label.grid(column=1, row=16)
+
+
+# Part creation failed error message
+def part_creation_success():
+    global creation_success_label
+    creation_success_label = tk.Label(tab1, font=(None, 10), fg="green", text="Part created and saved successfully")
+    creation_success_label.grid(column=1, row=16)
+
+
+def part_creation_failure():
+    global creation_failure_label
+    creation_failure_label = tk.Label(tab1, font=(None, 10), fg="red", text="Part creation failed, part not saved")
+    creation_failure_label.grid(column=1, row=16)
+
+
+# Error message for no identifier input
+def identifier_error():
+    global identifier_error_label
+    identifier_error_label = tk.Label(tab1, font=(None, 8), fg="red", text="Please enter a valid identifier")
+    identifier_error_label.grid(column=1, row=6)
+
+
+# Error message for no part name input
+def part_name_error():
+    global part_name_error_label
+    part_name_error_label = tk.Label(tab1, font=(None, 8), fg="red", text="Please enter a valid part name")
+    part_name_error_label.grid(column=1, row=4)
+
+
+# Error message for no dna input
+def dna_error():
+    global dna_error_label
+    dna_error_label = tk.Label(tab1, font=(None, 8), fg="red", text="Please enter a valid DNA sequence")
+    dna_error_label.grid(column=1, row=2)
+
+
+# Error message for no role input
+def part_role_error():
+    global role_error_label
+    role_error_label = tk.Label(tab1, font=(None, 8), fg="red", text="Please select a valid part role")
+    role_error_label.grid(column=1, row=8)
+
+
+# Error message for no description input
+def part_description_error():
+    global description_error_label
+    description_error_label = tk.Label(tab1, font=(None, 8), fg="red", text="Please enter a valid part description")
+    description_error_label.grid(column=1, row=10)
+
+
+# Wipes current error and success labels (if present) from GUI
+def refresh_gui_part_creation(event):
+    try:
+        successful_conversion_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        identifier_error_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        part_name_error_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        dna_error_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        role_error_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        description_error_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        creation_success_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        creation_failure_label.grid_forget()
+    except NameError:
+        pass
+    Part_Creation.save_created_part("<Button-1>")
+
+
+# Create part button
+create_part_button = tk.Button(tab1, text="Create part")
+create_part_button.bind("<Button-1>", refresh_gui_part_creation)
+create_part_button.grid(column=1, row=13)
+
+
+# Popup dialog box for saving of created part
+def save_part_popup():
+    window.filename = filedialog.asksaveasfilename(initialdir=str(os.getcwd()) + "\genetic_parts",
+                                                   initialfile=Part_Creation.part_name, title="select file",
+                                                   filetypes=(("SBOL files (xml)", "*.xml"), ("all files", "*.*")))
+    if not window.filename:
+        return False
+    else:
+        return window.filename
 
 
 ###################### Genetic_Design GUI #####################
@@ -592,7 +721,7 @@ def part_description_moclo(event):
         part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
         globals()[part_description_button_name] = tk.Label(tab4, text=str(
             MoClo.primary_structure_identities[counter - 1]) + " - " + description)
-        globals()[part_description_button_name].grid(column=1, row=3+counter)
+        globals()[part_description_button_name].grid(column=1, row=3 + counter)
     hide_description_button_moclo()
 
 
@@ -759,7 +888,6 @@ include_signal_label.grid(column=0, row=10)
 include_signal_combo = ttk.Combobox(tab4, values=["Yes", "No"])
 include_signal_combo.grid(column=0, row=11)
 
-
 # Select chassis system label
 chassis_selection_label = tk.Label(tab4, text="Chassis system")
 chassis_selection_label.grid(column=1, row=10)
@@ -775,6 +903,7 @@ transcription_unit_quantity_label.grid(column=2, row=10)
 # Entry for transcription unit quantity
 transcription_unit_quantity_combo = ttk.Combobox(tab4, values=["2", "3", "4", "5"])
 transcription_unit_quantity_combo.grid(column=2, row=11)
+
 
 # Create transcription unit entries and labels
 def create_transcription_unit_entry(event):
@@ -972,7 +1101,6 @@ transcription_unit_create = tk.Button(tab4, text="Create")
 transcription_unit_create.bind("<Button-1>", create_transcription_unit_entry)
 transcription_unit_create.grid(column=4, row=11)
 
-
 # Automatic/Manual selection
 assembly_method_label = tk.Label(tab4, text="Assembly method")
 assembly_method_label.grid(column=3, row=10)
@@ -984,6 +1112,7 @@ def create_protocol_button():
     create_protocol_button = tk.Button(tab4, text="Create protocol")
     create_protocol_button.bind("<Button-1>", MoClo.create_protocol_directory)
     create_protocol_button.grid()
+
 
 def restriction_site_warning_ecoflex():
     counter = 0
@@ -1002,6 +1131,7 @@ def restriction_site_warning_ecoflex():
     stop_button.bind("<Button-1>", remove_warnings)
     stop_button.grid()
 
+
 def remove_warnings(event):
     continue_button.grid_forget()
     stop_button.grid_forget()
@@ -1010,11 +1140,6 @@ def remove_warnings(event):
         counter = counter + 1
         warning_label_name = "warning" + "_" + str(counter)
         globals()[warning_label_name].grid_forget()
-
-
-
-
-
 
 
 ################ Main_loop #################
