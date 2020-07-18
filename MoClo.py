@@ -2574,8 +2574,8 @@ def transcription_unit_format():
     transcription_unit_5_part_id = []
     global transcription_unit_5_notes
     transcription_unit_5_notes = []
-    global transcription_unit_part_dictionary
-    transcription_unit_part_dictionary = {}
+    global level_1_transcription_unit_dictionary
+    level_1_transcription_unit_dictionary = {}
 
     if int(GUI.transcription_unit_quantity_combo.get()) > 1:
         # Transcription unit 1
@@ -2600,6 +2600,8 @@ def transcription_unit_format():
                                                      transcription_unit_1_variants[key][1].displayId,
                                                      transcription_unit_1_variants[key][2].displayId,
                                                      transcription_unit_1_variants[key][3].displayId])
+                level_1_transcription_unit_dictionary["Transcription unit 1 variant " + str(counter)] = (
+                    transcription_unit_1_part_id[counter - 1])
 
         if GUI.include_signal_combo.get() == "Yes":
             counter = 0
@@ -2627,6 +2629,8 @@ def transcription_unit_format():
                                                      transcription_unit_1_variants[key][2].displayId,
                                                      transcription_unit_1_variants[key][3].displayId,
                                                      transcription_unit_1_variants[key][4].displayId])
+                level_1_transcription_unit_dictionary["Transcription unit 1 variant " + str(counter)] = (
+                    transcription_unit_1_part_id[counter - 1])
 
         # Transcription unit 2
         if GUI.include_signal_combo.get() == "No":
@@ -2651,6 +2655,8 @@ def transcription_unit_format():
                                                      transcription_unit_2_variants[key][1].displayId,
                                                      transcription_unit_2_variants[key][2].displayId,
                                                      transcription_unit_2_variants[key][3].displayId])
+                level_1_transcription_unit_dictionary["Transcription unit 2 variant " + str(counter)] = (
+                    transcription_unit_2_part_id[counter - 1])
 
         if GUI.include_signal_combo.get() == "Yes":
             counter = 0
@@ -2677,6 +2683,8 @@ def transcription_unit_format():
                                                      transcription_unit_2_variants[key][2].displayId,
                                                      transcription_unit_2_variants[key][3].displayId,
                                                      transcription_unit_2_variants[key][4].displayId])
+                level_1_transcription_unit_dictionary["Transcription unit 2 variant " + str(counter)] = (
+                    transcription_unit_2_part_id[counter - 1])
 
     if int(GUI.transcription_unit_quantity_combo.get()) > 2:
         # Transcription unit 3
@@ -2702,6 +2710,8 @@ def transcription_unit_format():
                                                      transcription_unit_3_variants[key][1].displayId,
                                                      transcription_unit_3_variants[key][2].displayId,
                                                      transcription_unit_3_variants[key][3].displayId])
+                level_1_transcription_unit_dictionary["Transcription unit 3 variant " + str(counter)] = (
+                    transcription_unit_3_part_id[counter - 1])
 
         if GUI.include_signal_combo.get() == "Yes":
             counter = 0
@@ -2728,6 +2738,8 @@ def transcription_unit_format():
                                                      transcription_unit_3_variants[key][2].displayId,
                                                      transcription_unit_3_variants[key][3].displayId,
                                                      transcription_unit_3_variants[key][4].displayId])
+                level_1_transcription_unit_dictionary["Transcription unit 3 variant " + str(counter)] = (
+                    transcription_unit_3_part_id[counter - 1])
 
     if int(GUI.transcription_unit_quantity_combo.get()) > 3:
         # Transcription unit 4
@@ -2760,6 +2772,8 @@ def transcription_unit_format():
                                                      transcription_unit_4_variants[key][1].displayId,
                                                      transcription_unit_4_variants[key][2].displayId,
                                                      transcription_unit_4_variants[key][3].displayId])
+                level_1_transcription_unit_dictionary["Transcription unit 4 variant " + str(counter)] = (
+                    transcription_unit_4_part_id[counter - 1])
 
         if GUI.include_signal_combo.get() == "Yes":
             counter = 0
@@ -2797,6 +2811,8 @@ def transcription_unit_format():
                                                      transcription_unit_4_variants[key][2].displayId,
                                                      transcription_unit_4_variants[key][3].displayId,
                                                      transcription_unit_4_variants[key][4].displayId])
+                level_1_transcription_unit_dictionary["Transcription unit 4 variant " + str(counter)] = (
+                    transcription_unit_4_part_id[counter - 1])
 
     if int(GUI.transcription_unit_quantity_combo.get()) > 4:
         # Transcription unit 5
@@ -2821,6 +2837,8 @@ def transcription_unit_format():
                                                      transcription_unit_5_variants[key][1].displayId,
                                                      transcription_unit_5_variants[key][2].displayId,
                                                      transcription_unit_5_variants[key][3].displayId])
+                level_1_transcription_unit_dictionary["Transcription unit 5 variant " + str(counter)] = (
+                    transcription_unit_5_part_id[counter - 1])
 
         if GUI.include_signal_combo.get() == "Yes":
             counter = 0
@@ -2847,6 +2865,8 @@ def transcription_unit_format():
                                                      transcription_unit_5_variants[key][2].displayId,
                                                      transcription_unit_5_variants[key][3].displayId,
                                                      transcription_unit_5_variants[key][4].displayId])
+                level_1_transcription_unit_dictionary["Transcription unit 5 variant " + str(counter)] = (
+                    transcription_unit_5_part_id[counter - 1])
 
 
 # Creating sequences for level 2 constructs, formatting for display in generated protocol

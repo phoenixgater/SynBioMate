@@ -10,10 +10,12 @@ import EcoFlex_protocol
 # Global variables
 part_quantity = EcoFlex_protocol.part_quantity
 level_1_tu_quantity = EcoFlex_protocol.level_1_tu_quantity
+level_1_dictionary = MoClo.level_1_transcription_unit_dictionary
 level_1_384PP = EcoFlex_protocol.level_1_384PP
 level_1_LDV = EcoFlex_protocol.level_1_LDV
 level_1_6RES = EcoFlex_protocol.level_1_6RES
 level_1_output = EcoFlex_protocol.level_1_output
+
 
 
 def create_scripts():
@@ -59,10 +61,6 @@ def level_1_transcription_units():
                     level_1_6RES[key][1] -= transfer_volume
                     worksheet.write(row, 3, key)
                     break
-                else:
-                    pass
-            else:
-                pass
     workbook.close()
 
     # LDV reagents (enzymes and buffers)
@@ -91,10 +89,6 @@ def level_1_transcription_units():
                     level_1_LDV[key][1] -= transfer_volume
                     worksheet.write(row, 3, key)
                     break
-                else:
-                    pass
-            else:
-                pass
 
     # Transfers for DNA ligase
     for destination_well in level_1_output.keys():
@@ -116,10 +110,6 @@ def level_1_transcription_units():
                     level_1_LDV[key][1] -= transfer_volume
                     worksheet.write(row, 3, key)
                     break
-                else:
-                    pass
-            else:
-                pass
 
     # Transfer for BsaI-HF (restriction enzyme)
     for destination_well in level_1_output.keys():
@@ -141,32 +131,166 @@ def level_1_transcription_units():
                     level_1_LDV[key][1] -= transfer_volume
                     worksheet.write(row, 3, key)
                     break
-                else:
-                    pass
-            else:
-                pass
-
     workbook.close()
 
     # Parts and plasmid backbones
     workbook = xlsxwriter.Workbook("dna.xlsx")
     worksheet = workbook.add_worksheet()
     script_headers(worksheet)
+
+    # Parts
+    dead_volume_dna = 15000
+    transfer_volume = 500
     row = 0
     uid = 0
+
     for destination_well in level_1_output.keys():
-        row += 1
-        uid += 1
+        for tu_name in level_1_dictionary.keys():
+            if level_1_output[destination_well][0] == tu_name:
+                part_list = level_1_dictionary[tu_name]
+                for part in part_list:
+                    for source_well in level_1_384PP.keys():
+                        if part == level_1_384PP[source_well][0]:
+                            if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
+                                level_1_384PP[source_well][1] -= transfer_volume
+                                row += 1
+                                uid += 1
+                                worksheet.write(row, 0, uid)
+                                worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
+                                worksheet.write(row, 2, "384LDV_AQ_B")
+                                worksheet.write(row, 3, source_well)
+                                worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
+                                worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
+                                                        "384PP)")
+                                worksheet.write(row, 6, destination_well)
+                                worksheet.write(row, 7, transfer_volume)
+                                worksheet.write(row, 8, part)
+                                break
 
+    # Plasmid backbones
+    transfer_volume = 250
+    for destination_well in level_1_output.keys():
+        print(destination_well)
+        if level_1_output[destination_well][0].find("Transcription unit 1") == 0:
+            print("test1")
+            for source_well in level_1_384PP:
+                if level_1_384PP[source_well][0] == "pTU1-A-lacZ":
+                    print("test2")
+                    if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
+                        level_1_384PP[source_well][1] -= transfer_volume
+                        row += 1
+                        uid += 1
+                        print(row)
+                        worksheet.write(row, 0, uid)
+                        worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
+                        worksheet.write(row, 2, "384LDV_AQ_B")
+                        worksheet.write(row, 3, source_well)
+                        worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
+                        worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
+                                                "384PP)")
+                        worksheet.write(row, 6, destination_well)
+                        worksheet.write(row, 7, transfer_volume)
+                        worksheet.write(row, 8, "pTU1-A-lacZ")
+                        break
 
+        elif level_1_output[destination_well][0].find("Transcription unit 2") == 0:
+            for source_well in level_1_384PP:
+                if level_1_384PP[source_well][0] == "pTU1-B-lacZ":
+                    if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
+                        level_1_384PP[source_well][1] -= transfer_volume
+                        row += 1
+                        uid += 1
+                        worksheet.write(row, 0, uid)
+                        worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
+                        worksheet.write(row, 2, "384LDV_AQ_B")
+                        worksheet.write(row, 3, source_well)
+                        worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
+                        worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
+                                                "384PP)")
+                        worksheet.write(row, 6, destination_well)
+                        worksheet.write(row, 7, transfer_volume)
+                        worksheet.write(row, 8, "pTU1-B-lacZ")
+                        break
 
+        elif level_1_output[destination_well][0].find("Transcription unit 3") == 0:
+            for source_well in level_1_384PP:
+                if level_1_384PP[source_well][0] == "pTU1-C-lacZ":
+                    if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
+                        level_1_384PP[source_well][1] -= transfer_volume
+                        row += 1
+                        uid += 1
+                        print(row)
+                        worksheet.write(row, 0, uid)
+                        worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
+                        worksheet.write(row, 2, "384LDV_AQ_B")
+                        worksheet.write(row, 3, source_well)
+                        worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
+                        worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
+                                                "384PP)")
+                        worksheet.write(row, 6, destination_well)
+                        worksheet.write(row, 7, transfer_volume)
+                        worksheet.write(row, 8, "pTU1-C-lacZ")
+                        break
 
+        elif level_1_output[destination_well][0].find("Transcription unit 4") == 0:
+            if int(GUI.transcription_unit_quantity_combo.get()) == 4:
+                for source_well in level_1_384PP:
+                    if level_1_384PP[source_well][0] == "pTU1-D-lacZ":
+                        if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
+                            level_1_384PP[source_well][1] -= transfer_volume
+                            row += 1
+                            uid += 1
+                            worksheet.write(row, 0, uid)
+                            worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
+                            worksheet.write(row, 2, "384LDV_AQ_B")
+                            worksheet.write(row, 3, source_well)
+                            worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
+                            worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
+                                                    "384PP)")
+                            worksheet.write(row, 6, destination_well)
+                            worksheet.write(row, 7, transfer_volume)
+                            worksheet.write(row, 8, "pTU1-D-lacZ")
+                            break
 
-    level_1_variant_dictionary_1 = MoClo.transcription_unit_1_variants
-    for variant in level_1_variant_dictionary_1:
-        for part in level_1_variant_dictionary_1[variant]:
-            print(part.displayId)
+            elif int(GUI.transcription_unit_quantity_combo.get()) == 5:
+                for source_well in level_1_384PP:
+                    if level_1_384PP[source_well][0] == "pTU1-D1-lacZ":
+                        if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
+                            level_1_384PP[source_well][1] -= transfer_volume
+                            row += 1
+                            uid += 1
+                            worksheet.write(row, 0, uid)
+                            worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
+                            worksheet.write(row, 2, "384LDV_AQ_B")
+                            worksheet.write(row, 3, source_well)
+                            worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
+                            worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
+                                                    "384PP)")
+                            worksheet.write(row, 6, destination_well)
+                            worksheet.write(row, 7, transfer_volume)
+                            worksheet.write(row, 8, "pTU1-D1-lacZ")
+                            break
 
-
-
+        elif level_1_output[destination_well][0].find("Transcription unit 5") == 0:
+            for source_well in level_1_384PP:
+                if level_1_384PP[source_well][0] == "pTU1-E-lacZ":
+                    if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
+                        level_1_384PP[source_well][1] -= transfer_volume
+                        row += 1
+                        uid += 1
+                        worksheet.write(row, 0, uid)
+                        worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
+                        worksheet.write(row, 2, "384LDV_AQ_B")
+                        worksheet.write(row, 3, source_well)
+                        worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
+                        worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
+                                                "384PP)")
+                        worksheet.write(row, 6, destination_well)
+                        worksheet.write(row, 7, transfer_volume)
+                        worksheet.write(row, 8, "pTU1-E-lacZ")
+                        break
     print(level_1_output)
+    workbook.close()
+
+
+
