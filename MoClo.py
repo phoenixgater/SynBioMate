@@ -2574,6 +2574,8 @@ def transcription_unit_format():
     transcription_unit_5_part_id = []
     global transcription_unit_5_notes
     transcription_unit_5_notes = []
+    global transcription_unit_part_dictionary
+    transcription_unit_part_dictionary = {}
 
     if int(GUI.transcription_unit_quantity_combo.get()) > 1:
         # Transcription unit 1
