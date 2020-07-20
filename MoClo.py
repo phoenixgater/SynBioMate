@@ -2879,6 +2879,8 @@ def level_2_format():
     level_2_sequences = []
     global level_2_vector_name
     level_2_vector_name = ""
+    global level_2_transcription_unit_dictionary
+    level_2_transcription_unit_dictionary = {}
 
     counter = 0
     if int(GUI.transcription_unit_quantity_combo.get()) == 2:
@@ -2889,6 +2891,8 @@ def level_2_format():
                 counter = counter + 1
                 level_2_names.append("Level 2 construct variant " + str(counter))
                 level_2_sub_units.append([variant, variant2])
+                level_2_transcription_unit_dictionary["Level 2 construct variant " + str(counter)] = (
+                    level_2_sub_units[counter-1])
 
         for sequence1 in transcription_unit_1_sequences:
             for sequence2 in transcription_unit_2_sequences:
@@ -2905,6 +2909,8 @@ def level_2_format():
             for variant2 in transcription_unit_2_names:
                 for variant3 in transcription_unit_3_names:
                     level_2_sub_units.append([variant, variant2, variant3])
+                    level_2_transcription_unit_dictionary["Level 2 construct variant " + str(counter)] = (
+                        level_2_sub_units[counter - 1])
 
         for sequence1 in transcription_unit_1_sequences:
             for sequence2 in transcription_unit_2_sequences:
@@ -2924,6 +2930,8 @@ def level_2_format():
                         counter = counter + 1
                         level_2_names.append("Level 2 construct variant " + str(counter))
                         level_2_sub_units.append([variant, variant2, variant3, variant4])
+                        level_2_transcription_unit_dictionary["Level 2 construct variant " + str(counter)] = (
+                            level_2_sub_units[counter - 1])
 
         for sequence1 in transcription_unit_1_sequences:
             for sequence2 in transcription_unit_2_sequences:
@@ -2947,6 +2955,8 @@ def level_2_format():
                             counter = counter + 1
                             level_2_names.append("Level 2 construct variant " + str(counter))
                             level_2_sub_units.append([variant, variant2, variant3, variant4, variant5])
+                            level_2_transcription_unit_dictionary["Level 2 construct variant " + str(counter)] = (
+                                level_2_sub_units[counter - 1])
 
         for sequence1 in transcription_unit_1_sequences:
             for sequence2 in transcription_unit_2_sequences:
@@ -3009,6 +3019,17 @@ def part_use_quantity():
                 else:
                     part_quantities[str(part)] = 1
 
+# Calculate the amount of times that a level 1 TU variant occurs across produced level 2 TU variants
+def transcription_unit_use_quantity():
+    global tu1_quantities
+    tu1_quantities = {}
+    for list in level_2_sub_units:
+        for variant in list:
+            keys = tu1_quantities.keys()
+            if str(variant) in keys:
+                tu1_quantities[str(variant)] += 1
+            else:
+                tu1_quantities[str(variant)] = 1
 
 # Directory for protocol creation
 def create_protocol_directory(event):

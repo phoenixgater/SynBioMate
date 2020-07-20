@@ -13,6 +13,11 @@ level_1_384PP = {}
 level_1_LDV = {}
 level_1_6RES = {}
 level_1_output = {}
+level_2_384PP = {}
+level_2_LDV = {}
+level_2_6RES = {}
+level_2_output = {}
+# Plate lists
 well_letters_384 = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"]
 well_numbers_384 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18",
                     "19", "20", "21", "22", "23", "24"]
@@ -59,6 +64,58 @@ def assign_well_6res(plate_dictionary, item, volume):
             plate_dictionary["B2"] = [item, volume]
         elif taken_wells[-1] == "B2":
             plate_dictionary["B3"] = [item, volume]
+
+
+# Returns single transfer volumes that correspond to the selected user-input parameters
+def transfer_volume(item):
+    if item == "level_1_water":
+        if GUI.include_signal_combo.get() == "No":
+            return 1875
+        else:
+            return 1375
+    elif item == "level_2_water":
+        if GUI.transcription_unit_quantity_combo.get() == "2":
+            return 2875
+        elif GUI.transcription_unit_quantity_combo.get() == "3":
+            return 2375
+        elif GUI.transcription_unit_quantity_combo.get() == "4":
+            return 1875
+        elif GUI.transcription_unit_quantity_combo.get() == "5":
+            return 1375
+
+    elif item == "level_1_part_1_1":
+        print("test")
+    elif item == "level_1_part_1_2":
+        print("test")
+    elif item == "level_1_part_2_1":
+        print("test")
+
+    elif item == "level_1_backbone_1_1":
+        print("test")
+    elif item == "level_1_backbone_1_2":
+        print("test")
+    elif item == "level_1_backbone_2_1":
+        print("test")
+
+    elif item == "level_2_tu_1_1":
+        print("test")
+    elif item == "level_2_tu_1_2":
+        print("test")
+    elif item == "level_2_tu_2_1":
+        print("test")
+
+    elif item == "level_2_backbone_1_1":
+        print("test")
+    elif item == "level_2_backbone_1_2":
+        print("test")
+    elif item == "level_2_backbone_2_1":
+        print("test")
+
+
+
+
+
+
 
 
 # Calculate part quantity
@@ -350,8 +407,6 @@ def create_automatic_protocol():
 
     # Assigning wells and volumes for level 1 plasmid backbone D or D1 (level 1)
     if int(GUI.transcription_unit_quantity_combo.get()) > 3:
-        volume_fulfilled = 0
-        previous_fulfilment = 0
         if int(GUI.transcription_unit_quantity_combo.get()) == 4:
             volume_fulfilled = False
             previous_fulfilment = 0
@@ -430,9 +485,10 @@ def create_automatic_protocol():
     volume_fulfilled = False
     previous_fulfilment = 0
     dead_volume = 250000
+    single_transfer_volume = transfer_volume("level_1_water")
     while not volume_fulfilled:
         row_cells = level_1_6res_table.add_row().cells
-        required_transfer_volume = 1875 * level_1_tu_quantity - previous_fulfilment
+        required_transfer_volume = single_transfer_volume * level_1_tu_quantity - previous_fulfilment
         row_cells[1].text = "deionised water"
         if dead_volume + required_transfer_volume > 2800000:
             volume = 2800000
@@ -525,7 +581,6 @@ def create_automatic_protocol():
             row_cells[2].text = str(volume)
             volume_fulfilled = True
 
-
     ######################### Assigning wells in level 1 output plate ###############################
     level_1_output_intro = document.add_paragraph("")
     level_1_output_intro.add_run("\n" + "Locations of produced transcription unit variants in" +
@@ -576,6 +631,219 @@ def create_automatic_protocol():
         row_cells[0].text = list(level_1_output.keys())[-1]
         row_cells[1].text = variant
         row_cells[2].text = "5000"
+
+    level_1_transform = document.add_paragraph("")
+    level_1_transform.add_run("d) Run a PCR protocol for this output plate, consisting of:").bold = True
+    level_1_transform.add_run("\n" + "15-30 cycles of:" + "\n" + "15-30 cycles of:" + "\n" + "-5 minutes at 37°C" +
+                              "\n" + "-10 minutes at 16°C" + "\n" + "Followed by (only once):" + "\n" + "-5 minutes "
+                                                                                                        "at 50°C" +
+                              "\n" + "-5 minutes at 80°C ")
+    level_1_transform.add_run("\n" + "e) Transform 5 uL of each output mixture into 50uL of chemically" +
+                              " compotent Escherichia coli (E. coli) dH10a by heat shock transformation" +
+                              " (One mixture per cell culture)")
+
+    document.add_heading("Creating level 2 transcription units (TUs)", 2)
+    tu_2_prep_1_intro = document.add_paragraph("")
+    tu_2_prep_1_intro.add_run("Plates required:").bold = True
+    tu_2_prep_1_intro.add_run("\n" + "-2x Echo® Qualified 384-Well Polypropylene Source Microplate (384PP) (One of "
+                                     "these is used as an output plate and must remain empty)")
+    tu_2_prep_1_intro.add_run("\n" + "-Echo® Qualified 384-Well COC Source Microplate, Low Dead Volume (384LDV)")
+    tu_2_prep_1_intro.add_run("\n" + "-Echo® Qualified Reservoir (6RES)" + "\n")
+    tu_2_prep_1_intro.add_run("a) Recover and re-suspend level 1 transcription units from transformed cells in" +
+                              " previous step" + "\n")
+    tu_2_prep_1_intro.add_run("b) Add level 1 transcription units and level 2 plasmid backbones to their specified" +
+                              " wells in the Echo® Qualified 384-Well Polypropylene Source Microplate (384PP) as" +
+                              " specified in the table below:")
+    level_2_protocol_table = document.add_table(rows=1, cols=3)
+    row_1_cells = level_2_protocol_table.rows[0].cells
+    row_1_cells[0].text = "Well"
+    row_1_cells[1].text = "Genetic part"
+    row_1_cells[2].text = "Quantity (nl)"
+
+    ########################## level 2 384 source plate for level 1 TU's and plasmid backbones ########################
+    # Assigning wells and volumes for level 1 transcription units (level 2)
+    tu1_quantities = MoClo.tu1_quantities
+    dead_volume = 15000
+    for variant in tu1_quantities.keys():
+        volume_fulfilled = False
+        previous_fulfilment = 0
+        while not volume_fulfilled:
+            row_cells = level_2_protocol_table.add_row().cells
+            required_transfer_volume = 500 * tu1_quantities[variant] - previous_fulfilment
+            row_cells[1].text = variant
+            if dead_volume + required_transfer_volume > 65000:
+                volume = 65000
+                assign_well_384(level_2_384PP, variant, volume)
+                row_cells[0].text = list(level_2_384PP.keys())[-1]
+                row_cells[2].text = str(volume)
+                previous_fulfilment += 50000
+                continue
+            else:
+                volume = dead_volume + required_transfer_volume
+                assign_well_384(level_2_384PP, variant, volume)
+                row_cells[0].text = list(level_2_384PP.keys())[-1]
+                row_cells[2].text = str(volume)
+                volume_fulfilled = True
+
+    # Assigning wells and volumes for level 2 plasmid backbones (level 2)
+    if int(GUI.transcription_unit_quantity_combo.get()) == 2:
+        level_2_backbone = "pTU2-a-RFP"
+    elif int(GUI.transcription_unit_quantity_combo.get()) == 3:
+        level_2_backbone = "pTU2-b-RFP"
+    elif int(GUI.transcription_unit_quantity_combo.get()) > 3:
+        level_2_backbone = "pTU2-A-RFP"
+
+    tu2_quantity = len(MoClo.level_2_names)
+    dead_volume = 15000
+    volume_fulfilled = False
+    previous_fulfilment = 0
+    while not volume_fulfilled:
+        row_cells = level_2_protocol_table.add_row().cells
+        required_transfer_volume = 250 * tu2_quantity - previous_fulfilment
+        row_cells[1].text = level_2_backbone
+        if dead_volume + required_transfer_volume > 65000:
+            volume = 65000
+            assign_well_384(level_2_384PP, level_2_backbone, volume)
+            row_cells[0].text = list(level_2_384PP.keys())[-1]
+            row_cells[2].text = str(volume)
+            previous_fulfilment += 50000
+            continue
+        else:
+            volume = dead_volume + required_transfer_volume
+            assign_well_384(level_2_384PP, level_2_backbone, volume)
+            row_cells[0].text = list(level_2_384PP.keys())[-1]
+            row_cells[2].text = str(volume)
+            volume_fulfilled = True
+
+    ########################## level 2 6RES source plate for deionised water ########################
+    level_2_prep_6res = document.add_paragraph("")
+    level_2_prep_6res.add_run("\n" + "b) Add deionised water to the corresponding well(s) in the Echo®" +
+                              " Qualified reservoir (6RES) as specified in the table below:")
+    level_2_6res_table = document.add_table(rows=1, cols=3)
+    row_1_cells = level_2_6res_table.rows[0].cells
+    row_1_cells[0].text = "Well"
+    row_1_cells[1].text = "Reagent"
+    row_1_cells[2].text = "Quantity (nl)"
+
+    # Assigning wells and volumes for deionised water (level 1)
+    volume_fulfilled = False
+    previous_fulfilment = 0
+    dead_volume = 250000
+    single_transfer_volume = transfer_volume("level_2_water")
+    while not volume_fulfilled:
+        row_cells = level_2_6res_table.add_row().cells
+        required_transfer_volume = single_transfer_volume * tu2_quantity - previous_fulfilment
+        row_cells[1].text = "deionised water"
+        if dead_volume + required_transfer_volume > 2800000:
+            volume = 2800000
+            assign_well_6res(level_2_6RES, "deionised water", volume)
+            row_cells[0].text = list(level_2_6RES.keys())[-1]
+            row_cells[2].text = str(volume)
+            previous_fulfilment += 2550000
+            continue
+        else:
+            volume = dead_volume + required_transfer_volume
+            assign_well_6res(level_2_6RES, "deionised water", volume)
+            row_cells[0].text = list(level_2_6RES.keys())[-1]
+            row_cells[2].text = str(volume)
+            volume_fulfilled = True
+
+    ################# level 2 LDV source plate for other reagents (enzymes and buffers) #################
+    level_2_prep_ldv = document.add_paragraph("")
+    level_2_prep_ldv.add_run("\n" + "c) Add reagents to their corresponding wells in the" +
+                             " Low Dead Volume Echo® Qualified 384-Well COC Source Microplate (384LDV) as" +
+                             " specified in the table below:")
+    level_2_ldv_table = document.add_table(rows=1, cols=3)
+    row_1_cells = level_2_ldv_table.rows[0].cells
+    row_1_cells[0].text = "Well"
+    row_1_cells[1].text = "Reagent"
+    row_1_cells[2].text = "Quantity (nl)"
+
+    # Assigning wells and volumes for DNA ligase buffer (level 1)
+    volume_fulfilled = False
+    previous_fulfilment = 0
+    dead_volume = 3000
+    while not volume_fulfilled:
+        row_cells = level_2_ldv_table.add_row().cells
+        required_transfer_volume = 500 * tu2_quantity - previous_fulfilment
+        row_cells[1].text = "10x DNA ligase buffer (Promega)"
+        if dead_volume + required_transfer_volume > 12000:
+            volume = 12000
+            assign_well_384(level_2_LDV, "10x DNA ligase buffer (Promega)", volume)
+            row_cells[0].text = list(level_2_LDV.keys())[-1]
+            row_cells[2].text = str(volume)
+            previous_fulfilment += 9000
+            continue
+        else:
+            volume = dead_volume + required_transfer_volume
+            assign_well_384(level_2_LDV, "10x DNA ligase buffer (Promega)", volume)
+            row_cells[0].text = list(level_2_LDV.keys())[-1]
+            row_cells[2].text = str(volume)
+            volume_fulfilled = True
+
+    # Assigning wells and volumes for DNA ligase (level 2)
+    volume_fulfilled = False
+    previous_fulfilment = 0
+    dead_volume = 6000
+    while not volume_fulfilled:
+        row_cells = level_2_ldv_table.add_row().cells
+        required_transfer_volume = 125 * tu2_quantity - previous_fulfilment
+        row_cells[1].text = "1-3 units T4 DNA ligase (Promega)"
+        if dead_volume + required_transfer_volume > 14000:
+            volume = 14000
+            assign_well_384(level_2_LDV, "1-3 units T4 DNA ligase (Promega)", volume)
+            row_cells[0].text = list(level_2_LDV.keys())[-1]
+            row_cells[2].text = str(volume)
+            previous_fulfilment += 8000
+            continue
+        else:
+            volume = dead_volume + required_transfer_volume
+            assign_well_384(level_2_LDV, "1-3 units T4 DNA ligase (Promega)", volume)
+            row_cells[0].text = list(level_2_LDV.keys())[-1]
+            row_cells[2].text = str(volume)
+            volume_fulfilled = True
+
+    # Assigning wells and volumes for BsmBI (NEB) (level 2)
+    volume_fulfilled = False
+    previous_fulfilment = 0
+    dead_volume = 6000
+    while not volume_fulfilled:
+        row_cells = level_2_ldv_table.add_row().cells
+        required_transfer_volume = 250 * tu2_quantity - previous_fulfilment
+        row_cells[1].text = "BsmBI (NEB)"
+        if dead_volume + required_transfer_volume > 14000:
+            volume = 14000
+            assign_well_384(level_2_LDV, "BsmBI (NEB)", volume)
+            row_cells[0].text = list(level_2_LDV.keys())[-1]
+            row_cells[2].text = str(volume)
+            previous_fulfilment += 8000
+            continue
+        else:
+            volume = dead_volume + required_transfer_volume
+            assign_well_384(level_2_LDV, "BsmBI (NEB)", volume)
+            row_cells[0].text = list(level_2_LDV.keys())[-1]
+            row_cells[2].text = str(volume)
+            volume_fulfilled = True
+
+    ######################### Assigning wells in level 2 output plate ###############################
+    level_2_output_intro = document.add_paragraph("")
+    level_2_output_intro.add_run("\n" + "Locations of produced transcription unit variants in" +
+                                 " output plate:").bold = True
+
+    level_2_output_table = document.add_table(rows=1, cols=3)
+    row_1_cells = level_2_output_table.rows[0].cells
+    row_1_cells[0].text = "Well"
+    row_1_cells[1].text = "contained TU variant"
+    row_1_cells[2].text = "volume (nl)"
+
+    # Level 2 transcription units
+    for variant in MoClo.level_2_names:
+        row_cells = level_2_output_table.add_row().cells
+        assign_well_384(level_2_output, variant, 5000)
+        row_cells[0].text = list(level_2_output.keys())[-1]
+        row_cells[1].text = variant
+        row_cells[2].text = "5000"
+
 
 # Appendix of document, containing all parts, transcription units, and final designs
 def create_appendix():
@@ -795,9 +1063,9 @@ def create_protocol(event):
     MoClo.transcription_unit_format()
     MoClo.part_use_quantity()
     MoClo.level_2_format()
+    MoClo.transcription_unit_use_quantity()
     calculate_part_quantity()
     calculate_level_1_quantity()
-
     title_introduction()
     if GUI.assembly_method_combo.get() == "Manual":
         create_manual_protocol()
@@ -807,5 +1075,4 @@ def create_protocol(event):
         create_scripts()
 
     create_appendix()
-
     document.save("test.docx")
