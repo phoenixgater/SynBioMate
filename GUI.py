@@ -1142,18 +1142,39 @@ def remove_warnings(event):
         globals()[warning_label_name].grid_forget()
 
 
-# User selection for part:transcription unit volume ratio
-ratio_1_1 = tk.IntVar()
-ratio_1_2 = tk.IntVar()
-ratio_2_1 = tk.IntVar()
-volume_ratio_label = tk.Label(tab4, text="Part:TU volumetric ratio variants to include:")
-volume_ratio_label.grid()
-volume_ratio_checkbox_1_1 = ttk.Checkbutton(tab4, text="1:1", variable=ratio_1_1)
-volume_ratio_checkbox_1_1.grid()
-volume_ratio_checkbox_1_2 = ttk.Checkbutton(tab4, text="1:2", variable=ratio_1_2)
-volume_ratio_checkbox_1_2.grid()
-volume_ratio_checkbox_2_1 = ttk.Checkbutton(tab4, text="2:1", variable=ratio_2_1)
-volume_ratio_checkbox_2_1.grid()
+# User selection for part:level 1 backbone volume ratio
+level_1_ratio_1_1 = tk.IntVar()
+level_1_ratio_1_2 = tk.IntVar()
+level_1_ratio_2_1 = tk.IntVar()
+level_1_volume_ratio_label = tk.Label(tab4, text="Part : level 1 backbone reaction volumetric ratios (2:1 is default "
+                                                 "if none selected, "
+                                                 "multiple selection is allowed):")
+level_1_volume_ratio_label.grid()
+level_1_volume_ratio_checkbox_1_1 = ttk.Checkbutton(tab4, text="1:1", variable=level_1_ratio_1_1)
+level_1_volume_ratio_checkbox_1_1.grid()
+level_1_volume_ratio_checkbox_1_2 = ttk.Checkbutton(tab4, text="1:2", variable=level_1_ratio_1_2)
+level_1_volume_ratio_checkbox_1_2.grid()
+level_1_volume_ratio_checkbox_2_1 = ttk.Checkbutton(tab4, text="2:1", variable=level_1_ratio_2_1)
+level_1_volume_ratio_checkbox_2_1.grid()
+
+# User selection for TU: level 2 backbone ratio
+level_2_ratio_1_1 = tk.IntVar()
+level_2_ratio_1_2 = tk.IntVar()
+level_2_ratio_2_1 = tk.IntVar()
+level_2_volume_ratio_label = tk.Label(tab4, text="TU : level 2 backbone reaction volumetric ratios (2:1 is default if "
+                                                 "none selected, "
+                                                 "multiple selection is allowed):")
+level_2_volume_ratio_label.grid()
+level_2_volume_ratio_checkbox_1_1 = ttk.Checkbutton(tab4, text="1:1", variable=level_2_ratio_1_1)
+level_2_volume_ratio_checkbox_1_1.grid()
+level_2_volume_ratio_checkbox_1_2 = ttk.Checkbutton(tab4, text="1:2", variable=level_2_ratio_1_2)
+level_2_volume_ratio_checkbox_1_2.grid()
+level_2_volume_ratio_checkbox_2_1 = ttk.Checkbutton(tab4, text="2:1", variable=level_2_ratio_2_1)
+level_2_volume_ratio_checkbox_2_1.grid()
+
+
+
+
 
 ################ Main_loop #################
 window.mainloop()

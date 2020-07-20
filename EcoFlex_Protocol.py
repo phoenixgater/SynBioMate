@@ -66,14 +66,39 @@ def assign_well_6res(plate_dictionary, item, volume):
             plate_dictionary["B3"] = [item, volume]
 
 
-# Returns single transfer volumes that correspond to the selected user-input parameters
+# Returns single transfer volumes that correspond to the selected user-input parameters "1_1" denotes the reaction ratio
 def transfer_volume(item):
-    if item == "level_1_water":
+    if item == "level_1_water_2_1":
         if GUI.include_signal_combo.get() == "No":
             return 1875
         else:
             return 1375
-    elif item == "level_2_water":
+    elif item == "level_1_water_1_2":
+        if GUI.include_signal_combo.get() == "No":
+            return 2625
+        else:
+            return 2375
+    elif item == "level_1_Water_1_1":
+        if GUI.include_signal_combo.get() == "No":
+            return 2875
+        else:
+            return 2625
+
+    elif item == "level_1_part_2_1":
+        return 500
+    elif item == "level_1_part_1_2":
+        return 250
+    elif item == "level_1_part_1_1":
+        return 250
+
+    elif item == "level_1_backbone_2_1":
+        return 250
+    elif item == "level_1_backbone_1_2":
+        return 500
+    elif item == "level_1_backbone_1_1":
+        return 250
+
+    elif item == "level_2_water_2_1":
         if GUI.transcription_unit_quantity_combo.get() == "2":
             return 2875
         elif GUI.transcription_unit_quantity_combo.get() == "3":
@@ -82,40 +107,38 @@ def transfer_volume(item):
             return 1875
         elif GUI.transcription_unit_quantity_combo.get() == "5":
             return 1375
+    elif item == "level_2_water_1_2":
+        if GUI.transcription_unit_quantity_combo.get() == "2":
+            return 3125
+        elif GUI.transcription_unit_quantity_combo.get() == "3":
+            return 2875
+        elif GUI.transcription_unit_quantity_combo.get() == "4":
+            return 2625
+        elif GUI.transcription_unit_quantity_combo.get() == "5":
+            return 2375
+    elif item == "level_2_water_1_1":
+        if GUI.transcription_unit_quantity_combo.get() == "2":
+            return 3375
+        elif GUI.transcription_unit_quantity_combo.get() == "3":
+            return 3125
+        elif GUI.transcription_unit_quantity_combo.get() == "4":
+            return 2875
+        elif GUI.transcription_unit_quantity_combo.get() == "5":
+            return 2625
 
-    elif item == "level_1_part_1_1":
-        print("test")
-    elif item == "level_1_part_1_2":
-        print("test")
-    elif item == "level_1_part_2_1":
-        print("test")
-
-    elif item == "level_1_backbone_1_1":
-        print("test")
-    elif item == "level_1_backbone_1_2":
-        print("test")
-    elif item == "level_1_backbone_2_1":
-        print("test")
-
-    elif item == "level_2_tu_1_1":
-        print("test")
-    elif item == "level_2_tu_1_2":
-        print("test")
     elif item == "level_2_tu_2_1":
-        print("test")
+        return 500
+    elif item == "level_2_tu_1_2":
+        return 250
+    elif item == "level_2_tu_1_1":
+        return 250
 
-    elif item == "level_2_backbone_1_1":
-        print("test")
-    elif item == "level_2_backbone_1_2":
-        print("test")
     elif item == "level_2_backbone_2_1":
-        print("test")
-
-
-
-
-
-
+        return 250
+    elif item == "level_2_backbone_1_2":
+        return 500
+    elif item == "level_2_backbone_1_1":
+        return 250
 
 
 # Calculate part quantity
@@ -322,9 +345,10 @@ def create_automatic_protocol():
     for key in part_quantities.keys():
         volume_fulfilled = False
         previous_fulfilment = 0
+        single_transfer_volume = transfer_volume("level_1_part_2_1")
         while not volume_fulfilled:
             row_cells = level_1_protocol_table.add_row().cells
-            required_transfer_volume = 500 * part_quantities[key] - previous_fulfilment
+            required_transfer_volume = single_transfer_volume * part_quantities[key] - previous_fulfilment
             row_cells[1].text = key
             if dead_volume + required_transfer_volume > 65000:
                 volume = 65000
@@ -344,9 +368,11 @@ def create_automatic_protocol():
     if int(GUI.transcription_unit_quantity_combo.get()) > 1:
         volume_fulfilled = False
         previous_fulfilment = 0
+        single_transfer_volume = transfer_volume("level_1_backbone_2_1")
         while not volume_fulfilled:
             row_cells = level_1_protocol_table.add_row().cells
-            required_transfer_volume = 250 * (len(MoClo.transcription_unit_1_names)) - previous_fulfilment
+            required_transfer_volume = single_transfer_volume * (
+                len(MoClo.transcription_unit_1_names)) - previous_fulfilment
             row_cells[1].text = "pTU1-A-lacZ"
             if dead_volume + required_transfer_volume > 65000:
                 volume = 65000
@@ -365,9 +391,11 @@ def create_automatic_protocol():
         # Assigning wells and volumes for level 1 plasmid backbone B (level 1)
         volume_fulfilled = False
         previous_fulfilment = 0
+        single_transfer_volume = transfer_volume("level_1_backbone_2_1")
         while not volume_fulfilled:
             row_cells = level_1_protocol_table.add_row().cells
-            required_transfer_volume = 250 * (len(MoClo.transcription_unit_2_names)) - previous_fulfilment
+            required_transfer_volume = single_transfer_volume * (
+                len(MoClo.transcription_unit_2_names)) - previous_fulfilment
             row_cells[1].text = "pTU1-B-lacZ"
             if dead_volume + required_transfer_volume > 65000:
                 volume = 65000
@@ -387,9 +415,11 @@ def create_automatic_protocol():
     if int(GUI.transcription_unit_quantity_combo.get()) > 2:
         volume_fulfilled = False
         previous_fulfilment = 0
+        single_transfer_volume = transfer_volume("level_1_backbone_2_1")
         while not volume_fulfilled:
             row_cells = level_1_protocol_table.add_row().cells
-            required_transfer_volume = 250 * (len(MoClo.transcription_unit_3_names)) - previous_fulfilment
+            required_transfer_volume = single_transfer_volume * (
+                len(MoClo.transcription_unit_3_names)) - previous_fulfilment
             row_cells[1].text = "pTU1-C-lacZ"
             if dead_volume + required_transfer_volume > 65000:
                 volume = 65000
@@ -410,9 +440,11 @@ def create_automatic_protocol():
         if int(GUI.transcription_unit_quantity_combo.get()) == 4:
             volume_fulfilled = False
             previous_fulfilment = 0
+            single_transfer_volume = transfer_volume("level_1_backbone_2_1")
             while not volume_fulfilled:
                 row_cells = level_1_protocol_table.add_row().cells
-                required_transfer_volume = 250 * (len(MoClo.transcription_unit_4_names)) - previous_fulfilment
+                required_transfer_volume = single_transfer_volume * (
+                    len(MoClo.transcription_unit_4_names)) - previous_fulfilment
                 row_cells[1].text = "pTU1-D-lacZ"
                 if dead_volume + required_transfer_volume > 65000:
                     volume = 65000
@@ -431,9 +463,11 @@ def create_automatic_protocol():
         elif int(GUI.transcription_unit_quantity_combo.get()) == 5:
             volume_fulfilled = False
             previous_fulfilment = 0
+            single_transfer_volume = transfer_volume("level_1_backbone_2_1")
             while not volume_fulfilled:
                 row_cells = level_1_protocol_table.add_row().cells
-                required_transfer_volume = 250 * (len(MoClo.transcription_unit_4_names)) - previous_fulfilment
+                required_transfer_volume = single_transfer_volume * (
+                    len(MoClo.transcription_unit_4_names)) - previous_fulfilment
                 row_cells[1].text = "pTU1-D1-lacZ"
                 if dead_volume + required_transfer_volume > 65000:
                     volume = 65000
@@ -453,9 +487,11 @@ def create_automatic_protocol():
     if int(GUI.transcription_unit_quantity_combo.get()) > 4:
         volume_fulfilled = False
         previous_fulfilment = 0
+        single_transfer_volume = transfer_volume("level_1_backbone_2_1")
         while not volume_fulfilled:
             row_cells = level_1_protocol_table.add_row().cells
-            required_transfer_volume = 250 * (len(MoClo.transcription_unit_5_names)) - previous_fulfilment
+            required_transfer_volume = single_transfer_volume * (
+                len(MoClo.transcription_unit_5_names)) - previous_fulfilment
             row_cells[1].text = "pTU1-E-lacZ"
             if dead_volume + required_transfer_volume > 65000:
                 volume = 65000
@@ -485,7 +521,7 @@ def create_automatic_protocol():
     volume_fulfilled = False
     previous_fulfilment = 0
     dead_volume = 250000
-    single_transfer_volume = transfer_volume("level_1_water")
+    single_transfer_volume = transfer_volume("level_1_water_2_1")
     while not volume_fulfilled:
         row_cells = level_1_6res_table.add_row().cells
         required_transfer_volume = single_transfer_volume * level_1_tu_quantity - previous_fulfilment
@@ -667,9 +703,10 @@ def create_automatic_protocol():
     for variant in tu1_quantities.keys():
         volume_fulfilled = False
         previous_fulfilment = 0
+        single_transfer_volume = transfer_volume("level_2_tu_2_1")
         while not volume_fulfilled:
             row_cells = level_2_protocol_table.add_row().cells
-            required_transfer_volume = 500 * tu1_quantities[variant] - previous_fulfilment
+            required_transfer_volume = single_transfer_volume * tu1_quantities[variant] - previous_fulfilment
             row_cells[1].text = variant
             if dead_volume + required_transfer_volume > 65000:
                 volume = 65000
@@ -697,9 +734,10 @@ def create_automatic_protocol():
     dead_volume = 15000
     volume_fulfilled = False
     previous_fulfilment = 0
+    single_transfer_volume = transfer_volume("level_2_backbone_2_1")
     while not volume_fulfilled:
         row_cells = level_2_protocol_table.add_row().cells
-        required_transfer_volume = 250 * tu2_quantity - previous_fulfilment
+        required_transfer_volume = single_transfer_volume * tu2_quantity - previous_fulfilment
         row_cells[1].text = level_2_backbone
         if dead_volume + required_transfer_volume > 65000:
             volume = 65000
@@ -729,7 +767,7 @@ def create_automatic_protocol():
     volume_fulfilled = False
     previous_fulfilment = 0
     dead_volume = 250000
-    single_transfer_volume = transfer_volume("level_2_water")
+    single_transfer_volume = transfer_volume("level_2_water_2_1")
     while not volume_fulfilled:
         row_cells = level_2_6res_table.add_row().cells
         required_transfer_volume = single_transfer_volume * tu2_quantity - previous_fulfilment
