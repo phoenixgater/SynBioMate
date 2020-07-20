@@ -26,6 +26,17 @@ well_numbers_384 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12
 transcription_unit_quantity = GUI.transcription_unit_quantity_combo.get()
 signal_peptide_choice = GUI.include_signal_combo.get()
 
+def create_selected_rection_list():
+    global selected_reaction_ratios
+    selected_reaction_ratios = []
+    if GUI.level_1_ratio_1_1.get() == 1:
+        selected_reaction_ratios.append(" reaction 1:1")
+    if GUI.level_1_ratio_1_2.get() == 1:
+        selected_reaction_ratios.append(" reaction 1:2")
+    if GUI.level_1_ratio_2_1.get() == 1:
+        selected_reaction_ratios.append(" reaction 2:1")
+    if not selected_reaction_ratios:
+        selected_reaction_ratios.append(" reaction 2:1")
 
 # Assign wells to genetic parts and reagents for 384 plates, specifies volumes
 def assign_well_384(plate_dictionary, item, volume):
@@ -167,7 +178,6 @@ def calculate_level_1_quantity():
         level_1_tu_quantity = (len(MoClo.transcription_unit_1_names) + len(MoClo.transcription_unit_2_names) +
                                len(MoClo.transcription_unit_3_names) + len(MoClo.transcription_unit_4_names) +
                                len(MoClo.transcription_unit_5_names))
-
 
 # Title and introduction of document
 def title_introduction():
@@ -371,8 +381,7 @@ def create_automatic_protocol():
         single_transfer_volume = transfer_volume("level_1_backbone_2_1")
         while not volume_fulfilled:
             row_cells = level_1_protocol_table.add_row().cells
-            required_transfer_volume = single_transfer_volume * (
-                len(MoClo.transcription_unit_1_names)) - previous_fulfilment
+            required_transfer_volume = single_transfer_volume * len(MoClo.transcription_unit_1_names) - previous_fulfilment
             row_cells[1].text = "pTU1-A-lacZ"
             if dead_volume + required_transfer_volume > 65000:
                 volume = 65000
@@ -394,8 +403,7 @@ def create_automatic_protocol():
         single_transfer_volume = transfer_volume("level_1_backbone_2_1")
         while not volume_fulfilled:
             row_cells = level_1_protocol_table.add_row().cells
-            required_transfer_volume = single_transfer_volume * (
-                len(MoClo.transcription_unit_2_names)) - previous_fulfilment
+            required_transfer_volume = single_transfer_volume * len(MoClo.transcription_unit_2_names) - previous_fulfilment
             row_cells[1].text = "pTU1-B-lacZ"
             if dead_volume + required_transfer_volume > 65000:
                 volume = 65000
@@ -418,8 +426,7 @@ def create_automatic_protocol():
         single_transfer_volume = transfer_volume("level_1_backbone_2_1")
         while not volume_fulfilled:
             row_cells = level_1_protocol_table.add_row().cells
-            required_transfer_volume = single_transfer_volume * (
-                len(MoClo.transcription_unit_3_names)) - previous_fulfilment
+            required_transfer_volume = single_transfer_volume * len(MoClo.transcription_unit_3_names) - previous_fulfilment
             row_cells[1].text = "pTU1-C-lacZ"
             if dead_volume + required_transfer_volume > 65000:
                 volume = 65000
@@ -443,8 +450,7 @@ def create_automatic_protocol():
             single_transfer_volume = transfer_volume("level_1_backbone_2_1")
             while not volume_fulfilled:
                 row_cells = level_1_protocol_table.add_row().cells
-                required_transfer_volume = single_transfer_volume * (
-                    len(MoClo.transcription_unit_4_names)) - previous_fulfilment
+                required_transfer_volume = single_transfer_volume * len(MoClo.transcription_unit_4_names) - previous_fulfilment
                 row_cells[1].text = "pTU1-D-lacZ"
                 if dead_volume + required_transfer_volume > 65000:
                     volume = 65000
@@ -466,8 +472,7 @@ def create_automatic_protocol():
             single_transfer_volume = transfer_volume("level_1_backbone_2_1")
             while not volume_fulfilled:
                 row_cells = level_1_protocol_table.add_row().cells
-                required_transfer_volume = single_transfer_volume * (
-                    len(MoClo.transcription_unit_4_names)) - previous_fulfilment
+                required_transfer_volume = single_transfer_volume * len(MoClo.transcription_unit_4_names) - previous_fulfilment
                 row_cells[1].text = "pTU1-D1-lacZ"
                 if dead_volume + required_transfer_volume > 65000:
                     volume = 65000
@@ -490,8 +495,7 @@ def create_automatic_protocol():
         single_transfer_volume = transfer_volume("level_1_backbone_2_1")
         while not volume_fulfilled:
             row_cells = level_1_protocol_table.add_row().cells
-            required_transfer_volume = single_transfer_volume * (
-                len(MoClo.transcription_unit_5_names)) - previous_fulfilment
+            required_transfer_volume = single_transfer_volume * len(MoClo.transcription_unit_5_names) - previous_fulfilment
             row_cells[1].text = "pTU1-E-lacZ"
             if dead_volume + required_transfer_volume > 65000:
                 volume = 65000
@@ -628,7 +632,10 @@ def create_automatic_protocol():
     row_1_cells[1].text = "contained TU variant"
     row_1_cells[2].text = "volume (nl)"
 
+    global selected_reaction_ratios
+
     # Level 1 transcription unit variant 1
+
     for variant in MoClo.transcription_unit_1_names:
         row_cells = level_1_output_table.add_row().cells
         assign_well_384(level_1_output, variant, 5000)
@@ -637,6 +644,7 @@ def create_automatic_protocol():
         row_cells[2].text = "5000"
 
     # Level 1 transcription unit variant 2
+
     for variant in MoClo.transcription_unit_2_names:
         row_cells = level_1_output_table.add_row().cells
         assign_well_384(level_1_output, variant, 5000)
@@ -645,6 +653,7 @@ def create_automatic_protocol():
         row_cells[2].text = "5000"
 
     # Level 1 transcription unit variant 3
+
     for variant in MoClo.transcription_unit_3_names:
         row_cells = level_1_output_table.add_row().cells
         assign_well_384(level_1_output, variant, 5000)
@@ -653,6 +662,7 @@ def create_automatic_protocol():
         row_cells[2].text = "5000"
 
     # Level 1 transcription unit variant 4
+
     for variant in MoClo.transcription_unit_4_names:
         row_cells = level_1_output_table.add_row().cells
         assign_well_384(level_1_output, variant, 5000)
@@ -661,6 +671,7 @@ def create_automatic_protocol():
         row_cells[2].text = "5000"
 
     # Level 1 transcription unit variant 5
+
     for variant in MoClo.transcription_unit_5_names:
         row_cells = level_1_output_table.add_row().cells
         assign_well_384(level_1_output, variant, 5000)
@@ -1104,6 +1115,7 @@ def create_protocol(event):
     MoClo.transcription_unit_use_quantity()
     calculate_part_quantity()
     calculate_level_1_quantity()
+    create_selected_rection_list()
     title_introduction()
     if GUI.assembly_method_combo.get() == "Manual":
         create_manual_protocol()
