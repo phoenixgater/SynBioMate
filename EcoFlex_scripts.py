@@ -51,6 +51,12 @@ def level_1_transcription_units():
     row = 0
     uid = 0
     for destination_well in level_1_output.keys():
+        if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
+            transfer_volume = EcoFlex_protocol.transfer_volume("level_1_water_1_1")
+        elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
+            transfer_volume = EcoFlex_protocol.transfer_volume("level_1_water_1_2")
+        elif level_1_output[destination_well][0].find("reaction 2:1") >= 0:
+            transfer_volume = EcoFlex_protocol.transfer_volume("level_1_water_2_1")
         row += 1
         uid += 1
         worksheet.write(row, 0, uid)
@@ -60,9 +66,8 @@ def level_1_transcription_units():
         worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate (384PP)")
         worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
         worksheet.write(row, 8, "Deionised water")
-        worksheet.write(row, 7, 1875)
+        worksheet.write(row, 7, transfer_volume)
         dead_volume_6res = 250000
-        transfer_volume = 1875
         for key in level_1_6RES:
             if level_1_6RES[key][0] == "deionised water":
                 if level_1_6RES[key][1] >= dead_volume_6res + transfer_volume:
@@ -148,39 +153,49 @@ def level_1_transcription_units():
 
     # Parts
     dead_volume_dna = 15000
-    transfer_volume = 500
     row = 0
     uid = 0
 
     for destination_well in level_1_output.keys():
         for tu_name in level_1_dictionary.keys():
-            if level_1_output[destination_well][0] == tu_name:
+            if level_1_output[destination_well][0].find(tu_name) >= 0:
                 part_list = level_1_dictionary[tu_name]
                 for part in part_list:
                     for source_well in level_1_384PP.keys():
                         if part == level_1_384PP[source_well][0]:
-                            if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
-                                level_1_384PP[source_well][1] -= transfer_volume
-                                row += 1
-                                uid += 1
-                                worksheet.write(row, 0, uid)
-                                worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
-                                worksheet.write(row, 2, "384LDV_AQ_B")
-                                worksheet.write(row, 3, source_well)
-                                worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
-                                worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
-                                                        "384PP)")
-                                worksheet.write(row, 6, destination_well)
-                                worksheet.write(row, 7, transfer_volume)
-                                worksheet.write(row, 8, part)
-                                break
+                                if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
+                                    transfer_volume = EcoFlex_protocol.transfer_volume("level_1_part_1_1")
+                                elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
+                                    transfer_volume = EcoFlex_protocol.transfer_volume("level_1_part_1_2")
+                                elif level_1_output[destination_well][0].find("reaction 2:1") >= 0:
+                                    transfer_volume = EcoFlex_protocol.transfer_volume("level_1_part_2_1")
+                                if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
+                                    level_1_384PP[source_well][1] -= transfer_volume
+                                    row += 1
+                                    uid += 1
+                                    worksheet.write(row, 0, uid)
+                                    worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
+                                    worksheet.write(row, 2, "384LDV_AQ_B")
+                                    worksheet.write(row, 3, source_well)
+                                    worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
+                                    worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
+                                                            "384PP)")
+                                    worksheet.write(row, 6, destination_well)
+                                    worksheet.write(row, 7, transfer_volume)
+                                    worksheet.write(row, 8, part)
+                                    break
 
     # Plasmid backbones
-    transfer_volume = 250
     for destination_well in level_1_output.keys():
         if level_1_output[destination_well][0].find("Transcription unit 1") == 0:
             for source_well in level_1_384PP:
                 if level_1_384PP[source_well][0] == "pTU1-A-lacZ":
+                    if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_1")
+                    elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_2")
+                    elif level_1_output[destination_well][0].find("reaction 2:1") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_2_1")
                     if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
                         level_1_384PP[source_well][1] -= transfer_volume
                         row += 1
@@ -197,9 +212,15 @@ def level_1_transcription_units():
                         worksheet.write(row, 8, "pTU1-A-lacZ")
                         break
 
-        elif level_1_output[destination_well][0].find("Transcription unit 2") == 0:
+        elif level_1_output[destination_well][0].find("Transcription unit 2") >= 0:
             for source_well in level_1_384PP:
                 if level_1_384PP[source_well][0] == "pTU1-B-lacZ":
+                    if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_1")
+                    elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_2")
+                    elif level_1_output[destination_well][0].find("reaction 2:1") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_2_1")
                     if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
                         level_1_384PP[source_well][1] -= transfer_volume
                         row += 1
@@ -216,9 +237,15 @@ def level_1_transcription_units():
                         worksheet.write(row, 8, "pTU1-B-lacZ")
                         break
 
-        elif level_1_output[destination_well][0].find("Transcription unit 3") == 0:
+        elif level_1_output[destination_well][0].find("Transcription unit 3") >= 0:
             for source_well in level_1_384PP:
                 if level_1_384PP[source_well][0] == "pTU1-C-lacZ":
+                    if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_1")
+                    elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_2")
+                    elif level_1_output[destination_well][0].find("reaction 2:1") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_2_1")
                     if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
                         level_1_384PP[source_well][1] -= transfer_volume
                         row += 1
@@ -239,6 +266,12 @@ def level_1_transcription_units():
             if int(GUI.transcription_unit_quantity_combo.get()) == 4:
                 for source_well in level_1_384PP:
                     if level_1_384PP[source_well][0] == "pTU1-D-lacZ":
+                        if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
+                            transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_1")
+                        elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
+                            transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_2")
+                        elif level_1_output[destination_well][0].find("reaction 2:1") >= 0:
+                            transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_2_1")
                         if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
                             level_1_384PP[source_well][1] -= transfer_volume
                             row += 1
@@ -258,6 +291,12 @@ def level_1_transcription_units():
             elif int(GUI.transcription_unit_quantity_combo.get()) == 5:
                 for source_well in level_1_384PP:
                     if level_1_384PP[source_well][0] == "pTU1-D1-lacZ":
+                        if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
+                            transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_1")
+                        elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
+                            transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_2")
+                        elif level_1_output[destination_well][0].find("reaction 2:1") >= 0:
+                            transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_2_1")
                         if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
                             level_1_384PP[source_well][1] -= transfer_volume
                             row += 1
@@ -277,6 +316,12 @@ def level_1_transcription_units():
         elif level_1_output[destination_well][0].find("Transcription unit 5") == 0:
             for source_well in level_1_384PP:
                 if level_1_384PP[source_well][0] == "pTU1-E-lacZ":
+                    if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_1")
+                    elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_2")
+                    elif level_1_output[destination_well][0].find("reaction 2:1") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_2_1")
                     if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
                         level_1_384PP[source_well][1] -= transfer_volume
                         row += 1
@@ -303,6 +348,12 @@ def level_2_transcription_units():
     row = 0
     uid = 0
     for destination_well in level_2_output.keys():
+        if level_2_output[destination_well][0].find("reaction 1:1") >= 0:
+            transfer_volume = EcoFlex_protocol.transfer_volume("level_2_water_1_1")
+        elif level_2_output[destination_well][0].find("reaction 1:2") >= 0:
+            transfer_volume = EcoFlex_protocol.transfer_volume("level_2_water_1_2")
+        elif level_2_output[destination_well][0].find("reaction 2:1") >= 0:
+            transfer_volume = EcoFlex_protocol.transfer_volume("level_2_water_2_1")
         row += 1
         uid += 1
         worksheet.write(row, 0, uid)
@@ -411,6 +462,12 @@ def level_2_transcription_units():
                 for tu in tu_list:
                     for source_well in level_2_384PP.keys():
                         if tu == level_2_384PP[source_well][0]:
+                            if level_2_output[destination_well][0].find("reaction 1:1") >= 0:
+                                transfer_volume = EcoFlex_protocol.transfer_volume("level_2_tu_1_1")
+                            elif level_2_output[destination_well][0].find("reaction 1:2") >= 0:
+                                transfer_volume = EcoFlex_protocol.transfer_volume("level_2_tu_1_2")
+                            elif level_2_output[destination_well][0].find("reaction 2:1") >= 0:
+                                transfer_volume = EcoFlex_protocol.transfer_volume("level_2_tu_2_1")
                             if level_2_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
                                 level_2_384PP[source_well][1] -= transfer_volume
                                 row += 1
@@ -433,6 +490,12 @@ def level_2_transcription_units():
         if int(GUI.transcription_unit_quantity_combo.get()) == 2:
             for source_well in level_2_384PP.keys():
                 if level_2_384PP[source_well][0] == "pTU2-a-RFP":
+                    if level_2_output[destination_well][0].find("reaction 1:1") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_2_backbone_1_1")
+                    elif level_2_output[destination_well][0].find("reaction 1:2") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_2_backbone_1_2")
+                    elif level_2_output[destination_well][0].find("reaction 2:1") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_2_backbone_2_1")
                     if level_2_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
                         level_2_384PP[source_well][1] -= transfer_volume
                         row += 1
@@ -452,6 +515,12 @@ def level_2_transcription_units():
         elif int(GUI.transcription_unit_quantity_combo.get()) == 3:
             for source_well in level_2_384PP.keys():
                 if level_2_384PP[source_well][0] == "pTU2-b-RFP":
+                    if level_2_output[destination_well][0].find("reaction 1:1") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_2_backbone_1_1")
+                    elif level_2_output[destination_well][0].find("reaction 1:2") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_2_backbone_1_2")
+                    elif level_2_output[destination_well][0].find("reaction 2:1") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_2_backbone_2_1")
                     if level_2_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
                         level_2_384PP[source_well][1] -= transfer_volume
                         row += 1
@@ -471,6 +540,12 @@ def level_2_transcription_units():
         elif int(GUI.transcription_unit_quantity_combo.get()) > 3:
             for source_well in level_2_384PP.keys():
                 if level_2_384PP[source_well][0] == "pTU2-A-RFP":
+                    if level_2_output[destination_well][0].find("reaction 1:1") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_2_backbone_1_1")
+                    elif level_2_output[destination_well][0].find("reaction 1:2") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_2_backbone_1_2")
+                    elif level_2_output[destination_well][0].find("reaction 2:1") >= 0:
+                        transfer_volume = EcoFlex_protocol.transfer_volume("level_2_backbone_2_1")
                     if level_2_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
                         level_2_384PP[source_well][1] -= transfer_volume
                         row += 1

@@ -49,7 +49,7 @@ class MenuBar(ttk.Frame):
         self.init_gui()
 
     def init_gui(self):
-        self.master.title("Main menu")
+        self.master.title("SynBioMate")
 
         menu_bar = tk.Menu(self.master)
         self.master.config(menu=menu_bar)

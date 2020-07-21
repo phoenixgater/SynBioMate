@@ -26,17 +26,29 @@ well_numbers_384 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12
 transcription_unit_quantity = GUI.transcription_unit_quantity_combo.get()
 signal_peptide_choice = GUI.include_signal_combo.get()
 
-def create_selected_rection_list():
-    global selected_reaction_ratios
-    selected_reaction_ratios = []
+def create_selected_reaction_list():
+    global selected_reaction_ratios_level_1
+    selected_reaction_ratios_level_1 = []
     if GUI.level_1_ratio_1_1.get() == 1:
-        selected_reaction_ratios.append(" reaction 1:1")
+        selected_reaction_ratios_level_1.append(" reaction 1:1")
     if GUI.level_1_ratio_1_2.get() == 1:
-        selected_reaction_ratios.append(" reaction 1:2")
+        selected_reaction_ratios_level_1.append(" reaction 1:2")
     if GUI.level_1_ratio_2_1.get() == 1:
-        selected_reaction_ratios.append(" reaction 2:1")
-    if not selected_reaction_ratios:
-        selected_reaction_ratios.append(" reaction 2:1")
+        selected_reaction_ratios_level_1.append(" reaction 2:1")
+    if not selected_reaction_ratios_level_1:
+        selected_reaction_ratios_level_1.append(" reaction 2:1")
+
+    global selected_reaction_ratios_level_2
+    selected_reaction_ratios_level_2 = []
+    if GUI.level_2_ratio_1_1.get() == 1:
+        selected_reaction_ratios_level_2.append(" reaction 1:1")
+    if GUI.level_2_ratio_1_2.get() == 1:
+        selected_reaction_ratios_level_2.append(" reaction 1:2")
+    if GUI.level_2_ratio_2_1.get() == 1:
+        selected_reaction_ratios_level_2.append(" reaction 2:1")
+    if not selected_reaction_ratios_level_2:
+        selected_reaction_ratios_level_2.append(" reaction 2:1")
+
 
 # Assign wells to genetic parts and reagents for 384 plates, specifies volumes
 def assign_well_384(plate_dictionary, item, volume):
@@ -89,7 +101,7 @@ def transfer_volume(item):
             return 2625
         else:
             return 2375
-    elif item == "level_1_Water_1_1":
+    elif item == "level_1_water_1_1":
         if GUI.include_signal_combo.get() == "No":
             return 2875
         else:
@@ -348,6 +360,7 @@ def create_automatic_protocol():
     row_1_cells[0].text = "Well"
     row_1_cells[1].text = "Genetic part"
     row_1_cells[2].text = "Quantity (nl)"
+    global selected_reaction_ratios_level_1
 
     # Assigning wells and volumes for parts (level 1)
     part_quantities = MoClo.part_quantities
@@ -355,12 +368,19 @@ def create_automatic_protocol():
     for key in part_quantities.keys():
         volume_fulfilled = False
         previous_fulfilment = 0
-        single_transfer_volume = transfer_volume("level_1_part_2_1")
         while not volume_fulfilled:
+            required_transfer_volume = 0
+            for reaction in selected_reaction_ratios_level_1:
+                if reaction == " reaction 1:1":
+                    required_transfer_volume += transfer_volume("level_1_part_1_1") * part_quantities[key]
+                elif reaction == " reaction 1:2":
+                    required_transfer_volume += transfer_volume("level_1_part_1_2") * part_quantities[key]
+                elif reaction == " reaction 2:1":
+                    required_transfer_volume += transfer_volume("level_1_part_2_1") * part_quantities[key]
             row_cells = level_1_protocol_table.add_row().cells
-            required_transfer_volume = single_transfer_volume * part_quantities[key] - previous_fulfilment
+            volume_required = required_transfer_volume - previous_fulfilment
             row_cells[1].text = key
-            if dead_volume + required_transfer_volume > 65000:
+            if dead_volume + volume_required > 65000:
                 volume = 65000
                 assign_well_384(level_1_384PP, key, volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
@@ -368,7 +388,7 @@ def create_automatic_protocol():
                 previous_fulfilment += 50000
                 continue
             else:
-                volume = dead_volume + required_transfer_volume
+                volume = dead_volume + volume_required
                 assign_well_384(level_1_384PP, key, volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
                 row_cells[2].text = str(volume)
@@ -378,12 +398,19 @@ def create_automatic_protocol():
     if int(GUI.transcription_unit_quantity_combo.get()) > 1:
         volume_fulfilled = False
         previous_fulfilment = 0
-        single_transfer_volume = transfer_volume("level_1_backbone_2_1")
         while not volume_fulfilled:
+            required_transfer_volume = 0
+            for reaction in selected_reaction_ratios_level_1:
+                if reaction == " reaction 1:1":
+                    required_transfer_volume += transfer_volume("level_1_backbone_1_1") * len(MoClo.transcription_unit_1_names)
+                elif reaction == " reaction 1:2":
+                    required_transfer_volume += transfer_volume("level_1_backbone_1_2") * len(MoClo.transcription_unit_1_names)
+                elif reaction == " reaction 2:1":
+                    required_transfer_volume += transfer_volume("level_1_backbone_2_1") * len(MoClo.transcription_unit_1_names)
             row_cells = level_1_protocol_table.add_row().cells
-            required_transfer_volume = single_transfer_volume * len(MoClo.transcription_unit_1_names) - previous_fulfilment
+            volume_required = required_transfer_volume - previous_fulfilment
             row_cells[1].text = "pTU1-A-lacZ"
-            if dead_volume + required_transfer_volume > 65000:
+            if dead_volume + volume_required > 65000:
                 volume = 65000
                 assign_well_384(level_1_384PP, "pTU1-A-lacZ", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
@@ -391,7 +418,7 @@ def create_automatic_protocol():
                 previous_fulfilment += 50000
                 continue
             else:
-                volume = dead_volume + required_transfer_volume
+                volume = dead_volume + volume_required
                 assign_well_384(level_1_384PP, "pTU1-A-lacZ", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
                 row_cells[2].text = str(volume)
@@ -400,12 +427,19 @@ def create_automatic_protocol():
         # Assigning wells and volumes for level 1 plasmid backbone B (level 1)
         volume_fulfilled = False
         previous_fulfilment = 0
-        single_transfer_volume = transfer_volume("level_1_backbone_2_1")
         while not volume_fulfilled:
+            required_transfer_volume = 0
+            for reaction in selected_reaction_ratios_level_1:
+                if reaction == " reaction 1:1":
+                    required_transfer_volume += transfer_volume("level_1_backbone_1_1") * len(MoClo.transcription_unit_2_names)
+                elif reaction == " reaction 1:2":
+                    required_transfer_volume += transfer_volume("level_1_backbone_1_2") * len(MoClo.transcription_unit_2_names)
+                elif reaction == " reaction 2:1":
+                    required_transfer_volume += transfer_volume("level_1_backbone_2_1") * len(MoClo.transcription_unit_2_names)
             row_cells = level_1_protocol_table.add_row().cells
-            required_transfer_volume = single_transfer_volume * len(MoClo.transcription_unit_2_names) - previous_fulfilment
+            volume_required = required_transfer_volume - previous_fulfilment
             row_cells[1].text = "pTU1-B-lacZ"
-            if dead_volume + required_transfer_volume > 65000:
+            if dead_volume + volume_required > 65000:
                 volume = 65000
                 assign_well_384(level_1_384PP, "pTU1-B-lacZ", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
@@ -413,7 +447,7 @@ def create_automatic_protocol():
                 previous_fulfilment += 50000
                 continue
             else:
-                volume = dead_volume + required_transfer_volume
+                volume = dead_volume + volume_required
                 assign_well_384(level_1_384PP, "pTU1-B-lacZ", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
                 row_cells[2].text = str(volume)
@@ -423,12 +457,19 @@ def create_automatic_protocol():
     if int(GUI.transcription_unit_quantity_combo.get()) > 2:
         volume_fulfilled = False
         previous_fulfilment = 0
-        single_transfer_volume = transfer_volume("level_1_backbone_2_1")
         while not volume_fulfilled:
+            required_transfer_volume = 0
+            for reaction in selected_reaction_ratios_level_1:
+                if reaction == " reaction 1:1":
+                    required_transfer_volume += transfer_volume("level_1_backbone_1_1") * len(MoClo.transcription_unit_3_names)
+                elif reaction == " reaction 1:2":
+                    required_transfer_volume += transfer_volume("level_1_backbone_1_2") * len(MoClo.transcription_unit_3_names)
+                elif reaction == " reaction 2:1":
+                    required_transfer_volume += transfer_volume("level_1_backbone_2_1") * len(MoClo.transcription_unit_3_names)
             row_cells = level_1_protocol_table.add_row().cells
-            required_transfer_volume = single_transfer_volume * len(MoClo.transcription_unit_3_names) - previous_fulfilment
+            volume_required = required_transfer_volume - previous_fulfilment
             row_cells[1].text = "pTU1-C-lacZ"
-            if dead_volume + required_transfer_volume > 65000:
+            if dead_volume + volume_required > 65000:
                 volume = 65000
                 assign_well_384(level_1_384PP, "pTU1-C-lacZ", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
@@ -436,7 +477,7 @@ def create_automatic_protocol():
                 previous_fulfilment += 50000
                 continue
             else:
-                volume = dead_volume + required_transfer_volume
+                volume = dead_volume + volume_required
                 assign_well_384(level_1_384PP, "pTU1-C-lacZ", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
                 row_cells[2].text = str(volume)
@@ -447,12 +488,22 @@ def create_automatic_protocol():
         if int(GUI.transcription_unit_quantity_combo.get()) == 4:
             volume_fulfilled = False
             previous_fulfilment = 0
-            single_transfer_volume = transfer_volume("level_1_backbone_2_1")
             while not volume_fulfilled:
+                required_transfer_volume = 0
+                for reaction in selected_reaction_ratios_level_1:
+                    if reaction == " reaction 1:1":
+                        required_transfer_volume += transfer_volume("level_1_backbone_1_1") * len(
+                            MoClo.transcription_unit_4_names)
+                    elif reaction == " reaction 1:2":
+                        required_transfer_volume += transfer_volume("level_1_backbone_1_2") * len(
+                            MoClo.transcription_unit_4_names)
+                    elif reaction == " reaction 2:1":
+                        required_transfer_volume += transfer_volume("level_1_backbone_2_1") * len(
+                            MoClo.transcription_unit_4_names)
                 row_cells = level_1_protocol_table.add_row().cells
-                required_transfer_volume = single_transfer_volume * len(MoClo.transcription_unit_4_names) - previous_fulfilment
+                volume_required = required_transfer_volume - previous_fulfilment
                 row_cells[1].text = "pTU1-D-lacZ"
-                if dead_volume + required_transfer_volume > 65000:
+                if dead_volume + volume_required > 65000:
                     volume = 65000
                     assign_well_384(level_1_384PP, "pTU1-D-lacZ", volume)
                     row_cells[0].text = list(level_1_384PP.keys())[-1]
@@ -460,7 +511,7 @@ def create_automatic_protocol():
                     previous_fulfilment += 50000
                     continue
                 else:
-                    volume = dead_volume + required_transfer_volume
+                    volume = dead_volume + volume_required
                     assign_well_384(level_1_384PP, "pTU1-D-lacZ", volume)
                     row_cells[0].text = list(level_1_384PP.keys())[-1]
                     row_cells[2].text = str(volume)
@@ -469,12 +520,22 @@ def create_automatic_protocol():
         elif int(GUI.transcription_unit_quantity_combo.get()) == 5:
             volume_fulfilled = False
             previous_fulfilment = 0
-            single_transfer_volume = transfer_volume("level_1_backbone_2_1")
             while not volume_fulfilled:
+                required_transfer_volume = 0
+                for reaction in selected_reaction_ratios_level_1:
+                    if reaction == " reaction 1:1":
+                        required_transfer_volume += transfer_volume("level_1_backbone_1_1") * len(
+                            MoClo.transcription_unit_4_names)
+                    elif reaction == " reaction 1:2":
+                        required_transfer_volume += transfer_volume("level_1_backbone_1_2") * len(
+                            MoClo.transcription_unit_4_names)
+                    elif reaction == " reaction 2:1":
+                        required_transfer_volume += transfer_volume("level_1_backbone_2_1") * len(
+                            MoClo.transcription_unit_4_names)
                 row_cells = level_1_protocol_table.add_row().cells
-                required_transfer_volume = single_transfer_volume * len(MoClo.transcription_unit_4_names) - previous_fulfilment
+                volume_required = required_transfer_volume - previous_fulfilment
                 row_cells[1].text = "pTU1-D1-lacZ"
-                if dead_volume + required_transfer_volume > 65000:
+                if dead_volume + volume_required > 65000:
                     volume = 65000
                     assign_well_384(level_1_384PP, "pTU1-D1-lacZ", volume)
                     row_cells[0].text = list(level_1_384PP.keys())[-1]
@@ -482,7 +543,7 @@ def create_automatic_protocol():
                     previous_fulfilment += 50000
                     continue
                 else:
-                    volume = dead_volume + required_transfer_volume
+                    volume = dead_volume + volume_required
                     assign_well_384(level_1_384PP, "pTU1-D1-lacZ", volume)
                     row_cells[0].text = list(level_1_384PP.keys())[-1]
                     row_cells[2].text = str(volume)
@@ -492,12 +553,22 @@ def create_automatic_protocol():
     if int(GUI.transcription_unit_quantity_combo.get()) > 4:
         volume_fulfilled = False
         previous_fulfilment = 0
-        single_transfer_volume = transfer_volume("level_1_backbone_2_1")
         while not volume_fulfilled:
+            required_transfer_volume = 0
+            for reaction in selected_reaction_ratios_level_1:
+                if reaction == " reaction 1:1":
+                    required_transfer_volume += transfer_volume("level_1_backbone_1_1") * len(
+                        MoClo.transcription_unit_5_names)
+                elif reaction == " reaction 1:2":
+                    required_transfer_volume += transfer_volume("level_1_backbone_1_2") * len(
+                        MoClo.transcription_unit_5_names)
+                elif reaction == " reaction 2:1":
+                    required_transfer_volume += transfer_volume("level_1_backbone_2_1") * len(
+                        MoClo.transcription_unit_5_names)
             row_cells = level_1_protocol_table.add_row().cells
-            required_transfer_volume = single_transfer_volume * len(MoClo.transcription_unit_5_names) - previous_fulfilment
+            volume_required = required_transfer_volume - previous_fulfilment
             row_cells[1].text = "pTU1-E-lacZ"
-            if dead_volume + required_transfer_volume > 65000:
+            if dead_volume + volume_required > 65000:
                 volume = 65000
                 assign_well_384(level_1_384PP, "pTU1-E-lacZ", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
@@ -505,7 +576,7 @@ def create_automatic_protocol():
                 previous_fulfilment += 50000
                 continue
             else:
-                volume = dead_volume + required_transfer_volume
+                volume = dead_volume + volume_required
                 assign_well_384(level_1_384PP, "pTU1-E-lacZ", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
                 row_cells[2].text = str(volume)
@@ -525,12 +596,19 @@ def create_automatic_protocol():
     volume_fulfilled = False
     previous_fulfilment = 0
     dead_volume = 250000
-    single_transfer_volume = transfer_volume("level_1_water_2_1")
     while not volume_fulfilled:
+        required_transfer_volume = 0
+        for reaction in selected_reaction_ratios_level_1:
+            if reaction == " reaction 1:1":
+                required_transfer_volume += transfer_volume("level_1_water_1_1") * level_1_tu_quantity
+            elif reaction == " reaction 1:2":
+                required_transfer_volume += transfer_volume("level_1_water_1_2") * level_1_tu_quantity
+            elif reaction == " reaction 2:1":
+                required_transfer_volume += transfer_volume("level_1_water_2_1") * level_1_tu_quantity
         row_cells = level_1_6res_table.add_row().cells
-        required_transfer_volume = single_transfer_volume * level_1_tu_quantity - previous_fulfilment
+        volume_required = required_transfer_volume - previous_fulfilment
         row_cells[1].text = "deionised water"
-        if dead_volume + required_transfer_volume > 2800000:
+        if dead_volume + volume_required > 2800000:
             volume = 2800000
             assign_well_6res(level_1_6RES, "deionised water", volume)
             row_cells[0].text = list(level_1_6RES.keys())[-1]
@@ -538,7 +616,7 @@ def create_automatic_protocol():
             previous_fulfilment += 2550000
             continue
         else:
-            volume = dead_volume + required_transfer_volume
+            volume = dead_volume + volume_required
             assign_well_6res(level_1_6RES, "deionised water", volume)
             row_cells[0].text = list(level_1_6RES.keys())[-1]
             row_cells[2].text = str(volume)
@@ -560,10 +638,18 @@ def create_automatic_protocol():
     previous_fulfilment = 0
     dead_volume = 3000
     while not volume_fulfilled:
+        required_transfer_volume = 0
+        for reaction in selected_reaction_ratios_level_1:
+            if reaction == " reaction 1:1":
+                required_transfer_volume += 500 * level_1_tu_quantity
+            elif reaction == " reaction 1:2":
+                required_transfer_volume += 500 * level_1_tu_quantity
+            elif reaction == " reaction 2:1":
+                required_transfer_volume += 500 * level_1_tu_quantity
         row_cells = level_1_ldv_table.add_row().cells
-        required_transfer_volume = 500 * level_1_tu_quantity - previous_fulfilment
+        volume_required = required_transfer_volume - previous_fulfilment
         row_cells[1].text = "10x DNA ligase buffer (Promega)"
-        if dead_volume + required_transfer_volume > 12000:
+        if dead_volume + volume_required > 12000:
             volume = 12000
             assign_well_384(level_1_LDV, "10x DNA ligase buffer (Promega)", volume)
             row_cells[0].text = list(level_1_LDV.keys())[-1]
@@ -571,7 +657,7 @@ def create_automatic_protocol():
             previous_fulfilment += 9000
             continue
         else:
-            volume = dead_volume + required_transfer_volume
+            volume = dead_volume + volume_required
             assign_well_384(level_1_LDV, "10x DNA ligase buffer (Promega)", volume)
             row_cells[0].text = list(level_1_LDV.keys())[-1]
             row_cells[2].text = str(volume)
@@ -582,10 +668,18 @@ def create_automatic_protocol():
     previous_fulfilment = 0
     dead_volume = 6000
     while not volume_fulfilled:
+        required_transfer_volume = 0
+        for reaction in selected_reaction_ratios_level_1:
+            if reaction == " reaction 1:1":
+                required_transfer_volume += 125 * level_1_tu_quantity
+            elif reaction == " reaction 1:2":
+                required_transfer_volume += 125 * level_1_tu_quantity
+            elif reaction == " reaction 2:1":
+                required_transfer_volume += 125 * level_1_tu_quantity
         row_cells = level_1_ldv_table.add_row().cells
-        required_transfer_volume = 125 * level_1_tu_quantity - previous_fulfilment
+        volume_required = required_transfer_volume - previous_fulfilment
         row_cells[1].text = "1-3 units T4 DNA ligase (Promega)"
-        if dead_volume + required_transfer_volume > 14000:
+        if dead_volume + volume_required > 14000:
             volume = 14000
             assign_well_384(level_1_LDV, "1-3 units T4 DNA ligase (Promega)", volume)
             row_cells[0].text = list(level_1_LDV.keys())[-1]
@@ -593,7 +687,7 @@ def create_automatic_protocol():
             previous_fulfilment += 8000
             continue
         else:
-            volume = dead_volume + required_transfer_volume
+            volume = dead_volume + volume_required
             assign_well_384(level_1_LDV, "1-3 units T4 DNA ligase (Promega)", volume)
             row_cells[0].text = list(level_1_LDV.keys())[-1]
             row_cells[2].text = str(volume)
@@ -604,10 +698,18 @@ def create_automatic_protocol():
     previous_fulfilment = 0
     dead_volume = 6000
     while not volume_fulfilled:
+        required_transfer_volume = 0
+        for reaction in selected_reaction_ratios_level_1:
+            if reaction == " reaction 1:1":
+                required_transfer_volume += 250 * level_1_tu_quantity
+            elif reaction == " reaction 1:2":
+                required_transfer_volume += 250 * level_1_tu_quantity
+            elif reaction == " reaction 2:1":
+                required_transfer_volume += 250 * level_1_tu_quantity
         row_cells = level_1_ldv_table.add_row().cells
-        required_transfer_volume = 250 * level_1_tu_quantity - previous_fulfilment
+        volume_required = required_transfer_volume - previous_fulfilment
         row_cells[1].text = "BsaI-HF (NEB)"
-        if dead_volume + required_transfer_volume > 14000:
+        if dead_volume + volume_required > 14000:
             volume = 14000
             assign_well_384(level_1_LDV, "BsaI-HF (NEB)", volume)
             row_cells[0].text = list(level_1_LDV.keys())[-1]
@@ -615,7 +717,7 @@ def create_automatic_protocol():
             previous_fulfilment += 8000
             continue
         else:
-            volume = dead_volume + required_transfer_volume
+            volume = dead_volume + volume_required
             assign_well_384(level_1_LDV, "BsaI-HF (NEB)", volume)
             row_cells[0].text = list(level_1_LDV.keys())[-1]
             row_cells[2].text = str(volume)
@@ -632,52 +734,50 @@ def create_automatic_protocol():
     row_1_cells[1].text = "contained TU variant"
     row_1_cells[2].text = "volume (nl)"
 
-    global selected_reaction_ratios
 
     # Level 1 transcription unit variant 1
-
-    for variant in MoClo.transcription_unit_1_names:
-        row_cells = level_1_output_table.add_row().cells
-        assign_well_384(level_1_output, variant, 5000)
-        row_cells[0].text = list(level_1_output.keys())[-1]
-        row_cells[1].text = variant
-        row_cells[2].text = "5000"
-
+    for reaction in selected_reaction_ratios_level_1:
+        for variant in MoClo.transcription_unit_1_names:
+            row_cells = level_1_output_table.add_row().cells
+            assign_well_384(level_1_output, variant + reaction, 5000)
+            row_cells[0].text = list(level_1_output.keys())[-1]
+            row_cells[1].text = variant + reaction
+            row_cells[2].text = "5000"
     # Level 1 transcription unit variant 2
-
-    for variant in MoClo.transcription_unit_2_names:
-        row_cells = level_1_output_table.add_row().cells
-        assign_well_384(level_1_output, variant, 5000)
-        row_cells[0].text = list(level_1_output.keys())[-1]
-        row_cells[1].text = variant
-        row_cells[2].text = "5000"
+    for reaction in selected_reaction_ratios_level_1:
+        for variant in MoClo.transcription_unit_2_names:
+            row_cells = level_1_output_table.add_row().cells
+            assign_well_384(level_1_output, variant + reaction, 5000)
+            row_cells[0].text = list(level_1_output.keys())[-1]
+            row_cells[1].text = variant + reaction
+            row_cells[2].text = "5000"
 
     # Level 1 transcription unit variant 3
-
-    for variant in MoClo.transcription_unit_3_names:
-        row_cells = level_1_output_table.add_row().cells
-        assign_well_384(level_1_output, variant, 5000)
-        row_cells[0].text = list(level_1_output.keys())[-1]
-        row_cells[1].text = variant
-        row_cells[2].text = "5000"
+    for reaction in selected_reaction_ratios_level_1:
+        for variant in MoClo.transcription_unit_3_names:
+            row_cells = level_1_output_table.add_row().cells
+            assign_well_384(level_1_output, variant + reaction, 5000)
+            row_cells[0].text = list(level_1_output.keys())[-1]
+            row_cells[1].text = variant + reaction
+            row_cells[2].text = "5000"
 
     # Level 1 transcription unit variant 4
-
-    for variant in MoClo.transcription_unit_4_names:
-        row_cells = level_1_output_table.add_row().cells
-        assign_well_384(level_1_output, variant, 5000)
-        row_cells[0].text = list(level_1_output.keys())[-1]
-        row_cells[1].text = variant
-        row_cells[2].text = "5000"
+    for reaction in selected_reaction_ratios_level_1:
+        for variant in MoClo.transcription_unit_4_names:
+            row_cells = level_1_output_table.add_row().cells
+            assign_well_384(level_1_output, variant + reaction, 5000)
+            row_cells[0].text = list(level_1_output.keys())[-1]
+            row_cells[1].text = variant + reaction
+            row_cells[2].text = "5000"
 
     # Level 1 transcription unit variant 5
-
-    for variant in MoClo.transcription_unit_5_names:
-        row_cells = level_1_output_table.add_row().cells
-        assign_well_384(level_1_output, variant, 5000)
-        row_cells[0].text = list(level_1_output.keys())[-1]
-        row_cells[1].text = variant
-        row_cells[2].text = "5000"
+    for reaction in selected_reaction_ratios_level_1:
+        for variant in MoClo.transcription_unit_5_names:
+            row_cells = level_1_output_table.add_row().cells
+            assign_well_384(level_1_output, variant + reaction, 5000)
+            row_cells[0].text = list(level_1_output.keys())[-1]
+            row_cells[1].text = variant + reaction
+            row_cells[2].text = "5000"
 
     level_1_transform = document.add_paragraph("")
     level_1_transform.add_run("d) Run a PCR protocol for this output plate, consisting of:").bold = True
@@ -714,12 +814,19 @@ def create_automatic_protocol():
     for variant in tu1_quantities.keys():
         volume_fulfilled = False
         previous_fulfilment = 0
-        single_transfer_volume = transfer_volume("level_2_tu_2_1")
         while not volume_fulfilled:
+            required_transfer_volume = 0
+            for reaction in selected_reaction_ratios_level_2:
+                if reaction == " reaction 1:1":
+                    required_transfer_volume += transfer_volume("level_2_tu_1_1") * tu1_quantities[variant]
+                elif reaction == " reaction 1:2":
+                    required_transfer_volume += transfer_volume("level_2_tu_1_2") * tu1_quantities[variant]
+                elif reaction == " reaction 2:1":
+                    required_transfer_volume += transfer_volume("level_2_tu_2_1") * tu1_quantities[variant]
             row_cells = level_2_protocol_table.add_row().cells
-            required_transfer_volume = single_transfer_volume * tu1_quantities[variant] - previous_fulfilment
+            volume_required = required_transfer_volume - previous_fulfilment
             row_cells[1].text = variant
-            if dead_volume + required_transfer_volume > 65000:
+            if dead_volume + volume_required > 65000:
                 volume = 65000
                 assign_well_384(level_2_384PP, variant, volume)
                 row_cells[0].text = list(level_2_384PP.keys())[-1]
@@ -727,7 +834,7 @@ def create_automatic_protocol():
                 previous_fulfilment += 50000
                 continue
             else:
-                volume = dead_volume + required_transfer_volume
+                volume = dead_volume + volume_required
                 assign_well_384(level_2_384PP, variant, volume)
                 row_cells[0].text = list(level_2_384PP.keys())[-1]
                 row_cells[2].text = str(volume)
@@ -745,12 +852,22 @@ def create_automatic_protocol():
     dead_volume = 15000
     volume_fulfilled = False
     previous_fulfilment = 0
-    single_transfer_volume = transfer_volume("level_2_backbone_2_1")
     while not volume_fulfilled:
+        required_transfer_volume = 0
+        for reaction in selected_reaction_ratios_level_2:
+            if reaction == " reaction 1:1":
+                required_transfer_volume += transfer_volume("level_2_backbone_1_1") * tu2_quantity
+            elif reaction == " reaction 1:2":
+                required_transfer_volume += transfer_volume("level_2_backbone_1_2") * tu2_quantity
+            elif reaction == " reaction 2:1":
+                required_transfer_volume += transfer_volume("level_2_backbone_2_1") * tu2_quantity
+
+
+
         row_cells = level_2_protocol_table.add_row().cells
-        required_transfer_volume = single_transfer_volume * tu2_quantity - previous_fulfilment
+        volume_required = required_transfer_volume - previous_fulfilment
         row_cells[1].text = level_2_backbone
-        if dead_volume + required_transfer_volume > 65000:
+        if dead_volume + volume_required > 65000:
             volume = 65000
             assign_well_384(level_2_384PP, level_2_backbone, volume)
             row_cells[0].text = list(level_2_384PP.keys())[-1]
@@ -758,7 +875,7 @@ def create_automatic_protocol():
             previous_fulfilment += 50000
             continue
         else:
-            volume = dead_volume + required_transfer_volume
+            volume = dead_volume + volume_required
             assign_well_384(level_2_384PP, level_2_backbone, volume)
             row_cells[0].text = list(level_2_384PP.keys())[-1]
             row_cells[2].text = str(volume)
@@ -780,10 +897,18 @@ def create_automatic_protocol():
     dead_volume = 250000
     single_transfer_volume = transfer_volume("level_2_water_2_1")
     while not volume_fulfilled:
+        required_transfer_volume = 0
+        for reaction in selected_reaction_ratios_level_1:
+            if reaction == " reaction 1:1":
+                required_transfer_volume += transfer_volume("level_2_water_1_1") * tu2_quantity
+            elif reaction == " reaction 1:2":
+                required_transfer_volume += transfer_volume("level_2_water_1_2") * tu2_quantity
+            elif reaction == " reaction 2:1":
+                required_transfer_volume += transfer_volume("level_2_water_2_1") * tu2_quantity
         row_cells = level_2_6res_table.add_row().cells
-        required_transfer_volume = single_transfer_volume * tu2_quantity - previous_fulfilment
+        volume_required = required_transfer_volume - previous_fulfilment
         row_cells[1].text = "deionised water"
-        if dead_volume + required_transfer_volume > 2800000:
+        if dead_volume + volume_required > 2800000:
             volume = 2800000
             assign_well_6res(level_2_6RES, "deionised water", volume)
             row_cells[0].text = list(level_2_6RES.keys())[-1]
@@ -791,7 +916,7 @@ def create_automatic_protocol():
             previous_fulfilment += 2550000
             continue
         else:
-            volume = dead_volume + required_transfer_volume
+            volume = dead_volume + volume_required
             assign_well_6res(level_2_6RES, "deionised water", volume)
             row_cells[0].text = list(level_2_6RES.keys())[-1]
             row_cells[2].text = str(volume)
@@ -813,10 +938,18 @@ def create_automatic_protocol():
     previous_fulfilment = 0
     dead_volume = 3000
     while not volume_fulfilled:
+        required_transfer_volume = 0
+        for reaction in selected_reaction_ratios_level_1:
+            if reaction == " reaction 1:1":
+                required_transfer_volume += 500 * tu2_quantity
+            elif reaction == " reaction 1:2":
+                required_transfer_volume += 500 * tu2_quantity
+            elif reaction == " reaction 2:1":
+                required_transfer_volume += 500 * tu2_quantity
         row_cells = level_2_ldv_table.add_row().cells
-        required_transfer_volume = 500 * tu2_quantity - previous_fulfilment
+        volume_required = required_transfer_volume - previous_fulfilment
         row_cells[1].text = "10x DNA ligase buffer (Promega)"
-        if dead_volume + required_transfer_volume > 12000:
+        if dead_volume + volume_required > 12000:
             volume = 12000
             assign_well_384(level_2_LDV, "10x DNA ligase buffer (Promega)", volume)
             row_cells[0].text = list(level_2_LDV.keys())[-1]
@@ -824,7 +957,7 @@ def create_automatic_protocol():
             previous_fulfilment += 9000
             continue
         else:
-            volume = dead_volume + required_transfer_volume
+            volume = dead_volume + volume_required
             assign_well_384(level_2_LDV, "10x DNA ligase buffer (Promega)", volume)
             row_cells[0].text = list(level_2_LDV.keys())[-1]
             row_cells[2].text = str(volume)
@@ -835,10 +968,18 @@ def create_automatic_protocol():
     previous_fulfilment = 0
     dead_volume = 6000
     while not volume_fulfilled:
+        required_transfer_volume = 0
+        for reaction in selected_reaction_ratios_level_1:
+            if reaction == " reaction 1:1":
+                required_transfer_volume += 125 * tu2_quantity
+            elif reaction == " reaction 1:2":
+                required_transfer_volume += 125 * tu2_quantity
+            elif reaction == " reaction 2:1":
+                required_transfer_volume += 125 * tu2_quantity
         row_cells = level_2_ldv_table.add_row().cells
-        required_transfer_volume = 125 * tu2_quantity - previous_fulfilment
+        volume_required = required_transfer_volume - previous_fulfilment
         row_cells[1].text = "1-3 units T4 DNA ligase (Promega)"
-        if dead_volume + required_transfer_volume > 14000:
+        if dead_volume + volume_required > 14000:
             volume = 14000
             assign_well_384(level_2_LDV, "1-3 units T4 DNA ligase (Promega)", volume)
             row_cells[0].text = list(level_2_LDV.keys())[-1]
@@ -846,7 +987,7 @@ def create_automatic_protocol():
             previous_fulfilment += 8000
             continue
         else:
-            volume = dead_volume + required_transfer_volume
+            volume = dead_volume + volume_required
             assign_well_384(level_2_LDV, "1-3 units T4 DNA ligase (Promega)", volume)
             row_cells[0].text = list(level_2_LDV.keys())[-1]
             row_cells[2].text = str(volume)
@@ -857,10 +998,18 @@ def create_automatic_protocol():
     previous_fulfilment = 0
     dead_volume = 6000
     while not volume_fulfilled:
+        required_transfer_volume = 0
+        for reaction in selected_reaction_ratios_level_1:
+            if reaction == " reaction 1:1":
+                required_transfer_volume += 250 * tu2_quantity
+            elif reaction == " reaction 1:2":
+                required_transfer_volume += 250 * tu2_quantity
+            elif reaction == " reaction 2:1":
+                required_transfer_volume += 250 * tu2_quantity
         row_cells = level_2_ldv_table.add_row().cells
-        required_transfer_volume = 250 * tu2_quantity - previous_fulfilment
+        volume_required = required_transfer_volume - previous_fulfilment
         row_cells[1].text = "BsmBI (NEB)"
-        if dead_volume + required_transfer_volume > 14000:
+        if dead_volume + volume_required > 14000:
             volume = 14000
             assign_well_384(level_2_LDV, "BsmBI (NEB)", volume)
             row_cells[0].text = list(level_2_LDV.keys())[-1]
@@ -868,7 +1017,7 @@ def create_automatic_protocol():
             previous_fulfilment += 8000
             continue
         else:
-            volume = dead_volume + required_transfer_volume
+            volume = dead_volume + volume_required
             assign_well_384(level_2_LDV, "BsmBI (NEB)", volume)
             row_cells[0].text = list(level_2_LDV.keys())[-1]
             row_cells[2].text = str(volume)
@@ -886,13 +1035,13 @@ def create_automatic_protocol():
     row_1_cells[2].text = "volume (nl)"
 
     # Level 2 transcription units
-    for variant in MoClo.level_2_names:
-        row_cells = level_2_output_table.add_row().cells
-        assign_well_384(level_2_output, variant, 5000)
-        row_cells[0].text = list(level_2_output.keys())[-1]
-        row_cells[1].text = variant
-        row_cells[2].text = "5000"
-
+    for reaction in selected_reaction_ratios_level_2:
+        for variant in MoClo.level_2_names:
+            row_cells = level_2_output_table.add_row().cells
+            assign_well_384(level_2_output, variant + reaction, 5000)
+            row_cells[0].text = list(level_2_output.keys())[-1]
+            row_cells[1].text = variant + reaction
+            row_cells[2].text = "5000"
 
 # Appendix of document, containing all parts, transcription units, and final designs
 def create_appendix():
@@ -1115,7 +1264,7 @@ def create_protocol(event):
     MoClo.transcription_unit_use_quantity()
     calculate_part_quantity()
     calculate_level_1_quantity()
-    create_selected_rection_list()
+    create_selected_reaction_list()
     title_introduction()
     if GUI.assembly_method_combo.get() == "Manual":
         create_manual_protocol()
