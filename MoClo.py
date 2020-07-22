@@ -27,7 +27,8 @@ level_0_other_display = []
 level_2_template = []
 ecoflex_check_list = []
 bacilloflex_check_list = []
-forbidden_sites_ecoflex = ["catatg", "gtatac", "ggatcc", "cctagg", "ggtctc", "ccagag", "cgtctc", "gcagag", "ctctgg", "gagacc", "ctctgc", "gagacg"]
+forbidden_sites_ecoflex = ["catatg", "gtatac", "ggatcc", "cctagg", "ggtctc", "ccagag", "cgtctc", "gcagag", "ctctgg",
+                           "gagacc", "ctctgc", "gagacg"]
 modification_dictionary = {}
 transcription_unit_1_variants = {}
 transcription_unit_2_variants = {}
@@ -677,6 +678,7 @@ def restriction_site_name_library(sequence):
     if sequence == "gagacg":
         return "BsmBI"
 
+
 # Create codon-swapped variants of CDS parts that contain excluded restriction sites - For EcoFlex
 def swap_codons_ecoflex():
     if int(GUI.transcription_unit_quantity_combo.get()) > 1:
@@ -688,7 +690,6 @@ def swap_codons_ecoflex():
             global modification_dictionary
             modification_dictionary[part_key] = []
             modification_dictionary[part_key].append(cds)
-            global sequence
             sequence = cds.sequence.elements
             detected_sites = True
             while detected_sites:
@@ -1132,15 +1133,26 @@ def check_biopart_sites_ecoflex():
             global modification_dictionary
             modification_dictionary[part_key] = []
             modification_dictionary[part_key].append(promoter)
-            global sequence
             sequence = promoter.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
+                site_name = restriction_site_name_library(forbidden_site)
                 count = (sequence.count(forbidden_site))
-                if count == 0:
-                    pass
-                else:
+                if ("ctat" + promoter.sequence.elements[:5]).find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 5' end of "
+                                                                               "this part as a result of the addition "
+                                                                               "of the "
+                                                                               "promoter prefix fusion "
+                                                                               "site 'ctat'")
+                if (promoter.sequence.elements[-5:] + "gtac").find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 3' end of "
+                                                                               "this part as a result of the addition "
+                                                                               "of the "
+                                                                               "promoter suffix fusion "
+                                                                               "site 'gtac'")
+                if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
-                        site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
                                                                  str(location.start() + 14) + "-" +
@@ -1155,15 +1167,40 @@ def check_biopart_sites_ecoflex():
             sequence = rbs.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
                 count = (sequence.count(forbidden_site))
-                if count == 0:
-                    pass
-                else:
+                site_name = restriction_site_name_library(forbidden_site)
+                if ("gtac" + rbs.sequence.elements[:5]).find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 5' end of "
+                                                                               "this part as a result of the addition "
+                                                                               "of the "
+                                                                               "rbs prefix fusion "
+                                                                               "site 'gtac'")
+
+                if GUI.include_signal_combo.get() == "Yes":
+                    if (rbs.sequence.elements[-5:] + "taaa").find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 3' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "rbs suffix fusion "
+                                                                                   "site 'taaa'")
+                if GUI.include_signal_combo.get() == "No":
+                    if (rbs.sequence.elements[-5:] + "cata").find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 3' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "rbs suffix fusion "
+                                                                                   "site 'cata'")
+                if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
-                        site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
                                                                  str(location.start() + 14) + "-" +
                                                                  str(location.end() + 13))
+
 
         if GUI.include_signal_combo.get() == "Yes":
             signal_number = 0
@@ -1174,16 +1211,32 @@ def check_biopart_sites_ecoflex():
                 modification_dictionary[part_key].append(signal)
                 sequence = signal.sequence.elements
                 for forbidden_site in forbidden_sites_ecoflex:
+                    site_name = restriction_site_name_library(forbidden_site)
                     count = (sequence.count(forbidden_site))
-                    if count == 0:
-                        pass
-                    else:
+                    if ("taaa" + signal.sequence.elements[:5]).find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 5' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "signal peptide prefix fusion "
+                                                                                   "site 'taaa'")
+
+                    if (signal.sequence.elements[-5:] + "cata").find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 3' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "signal peptide suffix fusion "
+                                                                                   "site 'cata'")
+                    if count > 0:
                         for location in re.finditer(forbidden_site, sequence):
-                            site_name = restriction_site_name_library(forbidden_site)
                             modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                      site_name + ")" + " detected at position " +
                                                                      str(location.start() + 14) + "-" +
                                                                      str(location.end() + 13))
+
 
         terminator_number = 0
         for terminator in transcription_unit_1_terminator:
@@ -1193,12 +1246,27 @@ def check_biopart_sites_ecoflex():
             modification_dictionary[part_key].append(terminator)
             sequence = terminator.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
+                site_name = restriction_site_name_library(forbidden_site)
                 count = (sequence.count(forbidden_site))
-                if count == 0:
-                    pass
-                else:
+                if ("tcga" + terminator.sequence.elements[:5]).find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 5' end of "
+                                                                               "this part as a result of the "
+                                                                               "addition "
+                                                                               "of the "
+                                                                               "terminator prefix fusion "
+                                                                               "site 'tcga'")
+
+                if (terminator.sequence.elements[-5:] + "tgtt").find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 3' end of "
+                                                                               "this part as a result of the "
+                                                                               "addition "
+                                                                               "of the "
+                                                                               "terminator suffix fusion "
+                                                                               "site 'tgtt'")
+                if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
-                        site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
                                                                  str(location.start() + 14) + "-" +
@@ -1213,12 +1281,24 @@ def check_biopart_sites_ecoflex():
             modification_dictionary[part_key].append(promoter)
             sequence = promoter.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
+                site_name = restriction_site_name_library(forbidden_site)
                 count = (sequence.count(forbidden_site))
-                if count == 0:
-                    pass
-                else:
+                if ("ctat" + promoter.sequence.elements[:5]).find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 5' end of "
+                                                                               "this part as a result of the addition "
+                                                                               "of the "
+                                                                               "promoter prefix fusion "
+                                                                               "site 'ctat'")
+                if (promoter.sequence.elements[-5:] + "gtac").find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 3' end of "
+                                                                               "this part as a result of the addition "
+                                                                               "of the "
+                                                                               "promoter suffix fusion "
+                                                                               "site 'gtac'")
+                if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
-                        site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
                                                                  str(location.start() + 14) + "-" +
@@ -1232,12 +1312,36 @@ def check_biopart_sites_ecoflex():
             modification_dictionary[part_key].append(rbs)
             sequence = rbs.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
+                site_name = restriction_site_name_library(forbidden_site)
                 count = (sequence.count(forbidden_site))
-                if count == 0:
-                    pass
-                else:
+                if ("gtac" + rbs.sequence.elements[:5]).find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 5' end of "
+                                                                               "this part as a result of the addition "
+                                                                               "of the "
+                                                                               "rbs prefix fusion "
+                                                                               "site 'gtac'")
+
+                if GUI.include_signal_combo.get() == "Yes":
+                    if (rbs.sequence.elements[-5:] + "taaa").find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 3' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "rbs suffix fusion "
+                                                                                   "site 'taaa'")
+                if GUI.include_signal_combo.get() == "No":
+                    if (rbs.sequence.elements[-5:] + "cata").find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 3' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "rbs suffix fusion "
+                                                                                   "site 'cata'")
+                if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
-                        site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
                                                                  str(location.start() + 14) + "-" +
@@ -1252,16 +1356,32 @@ def check_biopart_sites_ecoflex():
                 modification_dictionary[part_key].append(signal)
                 sequence = signal.sequence.elements
                 for forbidden_site in forbidden_sites_ecoflex:
+                    site_name = restriction_site_name_library(forbidden_site)
                     count = (sequence.count(forbidden_site))
-                    if count == 0:
-                        pass
-                    else:
+                    if ("taaa" + signal.sequence.elements[:5]).find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 5' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "signal peptide prefix fusion "
+                                                                                   "site 'taaa'")
+
+                    if (signal.sequence.elements[-5:] + "cata").find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 3' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "signal peptide suffix fusion "
+                                                                                   "site 'cata'")
+                    if count > 0:
                         for location in re.finditer(forbidden_site, sequence):
-                            site_name = restriction_site_name_library(forbidden_site)
                             modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                      site_name + ")" + " detected at position " +
                                                                      str(location.start() + 14) + "-" +
                                                                      str(location.end() + 13))
+
 
         terminator_number = 0
         for terminator in transcription_unit_2_terminator:
@@ -1271,12 +1391,27 @@ def check_biopart_sites_ecoflex():
             modification_dictionary[part_key].append(terminator)
             sequence = terminator.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
+                site_name = restriction_site_name_library(forbidden_site)
                 count = (sequence.count(forbidden_site))
-                if count == 0:
-                    pass
-                else:
+                if ("tcga" + terminator.sequence.elements[:5]).find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 5' end of "
+                                                                               "this part as a result of the "
+                                                                               "addition "
+                                                                               "of the "
+                                                                               "terminator prefix fusion "
+                                                                               "site 'tcga'")
+
+                if (terminator.sequence.elements[-5:] + "tgtt").find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 3' end of "
+                                                                               "this part as a result of the "
+                                                                               "addition "
+                                                                               "of the "
+                                                                               "terminator suffix fusion "
+                                                                               "site 'tgtt'")
+                if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
-                        site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
                                                                  str(location.start() + 14) + "-" +
@@ -1292,12 +1427,24 @@ def check_biopart_sites_ecoflex():
             modification_dictionary[part_key].append(promoter)
             sequence = promoter.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
+                site_name = restriction_site_name_library(forbidden_site)
                 count = (sequence.count(forbidden_site))
-                if count == 0:
-                    pass
-                else:
+                if ("ctat" + promoter.sequence.elements[:5]).find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 5' end of "
+                                                                               "this part as a result of the addition "
+                                                                               "of the "
+                                                                               "promoter prefix fusion "
+                                                                               "site 'ctat'")
+                if (promoter.sequence.elements[-5:] + "gtac").find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 3' end of "
+                                                                               "this part as a result of the addition "
+                                                                               "of the "
+                                                                               "promoter suffix fusion "
+                                                                               "site 'gtac'")
+                if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
-                        site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
                                                                  str(location.start() + 14) + "-" +
@@ -1311,12 +1458,36 @@ def check_biopart_sites_ecoflex():
             modification_dictionary[part_key].append(rbs)
             sequence = rbs.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
+                site_name = restriction_site_name_library(forbidden_site)
                 count = (sequence.count(forbidden_site))
-                if count == 0:
-                    pass
-                else:
+                if ("gtac" + rbs.sequence.elements[:5]).find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 5' end of "
+                                                                               "this part as a result of the addition "
+                                                                               "of the "
+                                                                               "rbs prefix fusion "
+                                                                               "site 'gtac'")
+
+                if GUI.include_signal_combo.get() == "Yes":
+                    if (rbs.sequence.elements[-5:] + "taaa").find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 3' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "rbs suffix fusion "
+                                                                                   "site 'taaa'")
+                if GUI.include_signal_combo.get() == "No":
+                    if (rbs.sequence.elements[-5:] + "cata").find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 3' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "rbs suffix fusion "
+                                                                                   "site 'cata'")
+                if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
-                        site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
                                                                  str(location.start() + 14) + "-" +
@@ -1330,12 +1501,27 @@ def check_biopart_sites_ecoflex():
                 modification_dictionary[part_key].append(signal)
                 sequence = signal.sequence.elements
                 for forbidden_site in forbidden_sites_ecoflex:
+                    site_name = restriction_site_name_library(forbidden_site)
                     count = (sequence.count(forbidden_site))
-                    if count == 0:
-                        pass
-                    else:
+                    if ("taaa" + signal.sequence.elements[:5]).find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 5' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "signal peptide prefix fusion "
+                                                                                   "site 'taaa'")
+
+                    if (signal.sequence.elements[-5:] + "cata").find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 3' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "signal peptide suffix fusion "
+                                                                                   "site 'cata'")
+                    if count > 0:
                         for location in re.finditer(forbidden_site, sequence):
-                            site_name = restriction_site_name_library(forbidden_site)
                             modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                      site_name + ")" + " detected at position " +
                                                                      str(location.start() + 14) + "-" +
@@ -1348,12 +1534,27 @@ def check_biopart_sites_ecoflex():
             modification_dictionary[part_key].append(terminator)
             sequence = terminator.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
+                site_name = restriction_site_name_library(forbidden_site)
                 count = (sequence.count(forbidden_site))
-                if count == 0:
-                    pass
-                else:
+                if ("tcga" + terminator.sequence.elements[:5]).find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 5' end of "
+                                                                               "this part as a result of the "
+                                                                               "addition "
+                                                                               "of the "
+                                                                               "terminator prefix fusion "
+                                                                               "site 'tcga'")
+
+                if (terminator.sequence.elements[-5:] + "tgtt").find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 3' end of "
+                                                                               "this part as a result of the "
+                                                                               "addition "
+                                                                               "of the "
+                                                                               "terminator suffix fusion "
+                                                                               "site 'tgtt'")
+                if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
-                        site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
                                                                  str(location.start() + 14) + "-" +
@@ -1369,12 +1570,24 @@ def check_biopart_sites_ecoflex():
             modification_dictionary[part_key].append(promoter)
             sequence = promoter.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
+                site_name = restriction_site_name_library(forbidden_site)
                 count = (sequence.count(forbidden_site))
-                if count == 0:
-                    pass
-                else:
+                if ("ctat" + promoter.sequence.elements[:5]).find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 5' end of "
+                                                                               "this part as a result of the addition "
+                                                                               "of the "
+                                                                               "promoter prefix fusion "
+                                                                               "site 'ctat'")
+                if (promoter.sequence.elements[-5:] + "gtac").find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 3' end of "
+                                                                               "this part as a result of the addition "
+                                                                               "of the "
+                                                                               "promoter suffix fusion "
+                                                                               "site 'gtac'")
+                if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
-                        site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
                                                                  str(location.start() + 14) + "-" +
@@ -1388,12 +1601,36 @@ def check_biopart_sites_ecoflex():
             modification_dictionary[part_key].append(rbs)
             sequence = rbs.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
+                site_name = restriction_site_name_library(forbidden_site)
                 count = (sequence.count(forbidden_site))
-                if count == 0:
-                    pass
-                else:
+                if ("gtac" + rbs.sequence.elements[:5]).find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 5' end of "
+                                                                               "this part as a result of the addition "
+                                                                               "of the "
+                                                                               "rbs prefix fusion "
+                                                                               "site 'gtac'")
+
+                if GUI.include_signal_combo.get() == "Yes":
+                    if (rbs.sequence.elements[-5:] + "taaa").find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 3' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "rbs suffix fusion "
+                                                                                   "site 'taaa'")
+                if GUI.include_signal_combo.get() == "No":
+                    if (rbs.sequence.elements[-5:] + "cata").find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 3' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "rbs suffix fusion "
+                                                                                   "site 'cata'")
+                if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
-                        site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
                                                                  str(location.start() + 14) + "-" +
@@ -1408,12 +1645,27 @@ def check_biopart_sites_ecoflex():
                 modification_dictionary[part_key].append(signal)
                 sequence = signal.sequence.elements
                 for forbidden_site in forbidden_sites_ecoflex:
+                    site_name = restriction_site_name_library(forbidden_site)
                     count = (sequence.count(forbidden_site))
-                    if count == 0:
-                        pass
-                    else:
+                    if ("taaa" + signal.sequence.elements[:5]).find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 5' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "signal peptide prefix fusion "
+                                                                                   "site 'taaa'")
+
+                    if (signal.sequence.elements[-5:] + "cata").find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 3' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "signal peptide suffix fusion "
+                                                                                   "site 'cata'")
+                    if count > 0:
                         for location in re.finditer(forbidden_site, sequence):
-                            site_name = restriction_site_name_library(forbidden_site)
                             modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                      site_name + ")" + " detected at position " +
                                                                      str(location.start() + 14) + "-" +
@@ -1427,12 +1679,27 @@ def check_biopart_sites_ecoflex():
             modification_dictionary[part_key].append(terminator)
             sequence = terminator.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
+                site_name = restriction_site_name_library(forbidden_site)
                 count = (sequence.count(forbidden_site))
-                if count == 0:
-                    pass
-                else:
+                if ("tcga" + terminator.sequence.elements[:5]).find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 5' end of "
+                                                                               "this part as a result of the "
+                                                                               "addition "
+                                                                               "of the "
+                                                                               "terminator prefix fusion "
+                                                                               "site 'tcga'")
+
+                if (terminator.sequence.elements[-5:] + "tgtt").find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 3' end of "
+                                                                               "this part as a result of the "
+                                                                               "addition "
+                                                                               "of the "
+                                                                               "terminator suffix fusion "
+                                                                               "site 'tgtt'")
+                if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
-                        site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
                                                                  str(location.start() + 14) + "-" +
@@ -1448,12 +1715,24 @@ def check_biopart_sites_ecoflex():
             modification_dictionary[part_key].append(promoter)
             sequence = promoter.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
+                site_name = restriction_site_name_library(forbidden_site)
                 count = (sequence.count(forbidden_site))
-                if count == 0:
-                    pass
-                else:
+                if ("ctat" + promoter.sequence.elements[:5]).find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 5' end of "
+                                                                               "this part as a result of the addition "
+                                                                               "of the "
+                                                                               "promoter prefix fusion "
+                                                                               "site 'ctat'")
+                if (promoter.sequence.elements[-5:] + "gtac").find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 3' end of "
+                                                                               "this part as a result of the addition "
+                                                                               "of the "
+                                                                               "promoter suffix fusion "
+                                                                               "site 'gtac'")
+                if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
-                        site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
                                                                  str(location.start() + 14) + "-" +
@@ -1467,12 +1746,36 @@ def check_biopart_sites_ecoflex():
             modification_dictionary[part_key].append(rbs)
             sequence = rbs.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
+                site_name = restriction_site_name_library(forbidden_site)
                 count = (sequence.count(forbidden_site))
-                if count == 0:
-                    pass
-                else:
+                if ("gtac" + rbs.sequence.elements[:5]).find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 5' end of "
+                                                                               "this part as a result of the addition "
+                                                                               "of the "
+                                                                               "rbs prefix fusion "
+                                                                               "site 'gtac'")
+
+                if GUI.include_signal_combo.get() == "Yes":
+                    if (rbs.sequence.elements[-5:] + "taaa").find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 3' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "rbs suffix fusion "
+                                                                                   "site 'taaa'")
+                if GUI.include_signal_combo.get() == "No":
+                    if (rbs.sequence.elements[-5:] + "cata").find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 3' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "rbs suffix fusion "
+                                                                                   "site 'cata'")
+                if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
-                        site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
                                                                  str(location.start() + 14) + "-" +
@@ -1487,12 +1790,27 @@ def check_biopart_sites_ecoflex():
                 modification_dictionary[part_key].append(signal)
                 sequence = signal.sequence.elements
                 for forbidden_site in forbidden_sites_ecoflex:
+                    site_name = restriction_site_name_library(forbidden_site)
                     count = (sequence.count(forbidden_site))
-                    if count == 0:
-                        pass
-                    else:
+                    if ("taaa" + signal.sequence.elements[:5]).find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 5' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "signal peptide prefix fusion "
+                                                                                   "site 'taaa'")
+
+                    if (signal.sequence.elements[-5:] + "cata").find(forbidden_site) >= 0:
+                        modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                                 site_name + ")" + "has been created at the 3' end of "
+                                                                                   "this part as a result of the "
+                                                                                   "addition "
+                                                                                   "of the "
+                                                                                   "signal peptide suffix fusion "
+                                                                                   "site 'cata'")
+                    if count > 0:
                         for location in re.finditer(forbidden_site, sequence):
-                            site_name = restriction_site_name_library(forbidden_site)
                             modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                      site_name + ")" + " detected at position " +
                                                                      str(location.start() + 14) + "-" +
@@ -1506,12 +1824,27 @@ def check_biopart_sites_ecoflex():
             modification_dictionary[part_key].append(terminator)
             sequence = terminator.sequence.elements
             for forbidden_site in forbidden_sites_ecoflex:
+                site_name = restriction_site_name_library(forbidden_site)
                 count = (sequence.count(forbidden_site))
-                if count == 0:
-                    pass
-                else:
+                if ("tcga" + terminator.sequence.elements[:5]).find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 5' end of "
+                                                                               "this part as a result of the "
+                                                                               "addition "
+                                                                               "of the "
+                                                                               "terminator prefix fusion "
+                                                                               "site 'tcga'")
+
+                if (terminator.sequence.elements[-5:] + "tgtt").find(forbidden_site) >= 0:
+                    modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
+                                                             site_name + ")" + "has been created at the 3' end of "
+                                                                               "this part as a result of the "
+                                                                               "addition "
+                                                                               "of the "
+                                                                               "terminator suffix fusion "
+                                                                               "site 'tgtt'")
+                if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
-                        site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected at position " +
                                                                  str(location.start() + 14) + "-" +
@@ -2129,11 +2462,6 @@ def ecoflex_fusion_sites():
                 modification_dictionary["unit5_t" + str(counter)].append("Suffix added for golden gate terminator" +
                                                                          " fusion site (tgtt), BsaI restriction site" +
                                                                          " (agagacc), and SphI overhang (catg)")
-
-
-# Checks for creation of new restriction sites following addition of flanking regions
-def final_restriction_site_check():
-
 
 
 def create_transcription_unit_variants():
@@ -2924,7 +3252,7 @@ def level_2_format():
                 level_2_names.append("Level 2 construct variant " + str(counter))
                 level_2_sub_units.append([variant, variant2])
                 level_2_transcription_unit_dictionary["Level 2 construct variant " + str(counter)] = (
-                    level_2_sub_units[counter-1])
+                    level_2_sub_units[counter - 1])
 
         for sequence1 in transcription_unit_1_sequences:
             for sequence2 in transcription_unit_2_sequences:
@@ -3051,6 +3379,7 @@ def part_use_quantity():
                 else:
                     part_quantities[str(part)] = 1
 
+
 # Calculate the amount of times that a level 1 TU variant occurs across produced level 2 TU variants
 def transcription_unit_use_quantity():
     global tu1_quantities
@@ -3062,6 +3391,7 @@ def transcription_unit_use_quantity():
                 tu1_quantities[str(variant)] += 1
             else:
                 tu1_quantities[str(variant)] = 1
+
 
 # Directory for protocol creation
 def create_protocol_directory(event):
