@@ -27,7 +27,7 @@ level_0_other_display = []
 level_2_template = []
 ecoflex_check_list = []
 bacilloflex_check_list = []
-forbidden_sites_ecoflex = ["catatg", "gtatac", "ggatcc", "cctagg", "ggtctc", "ccagag", "cgtctc", "gcagag"]
+forbidden_sites_ecoflex = ["catatg", "gtatac", "ggatcc", "cctagg", "ggtctc", "ccagag", "cgtctc", "gcagag", "ctctgg", "gagacc", "ctctgc", "gagacg"]
 modification_dictionary = {}
 transcription_unit_1_variants = {}
 transcription_unit_2_variants = {}
@@ -148,10 +148,18 @@ def detect_restriction_sites(sequence):
             detected_restriction_sites.append("BsaI restriction site" + " detected in " + str(component.displayId))
         if "ccagag" in str(component.sequence.elements):
             detected_restriction_sites.append("BsaI restriction site" + " detected in " + str(component.displayId))
+        if "ctctgg" in str(component.sequence.elements):
+            detected_restriction_sites.append("BsaI restriction site" + "detected in " + str(component.displayId))
+        if "gagacc" in str(component.sequence.elements):
+            detected_restriction_sites.append("BsaI restriction site" + "detected in " + str(component.displayId))
 
         if "cgtctc" in str(component.sequence.elements):
             detected_restriction_sites.append("BsmBI restriction site" + " detected in " + str(component.displayId))
         if "gcagag" in str(component.sequence.elements):
+            detected_restriction_sites.append("BsmBI restriction site" + " detected in " + str(component.displayId))
+        if "ctctgc" in str(component.sequence.elements):
+            detected_restriction_sites.append("BsmBI restriction site" + " detected in " + str(component.displayId))
+        if "gagacg" in str(component.sequence.elements):
             detected_restriction_sites.append("BsmBI restriction site" + " detected in " + str(component.displayId))
 
 
@@ -418,11 +426,23 @@ def ecoflex_restriction_site_check(component_definition, unit_number):
     if "ccagag" in str(component_definition.sequence.elements):
         ecoflex_check_list.append("BsaI restriction site" + " detected in " + str(component_definition.displayId)
                                   + " in transcription unit " + str(unit_number))
+    if "ctctgg" in str(component_definition.sequence.elements):
+        ecoflex_check_list.append("BsaI restriction site" + " detected in " + str(component_definition.displayId)
+                                  + " in transcription unit " + str(unit_number))
+    if "gagacc" in str(component_definition.sequence.elements):
+        ecoflex_check_list.append("BsaI restriction site" + " detected in " + str(component_definition.displayId)
+                                  + " in transcription unit " + str(unit_number))
 
     if "cgtctc" in str(component_definition.sequence.elements):
         ecoflex_check_list.append("BsmBI restriction site" + " detected in " + str(component_definition.displayId)
                                   + " in transcription unit " + str(unit_number))
     if "gcagag" in str(component_definition.sequence.elements):
+        ecoflex_check_list.append("BsmBI restriction site" + " detected in " + str(component_definition.displayId)
+                                  + " in transcription unit " + str(unit_number))
+    if "ctctgc" in str(component_definition.sequence.elements):
+        ecoflex_check_list.append("BsmBI restriction site" + " detected in " + str(component_definition.displayId)
+                                  + " in transcription unit " + str(unit_number))
+    if "gagacg" in str(component_definition.sequence.elements):
         ecoflex_check_list.append("BsmBI restriction site" + " detected in " + str(component_definition.displayId)
                                   + " in transcription unit " + str(unit_number))
 
@@ -644,11 +664,18 @@ def restriction_site_name_library(sequence):
         return "BsaI"
     if sequence == "ccagag":
         return "BsaI"
+    if sequence == "ctctgg":
+        return "BsaI"
+    if sequence == "gagacc":
+        return "BsaI"
     if sequence == "cgtctc":
         return "BsmBI"
     if sequence == "gcagag":
         return "BsmBI"
-
+    if sequence == "ctctgc":
+        return "BsmBI"
+    if sequence == "gagacg":
+        return "BsmBI"
 
 # Create codon-swapped variants of CDS parts that contain excluded restriction sites - For EcoFlex
 def swap_codons_ecoflex():
@@ -668,13 +695,13 @@ def swap_codons_ecoflex():
                 for forbidden_site in forbidden_sites_ecoflex:
                     count = (sequence.count(forbidden_site))
                     if count == 0:
-                        if forbidden_site == "gcagag":
+                        if forbidden_site == forbidden_sites_ecoflex[-1]:
                             no_sites_detected = 0
                             for forbidden_site in forbidden_sites_ecoflex:
                                 count_2 = (sequence.count(forbidden_site))
                                 if count_2 == 0:
                                     no_sites_detected = no_sites_detected + 1
-                                    if no_sites_detected == 8:
+                                    if no_sites_detected == len(forbidden_sites_ecoflex):
                                         detected_sites = False
                                     else:
                                         pass
@@ -698,13 +725,13 @@ def swap_codons_ecoflex():
                                                                          str(codon))
                                 count = count - 1
                                 if count == 0:
-                                    if forbidden_site == "gcagag":
+                                    if forbidden_site == forbidden_sites_ecoflex[-1]:
                                         no_sites_detected = 0
                                         for forbidden_site in forbidden_sites_ecoflex:
                                             count_4 = (sequence.count(forbidden_site))
                                             if count_4 == 0:
                                                 no_sites_detected = no_sites_detected + 1
-                                                if no_sites_detected == 8:
+                                                if no_sites_detected == len(forbidden_sites_ecoflex):
                                                     detected_sites = False
                                                 else:
                                                     pass
@@ -726,13 +753,13 @@ def swap_codons_ecoflex():
                                                                          " restriction site")
                                 count = count - 1
                                 if count == 0:
-                                    if forbidden_site == "gcagag":
+                                    if forbidden_site == forbidden_sites_ecoflex[-1]:
                                         no_sites_detected = 0
                                         for forbidden_site in forbidden_sites_ecoflex:
                                             count_3 = (sequence.count(forbidden_site))
                                             if count_3 == 0:
                                                 no_sites_detected = no_sites_detected + 1
-                                                if no_sites_detected == 8:
+                                                if no_sites_detected == len(forbidden_sites_ecoflex):
                                                     detected_sites = False
                                                 else:
                                                     pass
@@ -755,13 +782,13 @@ def swap_codons_ecoflex():
                 for forbidden_site in forbidden_sites_ecoflex:
                     count = (sequence.count(forbidden_site))
                     if count == 0:
-                        if forbidden_site == "gcagag":
+                        if forbidden_site == forbidden_sites_ecoflex[-1]:
                             no_sites_detected = 0
                             for forbidden_site in forbidden_sites_ecoflex:
                                 count_2 = (sequence.count(forbidden_site))
                                 if count_2 == 0:
                                     no_sites_detected = no_sites_detected + 1
-                                    if no_sites_detected == 8:
+                                    if no_sites_detected == len(forbidden_sites_ecoflex):
                                         detected_sites = False
                                     else:
                                         pass
@@ -785,13 +812,13 @@ def swap_codons_ecoflex():
                                                                          str(codon))
                                 count = count - 1
                                 if count == 0:
-                                    if forbidden_site == "gcagag":
+                                    if forbidden_site == forbidden_sites_ecoflex[-1]:
                                         no_sites_detected = 0
                                         for forbidden_site in forbidden_sites_ecoflex:
                                             count_4 = (sequence.count(forbidden_site))
                                             if count_4 == 0:
                                                 no_sites_detected = no_sites_detected + 1
-                                                if no_sites_detected == 8:
+                                                if no_sites_detected == len(forbidden_sites_ecoflex):
                                                     detected_sites = False
                                                 else:
                                                     pass
@@ -813,13 +840,13 @@ def swap_codons_ecoflex():
                                                                          " restriction site")
                                 count = count - 1
                                 if count == 0:
-                                    if forbidden_site == "gcagag":
+                                    if forbidden_site == forbidden_sites_ecoflex[-1]:
                                         no_sites_detected = 0
                                         for forbidden_site in forbidden_sites_ecoflex:
                                             count_3 = (sequence.count(forbidden_site))
                                             if count_3 == 0:
                                                 no_sites_detected = no_sites_detected + 1
-                                                if no_sites_detected == 8:
+                                                if no_sites_detected == len(forbidden_sites_ecoflex):
                                                     detected_sites = False
                                                 else:
                                                     pass
@@ -843,13 +870,13 @@ def swap_codons_ecoflex():
                 for forbidden_site in forbidden_sites_ecoflex:
                     count = (sequence.count(forbidden_site))
                     if count == 0:
-                        if forbidden_site == "gcagag":
+                        if forbidden_site == forbidden_sites_ecoflex[-1]:
                             no_sites_detected = 0
                             for forbidden_site in forbidden_sites_ecoflex:
                                 count_2 = (sequence.count(forbidden_site))
                                 if count_2 == 0:
                                     no_sites_detected = no_sites_detected + 1
-                                    if no_sites_detected == 8:
+                                    if no_sites_detected == len(forbidden_sites_ecoflex):
                                         detected_sites = False
                                     else:
                                         pass
@@ -873,13 +900,13 @@ def swap_codons_ecoflex():
                                                                          str(codon))
                                 count = count - 1
                                 if count == 0:
-                                    if forbidden_site == "gcagag":
+                                    if forbidden_site == forbidden_sites_ecoflex[-1]:
                                         no_sites_detected = 0
                                         for forbidden_site in forbidden_sites_ecoflex:
                                             count_4 = (sequence.count(forbidden_site))
                                             if count_4 == 0:
                                                 no_sites_detected = no_sites_detected + 1
-                                                if no_sites_detected == 8:
+                                                if no_sites_detected == len(forbidden_sites_ecoflex):
                                                     detected_sites = False
                                                 else:
                                                     pass
@@ -901,13 +928,13 @@ def swap_codons_ecoflex():
                                                                          " restriction site")
                                 count = count - 1
                                 if count == 0:
-                                    if forbidden_site == "gcagag":
+                                    if forbidden_site == forbidden_sites_ecoflex[-1]:
                                         no_sites_detected = 0
                                         for forbidden_site in forbidden_sites_ecoflex:
                                             count_3 = (sequence.count(forbidden_site))
                                             if count_3 == 0:
                                                 no_sites_detected = no_sites_detected + 1
-                                                if no_sites_detected == 8:
+                                                if no_sites_detected == len(forbidden_sites_ecoflex):
                                                     detected_sites = False
                                                 else:
                                                     pass
@@ -931,13 +958,13 @@ def swap_codons_ecoflex():
                 for forbidden_site in forbidden_sites_ecoflex:
                     count = (sequence.count(forbidden_site))
                     if count == 0:
-                        if forbidden_site == "gcagag":
+                        if forbidden_site == forbidden_sites_ecoflex[-1]:
                             no_sites_detected = 0
                             for forbidden_site in forbidden_sites_ecoflex:
                                 count_2 = (sequence.count(forbidden_site))
                                 if count_2 == 0:
                                     no_sites_detected = no_sites_detected + 1
-                                    if no_sites_detected == 8:
+                                    if no_sites_detected == len(forbidden_sites_ecoflex):
                                         detected_sites = False
                                     else:
                                         pass
@@ -961,13 +988,13 @@ def swap_codons_ecoflex():
                                                                          str(codon))
                                 count = count - 1
                                 if count == 0:
-                                    if forbidden_site == "gcagag":
+                                    if forbidden_site == forbidden_sites_ecoflex[-1]:
                                         no_sites_detected = 0
                                         for forbidden_site in forbidden_sites_ecoflex:
                                             count_4 = (sequence.count(forbidden_site))
                                             if count_4 == 0:
                                                 no_sites_detected = no_sites_detected + 1
-                                                if no_sites_detected == 8:
+                                                if no_sites_detected == len(forbidden_sites_ecoflex):
                                                     detected_sites = False
                                                 else:
                                                     pass
@@ -989,13 +1016,13 @@ def swap_codons_ecoflex():
                                                                          " restriction site")
                                 count = count - 1
                                 if count == 0:
-                                    if forbidden_site == "gcagag":
+                                    if forbidden_site == forbidden_sites_ecoflex[-1]:
                                         no_sites_detected = 0
                                         for forbidden_site in forbidden_sites_ecoflex:
                                             count_3 = (sequence.count(forbidden_site))
                                             if count_3 == 0:
                                                 no_sites_detected = no_sites_detected + 1
-                                                if no_sites_detected == 8:
+                                                if no_sites_detected == len(forbidden_sites_ecoflex):
                                                     detected_sites = False
                                                 else:
                                                     pass
@@ -1019,13 +1046,13 @@ def swap_codons_ecoflex():
                 for forbidden_site in forbidden_sites_ecoflex:
                     count = (sequence.count(forbidden_site))
                     if count == 0:
-                        if forbidden_site == "gcagag":
+                        if forbidden_site == forbidden_sites_ecoflex[-1]:
                             no_sites_detected = 0
                             for forbidden_site in forbidden_sites_ecoflex:
                                 count_2 = (sequence.count(forbidden_site))
                                 if count_2 == 0:
                                     no_sites_detected = no_sites_detected + 1
-                                    if no_sites_detected == 8:
+                                    if no_sites_detected == len(forbidden_sites_ecoflex):
                                         detected_sites = False
                                     else:
                                         pass
@@ -1049,13 +1076,13 @@ def swap_codons_ecoflex():
                                                                          str(codon))
                                 count = count - 1
                                 if count == 0:
-                                    if forbidden_site == "gcagag":
+                                    if forbidden_site == forbidden_sites_ecoflex[-1]:
                                         no_sites_detected = 0
                                         for forbidden_site in forbidden_sites_ecoflex:
                                             count_4 = (sequence.count(forbidden_site))
                                             if count_4 == 0:
                                                 no_sites_detected = no_sites_detected + 1
-                                                if no_sites_detected == 8:
+                                                if no_sites_detected == len(forbidden_sites_ecoflex):
                                                     detected_sites = False
                                                 else:
                                                     pass
@@ -1077,13 +1104,13 @@ def swap_codons_ecoflex():
                                                                          " restriction site")
                                 count = count - 1
                                 if count == 0:
-                                    if forbidden_site == "gcagag":
+                                    if forbidden_site == forbidden_sites_ecoflex[-1]:
                                         no_sites_detected = 0
                                         for forbidden_site in forbidden_sites_ecoflex:
                                             count_3 = (sequence.count(forbidden_site))
                                             if count_3 == 0:
                                                 no_sites_detected = no_sites_detected + 1
-                                                if no_sites_detected == 8:
+                                                if no_sites_detected == len(forbidden_sites_ecoflex):
                                                     detected_sites = False
                                                 else:
                                                     pass
@@ -2102,6 +2129,11 @@ def ecoflex_fusion_sites():
                 modification_dictionary["unit5_t" + str(counter)].append("Suffix added for golden gate terminator" +
                                                                          " fusion site (tgtt), BsaI restriction site" +
                                                                          " (agagacc), and SphI overhang (catg)")
+
+
+# Checks for creation of new restriction sites following addition of flanking regions
+def final_restriction_site_check():
+
 
 
 def create_transcription_unit_variants():
