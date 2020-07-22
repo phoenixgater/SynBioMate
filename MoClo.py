@@ -2754,25 +2754,25 @@ def final_oligonucleotides_2():
     strand_1 = final_oligonucleotides_1()
     if GUI.include_signal_combo.get() == "No":
         for promoter in strand_1[0]:
-            promoter_identities.append("Modified " + promoter.displayId)
+            promoter_identities.append(promoter.displayId)
             promoter_descriptions.append(promoter.description)
             promoter_sequences_1.append(promoter.sequence.elements)
             promoter_sequences_2.append(create_complement(promoter.sequence.elements))
 
         for rbs in strand_1[1]:
-            rbs_identities.append("Modified " + rbs.displayId)
+            rbs_identities.append(rbs.displayId)
             rbs_descriptions.append(rbs.description)
             rbs_sequences_1.append(rbs.sequence.elements)
             rbs_sequences_2.append(create_complement(rbs.sequence.elements))
 
         for cds in strand_1[2]:
-            cds_identities.append("Modified " + cds.displayId)
+            cds_identities.append(cds.displayId)
             cds_descriptions.append(cds.description)
             cds_sequences_1.append(cds.sequence.elements)
             cds_sequences_2.append(create_complement(cds.sequence.elements))
 
         for terminator in strand_1[3]:
-            terminator_identities.append("Modified " + terminator.displayId)
+            terminator_identities.append(terminator.displayId)
             terminator_descriptions.append(terminator.description)
             terminator_sequences_1.append(terminator.sequence.elements)
             terminator_sequences_2.append(create_complement(terminator.sequence.elements))
@@ -2822,31 +2822,31 @@ def final_oligonucleotides_2():
         signal_modifications = []
 
         for promoter in strand_1[0]:
-            promoter_identities.append("Modified " + promoter.displayId)
+            promoter_identities.append(promoter.displayId)
             promoter_descriptions.append(promoter.description)
             promoter_sequences_1.append(promoter.sequence.elements)
             promoter_sequences_2.append(create_complement(promoter.sequence.elements))
 
         for rbs in strand_1[1]:
-            rbs_identities.append("Modified " + rbs.displayId)
+            rbs_identities.append(rbs.displayId)
             rbs_descriptions.append(rbs.description)
             rbs_sequences_1.append(rbs.sequence.elements)
             rbs_sequences_2.append(create_complement(rbs.sequence.elements))
 
         for signal in strand_1[2]:
-            signal_identities.append("Modified " + signal.displayId)
+            signal_identities.append(signal.displayId)
             signal_descriptions.append(signal.description)
             signal_sequences_1.append(signal.sequence.elements)
             signal_sequences_2.append(create_complement(signal.sequence.elements))
 
         for cds in strand_1[3]:
-            cds_identities.append("Modified " + cds.displayId)
+            cds_identities.append(cds.displayId)
             cds_descriptions.append(cds.description)
             cds_sequences_1.append(cds.sequence.elements)
             cds_sequences_2.append(create_complement(cds.sequence.elements))
 
         for terminator in strand_1[4]:
-            terminator_identities.append("Modified " + terminator.displayId)
+            terminator_identities.append(terminator.displayId)
             terminator_descriptions.append(terminator.description)
             terminator_sequences_1.append(terminator.sequence.elements)
             terminator_sequences_2.append(create_complement(terminator.sequence.elements))
@@ -2952,7 +2952,7 @@ def transcription_unit_format():
                 terminator_sequence = terminator[9:-11]
                 counter = counter + 1
                 transcription_unit_1_notes.append("Prefix atct and suffix tgcc fusion sites conferred to sequence by "
-                                                  "level 1 plasmid backbone pTU1-A-lacZ")
+                                                  "level 1 plasmid backbone pTU1-A-RFP")
                 transcription_unit_1_sequences.append(
                     ["atct" + promoter_sequence + rbs_sequence + cds_sequence + terminator_sequence + "tgcc"])
                 transcription_unit_1_names.append("Transcription unit 1 variant " + str(counter))
@@ -2978,7 +2978,7 @@ def transcription_unit_format():
                 terminator_sequence = terminator[9:-11]
                 counter = counter + 1
                 transcription_unit_1_notes.append("Prefix atct and suffix tgcc fusion sites conferred to sequence by "
-                                                  "level 1 plasmid backbone pTU1-A-lacZ")
+                                                  "level 1 plasmid backbone pTU1-A-RFP")
                 transcription_unit_1_sequences.append(
                     ["atct" + promoter_sequence + rbs_sequence + signal_sequence + cds_sequence + terminator_sequence +
                      "tgcc"])
@@ -3006,7 +3006,7 @@ def transcription_unit_format():
                 terminator_sequence = terminator[9:-11]
                 counter = counter + 1
                 transcription_unit_2_notes.append("Prefix tgcc and suffix ccgg fusion sites conferred to sequence by "
-                                                  "level 1 plasmid backbone pTU1-B-LacZ")
+                                                  "level 1 plasmid backbone pTU1-B-RFP")
                 transcription_unit_2_sequences.append(
                     ["tgcc" + promoter_sequence + rbs_sequence + cds_sequence + terminator_sequence +
                      "ccgg"])
@@ -3033,7 +3033,7 @@ def transcription_unit_format():
                 terminator_sequence = terminator[9:-11]
                 counter = counter + 1
                 transcription_unit_2_notes.append("Prefix tgcc and suffix ccgg fusion sites conferred to sequence by "
-                                                  "level 1 plasmid backbone pTU1-B-LacZ")
+                                                  "level 1 plasmid backbone pTU1-B-RFP")
                 transcription_unit_2_sequences.append(
                     ["tgcc" + promoter_sequence + rbs_sequence + signal_sequence + cds_sequence + terminator_sequence +
                      "ccgg"])
@@ -3061,7 +3061,7 @@ def transcription_unit_format():
                 terminator_sequence = terminator[9:-11]
                 counter = counter + 1
                 transcription_unit_3_notes.append("Prefix ccgg and suffix gaag fusion sites conferred to sequence by "
-                                                  "level 1 plasmid backbone pTU1-C-LacZ")
+                                                  "level 1 plasmid backbone pTU1-C-RFP")
                 transcription_unit_3_sequences.append(
                     ["ccgg" + promoter_sequence + rbs_sequence + cds_sequence + terminator_sequence +
                      "gaag"])
@@ -3088,7 +3088,7 @@ def transcription_unit_format():
                 terminator_sequence = terminator[9:-11]
                 counter = counter + 1
                 transcription_unit_3_notes.append("Prefix ccgg and suffix gaag fusion sites conferred to sequence by "
-                                                  "level 1 plasmid backbone pTU1-C-LacZ")
+                                                  "level 1 plasmid backbone pTU1-C-RFP")
                 transcription_unit_3_sequences.append(
                     ["ccgg" + promoter_sequence + rbs_sequence + signal_sequence + cds_sequence + terminator_sequence +
                      "gaag"])
@@ -3118,13 +3118,13 @@ def transcription_unit_format():
                 if int(GUI.transcription_unit_quantity_combo.get()) == 4:
                     transcription_unit_4_notes.append(
                         "Prefix gaag and suffix ttag fusion sites conferred to sequence by "
-                        "level 1 plasmid backbone pTU1-D-LacZ")
+                        "level 1 plasmid backbone pTU1-D-RFP")
                     transcription_unit_4_sequences.append(
                         ["gaag" + promoter_sequence + rbs_sequence + cds_sequence + terminator_sequence + "ttag"])
                 if int(GUI.transcription_unit_quantity_combo.get()) == 5:
                     transcription_unit_4_notes.append(
                         "Prefix gaag and suffix cttc fusion sites conferred to sequence by "
-                        "level 1 plasmid backbone pTU1-D1-LacZ")
+                        "level 1 plasmid backbone pTU1-D1-RFP")
                     transcription_unit_4_sequences.append(
                         ["gaag" + promoter_sequence + rbs_sequence + cds_sequence + terminator_sequence + "cttc"])
                 transcription_unit_4_names.append("Transcription unit 4 variant " + str(counter))
@@ -3152,7 +3152,7 @@ def transcription_unit_format():
                 if int(GUI.transcription_unit_quantity_combo.get()) == 4:
                     transcription_unit_4_notes.append(
                         "Prefix gaag and suffix ttag fusion sites conferred to sequence by "
-                        "level 1 plasmid backbone pTU1-D-LacZ")
+                        "level 1 plasmid backbone pTU1-D-RFP")
                     transcription_unit_4_sequences.append(
                         ["gaag" + promoter_sequence + rbs_sequence + signal_sequence + cds_sequence
                          + terminator_sequence + "ttag"])
@@ -3160,7 +3160,7 @@ def transcription_unit_format():
                 if int(GUI.transcription_unit_quantity_combo.get()) == 5:
                     transcription_unit_4_notes.append(
                         "Prefix gaag and suffix cttc fusion sites conferred to sequence by "
-                        "level 1 plasmid backbone pTU1-D1-LacZ")
+                        "level 1 plasmid backbone pTU1-D1-RFP")
                     transcription_unit_4_sequences.append(
                         ["gaag" + promoter_sequence + rbs_sequence + signal_sequence + cds_sequence
                          + terminator_sequence + "cttc"])
@@ -3189,7 +3189,7 @@ def transcription_unit_format():
                 terminator_sequence = terminator[9:-11]
                 counter = counter + 1
                 transcription_unit_3_notes.append("Prefix cttc and suffix ttag fusion sites conferred to sequence by "
-                                                  "level 1 plasmid backbone pTU1-E-LacZ")
+                                                  "level 1 plasmid backbone pTU1-E-RFP")
                 transcription_unit_5_sequences.append(
                     ["cttc" + promoter_sequence + rbs_sequence + cds_sequence + terminator_sequence + "ttag"])
                 transcription_unit_5_names.append("Transcription unit 5 variant " + str(counter))
@@ -3215,7 +3215,7 @@ def transcription_unit_format():
                 terminator_sequence = terminator[9:-11]
                 counter = counter + 1
                 transcription_unit_3_notes.append("Prefix cttc and suffix ttag fusion sites conferred to sequence by "
-                                                  "level 1 plasmid backbone pTU1-E-LacZ")
+                                                  "level 1 plasmid backbone pTU1-E-RFP")
                 transcription_unit_5_sequences.append(
                     ["cttc" + promoter_sequence + rbs_sequence + signal_sequence + cds_sequence + terminator_sequence
                      + "ttag"])
@@ -3244,7 +3244,7 @@ def level_2_format():
 
     counter = 0
     if int(GUI.transcription_unit_quantity_combo.get()) == 2:
-        level_2_vector_name = "pTU2-a-RFP"
+        level_2_vector_name = "pTU2-a-RFP, available from 'http://www.addgene.org/72958/'"
 
         for variant in transcription_unit_1_names:
             for variant2 in transcription_unit_2_names:
@@ -3261,7 +3261,7 @@ def level_2_format():
                 level_2_sequences.append([unit_1_sequence + unit_2_sequence])
 
     if int(GUI.transcription_unit_quantity_combo.get()) == 3:
-        level_2_vector_name = "pTU2-b-RFP"
+        level_2_vector_name = "pTU2-b-RFP, available from 'http://www.addgene.org/72959/'"
         counter = counter + 1
         level_2_names.append("Level 2 construct variant " + str(counter))
 
@@ -3281,7 +3281,7 @@ def level_2_format():
                     level_2_sequences.append([unit_1_sequence + unit_2_sequence + unit_3_sequence])
 
     if int(GUI.transcription_unit_quantity_combo.get()) == 4:
-        level_2_vector_name = "pTU2-A-RFP"
+        level_2_vector_name = "pTU2-A-RFP, available from 'http://www.addgene.org/72954/'"
 
         for variant in transcription_unit_1_names:
             for variant2 in transcription_unit_2_names:
@@ -3305,7 +3305,7 @@ def level_2_format():
                                                   unit_4_sequence])
 
     if int(GUI.transcription_unit_quantity_combo.get()) == 5:
-        level_2_vector_name = "pTU2-A-RFP"
+        level_2_vector_name = "pTU2-A-RFP, available from 'http://www.addgene.org/72954/"
 
         for variant in transcription_unit_1_names:
             for variant2 in transcription_unit_2_names:

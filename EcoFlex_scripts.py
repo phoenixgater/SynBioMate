@@ -189,7 +189,7 @@ def level_1_transcription_units():
     for destination_well in level_1_output.keys():
         if level_1_output[destination_well][0].find("Transcription unit 1") == 0:
             for source_well in level_1_384PP:
-                if level_1_384PP[source_well][0] == "pTU1-A-lacZ":
+                if level_1_384PP[source_well][0] == "pTU1-A-RFP":
                     if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
                         transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_1")
                     elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
@@ -209,12 +209,12 @@ def level_1_transcription_units():
                                                 "384PP)")
                         worksheet.write(row, 6, destination_well)
                         worksheet.write(row, 7, transfer_volume)
-                        worksheet.write(row, 8, "pTU1-A-lacZ")
+                        worksheet.write(row, 8, "pTU1-A-RFP")
                         break
 
         elif level_1_output[destination_well][0].find("Transcription unit 2") >= 0:
             for source_well in level_1_384PP:
-                if level_1_384PP[source_well][0] == "pTU1-B-lacZ":
+                if level_1_384PP[source_well][0] == "pTU1-B-RFP":
                     if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
                         transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_1")
                     elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
@@ -234,12 +234,12 @@ def level_1_transcription_units():
                                                 "384PP)")
                         worksheet.write(row, 6, destination_well)
                         worksheet.write(row, 7, transfer_volume)
-                        worksheet.write(row, 8, "pTU1-B-lacZ")
+                        worksheet.write(row, 8, "pTU1-B-RFP")
                         break
 
         elif level_1_output[destination_well][0].find("Transcription unit 3") >= 0:
             for source_well in level_1_384PP:
-                if level_1_384PP[source_well][0] == "pTU1-C-lacZ":
+                if level_1_384PP[source_well][0] == "pTU1-C-RFP":
                     if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
                         transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_1")
                     elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
@@ -259,13 +259,13 @@ def level_1_transcription_units():
                                                 "384PP)")
                         worksheet.write(row, 6, destination_well)
                         worksheet.write(row, 7, transfer_volume)
-                        worksheet.write(row, 8, "pTU1-C-lacZ")
+                        worksheet.write(row, 8, "pTU1-C-RFP")
                         break
 
         elif level_1_output[destination_well][0].find("Transcription unit 4") == 0:
             if int(GUI.transcription_unit_quantity_combo.get()) == 4:
                 for source_well in level_1_384PP:
-                    if level_1_384PP[source_well][0] == "pTU1-D-lacZ":
+                    if level_1_384PP[source_well][0] == "pTU1-D-RFP":
                         if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
                             transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_1")
                         elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
@@ -285,12 +285,12 @@ def level_1_transcription_units():
                                                     "384PP)")
                             worksheet.write(row, 6, destination_well)
                             worksheet.write(row, 7, transfer_volume)
-                            worksheet.write(row, 8, "pTU1-D-lacZ")
+                            worksheet.write(row, 8, "pTU1-D-RFP")
                             break
 
             elif int(GUI.transcription_unit_quantity_combo.get()) == 5:
                 for source_well in level_1_384PP:
-                    if level_1_384PP[source_well][0] == "pTU1-D1-lacZ":
+                    if level_1_384PP[source_well][0] == "pTU1-D1-RFP":
                         if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
                             transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_1")
                         elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
@@ -310,12 +310,12 @@ def level_1_transcription_units():
                                                     "384PP)")
                             worksheet.write(row, 6, destination_well)
                             worksheet.write(row, 7, transfer_volume)
-                            worksheet.write(row, 8, "pTU1-D1-lacZ")
+                            worksheet.write(row, 8, "pTU1-D1-RFP")
                             break
 
         elif level_1_output[destination_well][0].find("Transcription unit 5") == 0:
             for source_well in level_1_384PP:
-                if level_1_384PP[source_well][0] == "pTU1-E-lacZ":
+                if level_1_384PP[source_well][0] == "pTU1-E-RFP":
                     if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
                         transfer_volume = EcoFlex_protocol.transfer_volume("level_1_backbone_1_1")
                     elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
@@ -335,7 +335,7 @@ def level_1_transcription_units():
                                                 "384PP)")
                         worksheet.write(row, 6, destination_well)
                         worksheet.write(row, 7, transfer_volume)
-                        worksheet.write(row, 8, "pTU1-E-lacZ")
+                        worksheet.write(row, 8, "pTU1-E-RFP")
                         break
     workbook.close()
 

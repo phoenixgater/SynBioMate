@@ -244,9 +244,10 @@ def create_manual_protocol():
     biopart_prep.add_run("\n" + "2. Anneal forward and reverse primers (20 uM of each) in 1 x T4 DNA ligase buffer " +
                          "at 90°C for 1 min, followed by cooling on ice")
     biopart_prep.add_run("\n" + "3. Phosphorylate with T4 PNK for 1 hour at 37°C")
-    biopart_prep.add_run("\n" + "4. Digest 40 ng/uL-1 (24nM) of pBP-lacZa with 1 unit of NdeI and SphI " +
+    biopart_prep.add_run("\n" + "4. Digest 40 ng/uL-1 (24nM) of pBP-lacZ (available from "
+                                "http://www.addgene.org/72948/)  with 1 unit of NdeI and SphI " +
                          "in CutSmart buffer for 1 hour at 37°C, heat inactivate at 80°C for 10 min")
-    biopart_prep.add_run("\n" + "5. Add 2 uL (80 ng) of NdeI-SphI digested pBP-lacZa plasmid with 2 uL of 200 nM "
+    biopart_prep.add_run("\n" + "5. Add 2 uL (80 ng) of NdeI-SphI digested pBP-lacZ plasmid with 2 uL of 200 nM "
                          + "annealed primers in 2 x Rapid ligation buffer (Promega) and 1-3 units of T4 ligase " +
                          "(Promega)")
     biopart_prep.add_run("\n" + "6. Incubate at room-temperature (19-21 °C) for 30-60 min")
@@ -261,7 +262,8 @@ def create_manual_protocol():
     biopart_prep.add_run("\n" + "Anneal forward and reverse primers (20 uM of each) in 1 x T4 DNA ligase buffer at " +
                          "90°C for 1 min, followed by cooling on ice")
     biopart_prep.add_run("\n" + "3. Phosphorylate with T4 PNK for 1 hour at 37°C")
-    biopart_prep.add_run("\n" + "4. Digest 40 ng/uL-1 (24nM) of pBP-ORF with 1 unit of NdeI and BamHI " +
+    biopart_prep.add_run("\n" + "4. Digest 40 ng/uL-1 (24nM) of pBP-ORF (available from "
+                                "http://www.addgene.org/72949/) with 1 unit of NdeI and BamHI " +
                          "in CutSmart buffer for 1 hour at 37°C, heat inactivate at 80°C for 10 min")
     biopart_prep.add_run("\n" + "5. Add 2 uL (80 ng) of NdeI-BamHI digested pBP-ORF plasmid with 2 uL of 200 nM " +
                          "annealed primers in 2 x Rapid ligation buffer (Promega) and 1-3 units of T4 ligase (Promega)")
@@ -309,9 +311,10 @@ def create_automatic_protocol():
         "\n" + "2. Anneal forward and reverse primers (20 uM of each) in 1 x T4 DNA ligase buffer " +
         "at 90°C for 1 min, followed by cooling on ice")
     biopart_prep.add_run("\n" + "3. Phosphorylate with T4 PNK for 1 hour at 37°C")
-    biopart_prep.add_run("\n" + "4. Digest 40 ng/uL-1 (24nM) of pBP-lacZa with 1 unit of NdeI and SphI " +
+    biopart_prep.add_run("\n" + "4. Digest 40 ng/uL-1 (24nM) of pBP-lacZ (available from "
+                                "http://www.addgene.org/72948/) with 1 unit of NdeI and SphI " +
                          "in CutSmart buffer for 1 hour at 37°C, heat inactivate at 80°C for 10 min")
-    biopart_prep.add_run("\n" + "5. Add 2 uL (80 ng) of NdeI-SphI digested pBP-lacZa plasmid with 2 uL of 200 nM "
+    biopart_prep.add_run("\n" + "5. Add 2 uL (80 ng) of NdeI-SphI digested pBP-lacZ plasmid with 2 uL of 200 nM "
                          + "annealed primers in 2 x Rapid ligation buffer (Promega) and 1-3 units of T4 ligase " +
                          "(Promega)")
     biopart_prep.add_run("\n" + "6. Incubate at room-temperature (19-21 °C) for 30-60 min")
@@ -327,7 +330,8 @@ def create_automatic_protocol():
         "\n" + "Anneal forward and reverse primers (20 uM of each) in 1 x T4 DNA ligase buffer at " +
         "90°C for 1 min, followed by cooling on ice")
     biopart_prep.add_run("\n" + "3. Phosphorylate with T4 PNK for 1 hour at 37°C")
-    biopart_prep.add_run("\n" + "4. Digest 40 ng/uL-1 (24nM) of pBP-ORF with 1 unit of NdeI and BamHI " +
+    biopart_prep.add_run("\n" + "4. Digest 40 ng/uL-1 (24nM) of pBP-ORF (available from "
+                                "http://www.addgene.org/72949/)  with 1 unit of NdeI and BamHI " +
                          "in CutSmart buffer for 1 hour at 37°C, heat inactivate at 80°C for 10 min")
     biopart_prep.add_run("\n" + "5. Add 2 uL (80 ng) of NdeI-BamHI digested pBP-ORF plasmid with 2 uL of 200 nM " +
                          "annealed primers in 2 x Rapid ligation buffer (Promega) and 1-3 units of T4 ligase (Promega)")
@@ -409,17 +413,17 @@ def create_automatic_protocol():
                     required_transfer_volume += transfer_volume("level_1_backbone_2_1") * len(MoClo.transcription_unit_1_names)
             row_cells = level_1_protocol_table.add_row().cells
             volume_required = required_transfer_volume - previous_fulfilment
-            row_cells[1].text = "pTU1-A-lacZ"
+            row_cells[1].text = "pTU1-A-RFP"
             if dead_volume + volume_required > 65000:
                 volume = 65000
-                assign_well_384(level_1_384PP, "pTU1-A-lacZ", volume)
+                assign_well_384(level_1_384PP, "pTU1-A-RFP", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
                 row_cells[2].text = str(volume)
                 previous_fulfilment += 50000
                 continue
             else:
                 volume = dead_volume + volume_required
-                assign_well_384(level_1_384PP, "pTU1-A-lacZ", volume)
+                assign_well_384(level_1_384PP, "pTU1-A-RFP", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
                 row_cells[2].text = str(volume)
                 volume_fulfilled = True
@@ -438,17 +442,17 @@ def create_automatic_protocol():
                     required_transfer_volume += transfer_volume("level_1_backbone_2_1") * len(MoClo.transcription_unit_2_names)
             row_cells = level_1_protocol_table.add_row().cells
             volume_required = required_transfer_volume - previous_fulfilment
-            row_cells[1].text = "pTU1-B-lacZ"
+            row_cells[1].text = "pTU1-B-RFP"
             if dead_volume + volume_required > 65000:
                 volume = 65000
-                assign_well_384(level_1_384PP, "pTU1-B-lacZ", volume)
+                assign_well_384(level_1_384PP, "pTU1-B-RFP", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
                 row_cells[2].text = str(volume)
                 previous_fulfilment += 50000
                 continue
             else:
                 volume = dead_volume + volume_required
-                assign_well_384(level_1_384PP, "pTU1-B-lacZ", volume)
+                assign_well_384(level_1_384PP, "pTU1-B-RFP", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
                 row_cells[2].text = str(volume)
                 volume_fulfilled = True
@@ -468,17 +472,17 @@ def create_automatic_protocol():
                     required_transfer_volume += transfer_volume("level_1_backbone_2_1") * len(MoClo.transcription_unit_3_names)
             row_cells = level_1_protocol_table.add_row().cells
             volume_required = required_transfer_volume - previous_fulfilment
-            row_cells[1].text = "pTU1-C-lacZ"
+            row_cells[1].text = "pTU1-C-RFP"
             if dead_volume + volume_required > 65000:
                 volume = 65000
-                assign_well_384(level_1_384PP, "pTU1-C-lacZ", volume)
+                assign_well_384(level_1_384PP, "pTU1-C-RFP", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
                 row_cells[2].text = str(volume)
                 previous_fulfilment += 50000
                 continue
             else:
                 volume = dead_volume + volume_required
-                assign_well_384(level_1_384PP, "pTU1-C-lacZ", volume)
+                assign_well_384(level_1_384PP, "pTU1-C-RFP", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
                 row_cells[2].text = str(volume)
                 volume_fulfilled = True
@@ -502,17 +506,17 @@ def create_automatic_protocol():
                             MoClo.transcription_unit_4_names)
                 row_cells = level_1_protocol_table.add_row().cells
                 volume_required = required_transfer_volume - previous_fulfilment
-                row_cells[1].text = "pTU1-D-lacZ"
+                row_cells[1].text = "pTU1-D-RFP"
                 if dead_volume + volume_required > 65000:
                     volume = 65000
-                    assign_well_384(level_1_384PP, "pTU1-D-lacZ", volume)
+                    assign_well_384(level_1_384PP, "pTU1-D-RFP", volume)
                     row_cells[0].text = list(level_1_384PP.keys())[-1]
                     row_cells[2].text = str(volume)
                     previous_fulfilment += 50000
                     continue
                 else:
                     volume = dead_volume + volume_required
-                    assign_well_384(level_1_384PP, "pTU1-D-lacZ", volume)
+                    assign_well_384(level_1_384PP, "pTU1-D-RFP", volume)
                     row_cells[0].text = list(level_1_384PP.keys())[-1]
                     row_cells[2].text = str(volume)
                     volume_fulfilled = True
@@ -534,17 +538,17 @@ def create_automatic_protocol():
                             MoClo.transcription_unit_4_names)
                 row_cells = level_1_protocol_table.add_row().cells
                 volume_required = required_transfer_volume - previous_fulfilment
-                row_cells[1].text = "pTU1-D1-lacZ"
+                row_cells[1].text = "pTU1-D1-RFP"
                 if dead_volume + volume_required > 65000:
                     volume = 65000
-                    assign_well_384(level_1_384PP, "pTU1-D1-lacZ", volume)
+                    assign_well_384(level_1_384PP, "pTU1-D1-RFP", volume)
                     row_cells[0].text = list(level_1_384PP.keys())[-1]
                     row_cells[2].text = str(volume)
                     previous_fulfilment += 50000
                     continue
                 else:
                     volume = dead_volume + volume_required
-                    assign_well_384(level_1_384PP, "pTU1-D1-lacZ", volume)
+                    assign_well_384(level_1_384PP, "pTU1-D1-RFP", volume)
                     row_cells[0].text = list(level_1_384PP.keys())[-1]
                     row_cells[2].text = str(volume)
                     volume_fulfilled = True
@@ -567,17 +571,17 @@ def create_automatic_protocol():
                         MoClo.transcription_unit_5_names)
             row_cells = level_1_protocol_table.add_row().cells
             volume_required = required_transfer_volume - previous_fulfilment
-            row_cells[1].text = "pTU1-E-lacZ"
+            row_cells[1].text = "pTU1-E-RFP"
             if dead_volume + volume_required > 65000:
                 volume = 65000
-                assign_well_384(level_1_384PP, "pTU1-E-lacZ", volume)
+                assign_well_384(level_1_384PP, "pTU1-E-RFP", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
                 row_cells[2].text = str(volume)
                 previous_fulfilment += 50000
                 continue
             else:
                 volume = dead_volume + volume_required
-                assign_well_384(level_1_384PP, "pTU1-E-lacZ", volume)
+                assign_well_384(level_1_384PP, "pTU1-E-RFP", volume)
                 row_cells[0].text = list(level_1_384PP.keys())[-1]
                 row_cells[2].text = str(volume)
                 volume_fulfilled = True
@@ -1055,8 +1059,11 @@ def create_appendix():
         description = document.add_paragraph("")
         description.add_run("Description: ").bold = True
         description.add_run(MoClo.promoter_descriptions[counter])
+        backbone = document.add_paragraph("")
+        backbone.add_run("Destination level 0 backbone: ").bold = True
+        backbone.add_run("pBP-lacZ, available from 'http://www.addgene.org/72948/'")
         modifications = document.add_paragraph("")
-        modifications.add_run("Modifications:").bold = True
+        modifications.add_run("Notes:").bold = True
         for modification in MoClo.promoter_modifications[counter]:
             modifications.add_run("\n" + "-" + modification)
         design = document.add_paragraph("")
@@ -1072,8 +1079,11 @@ def create_appendix():
         description = document.add_paragraph("")
         description.add_run("Description: ").bold = True
         description.add_run(MoClo.rbs_descriptions[counter])
+        backbone = document.add_paragraph("")
+        backbone.add_run("Destination level 0 backbone: ").bold = True
+        backbone.add_run("pBP-lacZ, available from 'http://www.addgene.org/72948/'")
         modifications = document.add_paragraph("")
-        modifications.add_run("Modifications:").bold = True
+        modifications.add_run("Notes:").bold = True
         for modification in MoClo.rbs_modifications[counter]:
             modifications.add_run("\n" + "-" + modification)
         design = document.add_paragraph("")
@@ -1090,8 +1100,11 @@ def create_appendix():
             description = document.add_paragraph("")
             description.add_run("Description: ").bold = True
             description.add_run(MoClo.signal_descriptions[counter])
+            backbone = document.add_paragraph("")
+            backbone.add_run("Destination level 0 backbone: ").bold = True
+            backbone.add_run("pBP-lacZ, available from 'http://www.addgene.org/72948/'")
             modifications = document.add_paragraph("")
-            modifications.add_run("Modifications:").bold = True
+            modifications.add_run("Notes:").bold = True
             for modification in MoClo.signal_modifications[counter]:
                 modifications.add_run("\n" + "-" + modification)
             design = document.add_paragraph("")
@@ -1107,8 +1120,11 @@ def create_appendix():
         description = document.add_paragraph("")
         description.add_run("Description: ").bold = True
         description.add_run(MoClo.cds_descriptions[counter])
+        backbone = document.add_paragraph("")
+        backbone.add_run("Destination level 0 backbone: ").bold = True
+        backbone.add_run("pBP-ORF, available from 'http://www.addgene.org/72949/'")
         modifications = document.add_paragraph("")
-        modifications.add_run("Modifications:").bold = True
+        modifications.add_run("Notes:").bold = True
         for modification in MoClo.cds_modifications[counter]:
             modifications.add_run("\n" + "-" + modification)
         design = document.add_paragraph("")
@@ -1124,8 +1140,11 @@ def create_appendix():
         description = document.add_paragraph("")
         description.add_run("Description: ").bold = True
         description.add_run(MoClo.terminator_descriptions[counter])
+        backbone = document.add_paragraph("")
+        backbone.add_run("Destination level 0 backbone: ").bold = True
+        backbone.add_run("pBP-lacZ, available from 'http://www.addgene.org/72948/'")
         modifications = document.add_paragraph("")
-        modifications.add_run("Modifications:").bold = True
+        modifications.add_run("Notes:").bold = True
         for modification in MoClo.terminator_modifications[counter]:
             modifications.add_run("\n" + "-" + modification)
         design = document.add_paragraph("")
@@ -1143,8 +1162,11 @@ def create_appendix():
             part_list = document.add_paragraph("")
             part_list.add_run("Parts: ").bold = True
             for part in MoClo.transcription_unit_1_part_id[counter]:
-                part_list.add_run("Modified " + part)
+                part_list.add_run(part)
                 part_list.add_run(", ")
+            backbone = document.add_paragraph("")
+            backbone.add_run("Plasmid backbone: ").bold = True
+            backbone.add_run("pTU1-A-RFP, available from 'http://www.addgene.org/72939/'")
             notes = document.add_paragraph("")
             notes.add_run("Notes: ").bold = True
             notes.add_run(MoClo.transcription_unit_1_notes[counter])
@@ -1161,8 +1183,11 @@ def create_appendix():
             part_list = document.add_paragraph("")
             part_list.add_run("Parts: ").bold = True
             for part in MoClo.transcription_unit_2_part_id[counter]:
-                part_list.add_run("Modified " + part)
+                part_list.add_run(part)
                 part_list.add_run(", ")
+            backbone = document.add_paragraph("")
+            backbone.add_run("Plasmid backbone: ").bold = True
+            backbone.add_run("pTU1-B-RFP, available from 'http://www.addgene.org/72940/'")
             notes = document.add_paragraph("")
             notes.add_run("Notes: ").bold = True
             notes.add_run(MoClo.transcription_unit_2_notes[counter])
@@ -1180,8 +1205,11 @@ def create_appendix():
             part_list = document.add_paragraph("")
             part_list.add_run("Parts: ").bold = True
             for part in MoClo.transcription_unit_3_part_id[counter]:
-                part_list.add_run("Modified " + part)
+                part_list.add_run(part)
                 part_list.add_run(", ")
+            backbone = document.add_paragraph("")
+            backbone.add_run("Plasmid backbone: ").bold = True
+            backbone.add_run("pTU1-C-RFP, available from 'http://www.addgene.org/72941/'")
             notes = document.add_paragraph("")
             notes.add_run("Notes: ").bold = True
             notes.add_run(MoClo.transcription_unit_3_notes[counter])
@@ -1199,8 +1227,14 @@ def create_appendix():
             part_list = document.add_paragraph("")
             part_list.add_run("Parts: ").bold = True
             for part in MoClo.transcription_unit_4_part_id[counter]:
-                part_list.add_run("Modified " + part)
+                part_list.add_run(part)
                 part_list.add_run(", ")
+            backbone = document.add_paragraph("")
+            backbone.add_run("Plasmid backbone: ").bold = True
+            if GUI.transcription_unit_quantity_combo.get() == "4":
+                backbone.add_run("pTU1-D-RFP, available from 'http://www.addgene.org/72942/'")
+            if GUI.transcription_unit_quantity_combo.get() == "5":
+                backbone.add_run("pTU1-D1-RFP, available from 'http://www.addgene.org/72943/'")
             notes = document.add_paragraph("")
             notes.add_run("Notes: ").bold = True
             notes.add_run(MoClo.transcription_unit_4_notes[counter])
@@ -1218,8 +1252,11 @@ def create_appendix():
             part_list = document.add_paragraph("")
             part_list.add_run("Parts: ").bold = True
             for part in MoClo.transcription_unit_5_part_id[counter]:
-                part_list.add_run("Modified " + part)
+                part_list.add_run(part)
                 part_list.add_run(", ")
+            backbone = document.add_paragraph("")
+            backbone.add_run("Plasmid backbone: ").bold = True
+            backbone.add_run("pTU1-E-RFP, available from 'http://www.addgene.org/72944/'")
             notes = document.add_paragraph("")
             notes.add_run("Notes: ").bold = True
             notes.add_run(MoClo.transcription_unit_5_notes[counter])
