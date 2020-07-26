@@ -231,6 +231,16 @@ def title_introduction():
     input_notes.add_run(" " + GUI.transcription_unit_quantity_combo.get())
     input_notes.add_run("\n" + "Assembly method:").bold = True
     input_notes.add_run(" " + GUI.assembly_method_combo.get())
+    if GUI.assembly_method_combo.get() == "Automatic":
+        input_notes.add_run("\n" + "Liquid handler:").bold = True
+        input_notes.add_run(" " + GUI.liquid_handler_selection_combo.get())
+    input_notes.add_run("\n" + "Selected reaction ratios:").bold = True
+    input_notes.add_run("\n" + "Level 1: ")
+    for ratio in selected_reaction_ratios_level_1:
+        input_notes.add_run(ratio + ", ")
+    input_notes.add_run("\n" + "Level 2: ")
+    for ratio in selected_reaction_ratios_level_2:
+        input_notes.add_run(ratio + ", ")
     document.add_page_break()
 
 

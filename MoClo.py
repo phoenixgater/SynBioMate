@@ -13,22 +13,16 @@ primary_structure_descriptions = []
 base_composition = []
 detected_restriction_sites = []
 level_0_promoter = {}
-level_0_promoter_display = []
 level_0_rbs = {}
-level_0_rbs_display = []
 level_0_cds = {}
-level_0_cds_display = []
 level_0_terminator = {}
-level_0_terminator_display = []
 level_0_signal = {}
-level_0_signal_display = []
 level_0_other = {}
-level_0_other_display = []
 level_2_template = []
 ecoflex_check_list = []
-bacilloflex_check_list = []
+doc = Document()
 forbidden_sites_ecoflex = ["catatg", "gtatac", "ggatcc", "cctagg", "ggtctc", "ccagag", "cgtctc", "gcagag", "ctctgg",
-                           "gagacc", "ctctgc", "gagacg"]
+                           "gagacc", "ctctgc", "gagacg", "gcatgc", "cgtacg"]
 modification_dictionary = {}
 transcription_unit_1_variants = {}
 transcription_unit_2_variants = {}
@@ -46,12 +40,12 @@ def clear_globals():
     detected_restriction_sites.clear()
 
 
-# Import part from file
+# Import multi-part design from file
 def import_design(event):
     clear_globals()
     GUI.select_design_import()
     imported_design = GUI.single_imported_design
-    Main.doc.append(imported_design)
+    doc.append(imported_design)
     get_design_uri()
     get_design_primary_structure_identities()
     get_design_roles()
@@ -68,11 +62,11 @@ def import_design(event):
 def get_design_uri():
     sub_component_quantity = []
     try:
-        for obj in Main.doc.componentDefinitions:
+        for obj in doc.componentDefinitions:
             sub_component_quantity.append(len(obj.components))
     except LookupError:
         pass
-    for obj in Main.doc.componentDefinitions:
+    for obj in doc.componentDefinitions:
         if len(obj.components) == max(sub_component_quantity):
             global design_uri
             design_uri = obj
@@ -140,6 +134,11 @@ def detect_restriction_sites(sequence):
         if "gtatac" in str(component.sequence.elements):
             detected_restriction_sites.append("NdeI restriction site" + " detected in " + str(component.displayId))
 
+        if "gcatgc" in str(component.sequence.elements):
+            detected_restriction_sites.append("SphI restriction site" + " detected in " + str(component.displayId))
+        if "cgtacg" in str(component.sequence.elements):
+            detected_restriction_sites.append("SphI restriction site" + " detected in " + str(component.displayId))
+
         if "ggatcc" in str(component.sequence.elements):
             detected_restriction_sites.append("BamHI restriction site" + " detected in " + str(component.displayId))
         if "cctagg" in str(component.sequence.elements):
@@ -170,51 +169,123 @@ def import_design_parts_to_library(event):
     for component in primary_structure_cd:
         if "0000167" in str(component.roles):
             level_0_promoter["p" + str(len(level_0_promoter) + 1)] = component
-            level_0_promoter_display.append("p" + str(len(level_0_promoter)) + ". " + str(component.displayId))
         elif "0000139" in str(component.roles):
             level_0_rbs["r" + str(len(level_0_rbs) + 1)] = component
-            level_0_rbs_display.append("r" + str(len(level_0_rbs)) + ". " + str(component.displayId))
         elif "0000316" in str(component.roles):
             level_0_cds["c" + str(len(level_0_cds) + 1)] = component
-            level_0_cds_display.append("c" + str(len(level_0_cds)) + ". " + str(component.displayId))
         elif "0000141" in str(component.roles):
             level_0_terminator["t" + str(len(level_0_terminator) + 1)] = component
-            level_0_terminator_display.append("t" + str(len(level_0_terminator)) + ". " + str(component.displayId))
         elif "0000324" in str(component.roles):
             level_0_signal["s" + str(len(level_0_signal) + 1)] = component
-            level_0_signal_display.append("s" + str(len(level_0_signal)) + ". " + str(component.displayId))
         else:
             level_0_other["o" + str(len(level_0_other) + 1)] = component
-            level_0_other_display.append("o" + str(len(level_0_other)) + ". " + str(component.displayId))
     GUI.refresh_level_0_library()
 
 
-# Add level 0 part from file
+# Import a single part into the level 0 library
 def import_part_from_file(event):
+    doc2 = Document()
     GUI.select_design_import()
     imported_design = GUI.single_imported_design
-    Main.doc.read(imported_design)
-    if len(Main.doc.componentDefinitions) == 1:
-        for obj in Main.doc.componentDefinitions:
-            design_uri = obj
-    if "0000167" in str(design_uri.roles):
-        level_0_promoter["p" + str(len(level_0_promoter))] = design_uri
-        level_0_promoter_display.append("p" + str(len(level_0_promoter)) + ". " + str(design_uri.displayId))
-    elif "0000139" in str(design_uri.roles):
-        level_0_rbs["r" + str(len(level_0_rbs))] = design_uri
-        level_0_rbs_display.append("r" + str(len(level_0_rbs)) + ". " + str(design_uri.displayId))
-    elif "0000316" in str(design_uri.roles):
-        level_0_cds["c" + str(len(level_0_cds))] = design_uri
-        level_0_cds_display.append("c" + str(len(level_0_cds)) + ". " + str(design_uri.displayId))
-    elif "0000141" in str(design_uri.roles):
-        level_0_terminator["t" + str(len(level_0_terminator))] = design_uri
-        level_0_terminator_display.append("t" + str(len(level_0_terminator)) + ". " + str(design_uri.displayId))
-    elif "0000324" in str(design_uri.roles):
-        level_0_signal["s" + str(len(level_0_signal))] = design_uri
-        level_0_signal_display.append("s" + str(len(level_0_signal)) + ". " + str(design_uri.displayId))
-    else:
-        level_0_other["o" + str(len(level_0_other))] = design_uri
-        level_0_other_display.append("o" + str(len(level_0_other)) + ". " + str(design_uri.displayId))
+    doc2.read(imported_design)
+    if len(doc2.componentDefinitions) == 1:
+        doc.append(imported_design)
+        for cd in doc.componentDefinitions:
+            component_definition = cd
+        if "0000167" in str(component_definition.roles):
+            level_0_promoter["p" + str(len(level_0_promoter) + 1)] = component_definition
+        elif "0000139" in str(component_definition.roles):
+            level_0_rbs["r" + str(len(level_0_rbs) + 1)] = component_definition
+        elif "0000316" in str(component_definition.roles):
+            level_0_cds["c" + str(len(level_0_cds) + 1)] = component_definition
+        elif "0000141" in str(component_definition.roles):
+            level_0_terminator["t" + str(len(level_0_terminator) + 1)] = component_definition
+        elif "0000324" in str(component_definition.roles):
+            level_0_signal["s" + str(len(level_0_signal) + 1)] = component_definition
+        else:
+            level_0_other["o" + str(len(level_0_other) + 1)] = component_definition
+        GUI.refresh_level_0_library()
+
+
+# Move parts in level 0 library to different part types
+def move_parts_in_library(event):
+    global level_0_promoter
+    global level_0_rbs
+    global level_0_signal
+    global level_0_cds
+    global level_0_terminator
+    global level_0_other
+    part_key = GUI.part_to_move_entry.get()
+    cd_list = []
+
+    if part_key in level_0_promoter:
+        component = level_0_promoter.pop(part_key)
+        for dict_key in level_0_promoter:
+            cd_list.append(level_0_promoter[dict_key])
+        level_0_promoter = {}
+        for component_definition in cd_list:
+            level_0_promoter["p" + str(len(level_0_promoter) + 1)] = component_definition
+
+    if part_key in level_0_rbs:
+        component = level_0_rbs.pop(part_key)
+        for dict_key in level_0_rbs:
+            cd_list.append(level_0_rbs[dict_key])
+        level_0_rbs = {}
+        for component_definition in cd_list:
+            level_0_rbs["r" + str(len(level_0_rbs) + 1)] = component_definition
+
+    if part_key in level_0_signal:
+        component = level_0_signal.pop(part_key)
+        for dict_key in level_0_signal:
+            cd_list.append(level_0_signal[dict_key])
+        level_0_signal = {}
+        for component_definition in cd_list:
+            level_0_signal["s" + str(len(level_0_signal) + 1)] = component_definition
+
+    if part_key in level_0_cds:
+        component = level_0_cds.pop(part_key)
+        for dict_key in level_0_cds:
+            cd_list.append(level_0_cds[dict_key])
+        level_0_cds = {}
+        for component_definition in cd_list:
+            level_0_cds["c" + str(len(level_0_cds) + 1)] = component_definition
+
+    if part_key in level_0_terminator:
+        component = level_0_terminator.pop(part_key)
+        for dict_key in level_0_terminator:
+            cd_list.append(level_0_terminator[dict_key])
+        level_0_terminator = {}
+        for component_definition in cd_list:
+            level_0_terminator["t" + str(len(level_0_terminator) + 1)] = component_definition
+
+    if part_key in level_0_other:
+        component = level_0_other.pop(part_key)
+        for dict_key in level_0_other:
+            cd_list.append(level_0_other[dict_key])
+        level_0_other = {}
+        for component_definition in cd_list:
+            level_0_other["o" + str(len(level_0_other) + 1)] = component_definition
+
+    destination_group = GUI.destination_library_select.get()
+    if destination_group == "Promoter (p)":
+        new_key = "p" + str(len(level_0_promoter) + 1)
+        level_0_promoter[new_key] = component
+    if destination_group == "RBS (r)":
+        new_key = "r" + str(len(level_0_rbs) + 1)
+        level_0_rbs[new_key] = component
+    if destination_group == "Signal peptide (s)":
+        new_key = "s" + str(len(level_0_signal) + 1)
+        level_0_signal[new_key] = component
+    if destination_group == "Coding region (cds)":
+        new_key = "c" + str(len(level_0_cds) + 1)
+        level_0_cds[new_key] = component
+    if destination_group == "Terminator (t)":
+        new_key = "t" + str(len(level_0_terminator) + 1)
+        level_0_terminator[new_key] = component
+    if destination_group == "Other (o)":
+        new_key = "o" + str(len(level_0_other) + 1)
+        level_0_other[new_key] = component
+
     GUI.refresh_level_0_library()
 
 
@@ -231,7 +302,7 @@ def part_selection_lists():
             transcription_unit_1_promoter.append(level_0_promoter[selection])
 
         selected_rbs_1 = (GUI.transcription_unit_1_rbs_entry.get())
-        transcription_unit_1_rbs_keys = (selected_rbs_1.split(","))
+        transcription_unit_1_rbs_keys = (selected_rbs_1.split(", "))
         global transcription_unit_1_rbs
         transcription_unit_1_rbs = []
         for selection in transcription_unit_1_rbs_keys:
@@ -239,35 +310,35 @@ def part_selection_lists():
 
         if signal_choice == "Yes":
             selected_signal_1 = (GUI.transcription_unit_1_signal_entry.get())
-            transcription_unit_1_signal_keys = (selected_signal_1.split(","))
+            transcription_unit_1_signal_keys = (selected_signal_1.split(", "))
             global transcription_unit_1_signal
             transcription_unit_1_signal = []
             for selection in transcription_unit_1_signal_keys:
                 transcription_unit_1_signal.append(level_0_signal[selection])
 
         selected_cds_1 = (GUI.transcription_unit_1_cds_entry.get())
-        transcription_unit_1_cds_keys = (selected_cds_1.split(","))
+        transcription_unit_1_cds_keys = (selected_cds_1.split(", "))
         global transcription_unit_1_cds
         transcription_unit_1_cds = []
         for selection in transcription_unit_1_cds_keys:
             transcription_unit_1_cds.append(level_0_cds[selection])
 
         selected_terminator_1 = (GUI.transcription_unit_1_terminator_entry.get())
-        transcription_unit_1_terminator_keys = (selected_terminator_1.split(","))
+        transcription_unit_1_terminator_keys = (selected_terminator_1.split(", "))
         global transcription_unit_1_terminator
         transcription_unit_1_terminator = []
         for selection in transcription_unit_1_terminator_keys:
             transcription_unit_1_terminator.append(level_0_terminator[selection])
 
         selected_promoter_2 = (GUI.transcription_unit_2_promoter_entry.get())
-        transcription_unit_2_promoter_keys = (selected_promoter_2.split(","))
+        transcription_unit_2_promoter_keys = (selected_promoter_2.split(", "))
         global transcription_unit_2_promoter
         transcription_unit_2_promoter = []
         for selection in transcription_unit_2_promoter_keys:
             transcription_unit_2_promoter.append(level_0_promoter[selection])
 
         selected_rbs_2 = (GUI.transcription_unit_2_rbs_entry.get())
-        transcription_unit_2_rbs_keys = (selected_rbs_2.split(","))
+        transcription_unit_2_rbs_keys = (selected_rbs_2.split(", "))
         global transcription_unit_2_rbs
         transcription_unit_2_rbs = []
         for selection in transcription_unit_2_rbs_keys:
@@ -275,21 +346,21 @@ def part_selection_lists():
 
         if signal_choice == "Yes":
             selected_signal_2 = (GUI.transcription_unit_2_signal_entry.get())
-            transcription_unit_2_signal_keys = (selected_signal_2.split(","))
+            transcription_unit_2_signal_keys = (selected_signal_2.split(", "))
             global transcription_unit_2_signal
             transcription_unit_2_signal = []
             for selection in transcription_unit_2_signal_keys:
                 transcription_unit_2_signal.append(level_0_signal[selection])
 
         selected_cds_2 = (GUI.transcription_unit_2_cds_entry.get())
-        transcription_unit_2_cds_keys = (selected_cds_2.split(","))
+        transcription_unit_2_cds_keys = (selected_cds_2.split(", "))
         global transcription_unit_2_cds
         transcription_unit_2_cds = []
         for selection in transcription_unit_2_cds_keys:
             transcription_unit_2_cds.append(level_0_cds[selection])
 
         selected_terminator_2 = (GUI.transcription_unit_2_terminator_entry.get())
-        transcription_unit_2_terminator_keys = (selected_terminator_2.split(","))
+        transcription_unit_2_terminator_keys = (selected_terminator_2.split(", "))
         global transcription_unit_2_terminator
         transcription_unit_2_terminator = []
         for selection in transcription_unit_2_terminator_keys:
@@ -297,14 +368,14 @@ def part_selection_lists():
 
     if transcription_unit_quantity > 2:
         selected_promoter_3 = (GUI.transcription_unit_3_promoter_entry.get())
-        transcription_unit_3_promoter_keys = (selected_promoter_3.split(","))
+        transcription_unit_3_promoter_keys = (selected_promoter_3.split(", "))
         global transcription_unit_3_promoter
         transcription_unit_3_promoter = []
         for selection in transcription_unit_3_promoter_keys:
             transcription_unit_3_promoter.append(level_0_promoter[selection])
 
         selected_rbs_3 = (GUI.transcription_unit_3_rbs_entry.get())
-        transcription_unit_3_rbs_keys = (selected_rbs_3.split(","))
+        transcription_unit_3_rbs_keys = (selected_rbs_3.split(", "))
         global transcription_unit_3_rbs
         transcription_unit_3_rbs = []
         for selection in transcription_unit_3_rbs_keys:
@@ -312,21 +383,21 @@ def part_selection_lists():
 
         if signal_choice == "Yes":
             selected_signal_3 = (GUI.transcription_unit_3_signal_entry.get())
-            transcription_unit_3_signal_keys = (selected_signal_3.split(","))
+            transcription_unit_3_signal_keys = (selected_signal_3.split(", "))
             global transcription_unit_3_signal
             transcription_unit_3_signal = []
             for selection in transcription_unit_3_signal_keys:
                 transcription_unit_3_signal.append(level_0_signal[selection])
 
         selected_cds_3 = (GUI.transcription_unit_3_cds_entry.get())
-        transcription_unit_3_cds_keys = (selected_cds_3.split(","))
+        transcription_unit_3_cds_keys = (selected_cds_3.split(", "))
         global transcription_unit_3_cds
         transcription_unit_3_cds = []
         for selection in transcription_unit_3_cds_keys:
             transcription_unit_3_cds.append(level_0_cds[selection])
 
         selected_terminator_3 = (GUI.transcription_unit_3_terminator_entry.get())
-        transcription_unit_3_terminator_keys = (selected_terminator_3.split(","))
+        transcription_unit_3_terminator_keys = (selected_terminator_3.split(", "))
         global transcription_unit_3_terminator
         transcription_unit_3_terminator = []
         for selection in transcription_unit_3_terminator_keys:
@@ -334,14 +405,14 @@ def part_selection_lists():
 
     if transcription_unit_quantity > 3:
         selected_promoter_4 = (GUI.transcription_unit_4_promoter_entry.get())
-        transcription_unit_4_promoter_keys = (selected_promoter_4.split(","))
+        transcription_unit_4_promoter_keys = (selected_promoter_4.split(", "))
         global transcription_unit_4_promoter
         transcription_unit_4_promoter = []
         for selection in transcription_unit_4_promoter_keys:
             transcription_unit_4_promoter.append(level_0_promoter[selection])
 
         selected_rbs_4 = (GUI.transcription_unit_4_rbs_entry.get())
-        transcription_unit_4_rbs_keys = (selected_rbs_4.split(","))
+        transcription_unit_4_rbs_keys = (selected_rbs_4.split(", "))
         global transcription_unit_4_rbs
         transcription_unit_4_rbs = []
         for selection in transcription_unit_4_rbs_keys:
@@ -349,21 +420,21 @@ def part_selection_lists():
 
         if signal_choice == "Yes":
             selected_signal_4 = (GUI.transcription_unit_4_signal_entry.get())
-            transcription_unit_4_signal_keys = (selected_signal_4.split(","))
+            transcription_unit_4_signal_keys = (selected_signal_4.split(", "))
             global transcription_unit_4_signal
             transcription_unit_4_signal = []
             for selection in transcription_unit_4_signal_keys:
                 transcription_unit_4_signal.append(level_0_signal[selection])
 
         selected_cds_4 = (GUI.transcription_unit_4_cds_entry.get())
-        transcription_unit_4_cds_keys = (selected_cds_4.split(","))
+        transcription_unit_4_cds_keys = (selected_cds_4.split(", "))
         global transcription_unit_4_cds
         transcription_unit_4_cds = []
         for selection in transcription_unit_4_cds_keys:
             transcription_unit_4_cds.append(level_0_cds[selection])
 
         selected_terminator_4 = (GUI.transcription_unit_4_terminator_entry.get())
-        transcription_unit_4_terminator_keys = (selected_terminator_4.split(","))
+        transcription_unit_4_terminator_keys = (selected_terminator_4.split(", "))
         global transcription_unit_4_terminator
         transcription_unit_4_terminator = []
         for selection in transcription_unit_4_terminator_keys:
@@ -371,14 +442,14 @@ def part_selection_lists():
 
     if transcription_unit_quantity > 4:
         selected_promoter_5 = (GUI.transcription_unit_5_promoter_entry.get())
-        transcription_unit_5_promoter_keys = (selected_promoter_5.split(","))
+        transcription_unit_5_promoter_keys = (selected_promoter_5.split(", "))
         global transcription_unit_5_promoter
         transcription_unit_5_promoter = []
         for selection in transcription_unit_5_promoter_keys:
             transcription_unit_5_promoter.append(level_0_promoter[selection])
 
         selected_rbs_5 = (GUI.transcription_unit_5_rbs_entry.get())
-        transcription_unit_5_rbs_keys = (selected_rbs_5.split(","))
+        transcription_unit_5_rbs_keys = (selected_rbs_5.split(", "))
         global transcription_unit_5_rbs
         transcription_unit_5_rbs = []
         for selection in transcription_unit_5_rbs_keys:
@@ -386,21 +457,21 @@ def part_selection_lists():
 
         if signal_choice == "Yes":
             selected_signal_5 = (GUI.transcription_unit_5_signal_entry.get())
-            transcription_unit_5_signal_keys = (selected_signal_5.split(","))
+            transcription_unit_5_signal_keys = (selected_signal_5.split(", "))
             global transcription_unit_5_signal
             transcription_unit_5_signal = []
             for selection in transcription_unit_5_signal_keys:
                 transcription_unit_5_signal.append(level_0_signal[selection])
 
         selected_cds_5 = (GUI.transcription_unit_5_cds_entry.get())
-        transcription_unit_5_cds_keys = (selected_cds_5.split(","))
+        transcription_unit_5_cds_keys = (selected_cds_5.split(", "))
         global transcription_unit_5_cds
         transcription_unit_5_cds = []
         for selection in transcription_unit_5_cds_keys:
             transcription_unit_5_cds.append(level_0_cds[selection])
 
         selected_terminator_5 = (GUI.transcription_unit_5_terminator_entry.get())
-        transcription_unit_5_terminator_keys = (selected_terminator_5.split(","))
+        transcription_unit_5_terminator_keys = (selected_terminator_5.split(", "))
         global transcription_unit_5_terminator
         transcription_unit_5_terminator = []
         for selection in transcription_unit_5_terminator_keys:
@@ -413,6 +484,13 @@ def ecoflex_restriction_site_check(component_definition, unit_number):
                                   + " in transcription unit " + str(unit_number))
     if "gtatac" in str(component_definition.sequence.elements):
         ecoflex_check_list.append("NdeI restriction site" + " detected in " + str(component_definition.displayId)
+                                  + " in transcription unit " + str(unit_number))
+
+    if "gcatgc" in str(component_definition.sequence.elements):
+        ecoflex_check_list.append("SphI restriction site" + " detected in " + str(component_definition.displayId)
+                                  + " in transcription unit " + str(unit_number))
+    if "cgtacg" in str(component_definition.sequence.elements):
+        ecoflex_check_list.append("SphI restriction site" + " detected in " + str(component_definition.displayId)
                                   + " in transcription unit " + str(unit_number))
 
     if "ggatcc" in str(component_definition.sequence.elements):
@@ -677,6 +755,10 @@ def restriction_site_name_library(sequence):
         return "BsmBI"
     if sequence == "gagacg":
         return "BsmBI"
+    if sequence == "gcatgc":
+        return "SphI"
+    if sequence == "cgtacg":
+        return "SphI"
 
 
 # Create codon-swapped variants of CDS parts that contain excluded restriction sites - For EcoFlex
@@ -1201,7 +1283,6 @@ def check_biopart_sites_ecoflex():
                                                                  str(location.start() + 14) + "-" +
                                                                  str(location.end() + 13))
 
-
         if GUI.include_signal_combo.get() == "Yes":
             signal_number = 0
             for signal in transcription_unit_1_signal:
@@ -1236,7 +1317,6 @@ def check_biopart_sites_ecoflex():
                                                                      site_name + ")" + " detected at position " +
                                                                      str(location.start() + 14) + "-" +
                                                                      str(location.end() + 13))
-
 
         terminator_number = 0
         for terminator in transcription_unit_1_terminator:
@@ -1381,7 +1461,6 @@ def check_biopart_sites_ecoflex():
                                                                      site_name + ")" + " detected at position " +
                                                                      str(location.start() + 14) + "-" +
                                                                      str(location.end() + 13))
-
 
         terminator_number = 0
         for terminator in transcription_unit_2_terminator:
@@ -3398,7 +3477,7 @@ def create_protocol_directory(event):
     chassis_choice = GUI.chassis_selection_combo.get()
     if chassis_choice == "E. coli":
         final_ecoflex_check()
-        if ecoflex_check_list == []:
+        if not ecoflex_check_list:
             from EcoFlex_protocol import create_protocol
             create_protocol("<Button-1>")
         else:

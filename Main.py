@@ -10,7 +10,6 @@ import MoClo
 
 
 # Setting homespace for pySBOL
-doc = Document()
 setHomespace('https://synbiohub.org/public/igem/')
 
 

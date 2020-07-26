@@ -13,7 +13,7 @@ component_definition_list = []
 design_roles = []
 design_identities = []
 design_descriptions = []
-
+doc = Document()
 
 # Add part to design from file
 def add_file_part():
@@ -37,13 +37,13 @@ def add_file_part():
             BBa_B0015.roles = SO_TERMINATOR
             BBa_B0010.roles = SO_TERMINATOR
             BBa_B0012.roles = SO_TERMINATOR
-            Main.doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
+            doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
             BBa_B0015.description = "Double terminator BBa_B0010 + BBa_B0012"
             BBa_B0015.assemblePrimaryStructure([BBa_B0010, BBa_B0012])
             BBa_B0010.sequence = Sequence("BBa_B0010", str(part1_uri.sequence.elements))
             BBa_B0012.sequence = Sequence("BBa_B0012", str(part2_uri.sequence.elements))
             BBa_B0015_fixed = BBa_B0015.compile()
-            for obj in Main.doc:
+            for obj in doc:
                 temp_list_2.append(obj)
             component_definition_list.append("https://synbiohub.org/public/igem//ComponentDefinition/BBa_B0015/1")
             design_roles.append("http://identifiers.org/so/SO:0000141")
@@ -52,7 +52,7 @@ def add_file_part():
             GUI.display_assembled_design(design_roles)
             GUI.create_description_button_design()
         except RuntimeError:
-            for obj in Main.doc:
+            for obj in doc:
                 temp_list_2.append(obj)
             component_definition_list.append("https://synbiohub.org/public/igem//ComponentDefinition/BBa_B0015/1")
             design_roles.append("http://identifiers.org/so/SO:0000141")
@@ -68,7 +68,7 @@ def add_file_part():
 
         for components in doc2.componentDefinitions:
             component_definition_list.append(str(components))
-            Main.doc.append(str(GUI.imported_part))
+            doc.append(str(GUI.imported_part))
             design_display_lists(components)
             GUI.display_assembled_design(design_roles)
 
@@ -233,7 +233,7 @@ def query_to_doc_1(event):
             BBa_B0015.roles = SO_TERMINATOR
             BBa_B0010.roles = SO_TERMINATOR
             BBa_B0012.roles = SO_TERMINATOR
-            Main.doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
+            doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
             BBa_B0015.description = "Double terminator BBa_B0010 + BBa_B0012"
             BBa_B0015.assemblePrimaryStructure([BBa_B0010, BBa_B0012])
             BBa_B0010.sequence = Sequence("BBa_B0010", str(BBa_B0010_sequence))
@@ -264,7 +264,7 @@ def query_to_doc_1(event):
                 if str(records[0]) == str(uri):
                     part_repeats = part_repeats + 1
             if part_repeats == 0:
-                igem.pull(str(records[0]), Main.doc)
+                igem.pull(str(records[0]), doc)
                 component_definition_list.append(records[0])
                 part_uri = doc2.getComponentDefinition(str(records[0]))
                 design_display_lists(part_uri)
@@ -304,7 +304,7 @@ def query_to_doc_2(event):
             BBa_B0015.roles = SO_TERMINATOR
             BBa_B0010.roles = SO_TERMINATOR
             BBa_B0012.roles = SO_TERMINATOR
-            Main.doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
+            doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
             BBa_B0015.description = "Double terminator BBa_B0010 + BBa_B0012"
             BBa_B0015.assemblePrimaryStructure([BBa_B0010, BBa_B0012])
             BBa_B0010.sequence = Sequence("BBa_B0010", str(BBa_B0010_sequence))
@@ -335,7 +335,7 @@ def query_to_doc_2(event):
                 if str(records[1]) == str(uri):
                     part_repeats = part_repeats + 1
             if part_repeats == 0:
-                igem.pull(str(records[1]), Main.doc)
+                igem.pull(str(records[1]), doc)
                 component_definition_list.append(records[1])
                 part_uri = doc2.getComponentDefinition(str(records[1]))
                 design_display_lists(part_uri)
@@ -374,7 +374,7 @@ def query_to_doc_3(event):
             BBa_B0015.roles = SO_TERMINATOR
             BBa_B0010.roles = SO_TERMINATOR
             BBa_B0012.roles = SO_TERMINATOR
-            Main.doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
+            doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
             BBa_B0015.description = "Double terminator BBa_B0010 + BBa_B0012"
             BBa_B0015.assemblePrimaryStructure([BBa_B0010, BBa_B0012])
             BBa_B0010.sequence = Sequence("BBa_B0010", str(BBa_B0010_sequence))
@@ -405,7 +405,7 @@ def query_to_doc_3(event):
                 if str(records[2]) == str(uri):
                     part_repeats = part_repeats + 1
             if part_repeats == 0:
-                igem.pull(str(records[2]), Main.doc)
+                igem.pull(str(records[2]), doc)
                 component_definition_list.append(records[2])
                 part_uri = doc2.getComponentDefinition(str(records[2]))
                 design_display_lists(part_uri)
@@ -444,7 +444,7 @@ def query_to_doc_4(event):
             BBa_B0015.roles = SO_TERMINATOR
             BBa_B0010.roles = SO_TERMINATOR
             BBa_B0012.roles = SO_TERMINATOR
-            Main.doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
+            doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
             BBa_B0015.description = "Double terminator BBa_B0010 + BBa_B0012"
             BBa_B0015.assemblePrimaryStructure([BBa_B0010, BBa_B0012])
             BBa_B0010.sequence = Sequence("BBa_B0010", str(BBa_B0010_sequence))
@@ -475,7 +475,7 @@ def query_to_doc_4(event):
                 if str(records[3]) == str(uri):
                     part_repeats = part_repeats + 1
             if part_repeats == 0:
-                igem.pull(str(records[3]), Main.doc)
+                igem.pull(str(records[3]), doc)
                 component_definition_list.append(records[3])
                 part_uri = doc2.getComponentDefinition(str(records[3]))
                 design_display_lists(part_uri)
@@ -514,7 +514,7 @@ def query_to_doc_5(event):
             BBa_B0015.roles = SO_TERMINATOR
             BBa_B0010.roles = SO_TERMINATOR
             BBa_B0012.roles = SO_TERMINATOR
-            Main.doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
+            doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
             BBa_B0015.description = "Double terminator BBa_B0010 + BBa_B0012"
             BBa_B0015.assemblePrimaryStructure([BBa_B0010, BBa_B0012])
             BBa_B0010.sequence = Sequence("BBa_B0010", str(BBa_B0010_sequence))
@@ -545,7 +545,7 @@ def query_to_doc_5(event):
                 if str(records[4]) == str(uri):
                     part_repeats = part_repeats + 1
             if part_repeats == 0:
-                igem.pull(str(records[4]), Main.doc)
+                igem.pull(str(records[4]), doc)
                 component_definition_list.append(records[4])
                 part_uri = doc2.getComponentDefinition(str(records[4]))
                 design_display_lists(part_uri)
@@ -584,7 +584,7 @@ def query_to_doc_6(event):
             BBa_B0015.roles = SO_TERMINATOR
             BBa_B0010.roles = SO_TERMINATOR
             BBa_B0012.roles = SO_TERMINATOR
-            Main.doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
+            doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
             BBa_B0015.description = "Double terminator BBa_B0010 + BBa_B0012"
             BBa_B0015.assemblePrimaryStructure([BBa_B0010, BBa_B0012])
             BBa_B0010.sequence = Sequence("BBa_B0010", str(BBa_B0010_sequence))
@@ -615,7 +615,7 @@ def query_to_doc_6(event):
                 if str(records[5]) == str(uri):
                     part_repeats = part_repeats + 1
             if part_repeats == 0:
-                igem.pull(str(records[5]), Main.doc)
+                igem.pull(str(records[5]), doc)
                 component_definition_list.append(records[5])
                 part_uri = doc2.getComponentDefinition(str(records[5]))
                 design_display_lists(part_uri)
@@ -654,7 +654,7 @@ def query_to_doc_7(event):
             BBa_B0015.roles = SO_TERMINATOR
             BBa_B0010.roles = SO_TERMINATOR
             BBa_B0012.roles = SO_TERMINATOR
-            Main.doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
+            doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
             BBa_B0015.description = "Double terminator BBa_B0010 + BBa_B0012"
             BBa_B0015.assemblePrimaryStructure([BBa_B0010, BBa_B0012])
             BBa_B0010.sequence = Sequence("BBa_B0010", str(BBa_B0010_sequence))
@@ -685,7 +685,7 @@ def query_to_doc_7(event):
                 if str(records[6]) == str(uri):
                     part_repeats = part_repeats + 1
             if part_repeats == 0:
-                igem.pull(str(records[6]), Main.doc)
+                igem.pull(str(records[6]), doc)
                 component_definition_list.append(records[6])
                 part_uri = doc2.getComponentDefinition(str(records[6]))
                 design_display_lists(part_uri)
@@ -724,7 +724,7 @@ def query_to_doc_8(event):
             BBa_B0015.roles = SO_TERMINATOR
             BBa_B0010.roles = SO_TERMINATOR
             BBa_B0012.roles = SO_TERMINATOR
-            Main.doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
+            doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
             BBa_B0015.description = "Double terminator BBa_B0010 + BBa_B0012"
             BBa_B0015.assemblePrimaryStructure([BBa_B0010, BBa_B0012])
             BBa_B0010.sequence = Sequence("BBa_B0010", str(BBa_B0010_sequence))
@@ -755,7 +755,7 @@ def query_to_doc_8(event):
                 if str(records[7]) == str(uri):
                     part_repeats = part_repeats + 1
             if part_repeats == 0:
-                igem.pull(str(records[7]), Main.doc)
+                igem.pull(str(records[7]), doc)
                 component_definition_list.append(records[7])
                 part_uri = doc2.getComponentDefinition(str(records[7]))
                 design_display_lists(part_uri)
@@ -794,7 +794,7 @@ def query_to_doc_9(event):
             BBa_B0015.roles = SO_TERMINATOR
             BBa_B0010.roles = SO_TERMINATOR
             BBa_B0012.roles = SO_TERMINATOR
-            Main.doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
+            doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
             BBa_B0015.description = "Double terminator BBa_B0010 + BBa_B0012"
             BBa_B0015.assemblePrimaryStructure([BBa_B0010, BBa_B0012])
             BBa_B0010.sequence = Sequence("BBa_B0010", str(BBa_B0010_sequence))
@@ -825,7 +825,7 @@ def query_to_doc_9(event):
                 if str(records[8]) == str(uri):
                     part_repeats = part_repeats + 1
             if part_repeats == 0:
-                igem.pull(str(records[8]), Main.doc)
+                igem.pull(str(records[8]), doc)
                 component_definition_list.append(records[8])
                 part_uri = doc2.getComponentDefinition(str(records[8]))
                 design_display_lists(part_uri)
@@ -864,7 +864,7 @@ def query_to_doc_10(event):
             BBa_B0015.roles = SO_TERMINATOR
             BBa_B0010.roles = SO_TERMINATOR
             BBa_B0012.roles = SO_TERMINATOR
-            Main.doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
+            doc.addComponentDefinition([BBa_B0015, BBa_B0010, BBa_B0012])
             BBa_B0015.description = "Double terminator BBa_B0010 + BBa_B0012"
             BBa_B0015.assemblePrimaryStructure([BBa_B0010, BBa_B0012])
             BBa_B0010.sequence = Sequence("BBa_B0010", str(BBa_B0010_sequence))
@@ -895,7 +895,7 @@ def query_to_doc_10(event):
                 if str(records[9]) == str(uri):
                     part_repeats = part_repeats + 1
             if part_repeats == 0:
-                igem.pull(str(records[9]), Main.doc)
+                igem.pull(str(records[9]), doc)
                 component_definition_list.append(records[9])
                 part_uri = doc2.getComponentDefinition(str(records[9]))
                 design_display_lists(part_uri)
@@ -919,19 +919,18 @@ def design_assembly(event):
     try:
         design_name = (str(GUI.design_name_entry.get())).replace(" ", "_")
         assembled_design = ComponentDefinition(design_name)
-        Main.doc.addComponentDefinition(assembled_design)
+        doc.addComponentDefinition(assembled_design)
         temp_list = []
         for component in component_definition_list:
-            part_cd = Main.doc.getComponentDefinition(str(component))
+            part_cd = doc.getComponentDefinition(str(component))
             temp_list.append(part_cd)
 
         assembled_design.assemblePrimaryStructure(temp_list)
         compile_design = assembled_design.compile()
         print(assembled_design.getPrimaryStructure())
-        result = Main.doc.write(design_name + ".xml")
+        result = doc.write(design_name + ".xml")
         print(result)
         component_definition_list.clear()
-        Main.doc = Document()
         clear_all_genetic_design()
         GUI.successful_assembly()
     except LookupError:

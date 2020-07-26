@@ -14,7 +14,7 @@ import MoClo
 
 # Global variables
 design_display_list = []
-igem = PartShop('https://synbiohub.org/public/igem')
+doc = Document()
 
 ################### General_GUI ########################
 # Creating GUI window
@@ -170,11 +170,11 @@ def select_upload(event):
 
 
 def upload_file(event):
-    Main.doc.read(str(selected_file))
-    Main.doc.displayId = collection_id.get()
-    Main.doc.name = collection_name.get()
-    Main.doc.description = collection_description.get()
-    igem.submit(Main.doc)
+    doc.read(str(selected_file))
+    doc.displayId = collection_id.get()
+    doc.name = collection_name.get()
+    doc.description = collection_description.get()
+    doc.submit(doc)
     successful_upload_label = tk.Label(upload_window, text="File uploaded")
     successful_upload_label.pack()
 
@@ -455,11 +455,6 @@ def part_file_selection(event):
     imported_part = window.filename
     Genetic_Design.add_file_part()
 
-
-# Import part from file button
-import_file_button = tk.Button(tab2, text="Import part from file")
-import_file_button.bind("<Button-1>", part_file_selection)
-import_file_button.pack()
 
 # Query submission label and entry widget
 query_request_label = tk.Label(tab2, text="Please enter a search term")
@@ -861,12 +856,36 @@ def display_level_0_library():
     global terminator_moclo
     global signal_moclo
     global other_moclo
-    promoters_moclo = tk.Label(tab4, text=MoClo.level_0_promoter_display)
-    rbs_moclo = tk.Label(tab4, text=MoClo.level_0_rbs_display)
-    cds_moclo = tk.Label(tab4, text=MoClo.level_0_cds_display)
-    terminator_moclo = tk.Label(tab4, text=MoClo.level_0_terminator_display)
-    signal_moclo = tk.Label(tab4, text=MoClo.level_0_signal_display)
-    other_moclo = tk.Label(tab4, text=MoClo.level_0_other_display)
+    promoter_display = []
+    for component in MoClo.level_0_promoter:
+        promoter_display.append(component + ". " + MoClo.level_0_promoter[component].displayId)
+    promoters_moclo = tk.Label(tab4, text=promoter_display)
+
+    rbs_display = []
+    for component in MoClo.level_0_rbs:
+        rbs_display.append(component + ". " + MoClo.level_0_rbs[component].displayId)
+    rbs_moclo = tk.Label(tab4, text=rbs_display)
+
+    cds_display = []
+    for component in MoClo.level_0_cds:
+        cds_display.append(component + ". " + MoClo.level_0_cds[component].displayId)
+    cds_moclo = tk.Label(tab4, text=cds_display)
+
+    terminator_display = []
+    for component in MoClo.level_0_terminator:
+        terminator_display.append(component + ". " + MoClo.level_0_terminator[component].displayId)
+    terminator_moclo = tk.Label(tab4, text=terminator_display)
+
+    signal_display = []
+    for component in MoClo.level_0_signal:
+        signal_display.append(component + ". " + MoClo.level_0_signal[component].displayId)
+    signal_moclo = tk.Label(tab4, text=signal_display)
+
+    other_display = []
+    for component in MoClo.level_0_other:
+        other_display.append(component + ". " + MoClo.level_0_other[component].displayId)
+    other_moclo = tk.Label(tab4, text=other_display)
+
     promoters_moclo.grid(column=0, row=4)
     rbs_moclo.grid(column=0, row=5)
     cds_moclo.grid(column=0, row=6)
@@ -904,9 +923,25 @@ transcription_unit_quantity_label.grid(column=2, row=10)
 transcription_unit_quantity_combo = ttk.Combobox(tab4, values=["2", "3", "4", "5"])
 transcription_unit_quantity_combo.grid(column=2, row=11)
 
+# Move level 0 library parts to different part types
+part_to_move_label = tk.Label(tab4, text="Key of part to move (e.g p1 or r3)")
+part_to_move_label.grid()
+part_to_move_entry = tk.Entry(tab4)
+part_to_move_entry.grid()
+destination_library_label = tk.Label(tab4, text="Destination")
+destination_library_label.grid()
+destination_library_select = ttk.Combobox(tab4, values=["Promoter (p)", "RBS (r)", "Signal peptide (s)", "Coding "
+                                                                                                         "region ("
+                                                                                                         "c)",
+                                                        "Terminator (t)", "Other (o)"])
+destination_library_select.grid()
+part_move_button = tk.Button(tab4, text="Move")
+part_move_button.bind("<Button-1>", MoClo.move_parts_in_library)
+part_move_button.grid()
+
 
 # Create transcription unit entries and labels
-def create_transcription_unit_entry(event):
+def stage_2_GUI(event):
     transcription_unit_quantity = transcription_unit_quantity_combo.get()
     if int(transcription_unit_quantity) > 0:
         transcription_unit_1_label = tk.Label(tab4, text="Transcription unit 1")
@@ -943,9 +978,6 @@ def create_transcription_unit_entry(event):
         transcription_unit_1_terminator_entry = tk.Entry(tab4)
         transcription_unit_1_terminator_entry.grid(column=5, row=13)
 
-
-    else:
-        pass
     if int(transcription_unit_quantity) > 1:
         transcription_unit_2_label = tk.Label(tab4, text="Transcription unit 2")
         transcription_unit_2_label.grid(column=0, row=14)
@@ -981,8 +1013,6 @@ def create_transcription_unit_entry(event):
         transcription_unit_2_terminator_entry = tk.Entry(tab4)
         transcription_unit_2_terminator_entry.grid(column=5, row=14)
 
-    else:
-        pass
     if int(transcription_unit_quantity) > 2:
         transcription_unit_3_label = tk.Label(tab4, text="Transcription unit 3")
         transcription_unit_3_label.grid()
@@ -1017,8 +1047,7 @@ def create_transcription_unit_entry(event):
         global transcription_unit_3_terminator_entry
         transcription_unit_3_terminator_entry = tk.Entry(tab4)
         transcription_unit_3_terminator_entry.grid()
-    else:
-        pass
+
     if int(transcription_unit_quantity) > 3:
         transcription_unit_4_label = tk.Label(tab4, text="Transcription unit 4")
         transcription_unit_4_label.grid()
@@ -1054,8 +1083,6 @@ def create_transcription_unit_entry(event):
         transcription_unit_4_terminator_entry = tk.Entry(tab4)
         transcription_unit_4_terminator_entry.grid()
 
-    else:
-        pass
     if int(transcription_unit_quantity) > 4:
         transcription_unit_5_label = tk.Label(tab4, text="Transcription unit 5")
         transcription_unit_5_label.grid()
@@ -1091,14 +1118,14 @@ def create_transcription_unit_entry(event):
         transcription_unit_5_terminator_entry = tk.Entry(tab4)
         transcription_unit_5_terminator_entry.grid()
 
-    else:
-        pass
+    if assembly_method_combo.get() == "Automatic":
+        liquid_handler_selection()
     create_protocol_button()
 
 
-# Create transcription unit entries and labels button
+# Create stage 2 GUI
 transcription_unit_create = tk.Button(tab4, text="Create")
-transcription_unit_create.bind("<Button-1>", create_transcription_unit_entry)
+transcription_unit_create.bind("<Button-1>", stage_2_GUI)
 transcription_unit_create.grid(column=4, row=11)
 
 # Automatic/Manual selection
@@ -1173,7 +1200,13 @@ level_2_volume_ratio_checkbox_2_1 = ttk.Checkbutton(tab4, text="2:1", variable=l
 level_2_volume_ratio_checkbox_2_1.grid()
 
 
-
+# Liquid handler selection
+def liquid_handler_selection():
+    global liquid_handler_selection_combo
+    liquid_handler_selection_label = tk.Label(tab4, text="Select liquid handler")
+    liquid_handler_selection_label.grid()
+    liquid_handler_selection_combo = ttk.Combobox(tab4, values=["Echo 525"])
+    liquid_handler_selection_combo.grid()
 
 
 ################ Main_loop #################
