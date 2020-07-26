@@ -40,67 +40,111 @@ def clear_globals():
     detected_restriction_sites.clear()
 
 
-# Import multi-part design from file
+# Import SBOL part(s) from file
 def import_design(event):
+    global primary_structure_cd
+    global primary_structure_cd_string
+    global design_uri
+    doc2 = Document()
     clear_globals()
     GUI.select_design_import()
     imported_design = GUI.single_imported_design
-    doc.append(imported_design)
-    get_design_uri()
-    get_design_primary_structure_identities()
-    get_design_roles()
-    get_design_descriptions()
-    GUI.create_description_button_moclo()
-    GUI.create_analysis_button_moclo()
-    initial_design_analysis(design_uri)
-    GUI.refresh_canvas_moclo()
-    GUI.display_assembled_design_moclo(primary_structure_roles)
-    GUI.refresh_design_parts_to_library()
+    doc2.read(imported_design)
 
+    # Detecting whether the imported file contains a design, or a single part
+    design_detected = False
+    for component in doc2.componentDefinitions:
+        try:
+            component.getPrimaryStructure()
+            design_detected = True
+        except LookupError:
+            pass
 
-# Isolate URI of main design
-def get_design_uri():
-    sub_component_quantity = []
-    try:
-        for obj in doc.componentDefinitions:
-            sub_component_quantity.append(len(obj.components))
-    except LookupError:
-        pass
-    for obj in doc.componentDefinitions:
-        if len(obj.components) == max(sub_component_quantity):
-            global design_uri
-            design_uri = obj
+    # If design is not detected, it will next detect whether any sub-components are present for the single part
+    if not design_detected:
+        sub_components_detected = False
+        for component in doc2.componentDefinitions:
+            if len(component.components) == 0:
+                pass
+            else:
+                sub_components_detected = True
 
+        # If sub-components are detected, the uri for the top-level part will be isolated
+        if sub_components_detected:
+            sub_component_quantity = []
+            try:
+                for component in doc2.componentDefinitions:
+                    sub_component_quantity.append(len(component.components))
+            except LookupError:
+                pass
+            for component in doc2.componentDefinitions:
+                if len(component.components) == max(sub_component_quantity):
+                    part_uri = component
+                    part_uri_string = str(part_uri)
+                    doc.append(imported_design)
+                    import_single_part_to_library(part_uri_string)
+                    print(part_uri.sequence.elements)
 
-# Create list of identities of the parts in the design
-def get_design_primary_structure_identities():
-    global primary_structure_cd
-    primary_structure_cd = design_uri.getPrimaryStructure()
-    for components in primary_structure_cd:
-        primary_structure_identities.append(str(components.displayId))
+        # If no sub components are detected, it will be checked that the imported file contains only a single part
+        if not sub_components_detected:
+            if len(doc2.componentDefinitions) == 1:
+                for component in doc2.componentDefinitions:
+                    part_uri = component
+                    part_uri_string = str(part_uri)
+                    doc.append(imported_design)
+                    import_single_part_to_library(part_uri_string)
+                    print(part_uri.sequence.elements)
+            else:
+                print("ERROR PLACEHOLDER")
 
+    # If a primary structure is detected, the contents of the file will be assumed to encode a genetic design
+    elif design_detected:
+        # Identifying and isolating the component definition of the design
+        sub_component_quantity = []
+        try:
+            for obj in doc2.componentDefinitions:
+                sub_component_quantity.append(len(obj.components))
+        except LookupError:
+            pass
+        for obj in doc2.componentDefinitions:
+            if len(obj.components) == max(sub_component_quantity):
+                design_uri = obj
 
-# Create list of roles of the parts in the design
-def get_design_roles():
-    primary_structure_cd = design_uri.getPrimaryStructure()
-    for components in primary_structure_cd:
-        if "SO" in str(components.roles):
-            primary_structure_roles.append(str(components.roles))
-        else:
-            primary_structure_roles.append("None")
+        # Retrieving the component definitions of the parts contained within the design
+        primary_structure_cd = design_uri.getPrimaryStructure()
+        primary_structure_cd_string = []
+        for components in primary_structure_cd:
+            primary_structure_identities.append(str(components.displayId))
+            primary_structure_cd_string.append(str(components))
 
+        # Retrieving the roles of the parts in the design
+        for component in primary_structure_cd:
+            if "SO" in str(component.roles):
+                primary_structure_roles.append(str(component.roles))
+            else:
+                primary_structure_roles.append("None")
 
-# Create list of descriptions of the parts in the design
-def get_design_descriptions():
-    primary_structure_cd = design_uri.getPrimaryStructure()
-    for components in primary_structure_cd:
-        primary_structure_descriptions.append(components.description)
+        # Retrieving the descriptions of the parts in the design
+        for component in primary_structure_cd:
+            primary_structure_descriptions.append(component.description)
 
+        # Create GUI button that allows display of part descriptions
+        GUI.create_description_button_moclo()
 
-def initial_design_analysis(uri):
-    design_sequence = uri.sequence.elements
-    nucleotide_content(design_sequence)
-    detect_restriction_sites(design_sequence)
+        # Create analysis button for parts in GUI
+        GUI.create_analysis_button_moclo()
+
+        # Initial design analysis for imported design
+        design_sequence = design_uri.sequence.elements
+        nucleotide_content(design_sequence)
+        detect_restriction_sites(design_sequence)
+
+        doc.append(imported_design)
+        doc2 = Document
+        GUI.refresh_canvas_moclo()
+        GUI.display_assembled_design_moclo(primary_structure_roles)
+        GUI.refresh_design_parts_to_library()
+
 
 
 # Calculate nucleotide content
@@ -165,46 +209,101 @@ def detect_restriction_sites(sequence):
 
 ############################ level 0 library #################################
 def import_design_parts_to_library(event):
-    primary_structure_cd = design_uri.getPrimaryStructure()
-    for component in primary_structure_cd:
+    global primary_structure_cd_string
+    for component_cd in primary_structure_cd_string:
+        component = doc.getComponentDefinition(component_cd)
+        previously_added = False
         if "0000167" in str(component.roles):
-            level_0_promoter["p" + str(len(level_0_promoter) + 1)] = component
+            for key in level_0_promoter:
+                if str(level_0_promoter[key]) == str(component):
+                    previously_added = True
+            if not previously_added:
+                level_0_promoter["p" + str(len(level_0_promoter) + 1)] = component
+
         elif "0000139" in str(component.roles):
-            level_0_rbs["r" + str(len(level_0_rbs) + 1)] = component
+            for key in level_0_rbs:
+                if str(level_0_rbs[key]) == str(component):
+                    previously_added = True
+            if not previously_added:
+                level_0_rbs["r" + str(len(level_0_rbs) + 1)] = component
+
         elif "0000316" in str(component.roles):
-            level_0_cds["c" + str(len(level_0_cds) + 1)] = component
+            for key in level_0_cds:
+                if str(level_0_cds[key]) == str(component):
+                    previously_added = True
+            if not previously_added:
+                level_0_cds["c" + str(len(level_0_cds) + 1)] = component
+
         elif "0000141" in str(component.roles):
-            level_0_terminator["t" + str(len(level_0_terminator) + 1)] = component
+            for key in level_0_terminator:
+                if str(level_0_terminator[key]) == str(component):
+                    previously_added = True
+            if not previously_added:
+                level_0_terminator["t" + str(len(level_0_terminator) + 1)] = component
+
         elif "0000324" in str(component.roles):
-            level_0_signal["s" + str(len(level_0_signal) + 1)] = component
+            for key in level_0_signal:
+                if str(level_0_signal[key]) == str(component):
+                    previously_added = True
+            if not previously_added:
+                level_0_signal["s" + str(len(level_0_signal) + 1)] = component
+
         else:
-            level_0_other["o" + str(len(level_0_other) + 1)] = component
+            for key in level_0_other:
+                if str(level_0_other[key]) == str(component):
+                    previously_added = True
+            if not previously_added:
+                level_0_other["o" + str(len(level_0_other) + 1)] = component
+
     GUI.refresh_level_0_library()
 
 
 # Import a single part into the level 0 library
-def import_part_from_file(event):
-    doc2 = Document()
-    GUI.select_design_import()
-    imported_design = GUI.single_imported_design
-    doc2.read(imported_design)
-    if len(doc2.componentDefinitions) == 1:
-        doc.append(imported_design)
-        for cd in doc.componentDefinitions:
-            component_definition = cd
-        if "0000167" in str(component_definition.roles):
-            level_0_promoter["p" + str(len(level_0_promoter) + 1)] = component_definition
-        elif "0000139" in str(component_definition.roles):
-            level_0_rbs["r" + str(len(level_0_rbs) + 1)] = component_definition
-        elif "0000316" in str(component_definition.roles):
-            level_0_cds["c" + str(len(level_0_cds) + 1)] = component_definition
-        elif "0000141" in str(component_definition.roles):
-            level_0_terminator["t" + str(len(level_0_terminator) + 1)] = component_definition
-        elif "0000324" in str(component_definition.roles):
-            level_0_signal["s" + str(len(level_0_signal) + 1)] = component_definition
-        else:
-            level_0_other["o" + str(len(level_0_other) + 1)] = component_definition
-        GUI.refresh_level_0_library()
+def import_single_part_to_library(component_definition_string):
+    component = doc.getComponentDefinition(component_definition_string)
+    previously_added = False
+    if "0000167" in str(component.roles):
+        for key in level_0_promoter:
+            if str(level_0_promoter[key]) == str(component):
+                previously_added = True
+        if not previously_added:
+            level_0_promoter["p" + str(len(level_0_promoter) + 1)] = component
+
+    elif "0000139" in str(component.roles):
+        for key in level_0_rbs:
+            if str(level_0_rbs[key]) == str(component):
+                previously_added = True
+        if not previously_added:
+            level_0_rbs["r" + str(len(level_0_rbs) + 1)] = component
+
+    elif "0000316" in str(component.roles):
+        for key in level_0_cds:
+            if str(level_0_cds[key]) == str(component):
+                previously_added = True
+        if not previously_added:
+            level_0_cds["c" + str(len(level_0_cds) + 1)] = component
+
+    elif "0000141" in str(component.roles):
+        for key in level_0_terminator:
+            if str(level_0_terminator[key]) == str(component):
+                previously_added = True
+        if not previously_added:
+            level_0_terminator["t" + str(len(level_0_terminator) + 1)] = component
+
+    elif "0000324" in str(component.roles):
+        for key in level_0_signal:
+            if str(level_0_signal[key]) == str(component):
+                previously_added = True
+        if not previously_added:
+            level_0_signal["s" + str(len(level_0_signal) + 1)] = component
+
+    else:
+        for key in level_0_other:
+            if str(level_0_other[key]) == str(component):
+                previously_added = True
+        if not previously_added:
+            level_0_other["o" + str(len(level_0_other) + 1)] = component
+    GUI.refresh_level_0_library()
 
 
 # Move parts in level 0 library to different part types
@@ -276,7 +375,7 @@ def move_parts_in_library(event):
     if destination_group == "Signal peptide (s)":
         new_key = "s" + str(len(level_0_signal) + 1)
         level_0_signal[new_key] = component
-    if destination_group == "Coding region (cds)":
+    if destination_group == "Coding region (c)":
         new_key = "c" + str(len(level_0_cds) + 1)
         level_0_cds[new_key] = component
     if destination_group == "Terminator (t)":
