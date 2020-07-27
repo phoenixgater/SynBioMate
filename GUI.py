@@ -957,8 +957,6 @@ def remove_stage_1_GUI():
     level_2_volume_ratio_checkbox_2_1.grid_forget()
     include_codon_swap_label.grid_forget()
     include_codon_swap_combo.grid_forget()
-    include_overhang_label.grid_forget()
-    include_overhang_combo.grid_forget()
     include_fusion_site_label.grid_forget()
     include_fusion_site_combo.grid_forget()
     transcription_unit_create.grid_forget()
@@ -1216,13 +1214,6 @@ include_fusion_site_label = tk.Label(tab4, text="Add fusion sites to parts?")
 include_fusion_site_label.grid(column=1, row=14)
 include_fusion_site_combo = ttk.Combobox(tab4, values=["Yes", "No"])
 include_fusion_site_combo.grid(column=1, row=15)
-
-
-# User selection to turn overhang addition off
-include_overhang_label = tk.Label(tab4, text="Add overhangs for level 0 assembly?")
-include_overhang_label.grid(column=2, row=14)
-include_overhang_combo = ttk.Combobox(tab4, values=["Yes", "No"])
-include_overhang_combo.grid(column=2, row=15)
 
 
 ################ Main_loop #################

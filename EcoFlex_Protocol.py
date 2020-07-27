@@ -1078,8 +1078,12 @@ def create_appendix():
             modifications.add_run("\n" + "-" + modification)
         design = document.add_paragraph("")
         design.add_run("Part design: ").bold = True
-        design.add_run("\n" + "5' " + MoClo.promoter_sequences_1[counter] + " 3'" + "\n" +
-                       "3'     " + MoClo.promoter_sequences_2[counter] + "         5'")
+        if GUI.include_fusion_site_combo.get() == "Yes":
+            design.add_run("\n" + "5' " + MoClo.promoter_sequences_1[counter] + " 3'" + "\n" +
+                           "3'     " + MoClo.promoter_sequences_2[counter] + "         5'")
+        if GUI.include_fusion_site_combo.get() == "No":
+            design.add_run("\n" + "5' " + MoClo.promoter_sequences_1[counter] + " 3'" + "\n" +
+                           "3' " + MoClo.promoter_sequences_2[counter] + " 5'")
         counter = counter + 1
 
     document.add_heading("Ribosome binding sites (RBSs)", 2)
@@ -1098,8 +1102,12 @@ def create_appendix():
             modifications.add_run("\n" + "-" + modification)
         design = document.add_paragraph("")
         design.add_run("Part design: ").bold = True
-        design.add_run("\n" + "5' " + MoClo.rbs_sequences_1[counter] + " 3'" + "\n" +
-                       "3'     " + MoClo.rbs_sequences_2[counter] + "         5'")
+        if GUI.include_fusion_site_combo.get() == "Yes":
+            design.add_run("\n" + "5' " + MoClo.rbs_sequences_1[counter] + " 3'" + "\n" +
+                           "3'     " + MoClo.rbs_sequences_2[counter] + "         5'")
+        if GUI.include_fusion_site_combo.get() == "No":
+            design.add_run("\n" + "5' " + MoClo.rbs_sequences_1[counter] + " 3'" + "\n" +
+                           "3' " + MoClo.rbs_sequences_2[counter] + " 5'")
         counter = counter + 1
 
     if GUI.include_signal_combo.get() == "Yes":
@@ -1119,8 +1127,12 @@ def create_appendix():
                 modifications.add_run("\n" + "-" + modification)
             design = document.add_paragraph("")
             design.add_run("Part design: ").bold = True
-            design.add_run("\n" + "5' " + MoClo.signal_sequences_1[counter] + " 3'" + "\n" +
-                           "3'     " + MoClo.signal_sequences_2[counter] + "         5'")
+            if GUI.include_fusion_site_combo.get() == "Yes":
+                design.add_run("\n" + "5' " + MoClo.signal_sequences_1[counter] + " 3'" + "\n" +
+                               "3'     " + MoClo.signal_sequences_2[counter] + "         5'")
+            if GUI.include_fusion_site_combo.get() == "No":
+                design.add_run("\n" + "5' " + MoClo.signal_sequences_1[counter] + " 3'" + "\n" +
+                               "3' " + MoClo.signal_sequences_2[counter] + " 5'")
             counter = counter + 1
 
     document.add_heading("Coding regions (CDSs)", 2)
@@ -1139,8 +1151,12 @@ def create_appendix():
             modifications.add_run("\n" + "-" + modification)
         design = document.add_paragraph("")
         design.add_run("Part design: ").bold = True
-        design.add_run("\n" + "5' " + MoClo.cds_sequences_1[counter] + " 3'" + "\n" +
-                       "3'     " + MoClo.cds_sequences_2[counter] + "         5'")
+        if GUI.include_fusion_site_combo.get() == "Yes":
+            design.add_run("\n" + "5' " + MoClo.cds_sequences_1[counter] + " 3'" + "\n" +
+                           "3'     " + MoClo.cds_sequences_2[counter] + "         5'")
+        if GUI.include_fusion_site_combo.get() == "No":
+            design.add_run("\n" + "5' " + MoClo.cds_sequences_1[counter] + " 3'" + "\n" +
+                           "3' " + MoClo.cds_sequences_2[counter] + " 5'")
         counter = counter + 1
 
     document.add_heading("Terminators", 2)
@@ -1159,8 +1175,12 @@ def create_appendix():
             modifications.add_run("\n" + "-" + modification)
         design = document.add_paragraph("")
         design.add_run("Part design: ").bold = True
-        design.add_run("\n" + "5' " + MoClo.terminator_sequences_1[counter] + " 3'" + "\n" +
-                       "3'     " + MoClo.terminator_sequences_2[counter] + "         5'")
+        if GUI.include_fusion_site_combo.get() == "Yes":
+            design.add_run("\n" + "5' " + MoClo.terminator_sequences_1[counter] + " 3'" + "\n" +
+                           "3'     " + MoClo.terminator_sequences_2[counter] + "         5'")
+        if GUI.include_fusion_site_combo.get() == "No":
+            design.add_run("\n" + "5' " + MoClo.terminator_sequences_1[counter] + " 3'" + "\n" +
+                           "3' " + MoClo.terminator_sequences_2[counter] + " 5'")
         counter = counter + 1
 
     # Level 1 transcription units
