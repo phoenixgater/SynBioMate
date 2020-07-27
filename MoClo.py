@@ -144,6 +144,7 @@ def import_design(event):
             GUI.display_assembled_design_moclo(primary_structure_roles)
             GUI.refresh_design_parts_to_library()
 
+
 # Calculate nucleotide content
 def nucleotide_content(sequence):
     a_count = 0
@@ -863,6 +864,7 @@ def swap_codons_ecoflex():
         # Transcription unit 1
         cds_number = 0
         for cds in transcription_unit_1_cds:
+            print(transcription_unit_1_cds)
             cds_number = cds_number + 1
             part_key = "unit1_c" + str(cds_number)
             global modification_dictionary
@@ -889,7 +891,7 @@ def swap_codons_ecoflex():
                                     count_2 = (sequence.count(forbidden_site))
                                     if count_2 == 0:
                                         no_sites_detected = no_sites_detected + 1
-                                        if no_sites_detected == len(forbidden_sites_ecoflex):
+                                        if no_sites_detected == int(len(forbidden_sites_ecoflex)):
                                             detected_sites = False
                                         else:
                                             pass
@@ -904,13 +906,17 @@ def swap_codons_ecoflex():
                                 codon = codon_list[int((location / 3) + 1)]
                                 new_codon = ecoflex_codon_library(codon)
                                 if new_codon == "invalid":
+                                    codon_list[int((location / 3) + 1)] = "XXX"
+                                    codon_string = (", ".join(codon_list))
+                                    sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                              " (" + site_name + ")" + " detected at " +
                                                                              "position " + str(location + 4) + "-" +
                                                                              str(location + 6) +
                                                                              " but was unable to be changed due " +
                                                                              "to unavailable codon alternative " + "for " +
-                                                                             str(codon))
+                                                                             str(codon) + "." + " This codon has been " +
+                                                                             "substituted in the designed sequence for 'XXX' ")
                                     count = count - 1
                                     if count == 0:
                                         if forbidden_site == forbidden_sites_ecoflex[-1]:
@@ -959,6 +965,7 @@ def swap_codons_ecoflex():
 
         # Transcription unit 2
         cds_number = 0
+        print("test 1 3")
         for cds in transcription_unit_2_cds:
             cds_number = cds_number + 1
             part_key = "unit2_c" + str(cds_number)
@@ -1000,13 +1007,17 @@ def swap_codons_ecoflex():
                                 codon = codon_list[int((location / 3) + 1)]
                                 new_codon = ecoflex_codon_library(codon)
                                 if new_codon == "invalid":
+                                    codon_list[int((location / 3) + 1)] = "XXX"
+                                    codon_string = (", ".join(codon_list))
+                                    sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                              " (" + site_name + ")" + " detected at " +
                                                                              "position " + str(location + 4) + "-" +
                                                                              str(location + 6) +
                                                                              " but was unable to be changed due " +
                                                                              "to unavailable codon alternative " + "for " +
-                                                                             str(codon))
+                                                                             str(codon) + "." + " This codon has been " +
+                                                                             "substituted in the designed sequence for 'XXX' ")
                                     count = count - 1
                                     if count == 0:
                                         if forbidden_site == forbidden_sites_ecoflex[-1]:
@@ -1097,13 +1108,17 @@ def swap_codons_ecoflex():
                                 codon = codon_list[int((location / 3) + 1)]
                                 new_codon = ecoflex_codon_library(codon)
                                 if new_codon == "invalid":
+                                    codon_list[int((location / 3) + 1)] = "XXX"
+                                    codon_string = (", ".join(codon_list))
+                                    sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                              " (" + site_name + ")" + " detected at " +
                                                                              "position " + str(location + 4) + "-" +
                                                                              str(location + 6) +
                                                                              " but was unable to be changed due " +
                                                                              "to unavailable codon alternative " + "for " +
-                                                                             str(codon))
+                                                                             str(codon) + "." + " This codon has been " +
+                                                                             "substituted in the designed sequence for 'XXX' ")
                                     count = count - 1
                                     if count == 0:
                                         if forbidden_site == forbidden_sites_ecoflex[-1]:
@@ -1194,13 +1209,17 @@ def swap_codons_ecoflex():
                                 codon = codon_list[int((location / 3) + 1)]
                                 new_codon = ecoflex_codon_library(codon)
                                 if new_codon == "invalid":
+                                    codon_list[int((location / 3) + 1)] = "XXX"
+                                    codon_string = (", ".join(codon_list))
+                                    sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                              " (" + site_name + ")" + " detected at " +
                                                                              "position " + str(location + 4) + "-" +
                                                                              str(location + 6) +
                                                                              " but was unable to be changed due " +
                                                                              "to unavailable codon alternative " + "for " +
-                                                                             str(codon))
+                                                                             str(codon) + "." + " This codon has been " +
+                                                                             "substituted in the designed sequence for 'XXX' ")
                                     count = count - 1
                                     if count == 0:
                                         if forbidden_site == forbidden_sites_ecoflex[-1]:
@@ -1291,13 +1310,17 @@ def swap_codons_ecoflex():
                                 codon = codon_list[int((location / 3) + 1)]
                                 new_codon = ecoflex_codon_library(codon)
                                 if new_codon == "invalid":
+                                    codon_list[int((location / 3) + 1)] = "XXX"
+                                    codon_string = (", ".join(codon_list))
+                                    sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                              " (" + site_name + ")" + " detected at " +
                                                                              "position " + str(location + 4) + "-" +
                                                                              str(location + 6) +
                                                                              " but was unable to be changed due " +
                                                                              "to unavailable codon alternative " + "for " +
-                                                                             str(codon))
+                                                                             str(codon) + "." + " This codon has been " +
+                                                                             "substituted in the designed sequence for 'XXX' ")
                                     count = count - 1
                                     if count == 0:
                                         if forbidden_site == forbidden_sites_ecoflex[-1]:
@@ -2103,10 +2126,11 @@ def ecoflex_fusion_sites():
                         pass
                     else:
                         rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
-                        modification_dictionary["unit1_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
-                                                                                 " BsaI restriction site (ggtctca)" +
-                                                                                 " and golden gate RBS fusion site" +
-                                                                                 " (gtac)")
+                        modification_dictionary["unit1_r" + str(counter)].append(
+                            "Prefix added for NdeI overhang (ta)," +
+                            " BsaI restriction site (ggtctca)" +
+                            " and golden gate RBS fusion site" +
+                            " (gtac)")
                     if rbs.sequence.elements.endswith("cataagagacccatg"):
                         pass
                     else:
@@ -2123,10 +2147,11 @@ def ecoflex_fusion_sites():
                         pass
                     else:
                         rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
-                        modification_dictionary["unit1_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
-                                                                                 " BsaI restriction site (ggtctca)" +
-                                                                                 " and golden gate RBS fusion site" +
-                                                                                 " (gtac)")
+                        modification_dictionary["unit1_r" + str(counter)].append(
+                            "Prefix added for NdeI overhang (ta)," +
+                            " BsaI restriction site (ggtctca)" +
+                            " and golden gate RBS fusion site" +
+                            " (gtac)")
                     if rbs.sequence.elements.endswith("taaaagagacccatg"):
                         pass
                     else:
@@ -2143,10 +2168,11 @@ def ecoflex_fusion_sites():
                         pass
                     else:
                         signal.sequence.elements = "taggtctcataaa" + signal.sequence.elements
-                        modification_dictionary["unit1_s" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
-                                                                                 " BsaI restriction site (ggtctca)" +
-                                                                                 " and golden gate signal peptide fusion" +
-                                                                                 " site (taaa)")
+                        modification_dictionary["unit1_s" + str(counter)].append(
+                            "Prefix added for NdeI overhang (ta)," +
+                            " BsaI restriction site (ggtctca)" +
+                            " and golden gate signal peptide fusion" +
+                            " site (taaa)")
                     if signal.sequence.elements.endswith("cataagagacccatg"):
                         pass
                     else:
@@ -2225,10 +2251,11 @@ def ecoflex_fusion_sites():
                         pass
                     else:
                         rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
-                        modification_dictionary["unit2_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
-                                                                                 " BsaI restriction site (ggtctca)" +
-                                                                                 " and golden gate RBS fusion site" +
-                                                                                 " (gtac)")
+                        modification_dictionary["unit2_r" + str(counter)].append(
+                            "Prefix added for NdeI overhang (ta)," +
+                            " BsaI restriction site (ggtctca)" +
+                            " and golden gate RBS fusion site" +
+                            " (gtac)")
                     if rbs.sequence.elements.endswith("cataagagacccatg"):
                         pass
                     else:
@@ -2244,10 +2271,11 @@ def ecoflex_fusion_sites():
                         pass
                     else:
                         rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
-                        modification_dictionary["unit2_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
-                                                                                 " BsaI restriction site (ggtctca)" +
-                                                                                 " and golden gate RBS fusion site" +
-                                                                                 " (gtac)")
+                        modification_dictionary["unit2_r" + str(counter)].append(
+                            "Prefix added for NdeI overhang (ta)," +
+                            " BsaI restriction site (ggtctca)" +
+                            " and golden gate RBS fusion site" +
+                            " (gtac)")
                     if rbs.sequence.elements.endswith("taaaagagacccatg"):
                         pass
                     else:
@@ -2264,10 +2292,11 @@ def ecoflex_fusion_sites():
                         pass
                     else:
                         signal.sequence.elements = "taggtctcataaa" + signal.sequence.elements
-                        modification_dictionary["unit2_s" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
-                                                                                 " BsaI restriction site (ggtctca)" +
-                                                                                 " and golden gate signal peptide fusion" +
-                                                                                 " site (taaa)")
+                        modification_dictionary["unit2_s" + str(counter)].append(
+                            "Prefix added for NdeI overhang (ta)," +
+                            " BsaI restriction site (ggtctca)" +
+                            " and golden gate signal peptide fusion" +
+                            " site (taaa)")
                     if signal.sequence.elements.endswith("cataagagacccatg"):
                         pass
                     else:
@@ -2347,10 +2376,11 @@ def ecoflex_fusion_sites():
                         pass
                     else:
                         rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
-                        modification_dictionary["unit3_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
-                                                                                 " BsaI restriction site (ggtctca)" +
-                                                                                 " and golden gate RBS fusion site" +
-                                                                                 " (gtac)")
+                        modification_dictionary["unit3_r" + str(counter)].append(
+                            "Prefix added for NdeI overhang (ta)," +
+                            " BsaI restriction site (ggtctca)" +
+                            " and golden gate RBS fusion site" +
+                            " (gtac)")
                     if rbs.sequence.elements.endswith("cataagagacccatg"):
                         pass
                     else:
@@ -2366,10 +2396,11 @@ def ecoflex_fusion_sites():
                         pass
                     else:
                         rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
-                        modification_dictionary["unit3_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
-                                                                                 " BsaI restriction site (ggtctca)" +
-                                                                                 " and golden gate RBS fusion site" +
-                                                                                 " (gtac)")
+                        modification_dictionary["unit3_r" + str(counter)].append(
+                            "Prefix added for NdeI overhang (ta)," +
+                            " BsaI restriction site (ggtctca)" +
+                            " and golden gate RBS fusion site" +
+                            " (gtac)")
                     if rbs.sequence.elements.endswith("taaaagagacccatg"):
                         pass
                     else:
@@ -2386,10 +2417,11 @@ def ecoflex_fusion_sites():
                         pass
                     else:
                         signal.sequence.elements = "taggtctcataaa" + signal.sequence.elements
-                        modification_dictionary["unit3_s" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
-                                                                                 " BsaI restriction site (ggtctca)" +
-                                                                                 " and golden gate signal peptide fusion" +
-                                                                                 " site (taaa)")
+                        modification_dictionary["unit3_s" + str(counter)].append(
+                            "Prefix added for NdeI overhang (ta)," +
+                            " BsaI restriction site (ggtctca)" +
+                            " and golden gate signal peptide fusion" +
+                            " site (taaa)")
                     if signal.sequence.elements.endswith("cataagagacccatg"):
                         pass
                     else:
@@ -2469,10 +2501,11 @@ def ecoflex_fusion_sites():
                         pass
                     else:
                         rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
-                        modification_dictionary["unit4_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
-                                                                                 " BsaI restriction site (ggtctca)" +
-                                                                                 " and golden gate RBS fusion site" +
-                                                                                 " (gtac)")
+                        modification_dictionary["unit4_r" + str(counter)].append(
+                            "Prefix added for NdeI overhang (ta)," +
+                            " BsaI restriction site (ggtctca)" +
+                            " and golden gate RBS fusion site" +
+                            " (gtac)")
                     if rbs.sequence.elements.endswith("cataagagacccatg"):
                         pass
                     else:
@@ -2488,10 +2521,11 @@ def ecoflex_fusion_sites():
                         pass
                     else:
                         rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
-                        modification_dictionary["unit4_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
-                                                                                 " BsaI restriction site (ggtctca)" +
-                                                                                 " and golden gate RBS fusion site" +
-                                                                                 " (gtac)")
+                        modification_dictionary["unit4_r" + str(counter)].append(
+                            "Prefix added for NdeI overhang (ta)," +
+                            " BsaI restriction site (ggtctca)" +
+                            " and golden gate RBS fusion site" +
+                            " (gtac)")
                     if rbs.sequence.elements.endswith("taaaagagacccatg"):
                         pass
                     else:
@@ -2508,10 +2542,11 @@ def ecoflex_fusion_sites():
                         pass
                     else:
                         signal.sequence.elements = "taggtctcataaa" + signal.sequence.elements
-                        modification_dictionary["unit4_s" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
-                                                                                 " BsaI restriction site (ggtctca)" +
-                                                                                 " and golden gate signal peptide fusion" +
-                                                                                 " site (taaa)")
+                        modification_dictionary["unit4_s" + str(counter)].append(
+                            "Prefix added for NdeI overhang (ta)," +
+                            " BsaI restriction site (ggtctca)" +
+                            " and golden gate signal peptide fusion" +
+                            " site (taaa)")
                     if signal.sequence.elements.endswith("cataagagacccatg"):
                         pass
                     else:
@@ -2591,10 +2626,11 @@ def ecoflex_fusion_sites():
                         pass
                     else:
                         rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
-                        modification_dictionary["unit5_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
-                                                                                 " BsaI restriction site (ggtctca)" +
-                                                                                 " and golden gate RBS fusion site" +
-                                                                                 " (gtac)")
+                        modification_dictionary["unit5_r" + str(counter)].append(
+                            "Prefix added for NdeI overhang (ta)," +
+                            " BsaI restriction site (ggtctca)" +
+                            " and golden gate RBS fusion site" +
+                            " (gtac)")
                     if rbs.sequence.elements.endswith("cataagagacccatg"):
                         pass
                     else:
@@ -2610,10 +2646,11 @@ def ecoflex_fusion_sites():
                         pass
                     else:
                         rbs.sequence.elements = "taggtctcagtac" + rbs.sequence.elements
-                        modification_dictionary["unit5_r" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
-                                                                                 " BsaI restriction site (ggtctca)" +
-                                                                                 " and golden gate RBS fusion site" +
-                                                                                 " (gtac)")
+                        modification_dictionary["unit5_r" + str(counter)].append(
+                            "Prefix added for NdeI overhang (ta)," +
+                            " BsaI restriction site (ggtctca)" +
+                            " and golden gate RBS fusion site" +
+                            " (gtac)")
                     if rbs.sequence.elements.endswith("taaaagagacccatg"):
                         pass
                     else:
@@ -2630,10 +2667,11 @@ def ecoflex_fusion_sites():
                         pass
                     else:
                         signal.sequence.elements = "taggtctcataaa" + signal.sequence.elements
-                        modification_dictionary["unit5_s" + str(counter)].append("Prefix added for NdeI overhang (ta)," +
-                                                                                 " BsaI restriction site (ggtctca)" +
-                                                                                 " and golden gate signal peptide fusion" +
-                                                                                 " site (taaa)")
+                        modification_dictionary["unit5_s" + str(counter)].append(
+                            "Prefix added for NdeI overhang (ta)," +
+                            " BsaI restriction site (ggtctca)" +
+                            " and golden gate signal peptide fusion" +
+                            " site (taaa)")
                     if signal.sequence.elements.endswith("cataagagacccatg"):
                         pass
                     else:
@@ -3409,7 +3447,7 @@ def transcription_unit_format():
                 cds_sequence = "ca" + cds[:-4]
                 terminator_sequence = terminator[9:-11]
                 counter = counter + 1
-                transcription_unit_3_notes.append("Prefix cttc and suffix ttag fusion sites conferred to sequence by "
+                transcription_unit_5_notes.append("Prefix cttc and suffix ttag fusion sites conferred to sequence by "
                                                   "level 1 plasmid backbone pTU1-E-RFP")
                 transcription_unit_5_sequences.append(
                     ["cttc" + promoter_sequence + rbs_sequence + cds_sequence + terminator_sequence + "ttag"])
@@ -3435,7 +3473,7 @@ def transcription_unit_format():
                 cds_sequence = "ca" + cds[:-4]
                 terminator_sequence = terminator[9:-11]
                 counter = counter + 1
-                transcription_unit_3_notes.append("Prefix cttc and suffix ttag fusion sites conferred to sequence by "
+                transcription_unit_5_notes.append("Prefix cttc and suffix ttag fusion sites conferred to sequence by "
                                                   "level 1 plasmid backbone pTU1-E-RFP")
                 transcription_unit_5_sequences.append(
                     ["cttc" + promoter_sequence + rbs_sequence + signal_sequence + cds_sequence + terminator_sequence

@@ -6,6 +6,8 @@ import xlsxwriter
 import GUI
 import MoClo
 import EcoFlex_protocol
+import io
+import csv
 
 # Global variables
 # Level 1
@@ -45,7 +47,7 @@ def script_headers(worksheet):
 # level 1 assembly scripts
 def level_1_transcription_units():
     # 6RES reagents (deionised water)
-    workbook = xlsxwriter.Workbook("6res.csv")
+    workbook = xlsxwriter.Workbook("6res.xlsx")
     worksheet = workbook.add_worksheet()
     script_headers(worksheet)
     row = 0
@@ -77,7 +79,7 @@ def level_1_transcription_units():
     workbook.close()
 
     # LDV reagents (enzymes and buffers)
-    workbook = xlsxwriter.Workbook("ldv.csv")
+    workbook = xlsxwriter.Workbook("ldv.xlsx")
     worksheet = workbook.add_worksheet()
     script_headers(worksheet)
     row = 0
@@ -147,7 +149,7 @@ def level_1_transcription_units():
     workbook.close()
 
     # Parts and plasmid backbones
-    workbook = xlsxwriter.Workbook("dna.csv")
+    workbook = xlsxwriter.Workbook("dna.xlsx")
     worksheet = workbook.add_worksheet()
     script_headers(worksheet)
 
@@ -342,7 +344,7 @@ def level_1_transcription_units():
 
 def level_2_transcription_units():
     # 6RES reagents (deionised water) level 2
-    workbook = xlsxwriter.Workbook("6res_2.csv")
+    workbook = xlsxwriter.Workbook("6res_2.xlsx")
     worksheet = workbook.add_worksheet()
     script_headers(worksheet)
     row = 0
@@ -375,7 +377,7 @@ def level_2_transcription_units():
     workbook.close()
 
     # LDV reagents (enzymes and buffers) level 2
-    workbook = xlsxwriter.Workbook("ldv_2.csv")
+    workbook = xlsxwriter.Workbook("ldv_2.xlsx")
     worksheet = workbook.add_worksheet()
     script_headers(worksheet)
     row = 0
@@ -445,7 +447,7 @@ def level_2_transcription_units():
     workbook.close()
 
     # level 1 TU's and level 2 plasmid backbones level 2
-    workbook = xlsxwriter.Workbook("dna_2.csv")
+    workbook = xlsxwriter.Workbook("dna_2.xlsx")
     worksheet = workbook.add_worksheet()
     script_headers(worksheet)
 
