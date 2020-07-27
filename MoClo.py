@@ -83,7 +83,6 @@ def import_design(event):
                     part_uri_string = str(part_uri)
                     doc.append(imported_design)
                     import_single_part_to_library(part_uri_string)
-                    print(part_uri.sequence.elements)
 
         # If no sub components are detected, it will be checked that the imported file contains only a single part
         if not sub_components_detected:
@@ -93,7 +92,6 @@ def import_design(event):
                     part_uri_string = str(part_uri)
                     doc.append(imported_design)
                     import_single_part_to_library(part_uri_string)
-                    print(part_uri.sequence.elements)
             else:
                 print("ERROR PLACEHOLDER")
 

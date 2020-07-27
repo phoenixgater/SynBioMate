@@ -21,7 +21,7 @@ doc = Document()
 # Creating GUI window
 window = tk.Tk()
 window.title("SynBioMate")
-window.geometry("1200x850")
+window.geometry("1200x950")
 
 # Adding tabs to GUI
 tab_parent = ttk.Notebook(window)
@@ -947,6 +947,22 @@ def remove_stage_1_GUI():
     assembly_method_combo.grid_forget()
     assembly_method_label.grid_forget()
     transcription_unit_create.grid_forget()
+    level_1_volume_ratio_label.grid_forget()
+    level_1_volume_ratio_checkbox_1_1.grid_forget()
+    level_1_volume_ratio_checkbox_1_2.grid_forget()
+    level_1_volume_ratio_checkbox_2_1.grid_forget()
+    level_2_volume_ratio_label.grid_forget()
+    level_2_volume_ratio_checkbox_1_1.grid_forget()
+    level_2_volume_ratio_checkbox_1_2.grid_forget()
+    level_2_volume_ratio_checkbox_2_1.grid_forget()
+    include_codon_swap_label.grid_forget()
+    include_codon_swap_combo.grid_forget()
+    include_overhang_label.grid_forget()
+    include_overhang_combo.grid_forget()
+    include_fusion_site_label.grid_forget()
+    include_fusion_site_combo.grid_forget()
+    transcription_unit_create.grid_forget()
+
 
 
 # Create transcription unit entries and labels
@@ -1097,9 +1113,11 @@ def stage_2_GUI(event):
 
 
 # Create stage 2 GUI
+spacing_1 = tk.Label(tab4, text=" ")
+spacing_1.grid(column=1, row=20)
 transcription_unit_create = tk.Button(tab4, text="Create")
 transcription_unit_create.bind("<Button-1>", stage_2_GUI)
-transcription_unit_create.grid(column=4, row=13)
+transcription_unit_create.grid(column=1, row=21)
 
 # Automatic/Manual selection
 assembly_method_label = tk.Label(tab4, text="Assembly method")
@@ -1111,7 +1129,7 @@ assembly_method_combo.grid(column=3, row=13)
 def create_protocol_button():
     create_protocol_button = tk.Button(tab4, text="Create protocol")
     create_protocol_button.bind("<Button-1>", MoClo.create_protocol_directory)
-    create_protocol_button.grid()
+    create_protocol_button.grid(column=2)
 
 
 def restriction_site_warning_ecoflex():
@@ -1119,18 +1137,18 @@ def restriction_site_warning_ecoflex():
     for warning in MoClo.ecoflex_check_list:
         formatted_list.append("\n" + warning)
     pre_creation_check = st.ScrolledText(tab4, font=(None, 8), fg="red", bg="SystemButtonFace", height=6, width=45)
-    pre_creation_check.grid(column=0)
+    pre_creation_check.grid(column=2)
     pre_creation_check.insert(tk.INSERT, formatted_list)
     pre_creation_check.configure(state="disabled")
     from EcoFlex_protocol import create_protocol
     global continue_button
     continue_button = tk.Button(tab4, text="Continue with creation")
     continue_button.bind("<Button-1>", create_protocol)
-    continue_button.grid()
+    continue_button.grid(column=2)
     global stop_button
     stop_button = tk.Button(tab4, text="Stop")
     stop_button.bind("<Button-1>", remove_warnings)
-    stop_button.grid()
+    stop_button.grid(column=2)
 
 
 def remove_warnings(event):
@@ -1144,72 +1162,67 @@ def remove_warnings(event):
 
 
 # User selection for part:level 1 backbone volume ratio
-def level_1_ratio_create():
-    level_1_ratio_1_1 = tk.IntVar()
-    level_1_ratio_1_2 = tk.IntVar()
-    level_1_ratio_2_1 = tk.IntVar()
-    level_1_volume_ratio_label = tk.Label(tab4,
-                                          text="Part : level 1 backbone reaction volumetric ratios (2:1 is default "
-                                               "if none selected, "
-                                               "multiple selection is allowed):")
-    level_1_volume_ratio_label.grid()
-    level_1_volume_ratio_checkbox_1_1 = ttk.Checkbutton(tab4, text="1:1", variable=level_1_ratio_1_1)
-    level_1_volume_ratio_checkbox_1_1.grid()
-    level_1_volume_ratio_checkbox_1_2 = ttk.Checkbutton(tab4, text="1:2", variable=level_1_ratio_1_2)
-    level_1_volume_ratio_checkbox_1_2.grid()
-    level_1_volume_ratio_checkbox_2_1 = ttk.Checkbutton(tab4, text="2:1", variable=level_1_ratio_2_1)
-    level_1_volume_ratio_checkbox_2_1.grid()
+level_1_ratio_1_1 = tk.IntVar()
+level_1_ratio_1_2 = tk.IntVar()
+level_1_ratio_2_1 = tk.IntVar()
+level_1_volume_ratio_label = tk.Label(tab4,
+                                      text="Part : level 1 backbone reaction volumetric ratios (2:1 is default "
+                                           "if none selected, "
+                                           "multiple selection is allowed):")
+level_1_volume_ratio_label.grid(column=0, row=16, columnspan=6, sticky="w")
+level_1_volume_ratio_checkbox_1_1 = ttk.Checkbutton(tab4, text="1:1", variable=level_1_ratio_1_1)
+level_1_volume_ratio_checkbox_1_1.grid(column=0, row=17)
+level_1_volume_ratio_checkbox_1_2 = ttk.Checkbutton(tab4, text="1:2", variable=level_1_ratio_1_2)
+level_1_volume_ratio_checkbox_1_2.grid(column=1, row=17)
+level_1_volume_ratio_checkbox_2_1 = ttk.Checkbutton(tab4, text="2:1", variable=level_1_ratio_2_1)
+level_1_volume_ratio_checkbox_2_1.grid(column=2, row=17)
 
 
 # User selection for TU: level 2 backbone ratio
-def level_2_ratio_create():
-    level_2_ratio_1_1 = tk.IntVar()
-    level_2_ratio_1_2 = tk.IntVar()
-    level_2_ratio_2_1 = tk.IntVar()
-    level_2_volume_ratio_label = tk.Label(tab4,
-                                          text="TU : level 2 backbone reaction volumetric ratios (2:1 is default if "
-                                               "none selected, "
-                                               "multiple selection is allowed):")
-    level_2_volume_ratio_label.grid()
-    level_2_volume_ratio_checkbox_1_1 = ttk.Checkbutton(tab4, text="1:1", variable=level_2_ratio_1_1)
-    level_2_volume_ratio_checkbox_1_1.grid()
-    level_2_volume_ratio_checkbox_1_2 = ttk.Checkbutton(tab4, text="1:2", variable=level_2_ratio_1_2)
-    level_2_volume_ratio_checkbox_1_2.grid()
-    level_2_volume_ratio_checkbox_2_1 = ttk.Checkbutton(tab4, text="2:1", variable=level_2_ratio_2_1)
-    level_2_volume_ratio_checkbox_2_1.grid()
+level_2_ratio_1_1 = tk.IntVar()
+level_2_ratio_1_2 = tk.IntVar()
+level_2_ratio_2_1 = tk.IntVar()
+level_2_volume_ratio_label = tk.Label(tab4,
+                                      text="TU : level 2 backbone reaction volumetric ratios (2:1 is default if "
+                                           "none selected, "
+                                           "multiple selection is allowed):")
+level_2_volume_ratio_label.grid(column=0, row=18, columnspan=6, sticky="w")
+level_2_volume_ratio_checkbox_1_1 = ttk.Checkbutton(tab4, text="1:1", variable=level_2_ratio_1_1)
+level_2_volume_ratio_checkbox_1_1.grid(column=0, row=19)
+level_2_volume_ratio_checkbox_1_2 = ttk.Checkbutton(tab4, text="1:2", variable=level_2_ratio_1_2)
+level_2_volume_ratio_checkbox_1_2.grid(column=1, row=19)
+level_2_volume_ratio_checkbox_2_1 = ttk.Checkbutton(tab4, text="2:1", variable=level_2_ratio_2_1)
+level_2_volume_ratio_checkbox_2_1.grid(column=2, row=19)
 
 
 # Liquid handler selection
 def liquid_handler_selection():
     global liquid_handler_selection_combo
     liquid_handler_selection_label = tk.Label(tab4, text="Select liquid handler")
-    liquid_handler_selection_label.grid()
+    liquid_handler_selection_label.grid(column=2)
     liquid_handler_selection_combo = ttk.Combobox(tab4, values=["Echo 525"])
-    liquid_handler_selection_combo.grid()
+    liquid_handler_selection_combo.grid(column=2)
 
 
 # User selection to include codon swap
-def create_codon_swap():
-    include_codon_swap_label = tk.Label(tab4, text="Swap CDS codons to remove restriction sites?")
-    include_codon_swap_label.grid()
-    include_codon_swap_combo = ttk.Combobox(tab4, values=["Yes", "No"])
-    include_codon_swap_combo.grid()
+include_codon_swap_label = tk.Label(tab4, text="Substitute CDS restriction sites?")
+include_codon_swap_label.grid(column=0, row=14)
+include_codon_swap_combo = ttk.Combobox(tab4, values=["Yes", "No"])
+include_codon_swap_combo.grid(column=0, row=15)
 
 
 # User selection to turn fusion site addition off
-def create_fusion_site_addition():
-    include_fusion_site_label = tk.Label(tab4, text="Add compatible fusion sites to parts?")
-    include_fusion_site_label.grid()
-    include_codon_swap_combo = ttk.Combobox(tab4, values=["Yes", "No"])
-    include_codon_swap_combo.grid()
+include_fusion_site_label = tk.Label(tab4, text="Add fusion sites to parts?")
+include_fusion_site_label.grid(column=1, row=14)
+include_fusion_site_combo = ttk.Combobox(tab4, values=["Yes", "No"])
+include_fusion_site_combo.grid(column=1, row=15)
 
 
 # User selection to turn overhang addition off
-def create_overhang_addition():
-    include_overhang_label = tk.Label(tab4, text="Add compatible overhangs for level 0 assembly?")
-    include_overhang_label.grid()
-    include_overhang_combo = ttk.Combobox(tab4, values=["Yes", "No"])
-    include_overhang_combo.grid()
+include_overhang_label = tk.Label(tab4, text="Add overhangs for level 0 assembly?")
+include_overhang_label.grid(column=2, row=14)
+include_overhang_combo = ttk.Combobox(tab4, values=["Yes", "No"])
+include_overhang_combo.grid(column=2, row=15)
 
 
 ################ Main_loop #################
