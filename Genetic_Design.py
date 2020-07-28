@@ -15,7 +15,8 @@ design_identities = []
 design_descriptions = []
 doc = Document()
 
-# Add part to design from file
+
+# Import SBOL file
 def add_file_part(event):
     try:
         GUI.incompatible_part_label.pack_forget()
@@ -62,18 +63,167 @@ def add_file_part(event):
             GUI.display_assembled_design(design_roles)
             GUI.create_description_button_design()
     else:
-        for component in doc2.componentDefinitions:
-            if len(component.components) > 0:
-                GUI.incompatible_part()
-                return
-
-        for components in doc2.componentDefinitions:
-            component_definition_list.append(str(components))
-            doc.append(str(GUI.imported_part))
-            design_display_lists(components)
-            GUI.display_assembled_design(design_roles)
+        add_part(doc2, str(GUI.imported_part))
 
 
+# Storing a part/design for assembly
+def add_part(temp_doc, sbol_file):
+    # Detect whether SBOL file is a design or single part
+    design_detected = False
+    for component in temp_doc.componentDefinitions:
+        try:
+            component.getPrimaryStructure()
+            design_detected = True
+        except LookupError:
+            pass
+
+    ####################### Storing a single part for assembly #######################
+    # Detecting sub-components if no design detected
+    if not design_detected:
+        sub_components_detected = False
+        for component in temp_doc.componentDefinitions:
+            if len(component.components) == 0:
+                pass
+            else:
+                sub_components_detected = True
+
+        # Isolating top-level part if sub-components are detected
+        if sub_components_detected:
+            sub_component_quantity = []
+            try:
+                for component in temp_doc.componentDefinitions:
+                    sub_component_quantity.append(len(component.components))
+            except LookupError:
+                pass
+
+            for component in temp_doc.componentDefinitions:
+                if len(component.components) == max(sub_component_quantity):
+                    part_uri = component
+                    part_uri_string = str(part_uri)
+                    previously_imported = False
+                    for components in doc.componentDefinitions:
+                        if part_uri_string == str(components):
+                            previously_imported = True
+
+                    if previously_imported:
+                        part_cd = doc.getComponentDefinition(part_uri_string)
+                        design_display_lists(part_cd)
+                        GUI.display_assembled_design(design_roles)
+                        component_definition_list.append(part_uri_string)
+
+                    if not previously_imported:
+                        if check_sequence_constraints(part_uri, temp_doc, 0) == "invalid":
+                            print("Part has no sequence constraints and is not compatible")
+                            raise LookupError("Part incompatible for assembly, as it has no sequence constraints")
+                        doc.append(sbol_file)
+                        part_cd = doc.getComponentDefinition(part_uri_string)
+                        design_display_lists(part_cd)
+                        GUI.display_assembled_design(design_roles)
+                        component_definition_list.append(part_uri_string)
+
+        # If no sub components are detected, it will be checked that the imported file contains only a single part
+        if not sub_components_detected:
+            if len(temp_doc.componentDefinitions) == 1:
+                for component in temp_doc.componentDefinitions:
+                    part_uri = component
+                    part_uri_string = str(part_uri)
+
+                previously_imported = False
+                for components in doc.componentDefinitions:
+                    if part_uri_string == str(components):
+                        previously_imported = True
+
+                if previously_imported:
+                    part_cd = doc.getComponentDefinition(part_uri_string)
+                    design_display_lists(part_cd)
+                    GUI.display_assembled_design(design_roles)
+                    component_definition_list.append(part_uri_string)
+
+                if not previously_imported:
+                    if check_sequence_constraints(part_uri, temp_doc, 0) == "invalid":
+                        print("Part has no sequence constraints and is not compatible")
+                        raise LookupError("Part incompatible for assembly, as it has no sequence constraints")
+                    doc.append(sbol_file)
+                    part_cd = doc.getComponentDefinition(part_uri_string)
+                    design_display_lists(part_cd)
+                    GUI.display_assembled_design(design_roles)
+                    component_definition_list.append(part_uri_string)
+
+        else:
+            print("ERROR PLACEHOLDER")
+
+    ######################### Storing a design for assembly ##################################
+    if design_detected:
+        # Identifying and isolating the component definition of the design
+        primary_structure_count = 0
+        for component_definition in temp_doc.componentDefinitions:
+            try:
+                component_definition.getPrimaryStructure()
+                design_uri = component_definition
+                primary_structure_count += 1
+            except LookupError:
+                pass
+        if primary_structure_count > 1:
+            print("Multiple primary structures detected error")
+        else:
+            # Retrieving the component definitions of the parts contained within the design
+            primary_structure_cd_list = []
+            primary_structure_cd_list = design_uri.getPrimaryStructure()
+
+            # Checking that every part in the design is compatible
+            compatible_components = 0
+            counter = 0
+            for component in primary_structure_cd_list:
+                counter += 1
+                if check_sequence_constraints(component, temp_doc, counter) == "invalid":
+                    print("Part has no sequence constraints and is not compatible")
+                    raise LookupError("One of the parts in the design is incompatible for assembly, as it has no "
+                                      "sequence constraints")
+                else:
+                    compatible_components += 1
+                    if compatible_components == len(primary_structure_cd_list):
+                        sbol_file_stored = False
+                        for component_temp in primary_structure_cd_list:
+                            previously_imported = False
+                            for component_main in doc.componentDefinitions:
+                                if str(component_temp) == component_main:
+                                    previously_imported = True
+
+                            if previously_imported:
+                                part_cd = doc.getComponentDefinition(str(component_temp))
+                                design_display_lists(part_cd)
+                                GUI.display_assembled_design(design_roles)
+                                component_definition_list.append(str(component_temp))
+
+                            if not previously_imported:
+                                if not sbol_file_stored:
+                                    doc.append(sbol_file)
+                                part_cd = doc.getComponentDefinition(str(component_temp))
+                                design_display_lists(part_cd)
+                                GUI.display_assembled_design(design_roles)
+                                component_definition_list.append(str(component_temp))
+                                sbol_file_stored = True
+
+
+# Checking that the imported part has sequence constraints and is suitable for assembly
+def check_sequence_constraints(part_uri, temp_doc, counter):
+    try:
+        test_design = ComponentDefinition("test_design" + str(counter))
+        test_part_1 = ComponentDefinition("test_part_1" + str(counter))
+        test_part_2 = ComponentDefinition("test_part_2" + str(counter))
+        test_part_1.roles = SO_PROMOTER
+        test_part_2.roles = SO_TERMINATOR
+        temp_doc.addComponentDefinition(test_part_1)
+        temp_doc.addComponentDefinition(test_part_2)
+        temp_doc.addComponentDefinition(test_design)
+
+        test_design.assemblePrimaryStructure([test_part_1, part_uri, test_part_2])
+        test_part_1.sequence = Sequence("test_part_1" + str(counter), "atgc")
+        test_part_2.sequence = Sequence("test_part_2" + str(counter), "cgta")
+        compile_design = test_design.compile()
+
+    except LookupError:
+        return "invalid"
 
 
 # SynBioHub part query
@@ -81,7 +231,6 @@ def part_search(query):
     query2 = query.replace(" ", "_")
     global records
     records = igem.search(query2, SBOL_COMPONENT_DEFINITION, 0, 10)
-    print(records)
     button_display()
 
 
@@ -97,7 +246,6 @@ def button_display():
     global button_8_display
     global button_9_display
     global button_10_display
-    print(len(records))
     try:
         button_1_display = ("Part identity: " + str(records[0].displayId) + "\n" + "Part description: " +
                             str(records[0].description))
@@ -155,6 +303,7 @@ def design_display_lists(part_uri):
     for roles in part_uri.roles:
         if "SO" in roles:
             design_roles.append(roles)
+            break
     design_identities.append(part_uri.displayId)
     design_descriptions.append(part_uri.description)
     GUI.create_description_button_design()
@@ -204,7 +353,6 @@ def query_submit(event):
         GUI.part_choice_button_10()
     except AttributeError:
         return
-
 
 
 # Add query result 1 to doc
@@ -270,7 +418,6 @@ def query_to_doc_1(event):
                 part_uri = doc2.getComponentDefinition(str(records[0]))
                 design_display_lists(part_uri)
                 GUI.display_assembled_design(design_roles)
-                print("test1")
             else:
                 component_definition_list.append(records[0])
                 part_uri = doc2.getComponentDefinition(str(records[0]))
@@ -907,6 +1054,7 @@ def query_to_doc_10(event):
                 design_display_lists(part_uri)
                 GUI.display_assembled_design(design_roles)
 
+
 # Assembly of selected parts into a single genetic design
 def design_assembly(event):
     try:
@@ -917,25 +1065,21 @@ def design_assembly(event):
         GUI.failed_assembly_label.pack_forget()
     except AttributeError:
         pass
-    try:
-        design_name = (str(GUI.design_name_entry.get())).replace(" ", "_")
-        assembled_design = ComponentDefinition(design_name)
-        doc.addComponentDefinition(assembled_design)
-        temp_list = []
-        for component in component_definition_list:
-            part_cd = doc.getComponentDefinition(str(component))
-            temp_list.append(part_cd)
 
-        assembled_design.assemblePrimaryStructure(temp_list)
-        compile_design = assembled_design.compile()
-        print(assembled_design.getPrimaryStructure())
-        result = doc.write(design_name + ".xml")
-        print(result)
-        component_definition_list.clear()
-        clear_all_genetic_design()
-        GUI.successful_assembly()
-    except LookupError:
-        GUI.failed_assembly()
+    design_name = (str(GUI.design_name_entry.get())).replace(" ", "_")
+    assembled_design = ComponentDefinition(design_name)
+    doc.addComponentDefinition(assembled_design)
+    temp_list = []
+    for component in component_definition_list:
+        part_cd = doc.getComponentDefinition(str(component))
+        temp_list.append(part_cd)
+
+    assembled_design.assemblePrimaryStructure(temp_list)
+    compile_design = assembled_design.compile()
+    result = doc.write(design_name + ".xml")
+    component_definition_list.clear()
+    clear_all_genetic_design()
+    GUI.successful_assembly()
 
 
 # Wipes the GUI, and empties all variables, lists, and documents
