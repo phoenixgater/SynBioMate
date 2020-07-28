@@ -1,0 +1,7 @@
+UID,Source Plate Name,Source plate Type,Source Well,Destination Plate Name,Destination Plate Type,Destination Well,Transfer Volume,Reagent
+1,level 1 LDV source plate,384LDV_AQ_SP2,A1,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A1,500,DNA ligase buffer
+2,level 1 LDV source plate,384LDV_AQ_SP2,A1,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A2,500,DNA ligase buffer
+3,level 1 LDV source plate,384LDV_AQ_SP2,A2,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A1,125,DNA ligase
+4,level 1 LDV source plate,384LDV_AQ_SP2,A2,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A2,125,DNA ligase
+5,level 1 LDV source plate,384LDV_AQ_SP2,A3,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A1,250,BsaI-HF
+6,level 1 LDV source plate,384LDV_AQ_SP2,A3,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A2,250,BsaI-HF

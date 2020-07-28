@@ -352,14 +352,14 @@ def save_part_popup():
 
 # Title of Genetic Design assembly tab
 designassemblytitle = tk.Label(tab2, text="Create Genetic Design", font=(None, 15))
-designassemblytitle.pack()
+designassemblytitle.grid()
 
 
 # Canvas for design display in Genetic Design tab
 def genetic_design_display_canvas():
     global design_canvas_display
     design_canvas_display = tk.Canvas(tab2, width=1000, height=200)
-    design_canvas_display.pack()
+    design_canvas_display.grid()
 
 
 # Initialise genetic design display for Genetic_Design tab
@@ -394,26 +394,32 @@ def display_assembled_design(SO_list):
                                               text=Genetic_Design.design_identities[counter - 1])
 
 
+# Import SBOL file button
+import_part_from_file = tk.Button(tab2, text="Import SBOL file")
+import_part_from_file.bind("<Button-1>", Genetic_Design.add_file_part)
+import_part_from_file.grid()
+
+
 # Button to show part descriptions in genetic design tab
 def create_description_button_design():
     global part_description_button_design
     try:
-        part_description_button_design.pack_forget()
-        hide_part_description_button_design.pack_forget()
+        part_description_button_design.grid_forget()
+        hide_part_description_button_design.grid_forget()
         hide_description_design("<Button-1>")
         part_description_button_design = tk.Button(tab2, text="Show part descriptions")
         part_description_button_design.bind("<Button-1>", part_description_design)
-        part_description_button_design.pack()
+        part_description_button_design.grid()
     except KeyError:
-        part_description_button_design.pack_forget()
-        hide_part_description_button_design.pack_forget()
+        part_description_button_design.grid_forget()
+        hide_part_description_button_design.grid_forget()
         part_description_button_design = tk.Button(tab2, text="Show part descriptions")
         part_description_button_design.bind("<Button-1>", part_description_design)
-        part_description_button_design.pack()
+        part_description_button_design.grid()
     except NameError:
         part_description_button_design = tk.Button(tab2, text="Show part descriptions")
         part_description_button_design.bind("<Button-1>", part_description_design)
-        part_description_button_design.pack()
+        part_description_button_design.grid()
 
 
 # Show part description in genetic design tab
@@ -424,17 +430,17 @@ def part_description_design(event):
         part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
         globals()[part_description_button_name] = tk.Label(tab2, text=str(
             Genetic_Design.design_identities[counter - 1]) + " - " + description)
-        globals()[part_description_button_name].pack()
+        globals()[part_description_button_name].grid()
     hide_description_button_design()
 
 
 # Button for hiding part descriptions in genetic design tab
 def hide_description_button_design():
-    part_description_button_design.pack_forget()
+    part_description_button_design.grid_forget()
     global hide_part_description_button_design
     hide_part_description_button_design = tk.Button(tab2, text="Hide part descriptions")
     hide_part_description_button_design.bind("<Button-1>", hide_description_design)
-    hide_part_description_button_design.pack()
+    hide_part_description_button_design.grid()
 
 
 # Hiding part descriptions in genetic design tab
@@ -443,9 +449,9 @@ def hide_description_design(event):
     for description in Genetic_Design.design_descriptions:
         counter = counter + 1
         part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
-        globals()[part_description_button_name].pack_forget()
-    part_description_button_design.pack()
-    hide_part_description_button_design.pack_forget()
+        globals()[part_description_button_name].grid_forget()
+    part_description_button_design.grid()
+    hide_part_description_button_design.grid_forget()
 
 
 # Part from file selection
@@ -454,19 +460,18 @@ def part_file_selection(event):
                                                  filetypes=(("SBOL files (.xml)", "*.xml"), ("all files", "*.*")))
     global imported_part
     imported_part = window.filename
-    Genetic_Design.add_file_part()
 
 
 # Query submission label and entry widget
 query_request_label = tk.Label(tab2, text="Please enter a search term")
-query_request_label.pack()
+query_request_label.grid()
 query_request_entry = tk.Entry(tab2)
-query_request_entry.pack()
+query_request_entry.grid()
 
 # Query submit button
 query_submit_button = tk.Button(tab2, text="Submit")
 query_submit_button.bind("<Button-1>", Genetic_Design.query_submit)
-query_submit_button.pack()
+query_submit_button.grid()
 
 
 # GUI binding of writing queried part to doc
@@ -474,127 +479,127 @@ def part_choice_button_1():
     global query_result_button_1
     query_result_button_1 = tk.Button(tab2, text=Genetic_Design.button_1_display)
     query_result_button_1.bind("<Button-1>", Genetic_Design.query_to_doc_1)
-    query_result_button_1.pack()
+    query_result_button_1.grid()
 
 
 def part_choice_button_2():
     global query_result_button_2
     query_result_button_2 = tk.Button(tab2, text=Genetic_Design.button_2_display)
     query_result_button_2.bind("<Button-1>", Genetic_Design.query_to_doc_2)
-    query_result_button_2.pack()
+    query_result_button_2.grid()
 
 
 def part_choice_button_3():
     global query_result_button_3
     query_result_button_3 = tk.Button(tab2, text=Genetic_Design.button_3_display)
     query_result_button_3.bind("<Button-1>", Genetic_Design.query_to_doc_3)
-    query_result_button_3.pack()
+    query_result_button_3.grid()
 
 
 def part_choice_button_4():
     global query_result_button_4
     query_result_button_4 = tk.Button(tab2, text=Genetic_Design.button_4_display)
     query_result_button_4.bind("<Button-1>", Genetic_Design.query_to_doc_4)
-    query_result_button_4.pack()
+    query_result_button_4.grid()
 
 
 def part_choice_button_5():
     global query_result_button_5
     query_result_button_5 = tk.Button(tab2, text=Genetic_Design.button_5_display)
     query_result_button_5.bind("<Button-1>", Genetic_Design.query_to_doc_5)
-    query_result_button_5.pack()
+    query_result_button_5.grid()
 
 
 def part_choice_button_6():
     global query_result_button_6
     query_result_button_6 = tk.Button(tab2, text=Genetic_Design.button_6_display)
     query_result_button_6.bind("<Button-1>", Genetic_Design.query_to_doc_6)
-    query_result_button_6.pack()
+    query_result_button_6.grid()
 
 
 def part_choice_button_7():
     global query_result_button_7
     query_result_button_7 = tk.Button(tab2, text=Genetic_Design.button_7_display)
     query_result_button_7.bind("<Button-1>", Genetic_Design.query_to_doc_7)
-    query_result_button_7.pack()
+    query_result_button_7.grid()
 
 
 def part_choice_button_8():
     global query_result_button_8
     query_result_button_8 = tk.Button(tab2, text=Genetic_Design.button_8_display)
     query_result_button_8.bind("<Button-1>", Genetic_Design.query_to_doc_8)
-    query_result_button_8.pack()
+    query_result_button_8.grid()
 
 
 def part_choice_button_9():
     global query_result_button_9
     query_result_button_9 = tk.Button(tab2, text=Genetic_Design.button_9_display)
     query_result_button_9.bind("<Button-1>", Genetic_Design.query_to_doc_9)
-    query_result_button_9.pack()
+    query_result_button_9.grid()
 
 
 def part_choice_button_10():
     global query_result_button_10
     query_result_button_10 = tk.Button(tab2, text=Genetic_Design.button_10_display)
     query_result_button_10.bind("<Button-1>", Genetic_Design.query_to_doc_10)
-    query_result_button_10.pack()
+    query_result_button_10.grid()
 
 
 def clear_all_query():
     try:
-        query_result_button_1.pack_forget()
+        query_result_button_1.grid_forget()
     except NameError:
         return
     try:
-        query_result_button_2.pack_forget()
+        query_result_button_2.grid_forget()
     except NameError:
         return
     try:
-        query_result_button_3.pack_forget()
+        query_result_button_3.grid_forget()
     except NameError:
         return
     try:
-        query_result_button_4.pack_forget()
+        query_result_button_4.grid_forget()
     except NameError:
         return
     try:
-        query_result_button_5.pack_forget()
+        query_result_button_5.grid_forget()
     except NameError:
         return
     try:
-        query_result_button_6.pack_forget()
+        query_result_button_6.grid_forget()
     except NameError:
         return
     try:
-        query_result_button_7.pack_forget()
+        query_result_button_7.grid_forget()
     except NameError:
         return
     try:
-        query_result_button_8.pack_forget()
+        query_result_button_8.grid_forget()
     except NameError:
         return
     try:
-        query_result_button_9.pack_forget()
+        query_result_button_9.grid_forget()
     except NameError:
         return
     try:
-        query_result_button_10.pack_forget()
+        query_result_button_10.grid_forget()
     except NameError:
         return
 
 
 # Genetic Design assembly entry label
 name_design_label = tk.Label(tab2, text="Please enter the name of your genetic design")
-name_design_label.pack()
+name_design_label.grid()
 
 # Design assembly name entry
 design_name_entry = tk.Entry(tab2)
-design_name_entry.pack()
+design_name_entry.grid()
 
 # Genetic Design assembly button
 design_assembly_button = tk.Button(tab2, text="Assemble Design")
 design_assembly_button.bind("<Button-1>", Genetic_Design.design_assembly)
-design_assembly_button.pack()
+design_assembly_button.grid()
 
 
 # Incompatible part error
@@ -602,21 +607,21 @@ def incompatible_part():
     global incompatible_part_label
     incompatible_part_label = tk.Label(tab2, font=(None, 12), fg="red", text="Error: Importing multiple parts is not "
                                                                              "supported")
-    incompatible_part_label.pack()
+    incompatible_part_label.grid()
 
 
 # Failed assembly error
 def failed_assembly():
     global failed_assembly_label
     failed_assembly_label = tk.Label(tab2, font=(None, 12), fg="red", text="Assembly failed")
-    failed_assembly_label.pack()
+    failed_assembly_label.grid()
 
 
 # Successful assembly
 def successful_assembly():
     global successful_assembly_label
     successful_assembly_label = tk.Label(tab2, font=(None, 12), fg="green", text="Assembly Successful")
-    successful_assembly_label.pack()
+    successful_assembly_label.grid()
 
 
 ############################# MoClo GUI ##############################################
@@ -900,15 +905,15 @@ include_signal_label = tk.Label(tab4, text="Include signal peptide?")
 include_signal_label.grid(column=0, row=12)
 
 # Option to include signal peptide combo selection
-include_signal_combo = ttk.Combobox(tab4, values=["Yes", "No"])
+include_signal_combo = ttk.Combobox(tab4, state="readonly", values=["Yes", "No"])
 include_signal_combo.grid(column=0, row=13)
 
 # Select chassis system label
-chassis_selection_label = tk.Label(tab4, text="Chassis system")
+chassis_selection_label = tk.Label(tab4, text="Toolkit")
 chassis_selection_label.grid(column=1, row=12)
 
 # Select chassis system combo box
-chassis_selection_combo = ttk.Combobox(tab4, values=["E. coli", "B. subtilis"])
+chassis_selection_combo = ttk.Combobox(tab4, state="readonly", values=["EcoFlex"])
 chassis_selection_combo.grid(column=1, row=13)
 
 # Label for transcription unit quantity entry
@@ -916,7 +921,7 @@ transcription_unit_quantity_label = tk.Label(tab4, text="transcription unit (TU)
 transcription_unit_quantity_label.grid(column=2, row=12)
 
 # Entry for transcription unit quantity
-transcription_unit_quantity_combo = ttk.Combobox(tab4, values=["2", "3", "4", "5"])
+transcription_unit_quantity_combo = ttk.Combobox(tab4, state="readonly", values=["2", "3", "4", "5"])
 transcription_unit_quantity_combo.grid(column=2, row=13)
 
 # Move level 0 library parts to different part types
@@ -926,10 +931,11 @@ part_to_move_entry = tk.Entry(tab4)
 part_to_move_entry.grid(column=0, row=11)
 destination_library_label = tk.Label(tab4, text="Destination group")
 destination_library_label.grid(column=1, row=10)
-destination_library_select = ttk.Combobox(tab4, values=["Promoter (p)", "RBS (r)", "Signal peptide (s)", "Coding "
-                                                                                                         "region ("
-                                                                                                         "c)",
-                                                        "Terminator (t)", "Other (o)"])
+destination_library_select = ttk.Combobox(tab4, state="readonly", values=["Promoter (p)", "RBS (r)", "Signal peptide "
+                                                                                                     "(s)", "Coding "
+                                                                                                            "region ("
+                                                                                                            "c)",
+                                                                          "Terminator (t)", "Other (o)"])
 destination_library_select.grid(column=1, row=11)
 part_move_button = tk.Button(tab4, text="Move")
 part_move_button.bind("<Button-1>", MoClo.move_parts_in_library)
@@ -960,7 +966,6 @@ def remove_stage_1_GUI():
     include_fusion_site_label.grid_forget()
     include_fusion_site_combo.grid_forget()
     transcription_unit_create.grid_forget()
-
 
 
 # Create transcription unit entries and labels
@@ -1108,6 +1113,7 @@ def stage_2_GUI(event):
     if assembly_method_combo.get() == "Automatic":
         liquid_handler_selection()
     create_protocol_button()
+    protocol_name_entry_gui()
 
 
 # Create stage 2 GUI
@@ -1120,14 +1126,14 @@ transcription_unit_create.grid(column=1, row=21)
 # Automatic/Manual selection
 assembly_method_label = tk.Label(tab4, text="Assembly method")
 assembly_method_label.grid(column=3, row=12)
-assembly_method_combo = ttk.Combobox(tab4, values=["Automatic", "Manual"])
+assembly_method_combo = ttk.Combobox(tab4, state="readonly", values=["Automatic", "Manual"])
 assembly_method_combo.grid(column=3, row=13)
 
 
 def create_protocol_button():
     create_protocol_button = tk.Button(tab4, text="Create protocol")
     create_protocol_button.bind("<Button-1>", MoClo.create_protocol_directory)
-    create_protocol_button.grid(column=2)
+    create_protocol_button.grid(column=2, row=23)
 
 
 def restriction_site_warning_ecoflex():
@@ -1175,7 +1181,6 @@ level_1_volume_ratio_checkbox_1_2.grid(column=1, row=17)
 level_1_volume_ratio_checkbox_2_1 = ttk.Checkbutton(tab4, text="2:1", variable=level_1_ratio_2_1)
 level_1_volume_ratio_checkbox_2_1.grid(column=2, row=17)
 
-
 # User selection for TU: level 2 backbone ratio
 level_2_ratio_1_1 = tk.IntVar()
 level_2_ratio_1_2 = tk.IntVar()
@@ -1197,24 +1202,31 @@ level_2_volume_ratio_checkbox_2_1.grid(column=2, row=19)
 def liquid_handler_selection():
     global liquid_handler_selection_combo
     liquid_handler_selection_label = tk.Label(tab4, text="Select liquid handler")
-    liquid_handler_selection_label.grid(column=2)
-    liquid_handler_selection_combo = ttk.Combobox(tab4, values=["Echo 525"])
-    liquid_handler_selection_combo.grid(column=2)
+    liquid_handler_selection_label.grid(column=2, row=19)
+    liquid_handler_selection_combo = ttk.Combobox(tab4, state="readonly", values=["Echo 525"])
+    liquid_handler_selection_combo.grid(column=2, row=20)
+
+
+# Protocol name
+def protocol_name_entry_gui():
+    global protocol_name_entry
+    protocol_name_label = tk.Label(tab4, text="Enter protocol name")
+    protocol_name_label.grid(column=2, row=21)
+    protocol_name_entry = tk.Entry(tab4)
+    protocol_name_entry.grid(column=2, row=22)
 
 
 # User selection to include codon swap
 include_codon_swap_label = tk.Label(tab4, text="Substitute CDS restriction sites?")
 include_codon_swap_label.grid(column=0, row=14)
-include_codon_swap_combo = ttk.Combobox(tab4, values=["Yes", "No"])
+include_codon_swap_combo = ttk.Combobox(tab4, state="readonly", values=["Yes", "No"])
 include_codon_swap_combo.grid(column=0, row=15)
-
 
 # User selection to turn fusion site addition off
 include_fusion_site_label = tk.Label(tab4, text="Add fusion sites to parts?")
 include_fusion_site_label.grid(column=1, row=14)
-include_fusion_site_combo = ttk.Combobox(tab4, values=["Yes", "No"])
+include_fusion_site_combo = ttk.Combobox(tab4, state="readonly", values=["Yes", "No"])
 include_fusion_site_combo.grid(column=1, row=15)
-
 
 ################ Main_loop #################
 window.mainloop()

@@ -16,11 +16,12 @@ design_descriptions = []
 doc = Document()
 
 # Add part to design from file
-def add_file_part():
+def add_file_part(event):
     try:
         GUI.incompatible_part_label.pack_forget()
     except AttributeError:
         pass
+    GUI.part_file_selection("<Button-1>")
     temp_list = []
     temp_list_2 = []
     doc2 = Document()

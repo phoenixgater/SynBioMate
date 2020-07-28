@@ -26,6 +26,7 @@ well_numbers_384 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12
 transcription_unit_quantity = GUI.transcription_unit_quantity_combo.get()
 signal_peptide_choice = GUI.include_signal_combo.get()
 
+
 def create_selected_reaction_list():
     global selected_reaction_ratios_level_1
     selected_reaction_ratios_level_1 = []
@@ -191,6 +192,7 @@ def calculate_level_1_quantity():
                                len(MoClo.transcription_unit_3_names) + len(MoClo.transcription_unit_4_names) +
                                len(MoClo.transcription_unit_5_names))
 
+
 # Title and introduction of document
 def title_introduction():
     if GUI.assembly_method_combo.get() == "Automatic":
@@ -204,7 +206,9 @@ def title_introduction():
                                " using MoClo assembly. This document was produced by the" +
                                " software 'SynBioMate' (https://github.com/phoenixgater/SynBioMate)")
     document.add_paragraph("The protocols and fusion sites in this protocol are designed to be compatible with" +
-                           " the EcoFlex MoClo kit, available from: http://www.addgene.org/kits/freemont-ecoflex-moclo/")
+                           " the EcoFlex MoClo kit, " "available from: http://www.addgene.org/kits/freemont-ecoflex"
+                           "-moclo/")
+
     part_notes = document.add_paragraph("")
     part_notes.add_run("Notes on this document and its contents:").bold = True
     part_notes.add_run("\n" + "-For restriction sites detected in open reading frames (coding regions, CDSs, ORFs)," +
@@ -234,6 +238,10 @@ def title_introduction():
     if GUI.assembly_method_combo.get() == "Automatic":
         input_notes.add_run("\n" + "Liquid handler:").bold = True
         input_notes.add_run(" " + GUI.liquid_handler_selection_combo.get())
+    input_notes.add_run("\n" + "Include codon swap for cds parts?:").bold = True
+    input_notes.add_run(" " + GUI.include_codon_swap_combo.get())
+    input_notes.add_run("\n" + "Add fusion sites to parts?:").bold = True
+    input_notes.add_run(" " + GUI.include_fusion_site_combo.get())
     input_notes.add_run("\n" + "Selected reaction ratios:").bold = True
     input_notes.add_run("\n" + "Level 1: ")
     for ratio in selected_reaction_ratios_level_1:
@@ -416,11 +424,14 @@ def create_automatic_protocol():
             required_transfer_volume = 0
             for reaction in selected_reaction_ratios_level_1:
                 if reaction == " reaction 1:1":
-                    required_transfer_volume += transfer_volume("level_1_backbone_1_1") * len(MoClo.transcription_unit_1_names)
+                    required_transfer_volume += transfer_volume("level_1_backbone_1_1") * len(
+                        MoClo.transcription_unit_1_names)
                 elif reaction == " reaction 1:2":
-                    required_transfer_volume += transfer_volume("level_1_backbone_1_2") * len(MoClo.transcription_unit_1_names)
+                    required_transfer_volume += transfer_volume("level_1_backbone_1_2") * len(
+                        MoClo.transcription_unit_1_names)
                 elif reaction == " reaction 2:1":
-                    required_transfer_volume += transfer_volume("level_1_backbone_2_1") * len(MoClo.transcription_unit_1_names)
+                    required_transfer_volume += transfer_volume("level_1_backbone_2_1") * len(
+                        MoClo.transcription_unit_1_names)
             row_cells = level_1_protocol_table.add_row().cells
             volume_required = required_transfer_volume - previous_fulfilment
             row_cells[1].text = "pTU1-A-RFP"
@@ -445,11 +456,14 @@ def create_automatic_protocol():
             required_transfer_volume = 0
             for reaction in selected_reaction_ratios_level_1:
                 if reaction == " reaction 1:1":
-                    required_transfer_volume += transfer_volume("level_1_backbone_1_1") * len(MoClo.transcription_unit_2_names)
+                    required_transfer_volume += transfer_volume("level_1_backbone_1_1") * len(
+                        MoClo.transcription_unit_2_names)
                 elif reaction == " reaction 1:2":
-                    required_transfer_volume += transfer_volume("level_1_backbone_1_2") * len(MoClo.transcription_unit_2_names)
+                    required_transfer_volume += transfer_volume("level_1_backbone_1_2") * len(
+                        MoClo.transcription_unit_2_names)
                 elif reaction == " reaction 2:1":
-                    required_transfer_volume += transfer_volume("level_1_backbone_2_1") * len(MoClo.transcription_unit_2_names)
+                    required_transfer_volume += transfer_volume("level_1_backbone_2_1") * len(
+                        MoClo.transcription_unit_2_names)
             row_cells = level_1_protocol_table.add_row().cells
             volume_required = required_transfer_volume - previous_fulfilment
             row_cells[1].text = "pTU1-B-RFP"
@@ -475,11 +489,14 @@ def create_automatic_protocol():
             required_transfer_volume = 0
             for reaction in selected_reaction_ratios_level_1:
                 if reaction == " reaction 1:1":
-                    required_transfer_volume += transfer_volume("level_1_backbone_1_1") * len(MoClo.transcription_unit_3_names)
+                    required_transfer_volume += transfer_volume("level_1_backbone_1_1") * len(
+                        MoClo.transcription_unit_3_names)
                 elif reaction == " reaction 1:2":
-                    required_transfer_volume += transfer_volume("level_1_backbone_1_2") * len(MoClo.transcription_unit_3_names)
+                    required_transfer_volume += transfer_volume("level_1_backbone_1_2") * len(
+                        MoClo.transcription_unit_3_names)
                 elif reaction == " reaction 2:1":
-                    required_transfer_volume += transfer_volume("level_1_backbone_2_1") * len(MoClo.transcription_unit_3_names)
+                    required_transfer_volume += transfer_volume("level_1_backbone_2_1") * len(
+                        MoClo.transcription_unit_3_names)
             row_cells = level_1_protocol_table.add_row().cells
             volume_required = required_transfer_volume - previous_fulfilment
             row_cells[1].text = "pTU1-C-RFP"
@@ -748,7 +765,6 @@ def create_automatic_protocol():
     row_1_cells[1].text = "contained TU variant"
     row_1_cells[2].text = "volume (nl)"
 
-
     # Level 1 transcription unit variant 1
     for reaction in selected_reaction_ratios_level_1:
         for variant in MoClo.transcription_unit_1_names:
@@ -794,7 +810,7 @@ def create_automatic_protocol():
             row_cells[2].text = "5000"
 
     level_1_transform = document.add_paragraph("")
-    level_1_transform.add_run("d) Run a PCR protocol for this output plate, consisting of:").bold = True
+    level_1_transform.add_run("d) Run a PCR protocol for the contents of the output plate, consisting of:")
     level_1_transform.add_run("\n" + "15-30 cycles of:" + "\n" + "15-30 cycles of:" + "\n" + "-5 minutes at 37°C" +
                               "\n" + "-10 minutes at 16°C" + "\n" + "Followed by (only once):" + "\n" + "-5 minutes "
                                                                                                         "at 50°C" +
@@ -875,8 +891,6 @@ def create_automatic_protocol():
                 required_transfer_volume += transfer_volume("level_2_backbone_1_2") * tu2_quantity
             elif reaction == " reaction 2:1":
                 required_transfer_volume += transfer_volume("level_2_backbone_2_1") * tu2_quantity
-
-
 
         row_cells = level_2_protocol_table.add_row().cells
         volume_required = required_transfer_volume - previous_fulfilment
@@ -1057,6 +1071,11 @@ def create_automatic_protocol():
             row_cells[1].text = variant + reaction
             row_cells[2].text = "5000"
 
+    level_2_transform = document.add_paragraph("")
+    level_2_transform.add_run("d) Incubate the contents of the output plate at 37°C for 16 hours")
+    level_2_transform.add_run("\n" + "e) Transform 5 uL of each output mixture into 50uL of chemically" +
+                              " compotent Escherichia coli (E. coli) dH10a by heat shock transformation" +
+                              " (One mixture per cell culture)")
 # Appendix of document, containing all parts, transcription units, and final designs
 def create_appendix():
     # Parts
@@ -1320,31 +1339,19 @@ def create_appendix():
 
 # Create EcoFlex protocol
 def create_protocol(event):
-    print("test 1")
+    protocol_name = (str(GUI.protocol_name_entry.get())).replace(" ", "_")
     MoClo.swap_codons_ecoflex()
-    print("test 2)")
     MoClo.check_biopart_sites_ecoflex()
-    print("test 3")
     MoClo.ecoflex_fusion_sites()
-    print("test 4")
     MoClo.create_transcription_unit_variants()
-    print("test 5")
     MoClo.final_oligonucleotides_2()
-    print("test 6")
     MoClo.transcription_unit_format()
-    print("test 7")
     MoClo.part_use_quantity()
-    print("test 8")
     MoClo.level_2_format()
-    print("test 9")
     MoClo.transcription_unit_use_quantity()
-    print("test 10")
     calculate_part_quantity()
-    print("test 11")
     calculate_level_1_quantity()
-    print("test 12")
     create_selected_reaction_list()
-    print("test 13")
     title_introduction()
     if GUI.assembly_method_combo.get() == "Manual":
         create_manual_protocol()
@@ -1354,4 +1361,4 @@ def create_protocol(event):
         create_scripts()
 
     create_appendix()
-    document.save("test.docx")
+    document.save("protocols_and_scripts\\" + protocol_name + ".docx")

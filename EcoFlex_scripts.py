@@ -6,10 +6,12 @@ import xlsxwriter
 import GUI
 import MoClo
 import EcoFlex_protocol
-import io
 import csv
+import openpyxl
+import os
 
 # Global variables
+protocol_name = (str(GUI.protocol_name_entry.get())).replace(" ", "_")
 # Level 1
 part_quantity = EcoFlex_protocol.part_quantity
 level_1_tu_quantity = EcoFlex_protocol.level_1_tu_quantity
@@ -30,6 +32,7 @@ level_2_output = EcoFlex_protocol.level_2_output
 def create_scripts():
     level_1_transcription_units()
     level_2_transcription_units()
+    create_csv_files()
 
 
 def script_headers(worksheet):
@@ -47,7 +50,7 @@ def script_headers(worksheet):
 # level 1 assembly scripts
 def level_1_transcription_units():
     # 6RES reagents (deionised water)
-    workbook = xlsxwriter.Workbook("6res.xlsx")
+    workbook = xlsxwriter.Workbook("protocols_and_scripts\\" + protocol_name + "_6res.xlsx")
     worksheet = workbook.add_worksheet()
     script_headers(worksheet)
     row = 0
@@ -79,7 +82,7 @@ def level_1_transcription_units():
     workbook.close()
 
     # LDV reagents (enzymes and buffers)
-    workbook = xlsxwriter.Workbook("ldv.xlsx")
+    workbook = xlsxwriter.Workbook("protocols_and_scripts\\" + protocol_name + "_ldv.xlsx")
     worksheet = workbook.add_worksheet()
     script_headers(worksheet)
     row = 0
@@ -90,7 +93,7 @@ def level_1_transcription_units():
         uid += 1
         worksheet.write(row, 0, uid)
         worksheet.write(row, 1, "level 1 LDV source plate")
-        worksheet.write(row, 2, "384LDV_AQ_B")
+        worksheet.write(row, 2, "384LDV_AQ_SP2")
         worksheet.write(row, 6, destination_well)
         worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate (384PP)")
         worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
@@ -111,7 +114,7 @@ def level_1_transcription_units():
         uid += 1
         worksheet.write(row, 0, uid)
         worksheet.write(row, 1, "level 1 LDV source plate")
-        worksheet.write(row, 2, "384LDV_AQ_B")
+        worksheet.write(row, 2, "384LDV_AQ_SP2")
         worksheet.write(row, 6, destination_well)
         worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate (384PP)")
         worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
@@ -132,7 +135,7 @@ def level_1_transcription_units():
         uid += 1
         worksheet.write(row, 0, uid)
         worksheet.write(row, 1, "level 1 LDV source plate")
-        worksheet.write(row, 2, "384LDV_AQ_B")
+        worksheet.write(row, 2, "384LDV_AQ_SP2")
         worksheet.write(row, 6, destination_well)
         worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate (384PP)")
         worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
@@ -149,7 +152,7 @@ def level_1_transcription_units():
     workbook.close()
 
     # Parts and plasmid backbones
-    workbook = xlsxwriter.Workbook("dna.xlsx")
+    workbook = xlsxwriter.Workbook("protocols_and_scripts\\" + protocol_name + "_dna.xlsx")
     worksheet = workbook.add_worksheet()
     script_headers(worksheet)
 
@@ -344,7 +347,7 @@ def level_1_transcription_units():
 
 def level_2_transcription_units():
     # 6RES reagents (deionised water) level 2
-    workbook = xlsxwriter.Workbook("6res_2.xlsx")
+    workbook = xlsxwriter.Workbook("protocols_and_scripts\\" + protocol_name + "_6res_2.xlsx")
     worksheet = workbook.add_worksheet()
     script_headers(worksheet)
     row = 0
@@ -377,7 +380,7 @@ def level_2_transcription_units():
     workbook.close()
 
     # LDV reagents (enzymes and buffers) level 2
-    workbook = xlsxwriter.Workbook("ldv_2.xlsx")
+    workbook = xlsxwriter.Workbook("protocols_and_scripts\\" + protocol_name + "_ldv_2.xlsx")
     worksheet = workbook.add_worksheet()
     script_headers(worksheet)
     row = 0
@@ -388,7 +391,7 @@ def level_2_transcription_units():
         uid += 1
         worksheet.write(row, 0, uid)
         worksheet.write(row, 1, "level 2 LDV source plate")
-        worksheet.write(row, 2, "384LDV_AQ_B")
+        worksheet.write(row, 2, "384LDV_AQ_SP2")
         worksheet.write(row, 6, destination_well)
         worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate (384PP)")
         worksheet.write(row, 4, "384-Well Level 2 MoClo output plate")
@@ -409,7 +412,7 @@ def level_2_transcription_units():
         uid += 1
         worksheet.write(row, 0, uid)
         worksheet.write(row, 1, "level 2 LDV source plate")
-        worksheet.write(row, 2, "384LDV_AQ_B")
+        worksheet.write(row, 2, "384LDV_AQ_SP2")
         worksheet.write(row, 6, destination_well)
         worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate (384PP)")
         worksheet.write(row, 4, "384-Well Level 2 MoClo output plate")
@@ -430,7 +433,7 @@ def level_2_transcription_units():
         uid += 1
         worksheet.write(row, 0, uid)
         worksheet.write(row, 1, "level 2 LDV source plate")
-        worksheet.write(row, 2, "384LDV_AQ_B")
+        worksheet.write(row, 2, "384LDV_AQ_SP2")
         worksheet.write(row, 6, destination_well)
         worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate (384PP)")
         worksheet.write(row, 4, "384-Well Level 2 MoClo output plate")
@@ -447,7 +450,7 @@ def level_2_transcription_units():
     workbook.close()
 
     # level 1 TU's and level 2 plasmid backbones level 2
-    workbook = xlsxwriter.Workbook("dna_2.xlsx")
+    workbook = xlsxwriter.Workbook("protocols_and_scripts\\" + protocol_name + "_dna_2.xlsx")
     worksheet = workbook.add_worksheet()
     script_headers(worksheet)
 
@@ -566,3 +569,51 @@ def level_2_transcription_units():
 
     workbook.close()
 
+def create_csv_files():
+    wb = openpyxl.load_workbook("protocols_and_scripts\\" + protocol_name + "_6res.xlsx")
+    ws = wb.get_sheet_by_name("Sheet1")
+    with open("protocols_and_scripts\\" + protocol_name + "_6res.csv", "w", newline="") as f:
+        c = csv.writer(f)
+        for r in ws.rows:
+            c.writerow([cell.value for cell in r])
+    os.remove("protocols_and_scripts\\" + protocol_name + "_6res.xlsx")
+
+    wb = openpyxl.load_workbook("protocols_and_scripts\\" + protocol_name + "_ldv.xlsx")
+    ws = wb.get_sheet_by_name("Sheet1")
+    with open("protocols_and_scripts\\" + protocol_name + "_ldv.csv", "w", newline="") as f:
+        c = csv.writer(f)
+        for r in ws.rows:
+            c.writerow([cell.value for cell in r])
+    os.remove("protocols_and_scripts\\" + protocol_name + "_ldv.xlsx")
+
+    wb = openpyxl.load_workbook("protocols_and_scripts\\" + protocol_name + "_dna.xlsx")
+    ws = wb.get_sheet_by_name("Sheet1")
+    with open("protocols_and_scripts\\" + protocol_name + "_dna.csv", "w", newline="") as f:
+        c = csv.writer(f)
+        for r in ws.rows:
+            c.writerow([cell.value for cell in r])
+    os.remove("protocols_and_scripts\\" + protocol_name + "_dna.xlsx")
+
+    wb = openpyxl.load_workbook("protocols_and_scripts\\" + protocol_name + "_6res_2.xlsx")
+    ws = wb.get_sheet_by_name("Sheet1")
+    with open("protocols_and_scripts\\" + protocol_name + "_6res_2.csv", "w", newline="") as f:
+        c = csv.writer(f)
+        for r in ws.rows:
+            c.writerow([cell.value for cell in r])
+    os.remove("protocols_and_scripts\\" + protocol_name + "_6res_2.xlsx")
+
+    wb = openpyxl.load_workbook("protocols_and_scripts\\" + protocol_name + "_ldv_2.xlsx")
+    ws = wb.get_sheet_by_name("Sheet1")
+    with open("protocols_and_scripts\\" + protocol_name + "_ldv_2.csv", "w", newline="") as f:
+        c = csv.writer(f)
+        for r in ws.rows:
+            c.writerow([cell.value for cell in r])
+    os.remove("protocols_and_scripts\\" + protocol_name + "_ldv_2.xlsx")
+
+    wb = openpyxl.load_workbook("protocols_and_scripts\\" + protocol_name + "_dna_2.xlsx")
+    ws = wb.get_sheet_by_name("Sheet1")
+    with open("protocols_and_scripts\\" + protocol_name + "_dna_2.csv", "w", newline="") as f:
+        c = csv.writer(f)
+        for r in ws.rows:
+            c.writerow([cell.value for cell in r])
+    os.remove("protocols_and_scripts\\" + protocol_name + "_dna_2.xlsx")

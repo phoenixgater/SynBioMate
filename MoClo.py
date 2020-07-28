@@ -876,9 +876,7 @@ def swap_codons_ecoflex():
                     for location in re.finditer(forbidden_site, sequence):
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
             if GUI.include_codon_swap_combo.get() == "Yes":
                 detected_sites = True
                 while detected_sites:
@@ -910,13 +908,14 @@ def swap_codons_ecoflex():
                                     codon_string = (", ".join(codon_list))
                                     sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
-                                                                             " (" + site_name + ")" + " detected at " +
-                                                                             "position " + str(location + 4) + "-" +
-                                                                             str(location + 6) +
+                                                                             " (" + site_name + ")" + " detected, "
                                                                              " but was unable to be changed due " +
-                                                                             "to unavailable codon alternative " + "for " +
-                                                                             str(codon) + "." + " This codon has been " +
-                                                                             "substituted in the designed sequence for 'XXX' ")
+                                                                             "to unavailable codon alternative " +
+                                                                             "for " +
+                                                                             str(codon) + "." +
+                                                                             " This codon has been " +
+                                                                             "substituted in the designed sequence "
+                                                                             "for 'XXX' ")
                                     count = count - 1
                                     if count == 0:
                                         if forbidden_site == forbidden_sites_ecoflex[-1]:
@@ -940,8 +939,7 @@ def swap_codons_ecoflex():
                                     sequence = codon_string.replace(", ", "")
                                     site_name = restriction_site_name_library(forbidden_site)
                                     modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
-                                                                             str(new_codon) + " at position " +
-                                                                             str(location + 4) + "-" + str(location + 6)
+                                                                             str(new_codon)
                                                                              + " to remove " +
                                                                              forbidden_site + " (" + site_name + ")" +
                                                                              " restriction site")
@@ -965,7 +963,6 @@ def swap_codons_ecoflex():
 
         # Transcription unit 2
         cds_number = 0
-        print("test 1 3")
         for cds in transcription_unit_2_cds:
             cds_number = cds_number + 1
             part_key = "unit2_c" + str(cds_number)
@@ -977,9 +974,7 @@ def swap_codons_ecoflex():
                     for location in re.finditer(forbidden_site, sequence):
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
             if GUI.include_codon_swap_combo.get() == "Yes":
                 detected_sites = True
                 while detected_sites:
@@ -1011,13 +1006,14 @@ def swap_codons_ecoflex():
                                     codon_string = (", ".join(codon_list))
                                     sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
-                                                                             " (" + site_name + ")" + " detected at " +
-                                                                             "position " + str(location + 4) + "-" +
-                                                                             str(location + 6) +
+                                                                             " (" + site_name + ")" + " detected"
                                                                              " but was unable to be changed due " +
-                                                                             "to unavailable codon alternative " + "for " +
-                                                                             str(codon) + "." + " This codon has been " +
-                                                                             "substituted in the designed sequence for 'XXX' ")
+                                                                             "to unavailable codon alternative " +
+                                                                             "for " +
+                                                                             str(codon) + "." +
+                                                                             " This codon has been " +
+                                                                             "substituted in the designed sequence "
+                                                                             "for 'XXX' ")
                                     count = count - 1
                                     if count == 0:
                                         if forbidden_site == forbidden_sites_ecoflex[-1]:
@@ -1041,8 +1037,7 @@ def swap_codons_ecoflex():
                                     sequence = codon_string.replace(", ", "")
                                     site_name = restriction_site_name_library(forbidden_site)
                                     modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
-                                                                             str(new_codon) + " at position " +
-                                                                             str(location + 4) + "-" + str(location + 6)
+                                                                             str(new_codon)
                                                                              + " to remove " +
                                                                              forbidden_site + " (" + site_name + ")" +
                                                                              " restriction site")
@@ -1078,9 +1073,7 @@ def swap_codons_ecoflex():
                     for location in re.finditer(forbidden_site, sequence):
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
             if GUI.include_codon_swap_combo.get() == "Yes":
                 detected_sites = True
                 while detected_sites:
@@ -1112,13 +1105,14 @@ def swap_codons_ecoflex():
                                     codon_string = (", ".join(codon_list))
                                     sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
-                                                                             " (" + site_name + ")" + " detected at " +
-                                                                             "position " + str(location + 4) + "-" +
-                                                                             str(location + 6) +
+                                                                             " (" + site_name + ")" + " detected,"
                                                                              " but was unable to be changed due " +
-                                                                             "to unavailable codon alternative " + "for " +
-                                                                             str(codon) + "." + " This codon has been " +
-                                                                             "substituted in the designed sequence for 'XXX' ")
+                                                                             "to unavailable codon alternative " +
+                                                                             "for " +
+                                                                             str(codon) + "." +
+                                                                             " This codon has been " +
+                                                                             "substituted in the designed sequence "
+                                                                             "for 'XXX' ")
                                     count = count - 1
                                     if count == 0:
                                         if forbidden_site == forbidden_sites_ecoflex[-1]:
@@ -1142,8 +1136,7 @@ def swap_codons_ecoflex():
                                     sequence = codon_string.replace(", ", "")
                                     site_name = restriction_site_name_library(forbidden_site)
                                     modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
-                                                                             str(new_codon) + " at position " +
-                                                                             str(location + 4) + "-" + str(location + 6)
+                                                                             str(new_codon)
                                                                              + " to remove " +
                                                                              forbidden_site + " (" + site_name + ")" +
                                                                              " restriction site")
@@ -1179,9 +1172,7 @@ def swap_codons_ecoflex():
                     for location in re.finditer(forbidden_site, sequence):
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
             if GUI.include_codon_swap_combo.get() == "Yes":
                 detected_sites = True
                 while detected_sites:
@@ -1213,13 +1204,14 @@ def swap_codons_ecoflex():
                                     codon_string = (", ".join(codon_list))
                                     sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
-                                                                             " (" + site_name + ")" + " detected at " +
-                                                                             "position " + str(location + 4) + "-" +
-                                                                             str(location + 6) +
+                                                                             " (" + site_name + ")" + " detected,"
                                                                              " but was unable to be changed due " +
-                                                                             "to unavailable codon alternative " + "for " +
-                                                                             str(codon) + "." + " This codon has been " +
-                                                                             "substituted in the designed sequence for 'XXX' ")
+                                                                             "to unavailable codon alternative " +
+                                                                             "for " +
+                                                                             str(codon) + "." +
+                                                                             " This codon has been " +
+                                                                             "substituted in the designed sequence "
+                                                                             "for 'XXX' ")
                                     count = count - 1
                                     if count == 0:
                                         if forbidden_site == forbidden_sites_ecoflex[-1]:
@@ -1243,8 +1235,7 @@ def swap_codons_ecoflex():
                                     sequence = codon_string.replace(", ", "")
                                     site_name = restriction_site_name_library(forbidden_site)
                                     modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
-                                                                             str(new_codon) + " at position " +
-                                                                             str(location + 4) + "-" + str(location + 6)
+                                                                             str(new_codon)
                                                                              + " to remove " +
                                                                              forbidden_site + " (" + site_name + ")" +
                                                                              " restriction site")
@@ -1280,9 +1271,7 @@ def swap_codons_ecoflex():
                     for location in re.finditer(forbidden_site, sequence):
                         site_name = restriction_site_name_library(forbidden_site)
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
             if GUI.include_codon_swap_combo.get() == "Yes":
                 detected_sites = True
                 while detected_sites:
@@ -1314,13 +1303,14 @@ def swap_codons_ecoflex():
                                     codon_string = (", ".join(codon_list))
                                     sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
-                                                                             " (" + site_name + ")" + " detected at " +
-                                                                             "position " + str(location + 4) + "-" +
-                                                                             str(location + 6) +
+                                                                             " (" + site_name + ")" + " detected,"
                                                                              " but was unable to be changed due " +
-                                                                             "to unavailable codon alternative " + "for " +
-                                                                             str(codon) + "." + " This codon has been " +
-                                                                             "substituted in the designed sequence for 'XXX' ")
+                                                                             "to unavailable codon alternative " +
+                                                                             "for " +
+                                                                             str(codon) + "." +
+                                                                             " This codon has been " +
+                                                                             "substituted in the designed sequence "
+                                                                             "for 'XXX' ")
                                     count = count - 1
                                     if count == 0:
                                         if forbidden_site == forbidden_sites_ecoflex[-1]:
@@ -1344,8 +1334,7 @@ def swap_codons_ecoflex():
                                     sequence = codon_string.replace(", ", "")
                                     site_name = restriction_site_name_library(forbidden_site)
                                     modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
-                                                                             str(new_codon) + " at position " +
-                                                                             str(location + 4) + "-" + str(location + 6)
+                                                                             str(new_codon)
                                                                              + " to remove " +
                                                                              forbidden_site + " (" + site_name + ")" +
                                                                              " restriction site")
@@ -1400,9 +1389,7 @@ def check_biopart_sites_ecoflex():
                 if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
 
         rbs_number = 0
         for rbs in transcription_unit_1_rbs:
@@ -1443,9 +1430,7 @@ def check_biopart_sites_ecoflex():
                 if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
 
         if GUI.include_signal_combo.get() == "Yes":
             signal_number = 0
@@ -1478,9 +1463,7 @@ def check_biopart_sites_ecoflex():
                     if count > 0:
                         for location in re.finditer(forbidden_site, sequence):
                             modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                     site_name + ")" + " detected at position " +
-                                                                     str(location.start() + 14) + "-" +
-                                                                     str(location.end() + 13))
+                                                                     site_name + ")" + " detected")
 
         terminator_number = 0
         for terminator in transcription_unit_1_terminator:
@@ -1512,9 +1495,7 @@ def check_biopart_sites_ecoflex():
                 if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
 
         # Transcription unit 2
         promoter_number = 0
@@ -1544,9 +1525,7 @@ def check_biopart_sites_ecoflex():
                 if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
 
         rbs_number = 0
         for rbs in transcription_unit_2_rbs:
@@ -1587,9 +1566,7 @@ def check_biopart_sites_ecoflex():
                 if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
 
         if GUI.include_signal_combo.get() == "Yes":
             signal_number = 0
@@ -1622,9 +1599,7 @@ def check_biopart_sites_ecoflex():
                     if count > 0:
                         for location in re.finditer(forbidden_site, sequence):
                             modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                     site_name + ")" + " detected at position " +
-                                                                     str(location.start() + 14) + "-" +
-                                                                     str(location.end() + 13))
+                                                                     site_name + ")" + " detected")
 
         terminator_number = 0
         for terminator in transcription_unit_2_terminator:
@@ -1656,9 +1631,7 @@ def check_biopart_sites_ecoflex():
                 if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
 
     if int(GUI.transcription_unit_quantity_combo.get()) > 2:
         # Transcription unit 3
@@ -1689,9 +1662,7 @@ def check_biopart_sites_ecoflex():
                 if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
 
         rbs_number = 0
         for rbs in transcription_unit_3_rbs:
@@ -1732,9 +1703,7 @@ def check_biopart_sites_ecoflex():
                 if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
         if GUI.include_signal_combo.get() == "Yes":
             signal_number = 0
             for signal in transcription_unit_3_signal:
@@ -1766,9 +1735,7 @@ def check_biopart_sites_ecoflex():
                     if count > 0:
                         for location in re.finditer(forbidden_site, sequence):
                             modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                     site_name + ")" + " detected at position " +
-                                                                     str(location.start() + 14) + "-" +
-                                                                     str(location.end() + 13))
+                                                                     site_name + ")" + " detected")
         terminator_number = 0
         for terminator in transcription_unit_3_terminator:
             terminator_number = terminator_number + 1
@@ -1799,9 +1766,7 @@ def check_biopart_sites_ecoflex():
                 if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
 
     if int(GUI.transcription_unit_quantity_combo.get()) > 3:
         # Transcription unit 4
@@ -1832,9 +1797,7 @@ def check_biopart_sites_ecoflex():
                 if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
 
         rbs_number = 0
         for rbs in transcription_unit_4_rbs:
@@ -1875,9 +1838,7 @@ def check_biopart_sites_ecoflex():
                 if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
 
         if GUI.include_signal_combo.get() == "Yes":
             signal_number = 0
@@ -1910,9 +1871,7 @@ def check_biopart_sites_ecoflex():
                     if count > 0:
                         for location in re.finditer(forbidden_site, sequence):
                             modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                     site_name + ")" + " detected at position " +
-                                                                     str(location.start() + 14) + "-" +
-                                                                     str(location.end() + 13))
+                                                                     site_name + ")" + " detected")
 
         terminator_number = 0
         for terminator in transcription_unit_4_terminator:
@@ -1944,9 +1903,7 @@ def check_biopart_sites_ecoflex():
                 if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
 
     if int(GUI.transcription_unit_quantity_combo.get()) > 4:
         # Transcription unit 5
@@ -1977,9 +1934,7 @@ def check_biopart_sites_ecoflex():
                 if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
 
         rbs_number = 0
         for rbs in transcription_unit_5_rbs:
@@ -2020,9 +1975,7 @@ def check_biopart_sites_ecoflex():
                 if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
 
         if GUI.include_signal_combo.get() == "Yes":
             signal_number = 0
@@ -2055,9 +2008,7 @@ def check_biopart_sites_ecoflex():
                     if count > 0:
                         for location in re.finditer(forbidden_site, sequence):
                             modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                     site_name + ")" + " detected at position " +
-                                                                     str(location.start() + 14) + "-" +
-                                                                     str(location.end() + 13))
+                                                                     site_name + ")" + " detected")
 
         terminator_number = 0
         for terminator in transcription_unit_5_terminator:
@@ -2089,9 +2040,7 @@ def check_biopart_sites_ecoflex():
                 if count > 0:
                     for location in re.finditer(forbidden_site, sequence):
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
-                                                                 site_name + ")" + " detected at position " +
-                                                                 str(location.start() + 14) + "-" +
-                                                                 str(location.end() + 13))
+                                                                 site_name + ")" + " detected")
 
 
 # Adding EcoFlex prefix and suffix to parts
@@ -2115,7 +2064,8 @@ def ecoflex_fusion_sites():
                 else:
                     promoter.sequence.elements = promoter.sequence.elements + "gtacagagacccatg"
                     modification_dictionary["unit1_p" + str(counter)].append("Suffix added for golden gate promoter" +
-                                                                             " fusion site (gtac), BsaI restriction site" +
+                                                                             "fusion site (gtac), BsaI restriction "
+                                                                             "site" +
                                                                              " (agagacc), and SphI overhang (catg)")
 
             if GUI.include_signal_combo.get() == "No":
@@ -2195,7 +2145,8 @@ def ecoflex_fusion_sites():
                     modification_dictionary["unit1_c" + str(counter)].append("Start codon (atg) could not be found at" +
                                                                              " start of CDS region, please ensure that" +
                                                                              " this SBOL part contains only the CDS. " +
-                                                                             "The atg start codon has been added to this" +
+                                                                             "The atg start codon has been added to "
+                                                                             "this" +
                                                                              " part, in addition to the prefix for the" +
                                                                              " NdeI overhang (t)")
                 if cds.sequence.elements.endswith("ctag"):
@@ -2220,7 +2171,8 @@ def ecoflex_fusion_sites():
                 else:
                     terminator.sequence.elements = terminator.sequence.elements + "tgttagagccccatg"
                     modification_dictionary["unit1_t" + str(counter)].append("Suffix added for golden gate terminator" +
-                                                                             " fusion site (tgtt), BsaI restriction site" +
+                                                                             "fusion site (tgtt), BsaI restriction "
+                                                                             "site" +
                                                                              " (agagacc), and SphI overhang (catg)")
 
             # Transcription unit 2
@@ -2240,7 +2192,8 @@ def ecoflex_fusion_sites():
                 else:
                     promoter.sequence.elements = promoter.sequence.elements + "gtacagagacccatg"
                     modification_dictionary["unit2_p" + str(counter)].append("Suffix added for golden gate promoter" +
-                                                                             " fusion site (gtac), BsaI restriction site" +
+                                                                             "fusion site (gtac), BsaI restriction "
+                                                                             "site" +
                                                                              " (agagacc), and SphI overhang (catg)")
 
             if GUI.include_signal_combo.get() == "No":
@@ -2319,7 +2272,8 @@ def ecoflex_fusion_sites():
                     modification_dictionary["unit2_c" + str(counter)].append("Start codon (atg) could not be found at" +
                                                                              " start of CDS region, please ensure that" +
                                                                              " this SBOL part contains only the CDS. " +
-                                                                             "The atg start codon has been added to this" +
+                                                                             "The atg start codon has been added to "
+                                                                             "this" +
                                                                              " part, in addition to the prefix for the" +
                                                                              " NdeI overhang (t)")
                 if cds.sequence.elements.endswith("ctag"):
@@ -2344,7 +2298,8 @@ def ecoflex_fusion_sites():
                 else:
                     terminator.sequence.elements = terminator.sequence.elements + "tgttagagccccatg"
                     modification_dictionary["unit2_t" + str(counter)].append("Suffix added for golden gate terminator" +
-                                                                             " fusion site (tgtt), BsaI restriction site" +
+                                                                             "fusion site (tgtt), BsaI restriction "
+                                                                             "site" +
                                                                              " (agagacc), and SphI overhang (catg)")
 
         # Transcription unit 3
@@ -2365,7 +2320,8 @@ def ecoflex_fusion_sites():
                 else:
                     promoter.sequence.elements = promoter.sequence.elements + "gtacagagacccatg"
                     modification_dictionary["unit3_p" + str(counter)].append("Suffix added for golden gate promoter" +
-                                                                             " fusion site (gtac), BsaI restriction site" +
+                                                                             "fusion site (gtac), BsaI restriction "
+                                                                             "site" +
                                                                              " (agagacc), and SphI overhang (catg)")
 
             if GUI.include_signal_combo.get() == "No":
@@ -2442,10 +2398,11 @@ def ecoflex_fusion_sites():
                 else:
                     cds.sequence.elements = "tatg" + cds.sequence.elements
                     modification_dictionary["unit3_c" + str(counter)].append("Start codon (atg) could not be found at" +
-                                                                             " start of CDS region, please ensure that" +
+                                                                             " start of CDS region, please ensure that" 
                                                                              " this SBOL part contains only the CDS. " +
-                                                                             "The atg start codon has been added to this" +
-                                                                             " part, in addition to the prefix for the" +
+                                                                             "The atg start codon has been added to "
+                                                                             "this" +
+                                                                             " part, in addition to the prefix for the" 
                                                                              " NdeI overhang (t)")
                 if cds.sequence.elements.endswith("ctag"):
                     pass
@@ -2469,7 +2426,8 @@ def ecoflex_fusion_sites():
                 else:
                     terminator.sequence.elements = terminator.sequence.elements + "tgttagagccccatg"
                     modification_dictionary["unit3_t" + str(counter)].append("Suffix added for golden gate terminator" +
-                                                                             " fusion site (tgtt), BsaI restriction site" +
+                                                                             "fusion site (tgtt), BsaI restriction "
+                                                                             "site" +
                                                                              " (agagacc), and SphI overhang (catg)")
 
         # Transcription unit 4
@@ -2490,7 +2448,8 @@ def ecoflex_fusion_sites():
                 else:
                     promoter.sequence.elements = promoter.sequence.elements + "gtacagagacccatg"
                     modification_dictionary["unit4_p" + str(counter)].append("Suffix added for golden gate promoter" +
-                                                                             " fusion site (gtac), BsaI restriction site" +
+                                                                             "fusion site (gtac), BsaI restriction "
+                                                                             "site" +
                                                                              " (agagacc), and SphI overhang (catg)")
 
             if GUI.include_signal_combo.get() == "No":
@@ -2567,10 +2526,11 @@ def ecoflex_fusion_sites():
                 else:
                     cds.sequence.elements = "tatg" + cds.sequence.elements
                     modification_dictionary["unit4_c" + str(counter)].append("Start codon (atg) could not be found at" +
-                                                                             " start of CDS region, please ensure that" +
+                                                                             " start of CDS region, please ensure that" 
                                                                              " this SBOL part contains only the CDS. " +
-                                                                             "The atg start codon has been added to this" +
-                                                                             " part, in addition to the prefix for the" +
+                                                                             "The atg start codon has been added to "
+                                                                             "this" +
+                                                                             " part, in addition to the prefix for the" 
                                                                              " NdeI overhang (t)")
                 if cds.sequence.elements.endswith("ctag"):
                     pass
@@ -2594,7 +2554,8 @@ def ecoflex_fusion_sites():
                 else:
                     terminator.sequence.elements = terminator.sequence.elements + "tgttagagccccatg"
                     modification_dictionary["unit4_t" + str(counter)].append("Suffix added for golden gate terminator" +
-                                                                             " fusion site (tgtt), BsaI restriction site" +
+                                                                             "fusion site (tgtt), BsaI restriction "
+                                                                             "site" +
                                                                              " (agagacc), and SphI overhang (catg)")
 
         # Transcription unit 5
@@ -2615,7 +2576,8 @@ def ecoflex_fusion_sites():
                 else:
                     promoter.sequence.elements = promoter.sequence.elements + "gtacagagacccatg"
                     modification_dictionary["unit5_p" + str(counter)].append("Suffix added for golden gate promoter" +
-                                                                             " fusion site (gtac), BsaI restriction site" +
+                                                                             "fusion site (gtac), BsaI restriction "
+                                                                             "site" +
                                                                              " (agagacc), and SphI overhang (catg)")
 
             if GUI.include_signal_combo.get() == "No":
@@ -2692,10 +2654,11 @@ def ecoflex_fusion_sites():
                 else:
                     cds.sequence.elements = "tatg" + cds.sequence.elements
                     modification_dictionary["unit5_c" + str(counter)].append("Start codon (atg) could not be found at" +
-                                                                             " start of CDS region, please ensure that" +
+                                                                             " start of CDS region, please ensure that" 
                                                                              " this SBOL part contains only the CDS. " +
-                                                                             "The atg start codon has been added to this" +
-                                                                             " part, in addition to the prefix for the" +
+                                                                             "The atg start codon has been added to "
+                                                                             "this" +
+                                                                             " part, in addition to the prefix for the" 
                                                                              " NdeI overhang (t)")
                 if cds.sequence.elements.endswith("ctag"):
                     pass
@@ -2719,7 +2682,8 @@ def ecoflex_fusion_sites():
                 else:
                     terminator.sequence.elements = terminator.sequence.elements + "tgttagagccccatg"
                     modification_dictionary["unit5_t" + str(counter)].append("Suffix added for golden gate terminator" +
-                                                                             " fusion site (tgtt), BsaI restriction site" +
+                                                                             "fusion site (tgtt), BsaI restriction "
+                                                                             "site" +
                                                                              " (agagacc), and SphI overhang (catg)")
 
 
@@ -3655,7 +3619,7 @@ def transcription_unit_use_quantity():
 # Directory for protocol creation
 def create_protocol_directory(event):
     chassis_choice = GUI.chassis_selection_combo.get()
-    if chassis_choice == "E. coli":
+    if chassis_choice == "EcoFlex":
         final_ecoflex_check()
         if not ecoflex_check_list:
             from EcoFlex_protocol import create_protocol
