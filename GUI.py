@@ -68,7 +68,7 @@ class MenuBar(ttk.Frame):
         synbiohub_upload("<Button-1>")
 
     def about_popup(self):
-        print("PLACEHOLDER")
+        print("placeholder")
 
 
 # Initialising toolbar
@@ -111,6 +111,7 @@ def synbiohub_upload(event):
 def synbiohub_login(event):
     global login_failed_label
     try:
+        igem = PartShop('https://synbiohub.org')
         username = username_entry.get()
         password = password_entry.get()
         igem.login(str(username), str(password))
@@ -180,7 +181,7 @@ def upload_file(event):
     successful_upload_label.pack()
 
 
-################### Create part GUI ################
+################### Create part GUI ###################################################################################
 create_part_title = tk.Label(tab1, text="Create Part", font=(None, 15))
 create_part_title.grid(column=1, row=0)
 
@@ -214,12 +215,12 @@ part_identifier_entry.grid(column=1, row=7)
 part_role_label = tk.Label(tab1, text="Select the part role")
 part_role_label.grid(column=0, row=9)
 
-part_role_combo = ttk.Combobox(tab1, values=["Promoter",
-                                             "RBS",
-                                             "CDS",
-                                             "Terminator",
-                                             "Signal peptide",
-                                             "Other", ])
+part_role_combo = ttk.Combobox(tab1, state="readonly", values=["Promoter",
+                                                               "RBS",
+                                                               "CDS",
+                                                               "Terminator",
+                                                               "Signal peptide",
+                                                               "Other", ])
 part_role_combo.grid(column=1, row=9)
 
 # Part description entry
@@ -348,18 +349,23 @@ def save_part_popup():
         return window.filename
 
 
-###################### Genetic_Design GUI #####################
+###################### Genetic_Design GUI #############################################################################
 
 # Title of Genetic Design assembly tab
 designassemblytitle = tk.Label(tab2, text="Create Genetic Design", font=(None, 15))
-designassemblytitle.grid()
+designassemblytitle.grid(row=0, column=0)
+
+# Clear all button
+clear_all_design = tk.Button(tab2, fg="red", text="Clear all")
+clear_all_design.bind("<Button-1>", Genetic_Design.clear_all_genetic_design)
+clear_all_design.grid(row=1, column=0)
 
 
 # Canvas for design display in Genetic Design tab
 def genetic_design_display_canvas():
     global design_canvas_display
-    design_canvas_display = tk.Canvas(tab2, width=1000, height=200)
-    design_canvas_display.grid()
+    design_canvas_display = tk.Canvas(tab2, width=1000, height=150)
+    design_canvas_display.grid(columnspan=5000, row=15)
 
 
 # Initialise genetic design display for Genetic_Design tab
@@ -394,11 +400,40 @@ def display_assembled_design(SO_list):
                                               text=Genetic_Design.design_identities[counter - 1])
 
 
+# import parts and designs title
+import_parts_and_designs_label = tk.Label(tab2, font=("Arial", "12", "bold"), text="Import parts and designs")
+import_parts_and_designs_label.grid(row=2, column=1)
+
+# Import from file title
+import_from_file_label = tk.Label(tab2, font=("Arial", "10", "bold"), text="Import from file")
+import_from_file_label.grid(row=4, column=0)
+
 # Import SBOL file button
 import_part_from_file = tk.Button(tab2, text="Import SBOL file")
 import_part_from_file.bind("<Button-1>", Genetic_Design.add_file_part)
-import_part_from_file.grid()
+import_part_from_file.grid(row=6, column=0)
 
+# Import from synbiohub title
+import_from_database_label = tk.Label(tab2, font=("Arial", "10", "bold"), text="Import from SynBioHub")
+import_from_database_label.grid(row=4, column=2)
+
+# Query submission label and entry widget
+query_request_label = tk.Label(tab2, text="Please enter a search term")
+query_request_label.grid(row=6, column=2)
+query_request_entry = tk.Entry(tab2)
+query_request_entry.grid(row=8, column=2)
+
+# Query submit button
+query_submit_button = tk.Button(tab2, text="Submit")
+query_submit_button.bind("<Button-1>", Genetic_Design.query_submit)
+query_submit_button.grid(row=9, column=2)
+
+# Clear query button
+def create_clear_query_button():
+    global clear_query_button
+    clear_query_button = tk.Button(tab2, fg="red", text="Clear query")
+    clear_query_button.bind("<Button-1>", clear_all_query)
+    clear_query_button.grid(row=9, column=1)
 
 # Button to show part descriptions in genetic design tab
 def create_description_button_design():
@@ -409,28 +444,35 @@ def create_description_button_design():
         hide_description_design("<Button-1>")
         part_description_button_design = tk.Button(tab2, text="Show part descriptions")
         part_description_button_design.bind("<Button-1>", part_description_design)
-        part_description_button_design.grid()
+        part_description_button_design.grid(row=16, column=0)
     except KeyError:
         part_description_button_design.grid_forget()
         hide_part_description_button_design.grid_forget()
         part_description_button_design = tk.Button(tab2, text="Show part descriptions")
         part_description_button_design.bind("<Button-1>", part_description_design)
-        part_description_button_design.grid()
+        part_description_button_design.grid(row=16, column=0)
     except NameError:
         part_description_button_design = tk.Button(tab2, text="Show part descriptions")
         part_description_button_design.bind("<Button-1>", part_description_design)
-        part_description_button_design.grid()
+        part_description_button_design.grid(row=16, column=0)
 
 
 # Show part description in genetic design tab
 def part_description_design(event):
+    global description_frame
     counter = 0
+    try:
+        description_frame.grid_forget()
+    except NameError:
+        pass
+    description_frame = tk.Frame(tab2)
     for description in Genetic_Design.design_descriptions:
         counter = counter + 1
         part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
-        globals()[part_description_button_name] = tk.Label(tab2, text=str(
+        globals()[part_description_button_name] = tk.Label(description_frame, text=str(
             Genetic_Design.design_identities[counter - 1]) + " - " + description)
         globals()[part_description_button_name].grid()
+    description_frame.grid(row=17, column=0)
     hide_description_button_design()
 
 
@@ -440,17 +482,18 @@ def hide_description_button_design():
     global hide_part_description_button_design
     hide_part_description_button_design = tk.Button(tab2, text="Hide part descriptions")
     hide_part_description_button_design.bind("<Button-1>", hide_description_design)
-    hide_part_description_button_design.grid()
+    hide_part_description_button_design.grid(row=16, column=0)
 
 
 # Hiding part descriptions in genetic design tab
 def hide_description_design(event):
+    description_frame.grid_forget()
     counter = 0
     for description in Genetic_Design.design_descriptions:
         counter = counter + 1
         part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
         globals()[part_description_button_name].grid_forget()
-    part_description_button_design.grid()
+    part_description_button_design.grid(row=16, column=0)
     hide_part_description_button_design.grid_forget()
 
 
@@ -461,91 +504,82 @@ def part_file_selection(event):
     global imported_part
     imported_part = window.filename
 
-
-# Query submission label and entry widget
-query_request_label = tk.Label(tab2, text="Please enter a search term")
-query_request_label.grid()
-query_request_entry = tk.Entry(tab2)
-query_request_entry.grid()
-
-# Query submit button
-query_submit_button = tk.Button(tab2, text="Submit")
-query_submit_button.bind("<Button-1>", Genetic_Design.query_submit)
-query_submit_button.grid()
-
-
 # GUI binding of writing queried part to doc
 def part_choice_button_1():
     global query_result_button_1
     query_result_button_1 = tk.Button(tab2, text=Genetic_Design.button_1_display)
     query_result_button_1.bind("<Button-1>", Genetic_Design.query_to_doc_1)
-    query_result_button_1.grid()
+    query_result_button_1.grid(column=1, row=10,)
 
 
 def part_choice_button_2():
     global query_result_button_2
     query_result_button_2 = tk.Button(tab2, text=Genetic_Design.button_2_display)
     query_result_button_2.bind("<Button-1>", Genetic_Design.query_to_doc_2)
-    query_result_button_2.grid()
+    query_result_button_2.grid(column=1, row=11)
 
 
 def part_choice_button_3():
     global query_result_button_3
     query_result_button_3 = tk.Button(tab2, text=Genetic_Design.button_3_display)
     query_result_button_3.bind("<Button-1>", Genetic_Design.query_to_doc_3)
-    query_result_button_3.grid()
+    query_result_button_3.grid(column=1, row=12)
 
 
 def part_choice_button_4():
     global query_result_button_4
     query_result_button_4 = tk.Button(tab2, text=Genetic_Design.button_4_display)
     query_result_button_4.bind("<Button-1>", Genetic_Design.query_to_doc_4)
-    query_result_button_4.grid()
+    query_result_button_4.grid(column=1, row=13)
 
 
 def part_choice_button_5():
     global query_result_button_5
     query_result_button_5 = tk.Button(tab2, text=Genetic_Design.button_5_display)
     query_result_button_5.bind("<Button-1>", Genetic_Design.query_to_doc_5)
-    query_result_button_5.grid()
+    query_result_button_5.grid(column=1, row=14)
 
 
 def part_choice_button_6():
     global query_result_button_6
     query_result_button_6 = tk.Button(tab2, text=Genetic_Design.button_6_display)
     query_result_button_6.bind("<Button-1>", Genetic_Design.query_to_doc_6)
-    query_result_button_6.grid()
+    query_result_button_6.grid(column=2, row=10)
 
 
 def part_choice_button_7():
     global query_result_button_7
     query_result_button_7 = tk.Button(tab2, text=Genetic_Design.button_7_display)
     query_result_button_7.bind("<Button-1>", Genetic_Design.query_to_doc_7)
-    query_result_button_7.grid()
+    query_result_button_7.grid(column=2, row=11)
 
 
 def part_choice_button_8():
     global query_result_button_8
     query_result_button_8 = tk.Button(tab2, text=Genetic_Design.button_8_display)
     query_result_button_8.bind("<Button-1>", Genetic_Design.query_to_doc_8)
-    query_result_button_8.grid()
+    query_result_button_8.grid(column=2, row=12)
 
 
 def part_choice_button_9():
     global query_result_button_9
     query_result_button_9 = tk.Button(tab2, text=Genetic_Design.button_9_display)
     query_result_button_9.bind("<Button-1>", Genetic_Design.query_to_doc_9)
-    query_result_button_9.grid()
+    query_result_button_9.grid(column=2, row=13)
 
 
 def part_choice_button_10():
     global query_result_button_10
     query_result_button_10 = tk.Button(tab2, text=Genetic_Design.button_10_display)
     query_result_button_10.bind("<Button-1>", Genetic_Design.query_to_doc_10)
-    query_result_button_10.grid()
+    query_result_button_10.grid(column=2, row=14)
 
 
-def clear_all_query():
+def clear_all_query(event):
+    try:
+        clear_query_button.grid_forget()
+    except NameError:
+        pass
     try:
         query_result_button_1.grid_forget()
     except NameError:
@@ -588,43 +622,182 @@ def clear_all_query():
         return
 
 
+# Assembly title
+assembly_title = tk.Label(tab2, font=("Arial", "11", "bold"), text="Assemble Design")
+assembly_title.grid(column=1, row=18, pady=(80, 0))
+
 # Genetic Design assembly entry label
 name_design_label = tk.Label(tab2, text="Please enter the name of your genetic design")
-name_design_label.grid()
+name_design_label.grid(column=1, row=19)
 
 # Design assembly name entry
 design_name_entry = tk.Entry(tab2)
-design_name_entry.grid()
+design_name_entry.grid(column=1, row=21)
 
 # Genetic Design assembly button
 design_assembly_button = tk.Button(tab2, text="Assemble Design")
 design_assembly_button.bind("<Button-1>", Genetic_Design.design_assembly)
-design_assembly_button.grid()
+design_assembly_button.grid(column=1, row=22)
 
 
-# Incompatible part error
-def incompatible_part():
-    global incompatible_part_label
-    incompatible_part_label = tk.Label(tab2, font=(None, 12), fg="red", text="Error: Importing multiple parts is not "
-                                                                             "supported")
-    incompatible_part_label.grid()
+# Select save destination for assembled design
+def select_save_destination_assembly():
+    window.filename = filedialog.asksaveasfilename(initialdir=str(os.getcwd()) + "\genetic_designs",
+                                                   initialfile=design_name_entry.get(), title="select file",
+                                                   filetypes=(("SBOL files (xml)", "*.xml"), ("all files", "*.*")))
+    if not window.filename:
+        return False
+    else:
+        return window.filename
 
 
 # Failed assembly error
 def failed_assembly():
     global failed_assembly_label
-    failed_assembly_label = tk.Label(tab2, font=(None, 12), fg="red", text="Assembly failed")
-    failed_assembly_label.grid()
+    failed_assembly_label = tk.Label(tab2, font=(None, 10), fg="red", text="Assembly failed")
+    failed_assembly_label.grid(column=1, row=20)
 
 
-# Successful assembly
+# Successful assembly error
 def successful_assembly():
     global successful_assembly_label
-    successful_assembly_label = tk.Label(tab2, font=(None, 12), fg="green", text="Assembly Successful")
-    successful_assembly_label.grid()
+    successful_assembly_label = tk.Label(tab2, font=(None, 10), fg="green", text="Assembly Successful")
+    successful_assembly_label.grid(column=1, row=20)
 
 
-############################# MoClo GUI ##############################################
+# Enter a design name error
+def design_name_error():
+    global design_name_error_label
+    design_name_error_label = tk.Label(tab2, font=(None, 10), fg="red", text="Please enter a design name")
+    design_name_error_label.grid(column=1, row=20)
+
+
+# Only a single import error
+def assembly_import_error():
+    global assembly_import_error_label
+    assembly_import_error_label = tk.Label(tab2, font=(None, 10), fg="red",
+                                           text="Assembly requires a minimum of two previously unassembled "
+                                                "parts/designs")
+    assembly_import_error_label.grid(column=1, row=20)
+
+
+# No sequence constraints error
+def no_sequence_constraints():
+    global no_sequence_constraints_label
+    no_sequence_constraints_label = tk.Label(tab2, font=(None, 10), fg="red",
+                                             text="SBOL import failed, the specified SBOL file contains parts with no "
+                                                  "sequence "
+                                                  "constraints")
+    no_sequence_constraints_label.grid(row=3, column=0, columnspan=10)
+
+
+# Multiple primary structures error
+def multiple_primary_structures():
+    global multiple_primary_structures_label
+    multiple_primary_structures_label = tk.Label(tab2, font=(None, 10), fg="red",
+                                                 text="SBOL import failed, this softwares assembly tool does not "
+                                                      "currently support "
+                                                      "designs with multiple primary structures")
+    multiple_primary_structures_label.grid(row=3, column=0, columnspan=10)
+
+
+# No search term error
+def query_search_error():
+    global query_search_error_label
+    query_search_error_label = tk.Label(tab2, font=(None, 10), fg="red", text="Please enter a valid search term")
+    query_search_error_label.grid(row=7, column=2)
+
+
+# Import failed
+def import_failed_error():
+    global import_failed_error_label
+    import_failed_error_label = tk.Label(tab2, font=(None, 10), fg="red", text="Import failed")
+    import_failed_error_label.grid(row=5, column=0)
+
+
+# Unused components error
+def unused_components_error():
+    global unused_components_error_label
+    unused_components_error_label = tk.Label(tab2, font=(None, 10), fg="red",
+                                             text="SBOL import failed, the specified SBOL file contains multiple "
+                                                  "parts but has no design structure")
+    unused_components_error_label.grid(row=3, column=0, columnspan=10)
+
+
+# Clear all error and success labels in design tab
+def clear_all_notes_design():
+    try:
+        failed_assembly_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        successful_assembly_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        design_name_error_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        assembly_import_error_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        no_sequence_constraints_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        multiple_primary_structures_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        query_search_error_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        import_failed_error_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        unused_components_error_label.grid_forget()
+    except NameError:
+        pass
+
+
+# Clear descriptions and description button from GUI
+def clear_descriptions_design():
+    global design_canvas_display
+    global hide_part_description_button_design
+    global part_description_button_design
+    try:
+        design_canvas_display.delete("all")
+    except NameError:
+        pass
+    try:
+        hide_part_description_button_design.grid_forget()
+    except NameError:
+        pass
+    try:
+        hide_description_design("<Button-1>")
+    except NameError:
+        pass
+    except KeyError:
+        pass
+    try:
+        part_description_button_design.grid_forget()
+    except NameError:
+        pass
+    try:
+        del part_description_button_design
+    except NameError:
+        pass
+    try:
+        del hide_part_description_button_design
+    except NameError:
+        pass
+
+
+############################# MoClo GUI ###############################################################################
 
 # Selection of design to import
 def select_design_import():

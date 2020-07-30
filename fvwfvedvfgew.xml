@@ -1088,104 +1088,104 @@ The sequence was successfully used by the iGEM team Heidelberg 2014 for the expr
     <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//Sequence/test_design_5"/>
     <sbol:version>1</sbol:version>
   </sbol:Sequence>
-  <sbol:ComponentDefinition rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/1">
-    <sbol:displayId>gvsgvwgvvw</sbol:displayId>
-    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw"/>
-    <sbol:sequence rdf:resource="https://synbiohub.org/public/igem//Sequence/gvsgvwgvvw/1"/>
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/1">
+    <sbol:displayId>fvwfvedvfgew</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew"/>
+    <sbol:sequence rdf:resource="https://synbiohub.org/public/igem//Sequence/fvwfvedvfgew/1"/>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:version>1</sbol:version>
     <sbol:component>
-      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J23119_0/1">
+      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J23119_0/1">
         <sbol:access rdf:resource="http://sbols.org/v2#public"/>
         <sbol:definition rdf:resource="https://synbiohub.org/public/igem/BBa_J23119/1"/>
         <sbol:displayId>BBa_J23119_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J23119_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J23119_0"/>
         <sbol:roleIntegration rdf:resource="http://sbols.org/v2#mergeRoles"/>
         <sbol:version>1</sbol:version>
       </sbol:Component>
     </sbol:component>
     <sbol:component>
-      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B0031_0/1">
+      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B0031_0/1">
         <sbol:access rdf:resource="http://sbols.org/v2#public"/>
         <sbol:definition rdf:resource="https://synbiohub.org/public/igem/BBa_B0031/1"/>
         <sbol:displayId>BBa_B0031_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B0031_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B0031_0"/>
         <sbol:roleIntegration rdf:resource="http://sbols.org/v2#mergeRoles"/>
         <sbol:version>1</sbol:version>
       </sbol:Component>
     </sbol:component>
     <sbol:component>
-      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1323010_0/1">
+      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1323010_0/1">
         <sbol:access rdf:resource="http://sbols.org/v2#public"/>
         <sbol:definition rdf:resource="https://synbiohub.org/public/igem/BBa_K1323010/1"/>
         <sbol:displayId>BBa_K1323010_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1323010_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1323010_0"/>
         <sbol:roleIntegration rdf:resource="http://sbols.org/v2#mergeRoles"/>
         <sbol:version>1</sbol:version>
       </sbol:Component>
     </sbol:component>
     <sbol:component>
-      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B1001_0/1">
+      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B1001_0/1">
         <sbol:access rdf:resource="http://sbols.org/v2#public"/>
         <sbol:definition rdf:resource="https://synbiohub.org/public/igem/BBa_B1001/1"/>
         <sbol:displayId>BBa_B1001_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B1001_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B1001_0"/>
         <sbol:roleIntegration rdf:resource="http://sbols.org/v2#mergeRoles"/>
         <sbol:version>1</sbol:version>
       </sbol:Component>
     </sbol:component>
     <sbol:component>
-      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_I0500_0/1">
+      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_I0500_0/1">
         <sbol:access rdf:resource="http://sbols.org/v2#public"/>
         <sbol:definition rdf:resource="https://synbiohub.org/public/igem/BBa_I0500/1"/>
         <sbol:displayId>BBa_I0500_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_I0500_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_I0500_0"/>
         <sbol:roleIntegration rdf:resource="http://sbols.org/v2#mergeRoles"/>
         <sbol:version>1</sbol:version>
       </sbol:Component>
     </sbol:component>
     <sbol:component>
-      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1362090_0/1">
+      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1362090_0/1">
         <sbol:access rdf:resource="http://sbols.org/v2#public"/>
         <sbol:definition rdf:resource="https://synbiohub.org/public/igem/BBa_K1362090/1"/>
         <sbol:displayId>BBa_K1362090_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1362090_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1362090_0"/>
         <sbol:roleIntegration rdf:resource="http://sbols.org/v2#mergeRoles"/>
         <sbol:version>1</sbol:version>
       </sbol:Component>
     </sbol:component>
     <sbol:component>
-      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K215100_0/1">
+      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K215100_0/1">
         <sbol:access rdf:resource="http://sbols.org/v2#public"/>
         <sbol:definition rdf:resource="https://synbiohub.org/public/igem/BBa_K215100/1"/>
         <sbol:displayId>BBa_K215100_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K215100_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K215100_0"/>
         <sbol:roleIntegration rdf:resource="http://sbols.org/v2#mergeRoles"/>
         <sbol:version>1</sbol:version>
       </sbol:Component>
     </sbol:component>
     <sbol:component>
-      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J63002_0/1">
+      <sbol:Component rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J63002_0/1">
         <sbol:access rdf:resource="http://sbols.org/v2#public"/>
         <sbol:definition rdf:resource="https://synbiohub.org/public/igem/BBa_J63002/1"/>
         <sbol:displayId>BBa_J63002_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J63002_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J63002_0"/>
         <sbol:roleIntegration rdf:resource="http://sbols.org/v2#mergeRoles"/>
         <sbol:version>1</sbol:version>
       </sbol:Component>
     </sbol:component>
     <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J23119_annotation_0/1">
-        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J23119_0/1"/>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J23119_annotation_0/1">
+        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J23119_0/1"/>
         <sbol:displayId>BBa_J23119_annotation_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J23119_annotation_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J23119_annotation_0"/>
         <sbol:version>1</sbol:version>
         <sbol:location>
-          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J23119_annotation_0/BBa_J23119_annotation_0_range/1">
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J23119_annotation_0/BBa_J23119_annotation_0_range/1">
             <sbol:displayId>BBa_J23119_annotation_0_range</sbol:displayId>
             <sbol:end>35</sbol:end>
             <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
-            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J23119_annotation_0/BBa_J23119_annotation_0_range"/>
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J23119_annotation_0/BBa_J23119_annotation_0_range"/>
             <sbol:start>1</sbol:start>
             <sbol:version>1</sbol:version>
           </sbol:Range>
@@ -1193,17 +1193,17 @@ The sequence was successfully used by the iGEM team Heidelberg 2014 for the expr
       </sbol:SequenceAnnotation>
     </sbol:sequenceAnnotation>
     <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B0031_annotation_0/1">
-        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B0031_0/1"/>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B0031_annotation_0/1">
+        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B0031_0/1"/>
         <sbol:displayId>BBa_B0031_annotation_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B0031_annotation_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B0031_annotation_0"/>
         <sbol:version>1</sbol:version>
         <sbol:location>
-          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B0031_annotation_0/BBa_B0031_annotation_0_range/1">
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B0031_annotation_0/BBa_B0031_annotation_0_range/1">
             <sbol:displayId>BBa_B0031_annotation_0_range</sbol:displayId>
             <sbol:end>49</sbol:end>
             <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
-            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B0031_annotation_0/BBa_B0031_annotation_0_range"/>
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B0031_annotation_0/BBa_B0031_annotation_0_range"/>
             <sbol:start>36</sbol:start>
             <sbol:version>1</sbol:version>
           </sbol:Range>
@@ -1211,17 +1211,17 @@ The sequence was successfully used by the iGEM team Heidelberg 2014 for the expr
       </sbol:SequenceAnnotation>
     </sbol:sequenceAnnotation>
     <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1323010_annotation_0/1">
-        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1323010_0/1"/>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1323010_annotation_0/1">
+        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1323010_0/1"/>
         <sbol:displayId>BBa_K1323010_annotation_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1323010_annotation_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1323010_annotation_0"/>
         <sbol:version>1</sbol:version>
         <sbol:location>
-          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1323010_annotation_0/BBa_K1323010_annotation_0_range/1">
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1323010_annotation_0/BBa_K1323010_annotation_0_range/1">
             <sbol:displayId>BBa_K1323010_annotation_0_range</sbol:displayId>
             <sbol:end>769</sbol:end>
             <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
-            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1323010_annotation_0/BBa_K1323010_annotation_0_range"/>
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1323010_annotation_0/BBa_K1323010_annotation_0_range"/>
             <sbol:start>50</sbol:start>
             <sbol:version>1</sbol:version>
           </sbol:Range>
@@ -1229,17 +1229,17 @@ The sequence was successfully used by the iGEM team Heidelberg 2014 for the expr
       </sbol:SequenceAnnotation>
     </sbol:sequenceAnnotation>
     <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B1001_annotation_0/1">
-        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B1001_0/1"/>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B1001_annotation_0/1">
+        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B1001_0/1"/>
         <sbol:displayId>BBa_B1001_annotation_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B1001_annotation_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B1001_annotation_0"/>
         <sbol:version>1</sbol:version>
         <sbol:location>
-          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B1001_annotation_0/BBa_B1001_annotation_0_range/1">
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B1001_annotation_0/BBa_B1001_annotation_0_range/1">
             <sbol:displayId>BBa_B1001_annotation_0_range</sbol:displayId>
             <sbol:end>803</sbol:end>
             <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
-            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B1001_annotation_0/BBa_B1001_annotation_0_range"/>
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B1001_annotation_0/BBa_B1001_annotation_0_range"/>
             <sbol:start>770</sbol:start>
             <sbol:version>1</sbol:version>
           </sbol:Range>
@@ -1247,17 +1247,17 @@ The sequence was successfully used by the iGEM team Heidelberg 2014 for the expr
       </sbol:SequenceAnnotation>
     </sbol:sequenceAnnotation>
     <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_I0500_annotation_0/1">
-        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_I0500_0/1"/>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_I0500_annotation_0/1">
+        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_I0500_0/1"/>
         <sbol:displayId>BBa_I0500_annotation_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_I0500_annotation_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_I0500_annotation_0"/>
         <sbol:version>1</sbol:version>
         <sbol:location>
-          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_I0500_annotation_0/BBa_I0500_annotation_0_range/1">
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_I0500_annotation_0/BBa_I0500_annotation_0_range/1">
             <sbol:displayId>BBa_I0500_annotation_0_range</sbol:displayId>
             <sbol:end>2013</sbol:end>
             <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
-            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_I0500_annotation_0/BBa_I0500_annotation_0_range"/>
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_I0500_annotation_0/BBa_I0500_annotation_0_range"/>
             <sbol:start>804</sbol:start>
             <sbol:version>1</sbol:version>
           </sbol:Range>
@@ -1265,17 +1265,17 @@ The sequence was successfully used by the iGEM team Heidelberg 2014 for the expr
       </sbol:SequenceAnnotation>
     </sbol:sequenceAnnotation>
     <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1362090_annotation_0/1">
-        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1362090_0/1"/>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1362090_annotation_0/1">
+        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1362090_0/1"/>
         <sbol:displayId>BBa_K1362090_annotation_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1362090_annotation_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1362090_annotation_0"/>
         <sbol:version>1</sbol:version>
         <sbol:location>
-          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1362090_annotation_0/BBa_K1362090_annotation_0_range/1">
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1362090_annotation_0/BBa_K1362090_annotation_0_range/1">
             <sbol:displayId>BBa_K1362090_annotation_0_range</sbol:displayId>
             <sbol:end>2042</sbol:end>
             <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
-            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1362090_annotation_0/BBa_K1362090_annotation_0_range"/>
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1362090_annotation_0/BBa_K1362090_annotation_0_range"/>
             <sbol:start>2014</sbol:start>
             <sbol:version>1</sbol:version>
           </sbol:Range>
@@ -1283,17 +1283,17 @@ The sequence was successfully used by the iGEM team Heidelberg 2014 for the expr
       </sbol:SequenceAnnotation>
     </sbol:sequenceAnnotation>
     <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K215100_annotation_0/1">
-        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K215100_0/1"/>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K215100_annotation_0/1">
+        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K215100_0/1"/>
         <sbol:displayId>BBa_K215100_annotation_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K215100_annotation_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K215100_annotation_0"/>
         <sbol:version>1</sbol:version>
         <sbol:location>
-          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K215100_annotation_0/BBa_K215100_annotation_0_range/1">
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K215100_annotation_0/BBa_K215100_annotation_0_range/1">
             <sbol:displayId>BBa_K215100_annotation_0_range</sbol:displayId>
             <sbol:end>3791</sbol:end>
             <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
-            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K215100_annotation_0/BBa_K215100_annotation_0_range"/>
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K215100_annotation_0/BBa_K215100_annotation_0_range"/>
             <sbol:start>2043</sbol:start>
             <sbol:version>1</sbol:version>
           </sbol:Range>
@@ -1301,17 +1301,17 @@ The sequence was successfully used by the iGEM team Heidelberg 2014 for the expr
       </sbol:SequenceAnnotation>
     </sbol:sequenceAnnotation>
     <sbol:sequenceAnnotation>
-      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J63002_annotation_0/1">
-        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J63002_0/1"/>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J63002_annotation_0/1">
+        <sbol:component rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J63002_0/1"/>
         <sbol:displayId>BBa_J63002_annotation_0</sbol:displayId>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J63002_annotation_0"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J63002_annotation_0"/>
         <sbol:version>1</sbol:version>
         <sbol:location>
-          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J63002_annotation_0/BBa_J63002_annotation_0_range/1">
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J63002_annotation_0/BBa_J63002_annotation_0_range/1">
             <sbol:displayId>BBa_J63002_annotation_0_range</sbol:displayId>
             <sbol:end>4016</sbol:end>
             <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
-            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J63002_annotation_0/BBa_J63002_annotation_0_range"/>
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J63002_annotation_0/BBa_J63002_annotation_0_range"/>
             <sbol:start>3792</sbol:start>
             <sbol:version>1</sbol:version>
           </sbol:Range>
@@ -1319,81 +1319,81 @@ The sequence was successfully used by the iGEM team Heidelberg 2014 for the expr
       </sbol:SequenceAnnotation>
     </sbol:sequenceAnnotation>
     <sbol:sequenceConstraint>
-      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/constraint1/1">
+      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/constraint1/1">
         <sbol:displayId>constraint1</sbol:displayId>
-        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B0031_0/1"/>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/constraint1"/>
+        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B0031_0/1"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/constraint1"/>
         <sbol:restriction rdf:resource="http://sbols.org/v2#precedes"/>
-        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J23119_0/1"/>
+        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J23119_0/1"/>
         <sbol:version>1</sbol:version>
       </sbol:SequenceConstraint>
     </sbol:sequenceConstraint>
     <sbol:sequenceConstraint>
-      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/constraint2/1">
+      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/constraint2/1">
         <sbol:displayId>constraint2</sbol:displayId>
-        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1323010_0/1"/>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/constraint2"/>
+        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1323010_0/1"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/constraint2"/>
         <sbol:restriction rdf:resource="http://sbols.org/v2#precedes"/>
-        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B0031_0/1"/>
+        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B0031_0/1"/>
         <sbol:version>1</sbol:version>
       </sbol:SequenceConstraint>
     </sbol:sequenceConstraint>
     <sbol:sequenceConstraint>
-      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/constraint3/1">
+      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/constraint3/1">
         <sbol:displayId>constraint3</sbol:displayId>
-        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B1001_0/1"/>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/constraint3"/>
+        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B1001_0/1"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/constraint3"/>
         <sbol:restriction rdf:resource="http://sbols.org/v2#precedes"/>
-        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1323010_0/1"/>
+        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1323010_0/1"/>
         <sbol:version>1</sbol:version>
       </sbol:SequenceConstraint>
     </sbol:sequenceConstraint>
     <sbol:sequenceConstraint>
-      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/constraint4/1">
+      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/constraint4/1">
         <sbol:displayId>constraint4</sbol:displayId>
-        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_I0500_0/1"/>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/constraint4"/>
+        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_I0500_0/1"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/constraint4"/>
         <sbol:restriction rdf:resource="http://sbols.org/v2#precedes"/>
-        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_B1001_0/1"/>
+        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_B1001_0/1"/>
         <sbol:version>1</sbol:version>
       </sbol:SequenceConstraint>
     </sbol:sequenceConstraint>
     <sbol:sequenceConstraint>
-      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/constraint5/1">
+      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/constraint5/1">
         <sbol:displayId>constraint5</sbol:displayId>
-        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1362090_0/1"/>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/constraint5"/>
+        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1362090_0/1"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/constraint5"/>
         <sbol:restriction rdf:resource="http://sbols.org/v2#precedes"/>
-        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_I0500_0/1"/>
+        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_I0500_0/1"/>
         <sbol:version>1</sbol:version>
       </sbol:SequenceConstraint>
     </sbol:sequenceConstraint>
     <sbol:sequenceConstraint>
-      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/constraint6/1">
+      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/constraint6/1">
         <sbol:displayId>constraint6</sbol:displayId>
-        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K215100_0/1"/>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/constraint6"/>
+        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K215100_0/1"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/constraint6"/>
         <sbol:restriction rdf:resource="http://sbols.org/v2#precedes"/>
-        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K1362090_0/1"/>
+        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K1362090_0/1"/>
         <sbol:version>1</sbol:version>
       </sbol:SequenceConstraint>
     </sbol:sequenceConstraint>
     <sbol:sequenceConstraint>
-      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/constraint7/1">
+      <sbol:SequenceConstraint rdf:about="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/constraint7/1">
         <sbol:displayId>constraint7</sbol:displayId>
-        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_J63002_0/1"/>
-        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/constraint7"/>
+        <sbol:object rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_J63002_0/1"/>
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/constraint7"/>
         <sbol:restriction rdf:resource="http://sbols.org/v2#precedes"/>
-        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/gvsgvwgvvw/BBa_K215100_0/1"/>
+        <sbol:subject rdf:resource="https://synbiohub.org/public/igem//ComponentDefinition/fvwfvedvfgew/BBa_K215100_0/1"/>
         <sbol:version>1</sbol:version>
       </sbol:SequenceConstraint>
     </sbol:sequenceConstraint>
   </sbol:ComponentDefinition>
-  <sbol:Sequence rdf:about="https://synbiohub.org/public/igem//Sequence/gvsgvwgvvw/1">
-    <sbol:displayId>gvsgvwgvvw</sbol:displayId>
+  <sbol:Sequence rdf:about="https://synbiohub.org/public/igem//Sequence/fvwfvedvfgew/1">
+    <sbol:displayId>fvwfvedvfgew</sbol:displayId>
     <sbol:elements>ttgacagctagctcagtcctaggtataatgctagctcacacaggaaaccatggtttcaaaaggtgaagaattatttacaggtgttgttccaattttggttgaattagatggtgatgttaatggtcataaattttcagtttcaggtgaaggtgaaggtgatgcaacttatggtaaattaacattaaaatttatttgtacaacaggtaaattaccagttccatggccaacattagttacaacatttggttatggtttacaatgttttgcacgttatccagatcacatgaaacaacatgatttttttaaatcagcaatgcctgaaggttatgttcaagaacgtacaattttttttaaagatgatggcaactataaaacacgtgctgaagttaaatttgaaggtgatacattagttaatcgtattgaattaaaaggtattgattttaaagaagatggtaatattttaggtcataaattagaatataattataactcacataatgtttatatcatggcagataaacaaaaaaatggtattaaagttaattttaaaattcgtcataatattgaagatggttcagttcaattagcagatcattatcaacaaaatacacctattggtgatggtccagttttattaccagataatcattatttatcatatcaatcagcattatcaaaagatccaaatgaaaaacgtgatcacatggttttattagaatttgttacagcagcaggtattacattaggtatggatgaattatataaataaaaaaaaaaaccccgcttcggcggggtttttttttttatgacaacttgacggctacatcattcactttttcttcacaaccggcacggaactcgctcgggctggccccggtgcattttttaaatacccgcgagaaatagagttgatcgtcaaaaccaacattgcgaccgacggtggcgataggcatccgggtggtgctcaaaagcagcttcgcctggctgatacgttggtcctcgcgccagcttaagacgctaatccctaactgctggcggaaaagatgtgacagacgcgacggcgacaagcaaacatgctgtgcgacgctggcgatatcaaaattgctgtctgccaggtgatcgctgatgtactgacaagcctcgcgtacccgattatccatcggtggatggagcgactcgttaatcgcttccatgcgccgcagtaacaattgctcaagcagatttatcgccagcagctccgaatagcgcccttccccttgcccggcgttaatgatttgcccaaacaggtcgctgaaatgcggctggtgcgcttcatccgggcgaaagaaccccgtattggcaaatattgacggccagttaagccattcatgccagtaggcgcgcggacgaaagtaaacccactggtgataccattcgcgagcctccggatgacgaccgtagtgatgaatctctcctggcgggaacagcaaaatatcacccggtcggcaaacaaattctcgtccctgatttttcaccaccccctgaccgcgaatggtgagattgagaatataacctttcattcccagcggtcggtcgataaaaaaatcgagataaccgttggcctcaatcggcgttaaacccgccaccagatgggcattaaacgagtatcccggcagcaggggatcattttgcgcttcagccatacttttcatactcccgccattcagagaagaaaccaattgtccatattgcatcagacattgccgtcactgcgtcttttactggctcttctcgctaaccaaaccggtaaccccgcttattaaaagcattctgtaacaaagcgggaccaaagccatgacaaaaacgcgtaacaaaagtgtctataatcacggcagaaaagtccacattgattatttgcacggcgtcacactttgctatgccatagcatttttatccataagattagcggatcctacctgacgctttttatcgcaactctctactgtttctccatacccgtttttttgggctagcaataattttgtttaactttaagaaggagaaggggagagagccctgccatgaacgcgtctagcgaacgtgaccgttctctgtttggtgtgctgcgtcagttccgccgctccttttggtctgttggcatcttcagcgcggtcatcaatgttctgatgctggcacctagcgtctacatgctccaggtttacgaccgtgtcctcgccagcggcaacggtattactctgctgatgctcacgctcctgatggcgggtctgtgcgccttcatgggtgctctcgaatgggttcgcagcctgctggtagttcgtctcggtactcgcatcgacctcgcgctcaatcaagacgtttttaacgcggctttcgcgcgtaatctggaagctggtgatggccgtgccggtctggcgctgaccgacctcaccctgctccgtcaattcatcacgggtaatgcactgttcgcgttcttcgacgttccgtggttcccgctctttctcctcgtactgttcctgctgcacccttggctcggcatgctcgcactgggtggtacggttgtacctggtggcgtaggcctcgcagaaccggcgtctgaccagtctaccgcgggtggctctaatcaacaaagccaacaagccactcatctcgcggatgcgcagctccgtaatgcggacgttatcgaagcgatgggtatgctcggtaacctccgtcgtcgctggctggcgcgtcactaccgctttatctccctccaaaatctcgcttccgagcgcgcagccgccgttggtggtgcgtccaaatactctcgtattgcactccaaagcctcatgctgggcctcggtgcgctcctcgcgatcgacggcaaaatcacgccgggtatgatgattgcgggctctatcctcgtcggtcgtgttctgtccccgattgaccagctgatcggtgtttggaaacagtggtcttctgcccgcattgcgtggcagcgcctgacccgtctgattgccgcatatccgccacgccctgcggctatggctctcccagcgccggaaggccacctgtccgttgagcaagtttctctgcgtaccgcacaaggcaatactcgcctgcaaaacatccatttctccctgcaagcgggtgagaccctggttatcctgggcgcctctggttctggcaaatcttctctcgctcgtctgctcgtgggtgcacaatcccctactcaaggtaaagttcgcctcgatggtgcggacctgaaccaagttgacaaaaacaccttcggtccgaccattggttacctcccgcaggacgttcaactgttcaaaggtagcctggcggaaaacattgcccgtttcggcgacgccgacccggaaaaggttgttgcggcagctaagctcgccggtgttcacgaactcatcctgtctctgcctaatggttacgacactgagctgggtgacggcggtggcggcctgtctggtggtcaacgtcagcgtatcggtctcgcacgcgcaatgtacggcgacccgtgtctcctcattctggacgaaccgaacgcatctctggactctgagggtgaccaagcactcatgcaggctattgtggcgctccagaaacgtggtgcaaccgttgtactcattacgcaccgtccggcactcaccaccctcgctcagaaaatcctgatcctccacgagggtcaacagcaacgtatgggcctggcccgtgacgttctgacggaactccagcagcgctccgcggcaaaccaggcgcgtatgaacccgaccgcagcaatgccacagtaataataataagcgaatttcttatgatttatgatttttattattaaataagttataaaaaaaataagtgtatacaaattttaaagtgactcttaggttttaaaacgaaaattcttattcttgagtaactctttcctgtaggtcaggttgctttctcaggtatagcatgaggtcgctcttattgaccacacctctaccggcatgccgagcaaatgcctgcaaatcgctccc</sbol:elements>
     <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
-    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//Sequence/gvsgvwgvvw"/>
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem//Sequence/fvwfvedvfgew"/>
     <sbol:version>1</sbol:version>
   </sbol:Sequence>
 </rdf:RDF>
