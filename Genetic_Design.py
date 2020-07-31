@@ -129,6 +129,9 @@ def add_part(temp_doc, sbol_file, import_type):
 
     ######################### Storing a design for assembly ##################################
     if design_detected:
+        GUI.design_import_error()
+
+        '''
         # Identifying and isolating the component definition of the design
         primary_structure_count = 0
         for component_definition in temp_doc.componentDefinitions:
@@ -179,7 +182,7 @@ def add_part(temp_doc, sbol_file, import_type):
                                 design_display_lists(part_cd)
                                 GUI.display_assembled_design(design_roles)
                                 component_definition_list.append(str(component_temp))
-                                sbol_file_stored = True
+                                sbol_file_stored = True '''
 
 
 # Checking that the imported part has sequence constraints and is suitable for assembly
@@ -486,7 +489,6 @@ def design_assembly(event):
             for component in component_definition_list:
                 part_cd = doc.getComponentDefinition(str(component))
                 temp_list.append(part_cd)
-
             assembled_design.assemblePrimaryStructure(temp_list)
             compile_design = assembled_design.compile()
             result = doc.write(directory + ".xml")

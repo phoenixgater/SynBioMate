@@ -723,9 +723,19 @@ def unused_components_error():
                                                   "parts but has no design structure")
     unused_components_error_label.grid(row=3, column=0, columnspan=10)
 
+# Error for importing a design
+def design_import_error():
+    global design_import_error_label
+    design_import_error_label = tk.Label(tab2, font=(None, 10), fg="red", text="This software does not currently "
+                                                                               "support assembly with existing designs")
+    design_import_error_label.grid(row=3, column=0, columnspan=10)
 
 # Clear all error and success labels in design tab
 def clear_all_notes_design():
+    try:
+        design_import_error_label.grid_forget()
+    except NameError:
+        pass
     try:
         failed_assembly_label.grid_forget()
     except NameError:

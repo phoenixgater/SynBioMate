@@ -145,6 +145,10 @@ def import_design(event):
             GUI.refresh_design_parts_to_library()
 
 
+
+
+
+
 # Calculate nucleotide content
 def nucleotide_content(sequence):
     a_count = 0
