@@ -31,7 +31,7 @@ transcription_unit_4_variants = {}
 transcription_unit_5_variants = {}
 
 
-# clear globals function
+# clear globals for design display
 def clear_globals():
     primary_structure_identities.clear()
     primary_structure_roles.clear()
@@ -45,108 +45,108 @@ def import_design(event):
     global primary_structure_cd
     global primary_structure_cd_string
     global design_uri
+    GUI.clear_all_errors_moclo()
     doc2 = Document()
     clear_globals()
     GUI.select_design_import()
     imported_design = GUI.single_imported_design
-    doc2.read(imported_design)
+    if not imported_design:
+        GUI.import_failed_moclo()
+    else:
+        doc2.read(imported_design)
 
-    # Detecting whether the imported file contains a design, or a single part
-    design_detected = False
-    for component in doc2.componentDefinitions:
-        try:
-            component.getPrimaryStructure()
-            design_detected = True
-        except LookupError:
-            pass
-
-    # If design is not detected, it will next detect whether any sub-components are present for the single part
-    if not design_detected:
-        sub_components_detected = False
+        # Detecting whether the imported file contains a design, or a single part
+        design_detected = False
         for component in doc2.componentDefinitions:
-            if len(component.components) == 0:
-                pass
-            else:
-                sub_components_detected = True
-
-        # If sub-components are detected, the uri for the top-level part will be isolated
-        if sub_components_detected:
-            sub_component_quantity = []
             try:
-                for component in doc2.componentDefinitions:
-                    sub_component_quantity.append(len(component.components))
+                component.getPrimaryStructure()
+                design_detected = True
             except LookupError:
                 pass
+
+        # If design is not detected, it will next detect whether any sub-components are present for the single part
+        if not design_detected:
+            sub_components_detected = False
             for component in doc2.componentDefinitions:
-                if len(component.components) == max(sub_component_quantity):
-                    part_uri = component
-                    part_uri_string = str(part_uri)
-                    doc.append(imported_design)
-                    import_single_part_to_library(part_uri_string)
-
-        # If no sub components are detected, it will be checked that the imported file contains only a single part
-        if not sub_components_detected:
-            if len(doc2.componentDefinitions) == 1:
-                for component in doc2.componentDefinitions:
-                    part_uri = component
-                    part_uri_string = str(part_uri)
-                    doc.append(imported_design)
-                    import_single_part_to_library(part_uri_string)
-            else:
-                print("ERROR PLACEHOLDER")
-
-    # If a primary structure is detected, the contents of the file will be assumed to encode a genetic design
-    elif design_detected:
-        # Identifying and isolating the component definition of the design
-        primary_structure_count = 0
-        for component_definition in doc2.componentDefinitions:
-            try:
-                component_definition.getPrimaryStructure()
-                design_uri = component_definition
-                primary_structure_count += 1
-            except LookupError:
-                pass
-        if primary_structure_count > 1:
-            print("Multiple primary structures detected error")
-        else:
-            # Retrieving the component definitions of the parts contained within the design
-            primary_structure_cd = design_uri.getPrimaryStructure()
-            primary_structure_cd_string = []
-            for components in primary_structure_cd:
-                primary_structure_identities.append(str(components.displayId))
-                primary_structure_cd_string.append(str(components))
-
-            # Retrieving the roles of the parts in the design
-            for component in primary_structure_cd:
-                if "SO" in str(component.roles):
-                    primary_structure_roles.append(str(component.roles))
+                if len(component.components) == 0:
+                    pass
                 else:
-                    primary_structure_roles.append("None")
+                    sub_components_detected = True
 
-            # Retrieving the descriptions of the parts in the design
-            for component in primary_structure_cd:
-                primary_structure_descriptions.append(component.description)
+            # If sub-components are detected, the uri for the top-level part will be isolated
+            if sub_components_detected:
+                sub_component_quantity = []
+                try:
+                    for component in doc2.componentDefinitions:
+                        sub_component_quantity.append(len(component.components))
+                except LookupError:
+                    pass
+                for component in doc2.componentDefinitions:
+                    if len(component.components) == max(sub_component_quantity):
+                        part_uri = component
+                        part_uri_string = str(part_uri)
+                        doc.append(imported_design)
+                        import_single_part_to_library(part_uri_string)
 
-            # Create GUI button that allows display of part descriptions
-            GUI.create_description_button_moclo()
+            # If no sub components are detected, it will be checked that the imported file contains only a single part
+            if not sub_components_detected:
+                if len(doc2.componentDefinitions) == 1:
+                    for component in doc2.componentDefinitions:
+                        part_uri = component
+                        part_uri_string = str(part_uri)
+                        doc.append(imported_design)
+                        import_single_part_to_library(part_uri_string)
+                else:
+                    print("ERROR PLACEHOLDER")
 
-            # Create analysis button for parts in GUI
-            GUI.create_analysis_button_moclo()
+        # If a primary structure is detected, the contents of the file will be assumed to encode a genetic design
+        elif design_detected:
+            # Identifying and isolating the component definition of the design
+            primary_structure_count = 0
+            for component_definition in doc2.componentDefinitions:
+                try:
+                    component_definition.getPrimaryStructure()
+                    design_uri = component_definition
+                    primary_structure_count += 1
+                except LookupError:
+                    pass
+            if primary_structure_count > 1:
+                print("Multiple primary structures detected error")
+            else:
+                # Retrieving the component definitions of the parts contained within the design
+                primary_structure_cd = design_uri.getPrimaryStructure()
+                primary_structure_cd_string = []
+                for components in primary_structure_cd:
+                    primary_structure_identities.append(str(components.displayId))
+                    primary_structure_cd_string.append(str(components))
 
-            # Initial design analysis for imported design
-            design_sequence = design_uri.sequence.elements
-            nucleotide_content(design_sequence)
-            detect_restriction_sites(design_sequence)
+                # Retrieving the roles of the parts in the design
+                for component in primary_structure_cd:
+                    if "SO" in str(component.roles):
+                        primary_structure_roles.append(str(component.roles))
+                    else:
+                        primary_structure_roles.append("None")
 
-            doc.append(imported_design)
-            doc2 = Document
-            GUI.refresh_canvas_moclo()
-            GUI.display_assembled_design_moclo(primary_structure_roles)
-            GUI.refresh_design_parts_to_library()
+                # Retrieving the descriptions of the parts in the design
+                for component in primary_structure_cd:
+                    primary_structure_descriptions.append(component.description)
 
+                # Create GUI button that allows display of part descriptions
+                GUI.create_description_button_moclo()
 
+                # Create analysis button for parts in GUI
+                GUI.create_analysis_button_moclo()
 
+                # Initial design analysis for imported design
+                design_sequence = design_uri.sequence.elements
+                nucleotide_content(design_sequence)
+                detect_restriction_sites(design_sequence)
 
+                doc.append(imported_design)
+                doc2 = Document
+                GUI.refresh_canvas_moclo()
+                GUI.display_assembled_design_moclo(primary_structure_roles)
+                GUI.refresh_design_parts_to_library()
 
 
 # Calculate nucleotide content
@@ -258,6 +258,7 @@ def import_design_parts_to_library(event):
                 level_0_other["o" + str(len(level_0_other) + 1)] = component
 
     GUI.refresh_level_0_library()
+    GUI.move_parts_library()
 
 
 # Import a single part into the level 0 library
@@ -316,8 +317,43 @@ def move_parts_in_library(event):
     global level_0_cds
     global level_0_terminator
     global level_0_other
-    part_key = GUI.part_to_move_entry.get()
+    GUI.clear_all_errors_moclo()
     cd_list = []
+    part_key = GUI.part_to_move_entry.get()
+    destination_group = GUI.destination_library_select.get()
+    if part_key in level_0_promoter:
+        pass
+    elif part_key in level_0_rbs:
+        pass
+    elif part_key in level_0_signal:
+        pass
+    elif part_key in level_0_cds:
+        pass
+    elif part_key in level_0_terminator:
+        pass
+    elif part_key in level_0_other:
+        pass
+    else:
+        GUI.part_move_error()
+        if not destination_group:
+            GUI.destination_group_error()
+        return
+
+    if destination_group == "Promoter (p)":
+        pass
+    elif destination_group == "RBS (r)":
+        pass
+    elif destination_group == "Signal peptide (s)":
+        pass
+    elif destination_group == "Coding region (c)":
+        pass
+    elif destination_group == "Terminator (t)":
+        pass
+    elif destination_group == "Other (o)":
+        pass
+    else:
+        GUI.destination_group_error()
+        return
 
     if part_key in level_0_promoter:
         component = level_0_promoter.pop(part_key)
@@ -367,7 +403,6 @@ def move_parts_in_library(event):
         for component_definition in cd_list:
             level_0_other["o" + str(len(level_0_other) + 1)] = component_definition
 
-    destination_group = GUI.destination_library_select.get()
     if destination_group == "Promoter (p)":
         new_key = "p" + str(len(level_0_promoter) + 1)
         level_0_promoter[new_key] = component
@@ -394,78 +429,168 @@ def move_parts_in_library(event):
 def part_selection_lists():
     transcription_unit_quantity = int(GUI.transcription_unit_quantity_combo.get())
     signal_choice = GUI.include_signal_combo.get()
+    all_keys_valid = True
+    tu1_keys_valid = True
+    tu2_keys_valid = True
+    tu3_keys_valid = True
+    tu4_keys_valid = True
+    tu5_keys_valid = True
     if transcription_unit_quantity > 1:
         selected_promoter_1 = (GUI.transcription_unit_1_promoter_entry.get())
         transcription_unit_1_promoter_keys = (selected_promoter_1.split(", "))
         global transcription_unit_1_promoter
         transcription_unit_1_promoter = []
         for selection in transcription_unit_1_promoter_keys:
-            transcription_unit_1_promoter.append(level_0_promoter[selection])
+            try:
+                transcription_unit_1_promoter.append(level_0_promoter[selection])
+            except KeyError:
+                GUI.invalid_part_key_error_tu1()
+                all_keys_valid = False
+                tu1_keys_valid = False
+                break
 
-        selected_rbs_1 = (GUI.transcription_unit_1_rbs_entry.get())
-        transcription_unit_1_rbs_keys = (selected_rbs_1.split(", "))
-        global transcription_unit_1_rbs
-        transcription_unit_1_rbs = []
-        for selection in transcription_unit_1_rbs_keys:
-            transcription_unit_1_rbs.append(level_0_rbs[selection])
+        if not tu1_keys_valid:
+            pass
+        else:
+            selected_rbs_1 = (GUI.transcription_unit_1_rbs_entry.get())
+            transcription_unit_1_rbs_keys = (selected_rbs_1.split(", "))
+            global transcription_unit_1_rbs
+            transcription_unit_1_rbs = []
+            for selection in transcription_unit_1_rbs_keys:
+                try:
+                    transcription_unit_1_rbs.append(level_0_rbs[selection])
+                except KeyError:
+                    GUI.invalid_part_key_error_tu1()
+                    all_keys_valid = False
+                    tu1_keys_valid = False
+                    break
 
-        if signal_choice == "Yes":
-            selected_signal_1 = (GUI.transcription_unit_1_signal_entry.get())
-            transcription_unit_1_signal_keys = (selected_signal_1.split(", "))
-            global transcription_unit_1_signal
-            transcription_unit_1_signal = []
-            for selection in transcription_unit_1_signal_keys:
-                transcription_unit_1_signal.append(level_0_signal[selection])
+        if not tu1_keys_valid:
+            pass
+        else:
+            if signal_choice == "Yes":
+                selected_signal_1 = (GUI.transcription_unit_1_signal_entry.get())
+                transcription_unit_1_signal_keys = (selected_signal_1.split(", "))
+                global transcription_unit_1_signal
+                transcription_unit_1_signal = []
+                for selection in transcription_unit_1_signal_keys:
+                    try:
+                        transcription_unit_1_signal.append(level_0_signal[selection])
+                    except KeyError:
+                        GUI.invalid_part_key_error_tu1()
+                        all_keys_valid = False
+                        tu1_keys_valid = False
+                        break
 
-        selected_cds_1 = (GUI.transcription_unit_1_cds_entry.get())
-        transcription_unit_1_cds_keys = (selected_cds_1.split(", "))
-        global transcription_unit_1_cds
-        transcription_unit_1_cds = []
-        for selection in transcription_unit_1_cds_keys:
-            transcription_unit_1_cds.append(level_0_cds[selection])
+        if not tu1_keys_valid:
+            pass
+        else:
+            selected_cds_1 = (GUI.transcription_unit_1_cds_entry.get())
+            transcription_unit_1_cds_keys = (selected_cds_1.split(", "))
+            global transcription_unit_1_cds
+            transcription_unit_1_cds = []
+            for selection in transcription_unit_1_cds_keys:
+                try:
+                    transcription_unit_1_cds.append(level_0_cds[selection])
+                except KeyError:
+                    GUI.invalid_part_key_error_tu1()
+                    all_keys_valid = False
+                    tu1_keys_valid = False
+                    break
 
-        selected_terminator_1 = (GUI.transcription_unit_1_terminator_entry.get())
-        transcription_unit_1_terminator_keys = (selected_terminator_1.split(", "))
-        global transcription_unit_1_terminator
-        transcription_unit_1_terminator = []
-        for selection in transcription_unit_1_terminator_keys:
-            transcription_unit_1_terminator.append(level_0_terminator[selection])
+        if not tu1_keys_valid:
+            pass
+        else:
+            selected_terminator_1 = (GUI.transcription_unit_1_terminator_entry.get())
+            transcription_unit_1_terminator_keys = (selected_terminator_1.split(", "))
+            global transcription_unit_1_terminator
+            transcription_unit_1_terminator = []
+            for selection in transcription_unit_1_terminator_keys:
+                try:
+                    transcription_unit_1_terminator.append(level_0_terminator[selection])
+                except KeyError:
+                    GUI.invalid_part_key_error_tu1()
+                    all_keys_valid = False
+                    tu1_keys_valid = False
+                    break
 
         selected_promoter_2 = (GUI.transcription_unit_2_promoter_entry.get())
         transcription_unit_2_promoter_keys = (selected_promoter_2.split(", "))
         global transcription_unit_2_promoter
         transcription_unit_2_promoter = []
         for selection in transcription_unit_2_promoter_keys:
-            transcription_unit_2_promoter.append(level_0_promoter[selection])
+            try:
+                transcription_unit_2_promoter.append(level_0_promoter[selection])
+            except KeyError:
+                GUI.invalid_part_key_error_tu2()
+                all_keys_valid = False
+                tu2_keys_valid = False
+                break
 
-        selected_rbs_2 = (GUI.transcription_unit_2_rbs_entry.get())
-        transcription_unit_2_rbs_keys = (selected_rbs_2.split(", "))
-        global transcription_unit_2_rbs
-        transcription_unit_2_rbs = []
-        for selection in transcription_unit_2_rbs_keys:
-            transcription_unit_2_rbs.append(level_0_rbs[selection])
+        if not tu2_keys_valid:
+            pass
+        else:
+            selected_rbs_2 = (GUI.transcription_unit_2_rbs_entry.get())
+            transcription_unit_2_rbs_keys = (selected_rbs_2.split(", "))
+            global transcription_unit_2_rbs
+            transcription_unit_2_rbs = []
+            for selection in transcription_unit_2_rbs_keys:
+                try:
+                    transcription_unit_2_rbs.append(level_0_rbs[selection])
+                except KeyError:
+                    GUI.invalid_part_key_error_tu2()
+                    all_keys_valid = False
+                    tu2_keys_valid = False
+                    break
 
-        if signal_choice == "Yes":
-            selected_signal_2 = (GUI.transcription_unit_2_signal_entry.get())
-            transcription_unit_2_signal_keys = (selected_signal_2.split(", "))
-            global transcription_unit_2_signal
-            transcription_unit_2_signal = []
-            for selection in transcription_unit_2_signal_keys:
-                transcription_unit_2_signal.append(level_0_signal[selection])
+        if not tu2_keys_valid:
+            pass
+        else:
+            if signal_choice == "Yes":
+                selected_signal_2 = (GUI.transcription_unit_2_signal_entry.get())
+                transcription_unit_2_signal_keys = (selected_signal_2.split(", "))
+                global transcription_unit_2_signal
+                transcription_unit_2_signal = []
+                for selection in transcription_unit_2_signal_keys:
+                    try:
+                        transcription_unit_2_signal.append(level_0_signal[selection])
+                    except KeyError:
+                        GUI.invalid_part_key_error_tu2()
+                        all_keys_valid = False
+                        tu2_keys_valid = False
+                        break
 
-        selected_cds_2 = (GUI.transcription_unit_2_cds_entry.get())
-        transcription_unit_2_cds_keys = (selected_cds_2.split(", "))
-        global transcription_unit_2_cds
-        transcription_unit_2_cds = []
-        for selection in transcription_unit_2_cds_keys:
-            transcription_unit_2_cds.append(level_0_cds[selection])
+        if not tu2_keys_valid:
+            pass
+        else:
+            selected_cds_2 = (GUI.transcription_unit_2_cds_entry.get())
+            transcription_unit_2_cds_keys = (selected_cds_2.split(", "))
+            global transcription_unit_2_cds
+            transcription_unit_2_cds = []
+            for selection in transcription_unit_2_cds_keys:
+                try:
+                    transcription_unit_2_cds.append(level_0_cds[selection])
+                except KeyError:
+                    GUI.invalid_part_key_error_tu2()
+                    all_keys_valid = False
+                    tu2_keys_valid = False
+                    break
 
-        selected_terminator_2 = (GUI.transcription_unit_2_terminator_entry.get())
-        transcription_unit_2_terminator_keys = (selected_terminator_2.split(", "))
-        global transcription_unit_2_terminator
-        transcription_unit_2_terminator = []
-        for selection in transcription_unit_2_terminator_keys:
-            transcription_unit_2_terminator.append(level_0_terminator[selection])
+        if not tu2_keys_valid:
+            pass
+        else:
+            selected_terminator_2 = (GUI.transcription_unit_2_terminator_entry.get())
+            transcription_unit_2_terminator_keys = (selected_terminator_2.split(", "))
+            global transcription_unit_2_terminator
+            transcription_unit_2_terminator = []
+            for selection in transcription_unit_2_terminator_keys:
+                try:
+                    transcription_unit_2_terminator.append(level_0_terminator[selection])
+                except KeyError:
+                    GUI.invalid_part_key_error_tu2()
+                    all_keys_valid = False
+                    tu2_keys_valid = False
+                    break
 
     if transcription_unit_quantity > 2:
         selected_promoter_3 = (GUI.transcription_unit_3_promoter_entry.get())
@@ -473,36 +598,78 @@ def part_selection_lists():
         global transcription_unit_3_promoter
         transcription_unit_3_promoter = []
         for selection in transcription_unit_3_promoter_keys:
-            transcription_unit_3_promoter.append(level_0_promoter[selection])
+            try:
+                transcription_unit_3_promoter.append(level_0_promoter[selection])
+            except KeyError:
+                GUI.invalid_part_key_error_tu3()
+                all_keys_valid = False
+                tu3_keys_valid = False
+                break
 
-        selected_rbs_3 = (GUI.transcription_unit_3_rbs_entry.get())
-        transcription_unit_3_rbs_keys = (selected_rbs_3.split(", "))
-        global transcription_unit_3_rbs
-        transcription_unit_3_rbs = []
-        for selection in transcription_unit_3_rbs_keys:
-            transcription_unit_3_rbs.append(level_0_rbs[selection])
+        if not tu3_keys_valid:
+            pass
+        else:
+            selected_rbs_3 = (GUI.transcription_unit_3_rbs_entry.get())
+            transcription_unit_3_rbs_keys = (selected_rbs_3.split(", "))
+            global transcription_unit_3_rbs
+            transcription_unit_3_rbs = []
+            for selection in transcription_unit_3_rbs_keys:
+                try:
+                    transcription_unit_3_rbs.append(level_0_rbs[selection])
+                except KeyError:
+                    GUI.invalid_part_key_error_tu3()
+                    all_keys_valid = False
+                    tu3_keys_valid = False
+                    break
 
-        if signal_choice == "Yes":
-            selected_signal_3 = (GUI.transcription_unit_3_signal_entry.get())
-            transcription_unit_3_signal_keys = (selected_signal_3.split(", "))
-            global transcription_unit_3_signal
-            transcription_unit_3_signal = []
-            for selection in transcription_unit_3_signal_keys:
-                transcription_unit_3_signal.append(level_0_signal[selection])
+        if not tu3_keys_valid:
+            pass
+        else:
+            if signal_choice == "Yes":
+                selected_signal_3 = (GUI.transcription_unit_3_signal_entry.get())
+                transcription_unit_3_signal_keys = (selected_signal_3.split(", "))
+                global transcription_unit_3_signal
+                transcription_unit_3_signal = []
+                for selection in transcription_unit_3_signal_keys:
+                    try:
+                        transcription_unit_3_signal.append(level_0_signal[selection])
+                    except KeyError:
+                        GUI.invalid_part_key_error_tu3()
+                        all_keys_valid = False
+                        tu3_keys_valid = False
+                        break
 
-        selected_cds_3 = (GUI.transcription_unit_3_cds_entry.get())
-        transcription_unit_3_cds_keys = (selected_cds_3.split(", "))
-        global transcription_unit_3_cds
-        transcription_unit_3_cds = []
-        for selection in transcription_unit_3_cds_keys:
-            transcription_unit_3_cds.append(level_0_cds[selection])
+        if not tu3_keys_valid:
+            pass
+        else:
+            selected_cds_3 = (GUI.transcription_unit_3_cds_entry.get())
+            transcription_unit_3_cds_keys = (selected_cds_3.split(", "))
+            global transcription_unit_3_cds
+            transcription_unit_3_cds = []
+            for selection in transcription_unit_3_cds_keys:
+                try:
+                    transcription_unit_3_cds.append(level_0_cds[selection])
+                except KeyError:
+                    GUI.invalid_part_key_error_tu3()
+                    all_keys_valid = False
+                    tu3_keys_valid = False
+                    break
 
-        selected_terminator_3 = (GUI.transcription_unit_3_terminator_entry.get())
-        transcription_unit_3_terminator_keys = (selected_terminator_3.split(", "))
-        global transcription_unit_3_terminator
-        transcription_unit_3_terminator = []
-        for selection in transcription_unit_3_terminator_keys:
-            transcription_unit_3_terminator.append(level_0_terminator[selection])
+        if not tu3_keys_valid:
+            pass
+        else:
+            selected_terminator_3 = (GUI.transcription_unit_3_terminator_entry.get())
+            transcription_unit_3_terminator_keys = (selected_terminator_3.split(", "))
+            global transcription_unit_3_terminator
+            transcription_unit_3_terminator = []
+            for selection in transcription_unit_3_terminator_keys:
+                try:
+                    transcription_unit_3_terminator.append(level_0_terminator[selection])
+                except KeyError:
+                    GUI.invalid_part_key_error_tu3()
+                    all_keys_valid = False
+                    tu3_keys_valid = False
+                    break
 
     if transcription_unit_quantity > 3:
         selected_promoter_4 = (GUI.transcription_unit_4_promoter_entry.get())
@@ -510,36 +677,78 @@ def part_selection_lists():
         global transcription_unit_4_promoter
         transcription_unit_4_promoter = []
         for selection in transcription_unit_4_promoter_keys:
-            transcription_unit_4_promoter.append(level_0_promoter[selection])
+            try:
+                transcription_unit_4_promoter.append(level_0_promoter[selection])
+            except KeyError:
+                GUI.invalid_part_key_error_tu4()
+                all_keys_valid = False
+                tu4_keys_valid = False
+                break
 
-        selected_rbs_4 = (GUI.transcription_unit_4_rbs_entry.get())
-        transcription_unit_4_rbs_keys = (selected_rbs_4.split(", "))
-        global transcription_unit_4_rbs
-        transcription_unit_4_rbs = []
-        for selection in transcription_unit_4_rbs_keys:
-            transcription_unit_4_rbs.append(level_0_rbs[selection])
+        if not tu4_keys_valid:
+            pass
+        else:
+            selected_rbs_4 = (GUI.transcription_unit_4_rbs_entry.get())
+            transcription_unit_4_rbs_keys = (selected_rbs_4.split(", "))
+            global transcription_unit_4_rbs
+            transcription_unit_4_rbs = []
+            for selection in transcription_unit_4_rbs_keys:
+                try:
+                    transcription_unit_4_rbs.append(level_0_rbs[selection])
+                except KeyError:
+                    GUI.invalid_part_key_error_tu4()
+                    all_keys_valid = False
+                    tu4_keys_valid = False
+                    break
 
-        if signal_choice == "Yes":
-            selected_signal_4 = (GUI.transcription_unit_4_signal_entry.get())
-            transcription_unit_4_signal_keys = (selected_signal_4.split(", "))
-            global transcription_unit_4_signal
-            transcription_unit_4_signal = []
-            for selection in transcription_unit_4_signal_keys:
-                transcription_unit_4_signal.append(level_0_signal[selection])
+        if not tu4_keys_valid:
+            pass
+        else:
+            if signal_choice == "Yes":
+                selected_signal_4 = (GUI.transcription_unit_4_signal_entry.get())
+                transcription_unit_4_signal_keys = (selected_signal_4.split(", "))
+                global transcription_unit_4_signal
+                transcription_unit_4_signal = []
+                for selection in transcription_unit_4_signal_keys:
+                    try:
+                        transcription_unit_4_signal.append(level_0_signal[selection])
+                    except KeyError:
+                        GUI.invalid_part_key_error_tu4()
+                        all_keys_valid = False
+                        tu4_keys_valid = False
+                        break
 
-        selected_cds_4 = (GUI.transcription_unit_4_cds_entry.get())
-        transcription_unit_4_cds_keys = (selected_cds_4.split(", "))
-        global transcription_unit_4_cds
-        transcription_unit_4_cds = []
-        for selection in transcription_unit_4_cds_keys:
-            transcription_unit_4_cds.append(level_0_cds[selection])
+        if not tu4_keys_valid:
+            pass
+        else:
+            selected_cds_4 = (GUI.transcription_unit_4_cds_entry.get())
+            transcription_unit_4_cds_keys = (selected_cds_4.split(", "))
+            global transcription_unit_4_cds
+            transcription_unit_4_cds = []
+            for selection in transcription_unit_4_cds_keys:
+                try:
+                    transcription_unit_4_cds.append(level_0_cds[selection])
+                except KeyError:
+                    GUI.invalid_part_key_error_tu4()
+                    all_keys_valid = False
+                    tu4_keys_valid = False
+                    break
 
-        selected_terminator_4 = (GUI.transcription_unit_4_terminator_entry.get())
-        transcription_unit_4_terminator_keys = (selected_terminator_4.split(", "))
-        global transcription_unit_4_terminator
-        transcription_unit_4_terminator = []
-        for selection in transcription_unit_4_terminator_keys:
-            transcription_unit_4_terminator.append(level_0_terminator[selection])
+        if not tu4_keys_valid:
+            pass
+        else:
+            selected_terminator_4 = (GUI.transcription_unit_4_terminator_entry.get())
+            transcription_unit_4_terminator_keys = (selected_terminator_4.split(", "))
+            global transcription_unit_4_terminator
+            transcription_unit_4_terminator = []
+            for selection in transcription_unit_4_terminator_keys:
+                try:
+                    transcription_unit_4_terminator.append(level_0_terminator[selection])
+                except KeyError:
+                    GUI.invalid_part_key_error_tu4()
+                    all_keys_valid = False
+                    tu4_keys_valid = False
+                    break
 
     if transcription_unit_quantity > 4:
         selected_promoter_5 = (GUI.transcription_unit_5_promoter_entry.get())
@@ -547,36 +756,79 @@ def part_selection_lists():
         global transcription_unit_5_promoter
         transcription_unit_5_promoter = []
         for selection in transcription_unit_5_promoter_keys:
-            transcription_unit_5_promoter.append(level_0_promoter[selection])
+            try:
+                transcription_unit_5_promoter.append(level_0_promoter[selection])
+            except KeyError:
+                GUI.invalid_part_key_error_tu5()
+                all_keys_valid = False
+                tu5_keys_valid = False
+                break
 
-        selected_rbs_5 = (GUI.transcription_unit_5_rbs_entry.get())
-        transcription_unit_5_rbs_keys = (selected_rbs_5.split(", "))
-        global transcription_unit_5_rbs
-        transcription_unit_5_rbs = []
-        for selection in transcription_unit_5_rbs_keys:
-            transcription_unit_5_rbs.append(level_0_rbs[selection])
+        if not tu5_keys_valid:
+            pass
+        else:
+            selected_rbs_5 = (GUI.transcription_unit_5_rbs_entry.get())
+            transcription_unit_5_rbs_keys = (selected_rbs_5.split(", "))
+            global transcription_unit_5_rbs
+            transcription_unit_5_rbs = []
+            for selection in transcription_unit_5_rbs_keys:
+                try:
+                    transcription_unit_5_rbs.append(level_0_rbs[selection])
+                except KeyError:
+                    GUI.invalid_part_key_error_tu5()
+                    all_keys_valid = False
+                    tu5_keys_valid = False
+                    break
 
-        if signal_choice == "Yes":
-            selected_signal_5 = (GUI.transcription_unit_5_signal_entry.get())
-            transcription_unit_5_signal_keys = (selected_signal_5.split(", "))
-            global transcription_unit_5_signal
-            transcription_unit_5_signal = []
-            for selection in transcription_unit_5_signal_keys:
-                transcription_unit_5_signal.append(level_0_signal[selection])
+        if not tu5_keys_valid:
+            pass
+        else:
+            if signal_choice == "Yes":
+                selected_signal_5 = (GUI.transcription_unit_5_signal_entry.get())
+                transcription_unit_5_signal_keys = (selected_signal_5.split(", "))
+                global transcription_unit_5_signal
+                transcription_unit_5_signal = []
+                for selection in transcription_unit_5_signal_keys:
+                    try:
+                        transcription_unit_5_signal.append(level_0_signal[selection])
+                    except KeyError:
+                        GUI.invalid_part_key_error_tu5()
+                        all_keys_valid = False
+                        tu5_keys_valid = False
+                        break
 
-        selected_cds_5 = (GUI.transcription_unit_5_cds_entry.get())
-        transcription_unit_5_cds_keys = (selected_cds_5.split(", "))
-        global transcription_unit_5_cds
-        transcription_unit_5_cds = []
-        for selection in transcription_unit_5_cds_keys:
-            transcription_unit_5_cds.append(level_0_cds[selection])
+        if not tu5_keys_valid:
+            pass
+        else:
+            selected_cds_5 = (GUI.transcription_unit_5_cds_entry.get())
+            transcription_unit_5_cds_keys = (selected_cds_5.split(", "))
+            global transcription_unit_5_cds
+            transcription_unit_5_cds = []
+            for selection in transcription_unit_5_cds_keys:
+                try:
+                    transcription_unit_5_cds.append(level_0_cds[selection])
+                except KeyError:
+                    GUI.invalid_part_key_error_tu5()
+                    all_keys_valid = False
+                    tu5_keys_valid = False
+                    break
 
-        selected_terminator_5 = (GUI.transcription_unit_5_terminator_entry.get())
-        transcription_unit_5_terminator_keys = (selected_terminator_5.split(", "))
-        global transcription_unit_5_terminator
-        transcription_unit_5_terminator = []
-        for selection in transcription_unit_5_terminator_keys:
-            transcription_unit_5_terminator.append(level_0_terminator[selection])
+        if not tu5_keys_valid:
+            pass
+        else:
+            selected_terminator_5 = (GUI.transcription_unit_5_terminator_entry.get())
+            transcription_unit_5_terminator_keys = (selected_terminator_5.split(", "))
+            global transcription_unit_5_terminator
+            transcription_unit_5_terminator = []
+            for selection in transcription_unit_5_terminator_keys:
+                try:
+                    transcription_unit_5_terminator.append(level_0_terminator[selection])
+                except KeyError:
+                    GUI.invalid_part_key_error_tu5()
+                    all_keys_valid = False
+                    tu5_keys_valid = False
+                    break
+    return all_keys_valid
 
 
 def ecoflex_restriction_site_check(component_definition, unit_number):
@@ -629,74 +881,244 @@ def ecoflex_restriction_site_check(component_definition, unit_number):
 
 # Final check of part compatibility before generating protocol
 def final_ecoflex_check():
-    part_selection_lists()
-    transcription_unit_quantity = int(GUI.transcription_unit_quantity_combo.get())
-    signal_choice = GUI.include_signal_combo.get()
-    global ecoflex_check_list
-    ecoflex_check_list = []
-    if transcription_unit_quantity > 1:
-        for component in transcription_unit_1_promoter:
-            ecoflex_restriction_site_check(component, 1)
-        for component in transcription_unit_1_rbs:
-            ecoflex_restriction_site_check(component, 1)
-        if signal_choice == "Yes":
-            for component in transcription_unit_1_signal:
+    if part_selection_lists():
+        transcription_unit_quantity = int(GUI.transcription_unit_quantity_combo.get())
+        signal_choice = GUI.include_signal_combo.get()
+        global ecoflex_check_list
+        ecoflex_check_list = []
+        if transcription_unit_quantity > 1:
+            for component in transcription_unit_1_promoter:
                 ecoflex_restriction_site_check(component, 1)
-        for component in transcription_unit_1_cds:
-            ecoflex_restriction_site_check(component, 1)
-        for component in transcription_unit_1_terminator:
-            ecoflex_restriction_site_check(component, 1)
+            for component in transcription_unit_1_rbs:
+                ecoflex_restriction_site_check(component, 1)
+            if signal_choice == "Yes":
+                for component in transcription_unit_1_signal:
+                    ecoflex_restriction_site_check(component, 1)
+            for component in transcription_unit_1_cds:
+                ecoflex_restriction_site_check(component, 1)
+            for component in transcription_unit_1_terminator:
+                ecoflex_restriction_site_check(component, 1)
 
-        for component in transcription_unit_2_promoter:
-            ecoflex_restriction_site_check(component, 2)
-        for component in transcription_unit_2_rbs:
-            ecoflex_restriction_site_check(component, 2)
-        if signal_choice == "Yes":
-            for component in transcription_unit_2_signal:
+            for component in transcription_unit_2_promoter:
                 ecoflex_restriction_site_check(component, 2)
-        for component in transcription_unit_2_cds:
-            ecoflex_restriction_site_check(component, 2)
-        for component in transcription_unit_2_terminator:
-            ecoflex_restriction_site_check(component, 2)
+            for component in transcription_unit_2_rbs:
+                ecoflex_restriction_site_check(component, 2)
+            if signal_choice == "Yes":
+                for component in transcription_unit_2_signal:
+                    ecoflex_restriction_site_check(component, 2)
+            for component in transcription_unit_2_cds:
+                ecoflex_restriction_site_check(component, 2)
+            for component in transcription_unit_2_terminator:
+                ecoflex_restriction_site_check(component, 2)
 
-    if transcription_unit_quantity > 2:
-        for component in transcription_unit_3_promoter:
-            ecoflex_restriction_site_check(component, 3)
-        for component in transcription_unit_3_rbs:
-            ecoflex_restriction_site_check(component, 3)
-        if signal_choice == "Yes":
-            for component in transcription_unit_3_signal:
+        if transcription_unit_quantity > 2:
+            for component in transcription_unit_3_promoter:
                 ecoflex_restriction_site_check(component, 3)
-        for component in transcription_unit_3_cds:
-            ecoflex_restriction_site_check(component, 3)
-        for component in transcription_unit_3_terminator:
-            ecoflex_restriction_site_check(component, 3)
+            for component in transcription_unit_3_rbs:
+                ecoflex_restriction_site_check(component, 3)
+            if signal_choice == "Yes":
+                for component in transcription_unit_3_signal:
+                    ecoflex_restriction_site_check(component, 3)
+            for component in transcription_unit_3_cds:
+                ecoflex_restriction_site_check(component, 3)
+            for component in transcription_unit_3_terminator:
+                ecoflex_restriction_site_check(component, 3)
 
-    if transcription_unit_quantity > 3:
-        for component in transcription_unit_4_promoter:
-            ecoflex_restriction_site_check(component, 4)
-        for component in transcription_unit_4_rbs:
-            ecoflex_restriction_site_check(component, 4)
-        if signal_choice == "Yes":
-            for component in transcription_unit_4_signal:
+        if transcription_unit_quantity > 3:
+            for component in transcription_unit_4_promoter:
                 ecoflex_restriction_site_check(component, 4)
-        for component in transcription_unit_4_cds:
-            ecoflex_restriction_site_check(component, 4)
-        for component in transcription_unit_4_terminator:
-            ecoflex_restriction_site_check(component, 4)
+            for component in transcription_unit_4_rbs:
+                ecoflex_restriction_site_check(component, 4)
+            if signal_choice == "Yes":
+                for component in transcription_unit_4_signal:
+                    ecoflex_restriction_site_check(component, 4)
+            for component in transcription_unit_4_cds:
+                ecoflex_restriction_site_check(component, 4)
+            for component in transcription_unit_4_terminator:
+                ecoflex_restriction_site_check(component, 4)
 
-    if transcription_unit_quantity > 4:
-        for component in transcription_unit_5_promoter:
-            ecoflex_restriction_site_check(component, 5)
-        for component in transcription_unit_5_rbs:
-            ecoflex_restriction_site_check(component, 5)
-        if signal_choice == "Yes":
-            for component in transcription_unit_5_signal:
+        if transcription_unit_quantity > 4:
+            for component in transcription_unit_5_promoter:
                 ecoflex_restriction_site_check(component, 5)
-        for component in transcription_unit_5_cds:
-            ecoflex_restriction_site_check(component, 5)
-        for component in transcription_unit_5_terminator:
-            ecoflex_restriction_site_check(component, 5)
+            for component in transcription_unit_5_rbs:
+                ecoflex_restriction_site_check(component, 5)
+            if signal_choice == "Yes":
+                for component in transcription_unit_5_signal:
+                    ecoflex_restriction_site_check(component, 5)
+            for component in transcription_unit_5_cds:
+                ecoflex_restriction_site_check(component, 5)
+            for component in transcription_unit_5_terminator:
+                ecoflex_restriction_site_check(component, 5)
+        return True
+    else:
+        return False
+
+
+# Calculate output plate requirements
+def calculate_well_requirements():
+    transcription_unit_1_variants_temp = []
+    transcription_unit_2_variants_temp = []
+    transcription_unit_3_variants_temp = []
+    transcription_unit_4_variants_temp = []
+    transcription_unit_5_variants_temp = []
+    level_2_variants_temp = []
+
+    counter = 0
+    for promoter in transcription_unit_1_promoter:
+        for rbs in transcription_unit_1_rbs:
+            if GUI.include_signal_combo.get() == "Yes":
+                for signal in transcription_unit_1_signal:
+                    for cds in transcription_unit_1_cds:
+                        for terminator in transcription_unit_1_terminator:
+                            counter += 1
+                            transcription_unit_1_variants_temp.append("variant " + str(counter))
+            else:
+                for cds in transcription_unit_1_cds:
+                    for terminator in transcription_unit_1_terminator:
+                        counter += 1
+                        transcription_unit_1_variants_temp.append("variant " + str(counter))
+
+    counter = 0
+    for promoter in transcription_unit_2_promoter:
+        for rbs in transcription_unit_2_rbs:
+            if GUI.include_signal_combo.get() == "Yes":
+                for signal in transcription_unit_2_signal:
+                    for cds in transcription_unit_2_cds:
+                        for terminator in transcription_unit_2_terminator:
+                            counter += 1
+                            transcription_unit_2_variants_temp.append("variant " + str(counter))
+            else:
+                for cds in transcription_unit_2_cds:
+                    for terminator in transcription_unit_2_terminator:
+                        counter += 1
+                        transcription_unit_2_variants_temp.append("variant " + str(counter))
+
+    if int(GUI.transcription_unit_quantity_combo.get()) > 2:
+        counter = 0
+        for promoter in transcription_unit_3_promoter:
+            for rbs in transcription_unit_3_rbs:
+                if GUI.include_signal_combo.get() == "Yes":
+                    for signal in transcription_unit_3_signal:
+                        for cds in transcription_unit_3_cds:
+                            for terminator in transcription_unit_3_terminator:
+                                counter += 1
+                                transcription_unit_3_variants_temp.append("variant " + str(counter))
+                else:
+                    for cds in transcription_unit_3_cds:
+                        for terminator in transcription_unit_3_terminator:
+                            counter += 1
+                            transcription_unit_3_variants_temp.append("variant " + str(counter))
+
+    if int(GUI.transcription_unit_quantity_combo.get()) > 3:
+        counter = 0
+        for promoter in transcription_unit_4_promoter:
+            for rbs in transcription_unit_4_rbs:
+                if GUI.include_signal_combo.get() == "Yes":
+                    for signal in transcription_unit_4_signal:
+                        for cds in transcription_unit_4_cds:
+                            for terminator in transcription_unit_4_terminator:
+                                counter += 1
+                                transcription_unit_4_variants_temp.append("variant " + str(counter))
+                else:
+                    for cds in transcription_unit_4_cds:
+                        for terminator in transcription_unit_4_terminator:
+                            counter += 1
+                            transcription_unit_4_variants_temp.append("variant " + str(counter))
+
+    if int(GUI.transcription_unit_quantity_combo.get()) > 4:
+        counter = 0
+        for promoter in transcription_unit_5_promoter:
+            for rbs in transcription_unit_5_rbs:
+                if GUI.include_signal_combo.get() == "Yes":
+                    for signal in transcription_unit_5_signal:
+                        for cds in transcription_unit_5_cds:
+                            for terminator in transcription_unit_5_terminator:
+                                counter += 1
+                                transcription_unit_5_variants_temp.append("variant " + str(counter))
+                else:
+                    for cds in transcription_unit_5_cds:
+                        for terminator in transcription_unit_5_terminator:
+                            counter += 1
+                            transcription_unit_5_variants_temp.append("variant " + str(counter))
+
+    if int(GUI.transcription_unit_quantity_combo.get()) == 2:
+        counter = 0
+        for tu1 in transcription_unit_1_variants_temp:
+            for tu2 in transcription_unit_2_variants_temp:
+                counter += 1
+                level_2_variants_temp.append("variant" + str(counter))
+
+    if int(GUI.transcription_unit_quantity_combo.get()) == 3:
+        counter = 0
+        for tu1 in transcription_unit_1_variants_temp:
+            for tu2 in transcription_unit_2_variants_temp:
+                for tu3 in transcription_unit_3_variants_temp:
+                    counter += 1
+                    level_2_variants_temp.append("variant" + str(counter))
+
+    if int(GUI.transcription_unit_quantity_combo.get()) == 4:
+        counter = 0
+        for tu1 in transcription_unit_1_variants_temp:
+            for tu2 in transcription_unit_2_variants_temp:
+                for tu3 in transcription_unit_3_variants_temp:
+                    for tu4 in transcription_unit_4_variants_temp:
+                        counter += 1
+                        level_2_variants_temp.append("variant" + str(counter))
+
+    if int(GUI.transcription_unit_quantity_combo.get()) == 5:
+        counter = 0
+        for tu1 in transcription_unit_1_variants_temp:
+            for tu2 in transcription_unit_2_variants_temp:
+                for tu3 in transcription_unit_3_variants_temp:
+                    for tu4 in transcription_unit_4_variants_temp:
+                        for tu5 in transcription_unit_5_variants_temp:
+                            counter += 1
+                            level_2_variants_temp.append("variant" + str(counter))
+
+    selected_reaction_ratios_level_1 = []
+    if GUI.level_1_ratio_1_1.get() == 1:
+        selected_reaction_ratios_level_1.append(" reaction 1:1")
+    if GUI.level_1_ratio_1_2.get() == 1:
+        selected_reaction_ratios_level_1.append(" reaction 1:2")
+    if GUI.level_1_ratio_2_1.get() == 1:
+        selected_reaction_ratios_level_1.append(" reaction 2:1")
+    if not selected_reaction_ratios_level_1:
+        selected_reaction_ratios_level_1.append(" reaction 2:1")
+
+    selected_reaction_ratios_level_2 = []
+    if GUI.level_2_ratio_1_1.get() == 1:
+        selected_reaction_ratios_level_2.append(" reaction 1:1")
+    if GUI.level_2_ratio_1_2.get() == 1:
+        selected_reaction_ratios_level_2.append(" reaction 1:2")
+    if GUI.level_2_ratio_2_1.get() == 1:
+        selected_reaction_ratios_level_2.append(" reaction 2:1")
+    if not selected_reaction_ratios_level_2:
+        selected_reaction_ratios_level_2.append(" reaction 2:1")
+
+    level_1_ratios = len(selected_reaction_ratios_level_1)
+    level_2_ratios = len(selected_reaction_ratios_level_2)
+
+    if int(GUI.transcription_unit_quantity_combo.get()) == 2:
+        level_1_output_quantity = (len(transcription_unit_1_variants_temp) + len(
+            transcription_unit_2_variants_temp)) * level_1_ratios
+
+    if int(GUI.transcription_unit_quantity_combo.get()) == 3:
+        level_1_output_quantity = (len(transcription_unit_1_variants_temp) + len(
+            transcription_unit_2_variants_temp) + len(transcription_unit_3_variants_temp)) * level_1_ratios
+
+    if int(GUI.transcription_unit_quantity_combo.get()) == 4:
+        level_1_output_quantity = (len(transcription_unit_1_variants_temp) + len(
+            transcription_unit_2_variants_temp) + len(transcription_unit_3_variants_temp) + len(
+            transcription_unit_4_variants_temp)) * level_1_ratios
+
+    if int(GUI.transcription_unit_quantity_combo.get()) == 5:
+        level_1_output_quantity = (len(transcription_unit_1_variants_temp) + len(
+            transcription_unit_2_variants_temp) + len(transcription_unit_3_variants_temp) + len(
+            transcription_unit_4_variants_temp) + len(transcription_unit_5_variants_temp)) * level_1_ratios
+
+    level_2_output_quantity = len(level_2_variants_temp) * level_2_ratios
+
+    return [level_1_output_quantity, level_2_output_quantity]
 
 
 # Library for codon swapping for EcoFlex protocols
@@ -913,7 +1335,7 @@ def swap_codons_ecoflex():
                                     sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                              " (" + site_name + ")" + " detected, "
-                                                                             " but was unable to be changed due " +
+                                                                                                      " but was unable to be changed due " +
                                                                              "to unavailable codon alternative " +
                                                                              "for " +
                                                                              str(codon) + "." +
@@ -1011,7 +1433,7 @@ def swap_codons_ecoflex():
                                     sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                              " (" + site_name + ")" + " detected"
-                                                                             " but was unable to be changed due " +
+                                                                                                      " but was unable to be changed due " +
                                                                              "to unavailable codon alternative " +
                                                                              "for " +
                                                                              str(codon) + "." +
@@ -1110,7 +1532,7 @@ def swap_codons_ecoflex():
                                     sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                              " (" + site_name + ")" + " detected,"
-                                                                             " but was unable to be changed due " +
+                                                                                                      " but was unable to be changed due " +
                                                                              "to unavailable codon alternative " +
                                                                              "for " +
                                                                              str(codon) + "." +
@@ -1209,7 +1631,7 @@ def swap_codons_ecoflex():
                                     sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                              " (" + site_name + ")" + " detected,"
-                                                                             " but was unable to be changed due " +
+                                                                                                      " but was unable to be changed due " +
                                                                              "to unavailable codon alternative " +
                                                                              "for " +
                                                                              str(codon) + "." +
@@ -1308,7 +1730,7 @@ def swap_codons_ecoflex():
                                     sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                              " (" + site_name + ")" + " detected,"
-                                                                             " but was unable to be changed due " +
+                                                                                                      " but was unable to be changed due " +
                                                                              "to unavailable codon alternative " +
                                                                              "for " +
                                                                              str(codon) + "." +
@@ -2402,11 +2824,11 @@ def ecoflex_fusion_sites():
                 else:
                     cds.sequence.elements = "tatg" + cds.sequence.elements
                     modification_dictionary["unit3_c" + str(counter)].append("Start codon (atg) could not be found at" +
-                                                                             " start of CDS region, please ensure that" 
+                                                                             " start of CDS region, please ensure that"
                                                                              " this SBOL part contains only the CDS. " +
                                                                              "The atg start codon has been added to "
                                                                              "this" +
-                                                                             " part, in addition to the prefix for the" 
+                                                                             " part, in addition to the prefix for the"
                                                                              " NdeI overhang (t)")
                 if cds.sequence.elements.endswith("ctag"):
                     pass
@@ -2530,11 +2952,11 @@ def ecoflex_fusion_sites():
                 else:
                     cds.sequence.elements = "tatg" + cds.sequence.elements
                     modification_dictionary["unit4_c" + str(counter)].append("Start codon (atg) could not be found at" +
-                                                                             " start of CDS region, please ensure that" 
+                                                                             " start of CDS region, please ensure that"
                                                                              " this SBOL part contains only the CDS. " +
                                                                              "The atg start codon has been added to "
                                                                              "this" +
-                                                                             " part, in addition to the prefix for the" 
+                                                                             " part, in addition to the prefix for the"
                                                                              " NdeI overhang (t)")
                 if cds.sequence.elements.endswith("ctag"):
                     pass
@@ -2658,11 +3080,11 @@ def ecoflex_fusion_sites():
                 else:
                     cds.sequence.elements = "tatg" + cds.sequence.elements
                     modification_dictionary["unit5_c" + str(counter)].append("Start codon (atg) could not be found at" +
-                                                                             " start of CDS region, please ensure that" 
+                                                                             " start of CDS region, please ensure that"
                                                                              " this SBOL part contains only the CDS. " +
                                                                              "The atg start codon has been added to "
                                                                              "this" +
-                                                                             " part, in addition to the prefix for the" 
+                                                                             " part, in addition to the prefix for the"
                                                                              " NdeI overhang (t)")
                 if cds.sequence.elements.endswith("ctag"):
                     pass
@@ -3622,13 +4044,14 @@ def transcription_unit_use_quantity():
 
 # Directory for protocol creation
 def create_protocol_directory(event):
+    GUI.clear_all_errors_moclo()
+    if GUI.assembly_method_combo.get() == "Automatic":
+        if not GUI.liquid_handler_selection_combo.get():
+            GUI.combo_error_handler()
+    if not GUI.protocol_name_entry.get():
+        GUI.protocol_name_error()
+
     chassis_choice = GUI.chassis_selection_combo.get()
     if chassis_choice == "EcoFlex":
-        final_ecoflex_check()
-        if not ecoflex_check_list:
-            from EcoFlex_protocol import create_protocol
-            create_protocol("<Button-1>")
-        else:
-            GUI.restriction_site_warning_ecoflex()
-    if chassis_choice == "B. subtilis":
-        print("PLACEHOLDER B. SUBTILIS PROTOCOL DIRECTORY")
+        if final_ecoflex_check():
+            GUI.final_prompt()

@@ -83,15 +83,15 @@ def add_part(temp_doc, sbol_file, import_type):
                     if not previously_imported:
                         if check_sequence_constraints(part_uri, temp_doc, 0) == "invalid":
                             GUI.no_sequence_constraints()
-                            raise LookupError("Part incompatible for assembly, as it has no sequence constraints")
-                        if import_type == "file":
-                            doc.append(sbol_file)
-                        if import_type == "database":
-                            igem.pull(sbol_file, doc)
-                        part_cd = doc.getComponentDefinition(part_uri_string)
-                        design_display_lists(part_cd)
-                        GUI.display_assembled_design(design_roles)
-                        component_definition_list.append(part_uri_string)
+                        else:
+                            if import_type == "file":
+                                doc.append(sbol_file)
+                            if import_type == "database":
+                                igem.pull(sbol_file, doc)
+                            part_cd = doc.getComponentDefinition(part_uri_string)
+                            design_display_lists(part_cd)
+                            GUI.display_assembled_design(design_roles)
+                            component_definition_list.append(part_uri_string)
 
         # If no sub components are detected, it will be checked that the imported file contains only a single part
         if not sub_components_detected:
@@ -114,15 +114,15 @@ def add_part(temp_doc, sbol_file, import_type):
                 if not previously_imported:
                     if check_sequence_constraints(part_uri, temp_doc, 0) == "invalid":
                         GUI.no_sequence_constraints()
-                        raise LookupError("Part incompatible for assembly, as it has no sequence constraints")
-                    if import_type == "file":
-                        doc.append(sbol_file)
-                    if import_type == "database":
-                        igem.pull(sbol_file, doc)
-                    part_cd = doc.getComponentDefinition(part_uri_string)
-                    design_display_lists(part_cd)
-                    GUI.display_assembled_design(design_roles)
-                    component_definition_list.append(part_uri_string)
+                    else:
+                        if import_type == "file":
+                            doc.append(sbol_file)
+                        if import_type == "database":
+                            igem.pull(sbol_file, doc)
+                        part_cd = doc.getComponentDefinition(part_uri_string)
+                        design_display_lists(part_cd)
+                        GUI.display_assembled_design(design_roles)
+                        component_definition_list.append(part_uri_string)
 
             else:
                 GUI.unused_components_error()

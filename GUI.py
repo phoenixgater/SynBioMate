@@ -428,12 +428,14 @@ query_submit_button = tk.Button(tab2, text="Submit")
 query_submit_button.bind("<Button-1>", Genetic_Design.query_submit)
 query_submit_button.grid(row=9, column=2)
 
+
 # Clear query button
 def create_clear_query_button():
     global clear_query_button
     clear_query_button = tk.Button(tab2, fg="red", text="Clear query")
     clear_query_button.bind("<Button-1>", clear_all_query)
     clear_query_button.grid(row=9, column=1)
+
 
 # Button to show part descriptions in genetic design tab
 def create_description_button_design():
@@ -504,12 +506,13 @@ def part_file_selection(event):
     global imported_part
     imported_part = window.filename
 
+
 # GUI binding of writing queried part to doc
 def part_choice_button_1():
     global query_result_button_1
     query_result_button_1 = tk.Button(tab2, text=Genetic_Design.button_1_display)
     query_result_button_1.bind("<Button-1>", Genetic_Design.query_to_doc_1)
-    query_result_button_1.grid(column=1, row=10,)
+    query_result_button_1.grid(column=1, row=10, )
 
 
 def part_choice_button_2():
@@ -723,12 +726,14 @@ def unused_components_error():
                                                   "parts but has no design structure")
     unused_components_error_label.grid(row=3, column=0, columnspan=10)
 
+
 # Error for importing a design
 def design_import_error():
     global design_import_error_label
     design_import_error_label = tk.Label(tab2, font=(None, 10), fg="red", text="This software does not currently "
                                                                                "support assembly with existing designs")
     design_import_error_label.grid(row=3, column=0, columnspan=10)
+
 
 # Clear all error and success labels in design tab
 def clear_all_notes_design():
@@ -824,7 +829,7 @@ moclo_title.grid(column=0, row=0, columnspan=4)
 # Import design button for MoClo tab
 import_design_button_moclo = tk.Button(tab4, text="Import SBOL file")
 import_design_button_moclo.bind("<Button-1>", MoClo.import_design)
-import_design_button_moclo.grid(column=0, row=1, sticky="e")
+import_design_button_moclo.grid(column=0, row=2)
 
 
 # Refresh display canvas in MoClo tab
@@ -840,7 +845,7 @@ def refresh_canvas_moclo():
 def display_canvas_moclo():
     global design_canvas_display_moclo
     design_canvas_display_moclo = tk.Canvas(tab4, width=1000, height=150)
-    design_canvas_display_moclo.grid(column=0, row=2, columnspan=1000)
+    design_canvas_display_moclo.grid(column=0, row=3, columnspan=1000)
 
 
 # Create design display in MoClo tab
@@ -879,7 +884,7 @@ def create_description_button_moclo():
         hide_part_description_button_moclo.grid_forget()
         part_description_button_moclo = tk.Button(tab4, text="Show part descriptions")
         part_description_button_moclo.bind("<Button-1>", part_description_moclo)
-        part_description_button_moclo.grid(column=1, row=3)
+        part_description_button_moclo.grid(column=1, row=4)
         counter = 0
         for description in MoClo.primary_structure_descriptions:
             counter = counter + 1
@@ -890,22 +895,29 @@ def create_description_button_moclo():
         hide_part_description_button_moclo.grid_forget()
         part_description_button_moclo = tk.Button(tab4, text="Show part descriptions")
         part_description_button_moclo.bind("<Button-1>", part_description_moclo)
-        part_description_button_moclo.grid(column=1, row=3)
+        part_description_button_moclo.grid(column=1, row=4)
     except NameError:
         part_description_button_moclo = tk.Button(tab4, text="Show part descriptions")
         part_description_button_moclo.bind("<Button-1>", part_description_moclo)
-        part_description_button_moclo.grid(column=1, row=3)
+        part_description_button_moclo.grid(column=1, row=4)
 
 
 # Show part description in moclo tab
 def part_description_moclo(event):
+    global description_frame_moclo
     counter = 0
+    try:
+        description_frame_moclo.grid_forget()
+    except NameError:
+        pass
+    description_frame_moclo = tk.Frame(tab4)
     for description in MoClo.primary_structure_descriptions:
         counter = counter + 1
         part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
-        globals()[part_description_button_name] = tk.Label(tab4, text=str(
+        globals()[part_description_button_name] = tk.Label(description_frame_moclo, text=str(
             MoClo.primary_structure_identities[counter - 1]) + " - " + description)
         globals()[part_description_button_name].grid(column=1, row=3 + counter)
+    description_frame_moclo.grid(column=1, row=5, sticky="w")
     hide_description_button_moclo()
 
 
@@ -915,18 +927,20 @@ def hide_description_button_moclo():
     global hide_part_description_button_moclo
     hide_part_description_button_moclo = tk.Button(tab4, text="Hide part descriptions")
     hide_part_description_button_moclo.bind("<Button-1>", hide_description_moclo)
-    hide_part_description_button_moclo.grid(column=1, row=3)
+    hide_part_description_button_moclo.grid(column=1, row=4)
 
 
 # Hiding part descriptions in moclo tab
 def hide_description_moclo(event):
+    global description_frame_moclo
+    description_frame_moclo.grid_forget()
     counter = 0
     for description in MoClo.primary_structure_descriptions:
         counter = counter + 1
         part_description_button_name = "part_key_description" + "_" + str(counter) + "button"
         globals()[part_description_button_name].grid_forget()
     hide_part_description_button_moclo.grid_forget()
-    part_description_button_moclo.grid(column=1, row=3)
+    part_description_button_moclo.grid(column=1, row=4)
 
 
 # Create analysis button moclo tab
@@ -937,7 +951,7 @@ def create_analysis_button_moclo():
         hide_design_analysis_button_moclo.grid_forget()
         design_analysis_button_moclo = tk.Button(tab4, text="Show design analysis")
         design_analysis_button_moclo.bind("<Button-1>", design_analysis_moclo)
-        design_analysis_button_moclo.grid(column=2, row=3)
+        design_analysis_button_moclo.grid(column=2, row=4)
         counter = 0
         for site_detection in MoClo.detected_restriction_sites:
             counter = counter + 1
@@ -949,24 +963,32 @@ def create_analysis_button_moclo():
         hide_design_analysis_button_moclo.grid_forget()
         design_analysis_button_moclo = tk.Button(tab4, text="Show design analysis")
         design_analysis_button_moclo.bind("<Button-1>", design_analysis_moclo)
-        design_analysis_button_moclo.grid(column=2, row=3)
+        design_analysis_button_moclo.grid(column=2, row=4)
     except NameError:
         design_analysis_button_moclo = tk.Button(tab4, text="Show design analysis")
         design_analysis_button_moclo.bind("<Button-1>", design_analysis_moclo)
-        design_analysis_button_moclo.grid(column=2, row=3)
+        design_analysis_button_moclo.grid(column=2, row=4)
 
 
 # Show analysis in moclo tab
 def design_analysis_moclo(event):
+    global design_analysis_frame
     counter = 0
+    try:
+        design_analysis_frame.grid_forget()
+    except NameError:
+        pass
+    design_analysis_frame = tk.Frame(tab4)
+
     for site_detection in MoClo.detected_restriction_sites:
         counter = counter + 1
         design_analysis_label_name = "design_analysis" + "_" + str(counter) + "label"
-        globals()[design_analysis_label_name] = tk.Label(tab4, text=str(site_detection))
+        globals()[design_analysis_label_name] = tk.Label(design_analysis_frame, text=str(site_detection))
         globals()[design_analysis_label_name].grid()
         global base_composition_moclo
-    base_composition_moclo = tk.Label(tab4, text=MoClo.base_composition)
+    base_composition_moclo = tk.Label(design_analysis_frame, text=MoClo.base_composition)
     base_composition_moclo.grid()
+    design_analysis_frame.grid(column=2, row=5)
     create_hide_design_analysis_button_moclo()
 
 
@@ -976,17 +998,19 @@ def create_hide_design_analysis_button_moclo():
     global hide_design_analysis_button_moclo
     hide_design_analysis_button_moclo = tk.Button(tab4, text="Hide design analysis")
     hide_design_analysis_button_moclo.bind("<Button-1>", hide_analysis_moclo)
-    hide_design_analysis_button_moclo.grid(column=2, row=3)
+    hide_design_analysis_button_moclo.grid(column=2, row=4)
 
 
 # Hiding analysis in moclo tab
 def hide_analysis_moclo(event):
+    global design_analysis_frame
+    design_analysis_frame.grid_forget()
     counter = 0
     for rfc10_detection in MoClo.detected_restriction_sites:
         counter = counter + 1
         design_analysis_label_name = "design_analysis" + "_" + str(counter) + "label"
         globals()[design_analysis_label_name].grid_forget()
-    design_analysis_button_moclo.grid()
+    design_analysis_button_moclo.grid(column=2, row=4)
     base_composition_moclo.grid_forget()
     hide_design_analysis_button_moclo.grid_forget()
 
@@ -1005,7 +1029,7 @@ def design_parts_to_library():
     global design_to_library_button
     design_to_library_button = tk.Button(tab4, text="Import design parts to level 0 library")
     design_to_library_button.bind("<Button-1>", MoClo.import_design_parts_to_library)
-    design_to_library_button.grid(column=0, row=3)
+    design_to_library_button.grid(column=0, row=4)
 
 
 # clear level 0 library from GUI
@@ -1039,41 +1063,47 @@ def refresh_level_0_library():
 
 # Display level 0 library
 def display_level_0_library():
+    global level_0_library_frame
     global promoters_moclo
     global rbs_moclo
     global cds_moclo
     global terminator_moclo
     global signal_moclo
     global other_moclo
+    level_0_library_frame = tk.Frame(tab4)
+
+    level_0_library_title = tk.Label(level_0_library_frame, font=("Arial", "10", "bold"), text="level 0 library:")
+    level_0_library_title.grid(column=0, row=1)
+
     promoter_display = []
     for component in MoClo.level_0_promoter:
         promoter_display.append(component + ". " + MoClo.level_0_promoter[component].displayId)
-    promoters_moclo = tk.Label(tab4, text=promoter_display)
+    promoters_moclo = tk.Label(level_0_library_frame, text=promoter_display)
 
     rbs_display = []
     for component in MoClo.level_0_rbs:
         rbs_display.append(component + ". " + MoClo.level_0_rbs[component].displayId)
-    rbs_moclo = tk.Label(tab4, text=rbs_display)
+    rbs_moclo = tk.Label(level_0_library_frame, text=rbs_display)
 
     cds_display = []
     for component in MoClo.level_0_cds:
         cds_display.append(component + ". " + MoClo.level_0_cds[component].displayId)
-    cds_moclo = tk.Label(tab4, text=cds_display)
+    cds_moclo = tk.Label(level_0_library_frame, text=cds_display)
 
     terminator_display = []
     for component in MoClo.level_0_terminator:
         terminator_display.append(component + ". " + MoClo.level_0_terminator[component].displayId)
-    terminator_moclo = tk.Label(tab4, text=terminator_display)
+    terminator_moclo = tk.Label(level_0_library_frame, text=terminator_display)
 
     signal_display = []
     for component in MoClo.level_0_signal:
         signal_display.append(component + ". " + MoClo.level_0_signal[component].displayId)
-    signal_moclo = tk.Label(tab4, text=signal_display)
+    signal_moclo = tk.Label(level_0_library_frame, text=signal_display)
 
     other_display = []
     for component in MoClo.level_0_other:
         other_display.append(component + ". " + MoClo.level_0_other[component].displayId)
-    other_moclo = tk.Label(tab4, text=other_display)
+    other_moclo = tk.Label(level_0_library_frame, text=other_display)
 
     promoters_moclo.grid(column=0, row=4)
     rbs_moclo.grid(column=0, row=5)
@@ -1081,48 +1111,62 @@ def display_level_0_library():
     terminator_moclo.grid(column=0, row=7)
     signal_moclo.grid(column=0, row=8)
     other_moclo.grid(column=0, row=9)
+    level_0_library_frame.grid(column=0, row=5)
 
 
 # Option to include signal peptide label
 include_signal_label = tk.Label(tab4, text="Include signal peptide?")
-include_signal_label.grid(column=0, row=12)
+include_signal_label.grid(column=0, row=10)
 
 # Option to include signal peptide combo selection
 include_signal_combo = ttk.Combobox(tab4, state="readonly", values=["Yes", "No"])
-include_signal_combo.grid(column=0, row=13)
+include_signal_combo.grid(column=0, row=12)
 
-# Select chassis system label
+# Select toolkit label
 chassis_selection_label = tk.Label(tab4, text="Toolkit")
-chassis_selection_label.grid(column=1, row=12)
+chassis_selection_label.grid(column=1, row=10)
 
 # Select chassis system combo box
 chassis_selection_combo = ttk.Combobox(tab4, state="readonly", values=["EcoFlex"])
-chassis_selection_combo.grid(column=1, row=13)
+chassis_selection_combo.grid(column=1, row=12)
 
 # Label for transcription unit quantity entry
 transcription_unit_quantity_label = tk.Label(tab4, text="transcription unit (TU) quantity")
-transcription_unit_quantity_label.grid(column=2, row=12)
+transcription_unit_quantity_label.grid(column=2, row=10)
 
 # Entry for transcription unit quantity
 transcription_unit_quantity_combo = ttk.Combobox(tab4, state="readonly", values=["2", "3", "4", "5"])
-transcription_unit_quantity_combo.grid(column=2, row=13)
+transcription_unit_quantity_combo.grid(column=2, row=12)
+
 
 # Move level 0 library parts to different part types
-part_to_move_label = tk.Label(tab4, text="Key of part to move (e.g p1 or r3)")
-part_to_move_label.grid(column=0, row=10)
-part_to_move_entry = tk.Entry(tab4)
-part_to_move_entry.grid(column=0, row=11)
-destination_library_label = tk.Label(tab4, text="Destination group")
-destination_library_label.grid(column=1, row=10)
-destination_library_select = ttk.Combobox(tab4, state="readonly", values=["Promoter (p)", "RBS (r)", "Signal peptide "
-                                                                                                     "(s)", "Coding "
-                                                                                                            "region ("
-                                                                                                            "c)",
-                                                                          "Terminator (t)", "Other (o)"])
-destination_library_select.grid(column=1, row=11)
-part_move_button = tk.Button(tab4, text="Move")
-part_move_button.bind("<Button-1>", MoClo.move_parts_in_library)
-part_move_button.grid(column=2, row=11)
+def move_parts_library():
+    global part_to_move_entry
+    global destination_library_select
+    global part_to_move_label
+    global destination_library_label
+    global part_move_button
+    part_to_move_label = tk.Label(tab4, text="Key of part to move (e.g p1 or r3)")
+    part_to_move_label.grid(column=0, row=6)
+    part_to_move_entry = tk.Entry(tab4)
+    part_to_move_entry.grid(column=0, row=8)
+    destination_library_label = tk.Label(tab4, text="Destination group")
+    destination_library_label.grid(column=1, row=6)
+    destination_library_select = ttk.Combobox(tab4, state="readonly",
+                                              values=["Promoter (p)", "RBS (r)", "Signal peptide "
+                                                                                 "(s)", "Coding "
+                                                                                        "region ("
+                                                                                        "c)",
+                                                      "Terminator (t)", "Other (o)"])
+    destination_library_select.grid(column=1, row=8)
+    part_move_button = tk.Button(tab4, text="Move")
+    part_move_button.bind("<Button-1>", MoClo.move_parts_in_library)
+    part_move_button.grid(column=2, row=8, sticky="w")
+
+
+# Protocol design title
+protocol_design_title = tk.Label(tab4, font=("Arial", "11", "bold"), text="Protocol design")
+protocol_design_title.grid(column=0, row=9, pady=(20, 0))
 
 
 # Remove stage 1 GUI
@@ -1153,199 +1197,353 @@ def remove_stage_1_GUI():
 
 # Create transcription unit entries and labels
 def stage_2_GUI(event):
-    remove_stage_1_GUI()
-    transcription_unit_quantity = transcription_unit_quantity_combo.get()
-    stage_2_label = tk.Label(tab4, font=(None, 12, 'bold'), text="Please enter keys of desired parts (e.g p1, p2, p3, "
-                                                                 "for promoters)")
-    stage_2_label.grid(column=1, row=12, columnspan=5)
-    if int(transcription_unit_quantity) > 0:
-        transcription_unit_1_label = tk.Label(tab4, text="Transcription unit 1")
-        transcription_unit_1_label.grid(column=0, row=14)
+    clear_all_errors_moclo()
+    parameters_fulfilled = True
+    if not include_signal_combo.get():
+        combo_error_signal()
+        parameters_fulfilled = False
+    if not chassis_selection_combo.get():
+        combo_error_toolkit()
+        parameters_fulfilled = False
+    if not transcription_unit_quantity_combo.get():
+        combo_error_tu()
+        parameters_fulfilled = False
+    if not assembly_method_combo.get():
+        combo_error_assembly()
+        parameters_fulfilled = False
+    if not include_codon_swap_combo.get():
+        combo_error_cds()
+        parameters_fulfilled = False
+    if not include_fusion_site_combo.get():
+        combo_error_fusion()
+        parameters_fulfilled = False
 
-        transcription_unit_1_promoter_label = tk.Label(tab4, text="Promoters (p)")
-        transcription_unit_1_promoter_label.grid(column=1, row=13)
-        global transcription_unit_1_promoter_entry
-        transcription_unit_1_promoter_entry = tk.Entry(tab4)
-        transcription_unit_1_promoter_entry.grid(column=1, row=14)
+    if parameters_fulfilled:
+        remove_stage_1_GUI()
+        transcription_unit_quantity = transcription_unit_quantity_combo.get()
+        global stage_2_label
+        stage_2_label = tk.Label(tab4, font=(None, 12, 'bold'),
+                                 text="Please enter keys of desired parts (e.g p1, p2, p3, "
+                                      "for promoters)")
+        stage_2_label.grid(column=1, row=10, columnspan=5)
+        if int(transcription_unit_quantity) > 0:
+            global transcription_unit_1_label
+            transcription_unit_1_label = tk.Label(tab4, text="Transcription unit 1")
+            transcription_unit_1_label.grid(column=0, row=13)
 
-        transcription_unit_1_rbs_label = tk.Label(tab4, text="RBSs (r)")
-        transcription_unit_1_rbs_label.grid(column=2, row=13)
-        global transcription_unit_1_rbs_entry
-        transcription_unit_1_rbs_entry = tk.Entry(tab4)
-        transcription_unit_1_rbs_entry.grid(column=2, row=14)
+            global transcription_unit_1_promoter_label
+            transcription_unit_1_promoter_label = tk.Label(tab4, text="Promoters (p)")
+            transcription_unit_1_promoter_label.grid(column=1, row=11)
+            global transcription_unit_1_promoter_entry
+            transcription_unit_1_promoter_entry = tk.Entry(tab4)
+            transcription_unit_1_promoter_entry.grid(column=1, row=13)
 
-        if include_signal_combo.get() == "Yes":
-            transcription_unit_1_signal_label = tk.Label(tab4, text="Signal peptides (s)")
-            transcription_unit_1_signal_label.grid(column=3, row=13)
-            global transcription_unit_1_signal_entry
-            transcription_unit_1_signal_entry = tk.Entry(tab4)
-            transcription_unit_1_signal_entry.grid(column=3, row=14)
+            global transcription_unit_1_rbs_label
+            transcription_unit_1_rbs_label = tk.Label(tab4, text="RBSs (r)")
+            transcription_unit_1_rbs_label.grid(column=2, row=11)
+            global transcription_unit_1_rbs_entry
+            transcription_unit_1_rbs_entry = tk.Entry(tab4)
+            transcription_unit_1_rbs_entry.grid(column=2, row=13)
 
-        transcription_unit_1_cds_label = tk.Label(tab4, text="CDSs (c)")
-        transcription_unit_1_cds_label.grid(column=4, row=13)
-        global transcription_unit_1_cds_entry
-        transcription_unit_1_cds_entry = tk.Entry(tab4)
-        transcription_unit_1_cds_entry.grid(column=4, row=14)
+            if include_signal_combo.get() == "Yes":
+                global transcription_unit_1_signal_label
+                transcription_unit_1_signal_label = tk.Label(tab4, text="Signal peptides (s)")
+                transcription_unit_1_signal_label.grid(column=3, row=11)
+                global transcription_unit_1_signal_entry
+                transcription_unit_1_signal_entry = tk.Entry(tab4)
+                transcription_unit_1_signal_entry.grid(column=3, row=13)
 
-        transcription_unit_1_terminator_label = tk.Label(tab4, text="Terminators (t)")
-        transcription_unit_1_terminator_label.grid(column=5, row=13)
-        global transcription_unit_1_terminator_entry
-        transcription_unit_1_terminator_entry = tk.Entry(tab4)
-        transcription_unit_1_terminator_entry.grid(column=5, row=14)
+            global transcription_unit_1_cds_label
+            transcription_unit_1_cds_label = tk.Label(tab4, text="CDSs (c)")
+            transcription_unit_1_cds_label.grid(column=4, row=11)
+            global transcription_unit_1_cds_entry
+            transcription_unit_1_cds_entry = tk.Entry(tab4)
+            transcription_unit_1_cds_entry.grid(column=4, row=13)
 
-    if int(transcription_unit_quantity) > 1:
-        transcription_unit_2_label = tk.Label(tab4, text="Transcription unit 2")
-        transcription_unit_2_label.grid(column=0, row=15)
+            global transcription_unit_1_terminator_label
+            transcription_unit_1_terminator_label = tk.Label(tab4, text="Terminators (t)")
+            transcription_unit_1_terminator_label.grid(column=5, row=11)
+            global transcription_unit_1_terminator_entry
+            transcription_unit_1_terminator_entry = tk.Entry(tab4)
+            transcription_unit_1_terminator_entry.grid(column=5, row=13)
 
-        global transcription_unit_2_promoter_entry
-        transcription_unit_2_promoter_entry = tk.Entry(tab4)
-        transcription_unit_2_promoter_entry.grid(column=1, row=15)
+        if int(transcription_unit_quantity) > 1:
+            global transcription_unit_2_label
+            transcription_unit_2_label = tk.Label(tab4, text="Transcription unit 2")
+            transcription_unit_2_label.grid(column=0, row=15)
 
-        global transcription_unit_2_rbs_entry
-        transcription_unit_2_rbs_entry = tk.Entry(tab4)
-        transcription_unit_2_rbs_entry.grid(column=2, row=15)
+            global transcription_unit_2_promoter_entry
+            transcription_unit_2_promoter_entry = tk.Entry(tab4)
+            transcription_unit_2_promoter_entry.grid(column=1, row=15)
 
-        if include_signal_combo.get() == "Yes":
-            global transcription_unit_2_signal_entry
-            transcription_unit_2_signal_entry = tk.Entry(tab4)
-            transcription_unit_2_signal_entry.grid(column=3, row=15)
+            global transcription_unit_2_rbs_entry
+            transcription_unit_2_rbs_entry = tk.Entry(tab4)
+            transcription_unit_2_rbs_entry.grid(column=2, row=15)
 
-        global transcription_unit_2_cds_entry
-        transcription_unit_2_cds_entry = tk.Entry(tab4)
-        transcription_unit_2_cds_entry.grid(column=4, row=15)
+            if include_signal_combo.get() == "Yes":
+                global transcription_unit_2_signal_entry
+                transcription_unit_2_signal_entry = tk.Entry(tab4)
+                transcription_unit_2_signal_entry.grid(column=3, row=15)
 
-        global transcription_unit_2_terminator_entry
-        transcription_unit_2_terminator_entry = tk.Entry(tab4)
-        transcription_unit_2_terminator_entry.grid(column=5, row=15)
+            global transcription_unit_2_cds_entry
+            transcription_unit_2_cds_entry = tk.Entry(tab4)
+            transcription_unit_2_cds_entry.grid(column=4, row=15)
 
-    if int(transcription_unit_quantity) > 2:
-        transcription_unit_3_label = tk.Label(tab4, text="Transcription unit 3")
-        transcription_unit_3_label.grid(column=0, row=16)
+            global transcription_unit_2_terminator_entry
+            transcription_unit_2_terminator_entry = tk.Entry(tab4)
+            transcription_unit_2_terminator_entry.grid(column=5, row=15)
 
-        global transcription_unit_3_promoter_entry
-        transcription_unit_3_promoter_entry = tk.Entry(tab4)
-        transcription_unit_3_promoter_entry.grid(column=1, row=16)
+        if int(transcription_unit_quantity) > 2:
+            global transcription_unit_3_label
+            transcription_unit_3_label = tk.Label(tab4, text="Transcription unit 3")
+            transcription_unit_3_label.grid(column=0, row=17)
 
-        global transcription_unit_3_rbs_entry
-        transcription_unit_3_rbs_entry = tk.Entry(tab4)
-        transcription_unit_3_rbs_entry.grid(column=2, row=16)
+            global transcription_unit_3_promoter_entry
+            transcription_unit_3_promoter_entry = tk.Entry(tab4)
+            transcription_unit_3_promoter_entry.grid(column=1, row=17)
 
-        if include_signal_combo.get() == "Yes":
-            global transcription_unit_3_signal_entry
-            transcription_unit_3_signal_entry = tk.Entry(tab4)
-            transcription_unit_3_signal_entry.grid(column=3, row=16)
+            global transcription_unit_3_rbs_entry
+            transcription_unit_3_rbs_entry = tk.Entry(tab4)
+            transcription_unit_3_rbs_entry.grid(column=2, row=17)
 
-        global transcription_unit_3_cds_entry
-        transcription_unit_3_cds_entry = tk.Entry(tab4)
-        transcription_unit_3_cds_entry.grid(column=4, row=16)
+            if include_signal_combo.get() == "Yes":
+                global transcription_unit_3_signal_entry
+                transcription_unit_3_signal_entry = tk.Entry(tab4)
+                transcription_unit_3_signal_entry.grid(column=3, row=17)
 
-        global transcription_unit_3_terminator_entry
-        transcription_unit_3_terminator_entry = tk.Entry(tab4)
-        transcription_unit_3_terminator_entry.grid(column=5, row=16)
+            global transcription_unit_3_cds_entry
+            transcription_unit_3_cds_entry = tk.Entry(tab4)
+            transcription_unit_3_cds_entry.grid(column=4, row=17)
 
-    if int(transcription_unit_quantity) > 3:
-        transcription_unit_4_label = tk.Label(tab4, text="Transcription unit 4")
-        transcription_unit_4_label.grid(column=0, row=17)
+            global transcription_unit_3_terminator_entry
+            transcription_unit_3_terminator_entry = tk.Entry(tab4)
+            transcription_unit_3_terminator_entry.grid(column=5, row=17)
 
-        global transcription_unit_4_promoter_entry
-        transcription_unit_4_promoter_entry = tk.Entry(tab4)
-        transcription_unit_4_promoter_entry.grid(column=1, row=17)
+        if int(transcription_unit_quantity) > 3:
+            global transcription_unit_4_label
+            transcription_unit_4_label = tk.Label(tab4, text="Transcription unit 4")
+            transcription_unit_4_label.grid(column=0, row=19)
 
-        global transcription_unit_4_rbs_entry
-        transcription_unit_4_rbs_entry = tk.Entry(tab4)
-        transcription_unit_4_rbs_entry.grid(column=2, row=17)
+            global transcription_unit_4_promoter_entry
+            transcription_unit_4_promoter_entry = tk.Entry(tab4)
+            transcription_unit_4_promoter_entry.grid(column=1, row=19)
 
-        if include_signal_combo.get() == "Yes":
-            global transcription_unit_4_signal_entry
-            transcription_unit_4_signal_entry = tk.Entry(tab4)
-            transcription_unit_4_signal_entry.grid(column=3, row=17)
+            global transcription_unit_4_rbs_entry
+            transcription_unit_4_rbs_entry = tk.Entry(tab4)
+            transcription_unit_4_rbs_entry.grid(column=2, row=19)
 
-        global transcription_unit_4_cds_entry
-        transcription_unit_4_cds_entry = tk.Entry(tab4)
-        transcription_unit_4_cds_entry.grid(column=4, row=17)
+            if include_signal_combo.get() == "Yes":
+                global transcription_unit_4_signal_entry
+                transcription_unit_4_signal_entry = tk.Entry(tab4)
+                transcription_unit_4_signal_entry.grid(column=3, row=19)
 
-        global transcription_unit_4_terminator_entry
-        transcription_unit_4_terminator_entry = tk.Entry(tab4)
-        transcription_unit_4_terminator_entry.grid(column=5, row=17)
+            global transcription_unit_4_cds_entry
+            transcription_unit_4_cds_entry = tk.Entry(tab4)
+            transcription_unit_4_cds_entry.grid(column=4, row=19)
 
-    if int(transcription_unit_quantity) > 4:
-        transcription_unit_5_label = tk.Label(tab4, text="Transcription unit 5")
-        transcription_unit_5_label.grid(column=0, row=18)
+            global transcription_unit_4_terminator_entry
+            transcription_unit_4_terminator_entry = tk.Entry(tab4)
+            transcription_unit_4_terminator_entry.grid(column=5, row=19)
 
-        global transcription_unit_5_promoter_entry
-        transcription_unit_5_promoter_entry = tk.Entry(tab4)
-        transcription_unit_5_promoter_entry.grid(column=1, row=18)
+        if int(transcription_unit_quantity) > 4:
+            global transcription_unit_5_label
+            transcription_unit_5_label = tk.Label(tab4, text="Transcription unit 5")
+            transcription_unit_5_label.grid(column=0, row=21)
 
-        global transcription_unit_5_rbs_entry
-        transcription_unit_5_rbs_entry = tk.Entry(tab4)
-        transcription_unit_5_rbs_entry.grid(column=2, row=18)
+            global transcription_unit_5_promoter_entry
+            transcription_unit_5_promoter_entry = tk.Entry(tab4)
+            transcription_unit_5_promoter_entry.grid(column=1, row=21)
 
-        if include_signal_combo.get() == "Yes":
-            global transcription_unit_5_signal_entry
-            transcription_unit_5_signal_entry = tk.Entry(tab4)
-            transcription_unit_5_signal_entry.grid(column=3, row=18)
+            global transcription_unit_5_rbs_entry
+            transcription_unit_5_rbs_entry = tk.Entry(tab4)
+            transcription_unit_5_rbs_entry.grid(column=2, row=21)
 
-        global transcription_unit_5_cds_entry
-        transcription_unit_5_cds_entry = tk.Entry(tab4)
-        transcription_unit_5_cds_entry.grid(column=4, row=18)
+            if include_signal_combo.get() == "Yes":
+                global transcription_unit_5_signal_entry
+                transcription_unit_5_signal_entry = tk.Entry(tab4)
+                transcription_unit_5_signal_entry.grid(column=3, row=21)
 
-        global transcription_unit_5_terminator_entry
-        transcription_unit_5_terminator_entry = tk.Entry(tab4)
-        transcription_unit_5_terminator_entry.grid(column=5, row=18)
+            global transcription_unit_5_cds_entry
+            transcription_unit_5_cds_entry = tk.Entry(tab4)
+            transcription_unit_5_cds_entry.grid(column=4, row=21)
 
-    if assembly_method_combo.get() == "Automatic":
-        liquid_handler_selection()
-    create_protocol_button()
-    protocol_name_entry_gui()
+            global transcription_unit_5_terminator_entry
+            transcription_unit_5_terminator_entry = tk.Entry(tab4)
+            transcription_unit_5_terminator_entry.grid(column=5, row=21)
+
+        if assembly_method_combo.get() == "Automatic":
+            liquid_handler_selection()
+        create_create_protocol_button()
+        protocol_name_entry_gui()
 
 
 # Create stage 2 GUI
-spacing_1 = tk.Label(tab4, text=" ")
-spacing_1.grid(column=1, row=20)
 transcription_unit_create = tk.Button(tab4, text="Create")
 transcription_unit_create.bind("<Button-1>", stage_2_GUI)
 transcription_unit_create.grid(column=1, row=21)
 
+
+# Clear stage 2 GUI
+def clear_stage_2_GUI():
+    part_move_button.grid_forget()
+    part_to_move_label.grid_forget()
+    destination_library_label.grid_forget()
+    part_to_move_entry.grid_forget()
+    destination_library_select.grid_forget()
+    protocol_design_title.grid_forget()
+    clear_all_errors_moclo()
+    stage_2_label.grid_forget()
+
+    transcription_unit_1_label.grid_forget()
+    transcription_unit_1_promoter_label.grid_forget()
+    transcription_unit_1_rbs_label.grid_forget()
+    if include_signal_combo.get() == "Yes":
+        transcription_unit_1_signal_label.grid_forget()
+    transcription_unit_1_cds_label.grid_forget()
+    transcription_unit_1_terminator_label.grid_forget()
+    transcription_unit_1_promoter_entry.grid_forget()
+    transcription_unit_1_rbs_entry.grid_forget()
+    if include_signal_combo.get() == "Yes":
+        transcription_unit_1_signal_entry.grid_forget()
+    transcription_unit_1_cds_entry.grid_forget()
+    transcription_unit_1_terminator_entry.grid_forget()
+
+    transcription_unit_2_label.grid_forget()
+    transcription_unit_2_promoter_entry.grid_forget()
+    transcription_unit_2_rbs_entry.grid_forget()
+    if include_signal_combo.get() == "Yes":
+        transcription_unit_2_signal_entry.grid_forget()
+    transcription_unit_2_cds_entry.grid_forget()
+    transcription_unit_2_terminator_entry.grid_forget()
+
+    if int(transcription_unit_quantity_combo.get()) > 2:
+        transcription_unit_3_label.grid_forget()
+        transcription_unit_3_promoter_entry.grid_forget()
+        transcription_unit_3_rbs_entry.grid_forget()
+        if include_signal_combo.get() == "Yes":
+            transcription_unit_3_signal_entry.grid_forget()
+        transcription_unit_3_cds_entry.grid_forget()
+        transcription_unit_3_terminator_entry.grid_forget()
+
+    if int(transcription_unit_quantity_combo.get()) > 3:
+        transcription_unit_4_label.grid_forget()
+        transcription_unit_4_promoter_entry.grid_forget()
+        transcription_unit_4_rbs_entry.grid_forget()
+        if include_signal_combo.get() == "Yes":
+            transcription_unit_4_signal_entry.grid_forget()
+        transcription_unit_4_cds_entry.grid_forget()
+        transcription_unit_4_terminator_entry.grid_forget()
+
+    if int(transcription_unit_quantity_combo.get()) > 4:
+        transcription_unit_5_label.grid_forget()
+        transcription_unit_5_promoter_entry.grid_forget()
+        transcription_unit_5_rbs_entry.grid_forget()
+        if include_signal_combo.get() == "Yes":
+            transcription_unit_5_signal_entry.grid_forget()
+        transcription_unit_5_cds_entry.grid_forget()
+        transcription_unit_5_terminator_entry.grid_forget()
+
+    if assembly_method_combo.get() == "Automatic":
+        liquid_handler_selection_label.grid_forget()
+        liquid_handler_selection_combo.grid_forget()
+    create_protocol_button.grid_forget()
+    protocol_name_label.grid_forget()
+    protocol_name_entry.grid_forget()
+
+
 # Automatic/Manual selection
 assembly_method_label = tk.Label(tab4, text="Assembly method")
-assembly_method_label.grid(column=3, row=12)
+assembly_method_label.grid(column=3, row=10)
 assembly_method_combo = ttk.Combobox(tab4, state="readonly", values=["Automatic", "Manual"])
-assembly_method_combo.grid(column=3, row=13)
+assembly_method_combo.grid(column=3, row=12)
 
 
-def create_protocol_button():
+# Create protocol button
+def create_create_protocol_button():
+    global create_protocol_button
     create_protocol_button = tk.Button(tab4, text="Create protocol")
     create_protocol_button.bind("<Button-1>", MoClo.create_protocol_directory)
-    create_protocol_button.grid(column=2, row=23)
+    create_protocol_button.grid(column=2, row=28)
 
 
-def restriction_site_warning_ecoflex():
+# Final prompt before protocol generation
+def final_prompt():
+    clear_stage_2_GUI()
     formatted_list = []
-    for warning in MoClo.ecoflex_check_list:
-        formatted_list.append("\n" + warning)
-    pre_creation_check = st.ScrolledText(tab4, font=(None, 8), fg="red", bg="SystemButtonFace", height=6, width=45)
-    pre_creation_check.grid(column=2)
-    pre_creation_check.insert(tk.INSERT, formatted_list)
-    pre_creation_check.configure(state="disabled")
+    global final_check_title
+    final_check_title = tk.Label(tab4, font=("Arial", "11", "bold"), text="Final check")
+    final_check_title.grid(column=2, row=10, pady=(20, 0))
+    if assembly_method_combo.get() == "Automatic":
+        level_1_output_requirement = MoClo.calculate_well_requirements()[0]
+        level_2_output_requirement = MoClo.calculate_well_requirements()[1]
+        global level_1_output_requirement_label
+        global level_2_output_requirement_label
+        if level_1_output_requirement > 384:
+            level_1_output_requirement_label = tk.Label(tab4, fg="red", text="-Output capacity reached for level 1 "
+                                                                             "transcription unit assembly " + "(" +
+                                                                             str(level_1_output_requirement) + "/" +
+                                                                             "384" + ")" +
+                                                                             ". CSV scripts will not be valid")
+        else:
+            level_1_output_requirement_label = tk.Label(tab4, fg="green", text="Level 1 assembly output " +
+                                                                               str(level_1_output_requirement) +
+                                                                               "/" + "384")
+
+        if level_2_output_requirement > 384:
+            level_2_output_requirement_label = tk.Label(tab4, fg="red", text="-Output capacity reached for level 2 "
+                                                                             "transcription unit assembly " + "(" +
+                                                                             str(level_2_output_requirement) + "/" +
+                                                                             "384" + ")" +
+                                                                             ". CSV scripts will not be valid")
+        else:
+            level_2_output_requirement_label = tk.Label(tab4, fg="green", text="Level 2 assembly output " +
+                                                                               str(level_2_output_requirement) +
+                                                                               "/" + "384")
+        level_1_output_requirement_label.grid(column=2, row=11)
+        level_2_output_requirement_label.grid(column=2, row=12)
+
+    if not MoClo.ecoflex_check_list:
+        global no_sites_detected_label
+        no_sites_detected_label = tk.Label(tab4, fg="green", text="No restriction sites detected")
+        no_sites_detected_label.grid(column=2, row=13)
+    else:
+        global restriction_site_title
+        global pre_creation_check
+        restriction_site_title = tk.Label(tab4, fg="red", text="Restriction sites detected:")
+        restriction_site_title.grid(column=2, row=14)
+        for warning in MoClo.ecoflex_check_list:
+            formatted_list.append("\n" + warning)
+        pre_creation_check = st.ScrolledText(tab4, font=(None, 8), fg="red", bg="SystemButtonFace", height=6, width=60)
+        pre_creation_check.grid(column=2, row=15)
+        pre_creation_check.insert(tk.INSERT, formatted_list)
+        pre_creation_check.configure(state="disabled")
     from EcoFlex_protocol import create_protocol
+
     global continue_button
     continue_button = tk.Button(tab4, text="Continue with creation")
     continue_button.bind("<Button-1>", create_protocol)
-    continue_button.grid(column=2)
+    continue_button.grid(column=2, row=17)
     global stop_button
     stop_button = tk.Button(tab4, text="Stop")
-    stop_button.bind("<Button-1>", remove_warnings)
-    stop_button.grid(column=2)
+    stop_button.bind("<Button-1>", revert_stage_2_GUI)
+    stop_button.grid(column=2, row=16)
 
 
-def remove_warnings(event):
+# Reinstating stage 2 GUI from final check
+def revert_stage_2_GUI(event):
+    final_check_title.grid_forget()
+    if assembly_method_combo.get() == "Automatic":
+        level_1_output_requirement_label.grid_forget()
+        level_2_output_requirement_label.grid_forget()
+    if not MoClo.ecoflex_check_list:
+        no_sites_detected_label.grid_forget()
+    else:
+        restriction_site_title.grid_forget()
+        pre_creation_check.grid_forget()
     continue_button.grid_forget()
     stop_button.grid_forget()
-    counter = 0
-    for warning in MoClo.ecoflex_check_list:
-        counter = counter + 1
-        warning_label_name = "warning" + "_" + str(counter)
-        globals()[warning_label_name].grid_forget()
+    stage_2_GUI("<Button-1>")
+    move_parts_library()
 
 
 # User selection for part:level 1 backbone volume ratio
@@ -1384,32 +1582,229 @@ level_2_volume_ratio_checkbox_2_1.grid(column=2, row=19)
 # Liquid handler selection
 def liquid_handler_selection():
     global liquid_handler_selection_combo
+    global liquid_handler_selection_label
     liquid_handler_selection_label = tk.Label(tab4, text="Select liquid handler")
-    liquid_handler_selection_label.grid(column=2, row=19)
+    liquid_handler_selection_label.grid(column=2, row=22)
     liquid_handler_selection_combo = ttk.Combobox(tab4, state="readonly", values=["Echo 525"])
-    liquid_handler_selection_combo.grid(column=2, row=20)
+    liquid_handler_selection_combo.grid(column=2, row=24)
 
 
 # Protocol name
 def protocol_name_entry_gui():
     global protocol_name_entry
+    global protocol_name_label
     protocol_name_label = tk.Label(tab4, text="Enter protocol name")
-    protocol_name_label.grid(column=2, row=21)
+    protocol_name_label.grid(column=2, row=25)
     protocol_name_entry = tk.Entry(tab4)
-    protocol_name_entry.grid(column=2, row=22)
+    protocol_name_entry.grid(column=2, row=27)
 
 
 # User selection to include codon swap
 include_codon_swap_label = tk.Label(tab4, text="Substitute CDS restriction sites?")
-include_codon_swap_label.grid(column=0, row=14)
+include_codon_swap_label.grid(column=0, row=13)
 include_codon_swap_combo = ttk.Combobox(tab4, state="readonly", values=["Yes", "No"])
 include_codon_swap_combo.grid(column=0, row=15)
 
 # User selection to turn fusion site addition off
 include_fusion_site_label = tk.Label(tab4, text="Add fusion sites to parts?")
-include_fusion_site_label.grid(column=1, row=14)
+include_fusion_site_label.grid(column=1, row=13)
 include_fusion_site_combo = ttk.Combobox(tab4, state="readonly", values=["Yes", "No"])
 include_fusion_site_combo.grid(column=1, row=15)
+
+
+# SBOL import failed error
+def import_failed_moclo():
+    global import_failed_label
+    import_failed_label = tk.Label(tab4, fg="red", text="Import failed")
+    import_failed_label.grid(row=1, column=0)
+
+
+# Error message for invalid part key for level 0 library move
+def part_move_error():
+    global part_move_error_label
+    part_move_error_label = tk.Label(tab4, fg="red", text="Part key invalid")
+    part_move_error_label.grid(column=0, row=7)
+
+
+# Error message for invalid destination group for level 0 library move
+def destination_group_error():
+    global destination_group_error_label
+    destination_group_error_label = tk.Label(tab4, fg="red", text="Invalid destination group")
+    destination_group_error_label.grid(column=1, row=7)
+
+
+# Error message for no selection signal
+def combo_error_signal():
+    global combo_error_signal_label
+    combo_error_signal_label = tk.Label(tab4, fg="red", text="Please select an option")
+    combo_error_signal_label.grid(column=0, row=11)
+
+
+# Error message for no selection toolkit
+def combo_error_toolkit():
+    global combo_error_toolkit_label
+    combo_error_toolkit_label = tk.Label(tab4, fg="red", text="Please select an option")
+    combo_error_toolkit_label.grid(column=1, row=11)
+
+
+# Error message for no selection TU quantity
+def combo_error_tu():
+    global combo_error_tu_label
+    combo_error_tu_label = tk.Label(tab4, fg="red", text="Please select an option")
+    combo_error_tu_label.grid(column=2, row=11)
+
+
+# Error message for no selection assembly method
+def combo_error_assembly():
+    global combo_error_assembly_label
+    combo_error_assembly_label = tk.Label(tab4, fg="red", text="Please select an option")
+    combo_error_assembly_label.grid(column=3, row=11)
+
+
+# Error message for no selection CDS substitution
+def combo_error_cds():
+    global combo_error_cds_label
+    combo_error_cds_label = tk.Label(tab4, fg="red", text="Please select an option")
+    combo_error_cds_label.grid(column=0, row=14)
+
+
+# Error message for no selection fusion sites
+def combo_error_fusion():
+    global combo_error_fusion_label
+    combo_error_fusion_label = tk.Label(tab4, fg="red", text="Please select an option")
+    combo_error_fusion_label.grid(column=1, row=14)
+
+
+# Error message for no selection of liquid handler
+def combo_error_handler():
+    global combo_error_handler_label
+    combo_error_handler_label = tk.Label(tab4, fg="red", text="Please select an option")
+    combo_error_handler_label.grid(column=2, row=23)
+
+
+# Invalid part key error transcription unit 1
+def invalid_part_key_error_tu1():
+    global invalid_part_key_tu1_label
+    invalid_part_key_tu1_label = tk.Label(tab4, fg="red", text="One or more parts keys are invalid in transcription "
+                                                               "unit 1")
+    invalid_part_key_tu1_label.grid(column=1, row=12, columnspan=5)
+
+
+# Invalid part key error transcription unit 2
+def invalid_part_key_error_tu2():
+    global invalid_part_key_tu2_label
+    invalid_part_key_tu2_label = tk.Label(tab4, fg="red", text="One or more parts keys are invalid in transcription "
+                                                               "unit 2")
+    invalid_part_key_tu2_label.grid(column=1, row=14, columnspan=5)
+
+
+# Invalid part key error transcription unit 3
+def invalid_part_key_error_tu3():
+    global invalid_part_key_tu3_label
+    invalid_part_key_tu3_label = tk.Label(tab4, fg="red", text="One or more parts keys are invalid in transcription "
+                                                               "unit 3")
+    invalid_part_key_tu3_label.grid(column=1, row=16, columnspan=5)
+
+
+# Invalid part key error transcription unit 4
+def invalid_part_key_error_tu4():
+    global invalid_part_key_tu4_label
+    invalid_part_key_tu4_label = tk.Label(tab4, fg="red", text="One or more parts keys are invalid in transcription "
+                                                               "unit 4")
+    invalid_part_key_tu4_label.grid(column=1, row=18, columnspan=5)
+
+
+# Invalid part key error transcription unit 5
+def invalid_part_key_error_tu5():
+    global invalid_part_key_tu5_label
+    invalid_part_key_tu5_label = tk.Label(tab4, fg="red", text="One or more parts keys are invalid in transcription "
+                                                               "unit 5")
+    invalid_part_key_tu5_label.grid(column=1, row=20, columnspan=5)
+
+
+# Protocol name error
+def protocol_name_error():
+    global protocol_name_error_label
+    protocol_name_error_label = tk.Label(tab4, fg="red", text="Protocol name invalid")
+    protocol_name_error_label.grid(column=2, row=26)
+
+
+# Creation successful label
+def successful_creation():
+    global successful_creation_label
+    successful_creation_label = tk.Label(tab4, font=("Arial", "10", "bold"), fg="green",
+                                         text="Protocol generation successful, contents saved to "
+                                              "SynBioMate/protocols_and_scripts")
+    successful_creation_label.grid(column=0, columnspan=5000)
+
+
+# Clear all error labels in MoClo GUI
+def clear_all_errors_moclo():
+    try:
+        import_failed_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        part_move_error_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        destination_group_error_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        protocol_name_error_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        combo_error_fusion_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        combo_error_cds_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        combo_error_assembly_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        combo_error_tu_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        combo_error_toolkit_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        combo_error_signal_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        combo_error_handler_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        invalid_part_key_tu1_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        invalid_part_key_tu2_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        invalid_part_key_tu3_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        invalid_part_key_tu4_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        invalid_part_key_tu5_label.grid_forget()
+    except NameError:
+        pass
+
 
 ################ Main_loop #################
 window.mainloop()

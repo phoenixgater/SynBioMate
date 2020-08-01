@@ -8,6 +8,9 @@ import MoClo
 # Document for writing protocol with docx (This is NOT a pySBOL document)
 document = Document()
 
+# Protocol name
+protocol_name = (str(GUI.protocol_name_entry.get())).replace(" ", "_")
+
 # Dictionaries for well allocations
 level_1_384PP = {}
 level_1_LDV = {}
@@ -809,13 +812,19 @@ def create_automatic_protocol():
             row_cells[1].text = variant + reaction
             row_cells[2].text = "5000"
 
+    level_1_scripts = document.add_paragraph("")
+    level_1_scripts.add_run("d) Load input plates into the Echo 525, and carry out protocols with the following "
+                            "scripts:")
+    level_1_scripts.add_run("\n" + "-" + protocol_name + "_6res.csv")
+    level_1_scripts.add_run("\n" + "-" + protocol_name + "_ldv.csv")
+    level_1_scripts.add_run("\n" + "-" + protocol_name + "_dna")
     level_1_transform = document.add_paragraph("")
-    level_1_transform.add_run("d) Run a PCR protocol for the contents of the output plate, consisting of:")
+    level_1_transform.add_run("e) Run a PCR protocol for the contents of the output plate, consisting of:")
     level_1_transform.add_run("\n" + "15-30 cycles of:" + "\n" + "15-30 cycles of:" + "\n" + "-5 minutes at 37°C" +
                               "\n" + "-10 minutes at 16°C" + "\n" + "Followed by (only once):" + "\n" + "-5 minutes "
                                                                                                         "at 50°C" +
                               "\n" + "-5 minutes at 80°C ")
-    level_1_transform.add_run("\n" + "e) Transform 5 uL of each output mixture into 50uL of chemically" +
+    level_1_transform.add_run("\n" + "f) Transform 5 uL of each output mixture into 50uL of chemically" +
                               " compotent Escherichia coli (E. coli) dH10a by heat shock transformation" +
                               " (One mixture per cell culture)")
 
@@ -1071,9 +1080,15 @@ def create_automatic_protocol():
             row_cells[1].text = variant + reaction
             row_cells[2].text = "5000"
 
+    level_2_scripts = document.add_paragraph("")
+    level_2_scripts.add_run("d) Load input plates into the Echo 525, and carry out protocols with the following "
+                            "scripts:")
+    level_2_scripts.add_run("\n" + "-" + protocol_name + "_6res_2.csv")
+    level_2_scripts.add_run("\n" + "-" + protocol_name + "_ldv_2.csv")
+    level_2_scripts.add_run("\n" + "-" + protocol_name + "_dna_2")
     level_2_transform = document.add_paragraph("")
-    level_2_transform.add_run("d) Incubate the contents of the output plate at 37°C for 16 hours")
-    level_2_transform.add_run("\n" + "e) Transform 5 uL of each output mixture into 50uL of chemically" +
+    level_2_transform.add_run("e) Incubate the contents of the output plate at 37°C for 16 hours")
+    level_2_transform.add_run("\n" + "f) Transform 5 uL of each output mixture into 50uL of chemically" +
                               " compotent Escherichia coli (E. coli) dH10a by heat shock transformation" +
                               " (One mixture per cell culture)")
 # Appendix of document, containing all parts, transcription units, and final designs
@@ -1362,3 +1377,4 @@ def create_protocol(event):
 
     create_appendix()
     document.save("protocols_and_scripts\\" + protocol_name + ".docx")
+    GUI.successful_creation()
