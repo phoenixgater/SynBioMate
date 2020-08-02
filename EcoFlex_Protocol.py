@@ -829,7 +829,7 @@ def create_automatic_protocol():
                               "\n" + "-10 minutes at 16°C" + "\n" + "Followed by (only once):" + "\n" + "-5 minutes "
                                                                                                         "at 50°C" +
                               "\n" + "-5 minutes at 80°C ")
-    level_1_transform.add_run("\n" + "f) Transform 5 uL of each output mixture into 50uL of chemically" +
+    level_1_transform.add_run("\n" + "\n" + "f) Transform 5 uL of each output mixture into 50uL of chemically" +
                               " compotent Escherichia coli (E. coli) dH10a by heat shock transformation" +
                               " (One mixture per cell culture)")
 
@@ -1093,7 +1093,7 @@ def create_automatic_protocol():
     level_2_scripts.add_run("\n" + "-" + protocol_name + "_dna_2")
     level_2_transform = document.add_paragraph("")
     level_2_transform.add_run("e) Incubate the contents of the output plate at 37°C for 16 hours")
-    level_2_transform.add_run("\n" + "f) Transform 5 uL of each output mixture into 50uL of chemically" +
+    level_2_transform.add_run("\n" + "\n" + "f) Transform 5 uL of each output mixture into 50uL of chemically" +
                               " compotent Escherichia coli (E. coli) dH10a by heat shock transformation" +
                               " (One mixture per cell culture)")
 

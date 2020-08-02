@@ -62,8 +62,10 @@ def convert(genbank, output_fn = None, prefix="https://synbiohub.org/public/igem
 
 
     except HTTPError as http_err:
+        GUI.conversion_failure()
         print(f'HTTP error occurred: {http_err}')  # Python 3.6
     except Exception as err:
+        GUI.conversion_failure()
         print(f'Other error occurred: {err}')  # Python 3.6
 
 if __name__ == '__main__':

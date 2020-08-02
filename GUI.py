@@ -246,6 +246,12 @@ def successful_conversion():
                                            )
     successful_conversion_label.grid(column=1, row=16)
 
+# Failed conversion label
+def conversion_failure():
+    global failed_conversion_label
+    failed_conversion_label = tk.Label(tab1, font=(None, 10), fg="red", text="Genbank file conversion failed")
+    failed_conversion_label.grid(column=1, row=16)
+
 
 # Part creation failed error message
 def part_creation_success():
@@ -296,7 +302,7 @@ def part_description_error():
 
 
 # Wipes current error and success labels (if present) from GUI
-def refresh_gui_part_creation(event):
+def refresh_gui_part_creation():
     try:
         successful_conversion_label.grid_forget()
     except NameError:
@@ -329,12 +335,22 @@ def refresh_gui_part_creation(event):
         creation_failure_label.grid_forget()
     except NameError:
         pass
+    try:
+        failed_conversion_label.grid_forget()
+    except NameError:
+        pass
+
+
+
+# Create part
+def create_part(event):
+    refresh_gui_part_creation()
     Part_Creation.save_created_part("<Button-1>")
 
 
 # Create part button
 create_part_button = tk.Button(tab1, text="Create part")
-create_part_button.bind("<Button-1>", refresh_gui_part_creation)
+create_part_button.bind("<Button-1>", create_part)
 create_part_button.grid(column=1, row=13)
 
 
@@ -1035,27 +1051,7 @@ def design_parts_to_library():
 # clear level 0 library from GUI
 def refresh_level_0_library():
     try:
-        promoters_moclo.grid_forget()
-    except NameError:
-        pass
-    try:
-        rbs_moclo.grid_forget()
-    except NameError:
-        pass
-    try:
-        cds_moclo.grid_forget()
-    except NameError:
-        pass
-    try:
-        terminator_moclo.grid_forget()
-    except NameError:
-        pass
-    try:
-        other_moclo.grid_forget()
-    except NameError:
-        pass
-    try:
-        signal_moclo.grid_forget()
+        level_0_library_frame.grid_forget()
     except NameError:
         pass
     display_level_0_library()
@@ -1070,6 +1066,11 @@ def display_level_0_library():
     global terminator_moclo
     global signal_moclo
     global other_moclo
+
+    try:
+        level_0_library_frame.grid_forget()
+    except NameError:
+        pass
 
     level_0_library_frame = tk.Frame(tab4)
 
@@ -1630,6 +1631,7 @@ def revert_stage_2_GUI(event):
     stop_button.grid_forget()
     stage_2_GUI("<Button-1>")
     move_parts_library()
+
 
 
 # Liquid handler selection

@@ -3926,12 +3926,12 @@ def level_2_format():
 
     if int(GUI.transcription_unit_quantity_combo.get()) == 3:
         level_2_vector_name = "pTU2-b-RFP, available from 'http://www.addgene.org/72959/'"
-        counter = counter + 1
-        level_2_names.append("Level 2 construct variant " + str(counter))
 
         for variant in transcription_unit_1_names:
             for variant2 in transcription_unit_2_names:
                 for variant3 in transcription_unit_3_names:
+                    counter = counter + 1
+                    level_2_names.append("Level 2 construct variant " + str(counter))
                     level_2_sub_units.append([variant, variant2, variant3])
                     level_2_transcription_unit_dictionary["Level 2 construct variant " + str(counter)] = (
                         level_2_sub_units[counter - 1])
@@ -4066,10 +4066,20 @@ def create_protocol_directory(event):
     if not GUI.protocol_name_entry.get():
         GUI.protocol_name_error()
 
-    chassis_choice = GUI.chassis_selection_combo.get()
-    if chassis_choice == "EcoFlex":
-        if final_ecoflex_check():
-            GUI.final_prompt()
+    if GUI.assembly_method_combo.get() == "Automatic":
+        if GUI.liquid_handler_selection_combo.get() == "Echo 525":
+            if GUI.protocol_name_entry.get():
+                if GUI.chassis_selection_combo.get() == "EcoFlex":
+                    if final_ecoflex_check():
+                        GUI.final_prompt()
+
+    if GUI.assembly_method_combo.get() == "Manual":
+        if GUI.protocol_name_entry.get():
+            if GUI.chassis_selection_combo.get() == "EcoFlex":
+                if final_ecoflex_check():
+                    from EcoFlex_protocol import create_protocol
+                    create_protocol("<Button-1>")
+
 
 
 # Clear MoClo globals for clear/reset

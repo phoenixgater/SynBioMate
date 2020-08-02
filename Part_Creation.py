@@ -82,5 +82,9 @@ def save_created_part(event):
 
 # Part creation genbank
 def part_creation_genbank(event):
+    GUI.refresh_gui_part_creation()
     GUI.select_genbank_file()
-    converter.convert(GUI.genbank_file)
+    if not GUI.genbank_file:
+        GUI.conversion_failure()
+    else:
+        converter.convert(GUI.genbank_file)
