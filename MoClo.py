@@ -270,6 +270,14 @@ def import_design_parts_to_library(event):
 
 # Import a single part into the level 0 library
 def import_single_part_to_library(component_definition_string):
+    if len(level_0_promoter) == 0:
+        if len(level_0_rbs) == 0:
+            if len(level_0_signal) == 0:
+                if len(level_0_cds) == 0:
+                    if len(level_0_terminator) == 0:
+                        if len(level_0_other) == 0:
+                            GUI.move_parts_library()
+
     component = doc.getComponentDefinition(component_definition_string)
     previously_added = False
     if "0000167" in str(component.roles):

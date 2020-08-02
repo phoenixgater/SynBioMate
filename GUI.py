@@ -1070,6 +1070,7 @@ def display_level_0_library():
     global terminator_moclo
     global signal_moclo
     global other_moclo
+
     level_0_library_frame = tk.Frame(tab4)
 
     level_0_library_title = tk.Label(level_0_library_frame, font=("Arial", "10", "bold"), text="level 0 library:")

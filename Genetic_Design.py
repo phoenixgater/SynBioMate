@@ -58,41 +58,45 @@ def add_part(temp_doc, sbol_file, import_type):
         # Isolating top-level part if sub-components are detected
         if sub_components_detected:
             sub_component_quantity = []
-            try:
-                for component in temp_doc.componentDefinitions:
-                    sub_component_quantity.append(len(component.components))
-            except LookupError:
-                pass
-
             for component in temp_doc.componentDefinitions:
-                if len(component.components) == max(sub_component_quantity):
-                    part_uri = component
-                    part_uri_string = str(part_uri)
-                    previously_imported = False
-                    for components in doc.componentDefinitions:
-                        if part_uri_string == str(components):
-                            previously_imported = True
+                try:
+                    sub_component_quantity.append(len(component.components))
+                except LookupError:
+                    pass
+            for component in temp_doc.componentDefinitions:
+                try:
+                    if len(component.components) == max(sub_component_quantity):
+                        part_uri = component
+                        part_uri_string = str(part_uri)
+                        previously_imported = False
+                        break
+                except LookupError:
+                    pass
 
-                    if previously_imported:
-                        import_count += 1
-                        part_cd = doc.getComponentDefinition(part_uri_string)
-                        design_display_lists(part_cd)
-                        GUI.display_assembled_design(design_roles)
-                        component_definition_list.append(part_uri_string)
+            for components in doc.componentDefinitions:
+                if part_uri_string == str(components):
+                    previously_imported = True
 
-                    if not previously_imported:
-                        if check_sequence_constraints(part_uri, temp_doc, 0) == "invalid":
-                            GUI.no_sequence_constraints()
-                        else:
-                            import_count += 1
-                            if import_type == "file":
-                                doc.append(sbol_file)
-                            if import_type == "database":
-                                igem.pull(sbol_file, doc)
-                            part_cd = doc.getComponentDefinition(part_uri_string)
-                            design_display_lists(part_cd)
-                            GUI.display_assembled_design(design_roles)
-                            component_definition_list.append(part_uri_string)
+            if previously_imported:
+                import_count += 1
+                part_cd = doc.getComponentDefinition(part_uri_string)
+                design_display_lists(part_cd)
+                GUI.display_assembled_design(design_roles)
+                component_definition_list.append(part_uri_string)
+
+            if not previously_imported:
+                if check_sequence_constraints(part_uri, temp_doc, 0) == "invalid":
+                    GUI.no_sequence_constraints()
+                else:
+                    import_count += 1
+                    if import_type == "file":
+                        doc.append(sbol_file)
+                    if import_type == "database":
+                        igem.pull(sbol_file, doc)
+                    part_cd = doc.getComponentDefinition(part_uri_string)
+                    design_display_lists(part_cd)
+                    GUI.display_assembled_design(design_roles)
+                    component_definition_list.append(part_uri_string)
 
         # If no sub components are detected, it will be checked that the imported file contains only a single part
         if not sub_components_detected:
@@ -498,8 +502,6 @@ def design_assembly(event):
             component_definition_list.clear()
             clear_all_genetic_design("<Button-1>")
             GUI.successful_assembly()
-
-
 
 
 # Wipes the GUI, and empties all variables, lists, and documents
