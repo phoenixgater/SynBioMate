@@ -832,6 +832,11 @@ import_design_button_moclo.bind("<Button-1>", MoClo.import_design)
 import_design_button_moclo.grid(column=0, row=2)
 
 
+# Stage 1 GUI
+def stage_1_GUI():
+    print("test")
+
+
 # Refresh display canvas in MoClo tab
 def refresh_canvas_moclo():
     try:
@@ -1804,7 +1809,123 @@ def clear_all_errors_moclo():
         invalid_part_key_tu5_label.grid_forget()
     except NameError:
         pass
+    try:
+        successful_creation_label.grid_forget()
+    except NameError:
+        pass
 
+
+# Reset GUI and global variables
+def moclo_reset(event):
+    # Clear existing GUI
+    clear_all_errors_moclo()
+    try:
+        design_canvas_display_moclo.grid_forget()
+    except NameError:
+        pass
+    try:
+        design_to_library_button.grid_forget()
+    except NameError:
+        pass
+    try:
+        design_analysis_button_moclo.grid_forget()
+    except NameError:
+        pass
+    try:
+        hide_design_analysis_button_moclo.grid_forget()
+    except NameError:
+        pass
+    try:
+        design_analysis_frame.grid_forget()
+    except NameError:
+        pass
+    try:
+        part_description_button_moclo.grid_forget()
+    except NameError:
+        pass
+    try:
+        hide_part_description_button_moclo.grid_forget()
+    except NameError:
+        pass
+    try:
+        description_frame_moclo.grid_forget()
+    except NameError:
+        pass
+    try:
+        level_0_library_frame.grid_forget()
+    except NameError:
+        pass
+    try:
+        part_to_move_entry.grid_forget()
+    except NameError:
+        pass
+    try:
+        destination_library_select.grid_forget()
+    except NameError:
+        pass
+    try:
+        part_to_move_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        destination_library_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        part_move_button.grid_forget()
+    except NameError:
+        pass
+    try:
+        clear_stage_2_GUI()
+    except NameError:
+        pass
+    try:
+        final_check_title.grid_forget()
+    except NameError:
+        pass
+    try:
+        level_1_output_requirement_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        level_2_output_requirement_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        no_sites_detected_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        restriction_site_title.grid_forget()
+    except NameError:
+        pass
+    try:
+        pre_creation_check.grid_forget()
+    except NameError:
+        pass
+    try:
+        continue_button.grid_forget()
+    except NameError:
+        pass
+    try:
+        stop_button.grid_forget()
+    except NameError:
+        pass
+    try:
+        remove_stage_1_GUI()
+    except NameError:
+        pass
+    try:
+        protocol_design_title.grid_forget()
+    except NameError:
+        pass
+
+    # Reinstate stage 1 GUI
+
+
+clear_all_button = tk.Button(tab4, fg="red", text="Clear all")
+clear_all_button.bind("<Button-1>", moclo_reset)
+clear_all_button.grid(column=5, row=0)
 
 ################ Main_loop #################
 window.mainloop()

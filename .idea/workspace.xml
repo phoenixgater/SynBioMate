@@ -226,7 +226,8 @@
       <workItem from="1596115201469" duration="19491000" />
       <workItem from="1596140364760" duration="6798000" />
       <workItem from="1596183578188" duration="17510000" />
-      <workItem from="1596271681301" duration="38679000" />
+      <workItem from="1596271681301" duration="38816000" />
+      <workItem from="1596364974362" duration="3725000" />
     </task>
     <servers />
   </component>
@@ -254,7 +255,7 @@
     <SUITE FILE_PATH="coverage/SynBioMate$Part_Creation.coverage" NAME="Part_Creation Coverage Results" MODIFIED="1593134151389" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SynBioMate$Exam.coverage" NAME="Exam Coverage Results" MODIFIED="1591823416226" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SynBioMate$test_design_temp.coverage" NAME="test_design_temp Coverage Results" MODIFIED="1592518136231" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/SynBioMate$Main.coverage" NAME="Main Coverage Results" MODIFIED="1596313477849" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SynBioMate$Main.coverage" NAME="Main Coverage Results" MODIFIED="1596368884682" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SynBioMate$get_pip.coverage" NAME="get-pip Coverage Results" MODIFIED="1592595587078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../.." />
     <SUITE FILE_PATH="coverage/SynBioMate$Genetic_Design.coverage" NAME="Genetic_Design Coverage Results" MODIFIED="1592806355860" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
