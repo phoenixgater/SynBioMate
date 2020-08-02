@@ -32,7 +32,7 @@ transcription_unit_5_variants = {}
 
 
 # clear globals for design display
-def clear_globals():
+def clear_display_globals():
     primary_structure_identities.clear()
     primary_structure_roles.clear()
     primary_structure_descriptions.clear()
@@ -47,7 +47,7 @@ def import_design(event):
     global design_uri
     GUI.clear_all_errors_moclo()
     doc2 = Document()
-    clear_globals()
+    clear_display_globals()
     GUI.select_design_import()
     imported_design = GUI.single_imported_design
     if not imported_design:
@@ -212,6 +212,14 @@ def detect_restriction_sites(sequence):
 ############################ level 0 library #################################
 def import_design_parts_to_library(event):
     global primary_structure_cd_string
+    if len(level_0_promoter) == 0:
+        if len(level_0_rbs) == 0:
+            if len(level_0_signal) == 0:
+                if len(level_0_cds) == 0:
+                    if len(level_0_terminator) == 0:
+                        if len(level_0_other) == 0:
+                            GUI.move_parts_library()
+
     for component_cd in primary_structure_cd_string:
         component = doc.getComponentDefinition(component_cd)
         previously_added = False
@@ -258,7 +266,6 @@ def import_design_parts_to_library(event):
                 level_0_other["o" + str(len(level_0_other) + 1)] = component
 
     GUI.refresh_level_0_library()
-    GUI.move_parts_library()
 
 
 # Import a single part into the level 0 library
@@ -4055,3 +4062,47 @@ def create_protocol_directory(event):
     if chassis_choice == "EcoFlex":
         if final_ecoflex_check():
             GUI.final_prompt()
+
+
+# Clear MoClo globals for clear/reset
+def clear_moclo_globals():
+    global primary_structure_identities
+    primary_structure_identities = []
+    global primary_structure_roles
+    primary_structure_roles = []
+    global primary_structure_descriptions
+    primary_structure_descriptions = []
+    global base_composition
+    base_composition = []
+    global detected_restriction_sites
+    detected_restriction_sites = []
+    global level_0_promoter
+    level_0_promoter = {}
+    global level_0_rbs
+    level_0_rbs = {}
+    global level_0_cds
+    level_0_cds = {}
+    global level_0_terminator
+    level_0_terminator = {}
+    global level_0_signal
+    level_0_signal = {}
+    global level_0_other
+    level_0_other = {}
+    global level_2_template
+    level_2_template = []
+    global ecoflex_check_list
+    ecoflex_check_list = []
+    global modification_dictionary
+    modification_dictionary = {}
+    global transcription_unit_1_variants
+    transcription_unit_1_variants = {}
+    global transcription_unit_2_variants
+    transcription_unit_2_variants = {}
+    global transcription_unit_3_variants
+    transcription_unit_3_variants = {}
+    global transcription_unit_4_variants
+    transcription_unit_4_variants = {}
+    global transcription_unit_5_variants
+    transcription_unit_5_variants = {}
+    global doc
+    doc = Document()

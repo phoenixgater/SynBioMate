@@ -10,26 +10,42 @@ import csv
 import openpyxl
 import os
 
-# Global variables
-protocol_name = (str(GUI.protocol_name_entry.get())).replace(" ", "_")
-# Level 1
-part_quantity = EcoFlex_protocol.part_quantity
-level_1_tu_quantity = EcoFlex_protocol.level_1_tu_quantity
-level_1_dictionary = MoClo.level_1_transcription_unit_dictionary
-level_1_384PP = EcoFlex_protocol.level_1_384PP
-level_1_LDV = EcoFlex_protocol.level_1_LDV
-level_1_6RES = EcoFlex_protocol.level_1_6RES
-level_1_output = EcoFlex_protocol.level_1_output
 
-# Level 2
-level_2_dictionary = MoClo.level_2_transcription_unit_dictionary
-level_2_384PP = EcoFlex_protocol.level_2_384PP
-level_2_LDV = EcoFlex_protocol.level_2_LDV
-level_2_6RES = EcoFlex_protocol.level_2_6RES
-level_2_output = EcoFlex_protocol.level_2_output
+def get_variables():
+    global protocol_name
+    protocol_name = (str(GUI.protocol_name_entry.get())).replace(" ", "_")
+
+    # Level 1
+    global part_quantity
+    part_quantity = EcoFlex_protocol.part_quantity
+    global level_1_tu_quantity
+    level_1_tu_quantity = EcoFlex_protocol.level_1_tu_quantity
+    global level_1_dictionary
+    level_1_dictionary = MoClo.level_1_transcription_unit_dictionary
+    global level_1_384PP
+    level_1_384PP = EcoFlex_protocol.level_1_384PP
+    global level_1_LDV
+    level_1_LDV = EcoFlex_protocol.level_1_LDV
+    global level_1_6RES
+    level_1_6RES = EcoFlex_protocol.level_1_6RES
+    global level_1_output
+    level_1_output = EcoFlex_protocol.level_1_output
+
+    # Level 2
+    global level_2_dictionary
+    level_2_dictionary = MoClo.level_2_transcription_unit_dictionary
+    global level_2_384PP
+    level_2_384PP = EcoFlex_protocol.level_2_384PP
+    global level_2_LDV
+    level_2_LDV = EcoFlex_protocol.level_2_LDV
+    global level_2_6RES
+    level_2_6RES = EcoFlex_protocol.level_2_6RES
+    global level_2_output
+    level_2_output = EcoFlex_protocol.level_2_output
 
 
 def create_scripts():
+    get_variables()
     level_1_transcription_units()
     level_2_transcription_units()
     create_csv_files()
@@ -168,27 +184,27 @@ def level_1_transcription_units():
                 for part in part_list:
                     for source_well in level_1_384PP.keys():
                         if part == level_1_384PP[source_well][0]:
-                                if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
-                                    transfer_volume = EcoFlex_protocol.transfer_volume("level_1_part_1_1")
-                                elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
-                                    transfer_volume = EcoFlex_protocol.transfer_volume("level_1_part_1_2")
-                                elif level_1_output[destination_well][0].find("reaction 2:1") >= 0:
-                                    transfer_volume = EcoFlex_protocol.transfer_volume("level_1_part_2_1")
-                                if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
-                                    level_1_384PP[source_well][1] -= transfer_volume
-                                    row += 1
-                                    uid += 1
-                                    worksheet.write(row, 0, uid)
-                                    worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
-                                    worksheet.write(row, 2, "384LDV_AQ_B")
-                                    worksheet.write(row, 3, source_well)
-                                    worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
-                                    worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
-                                                            "384PP)")
-                                    worksheet.write(row, 6, destination_well)
-                                    worksheet.write(row, 7, transfer_volume)
-                                    worksheet.write(row, 8, part)
-                                    break
+                            if level_1_output[destination_well][0].find("reaction 1:1") >= 0:
+                                transfer_volume = EcoFlex_protocol.transfer_volume("level_1_part_1_1")
+                            elif level_1_output[destination_well][0].find("reaction 1:2") >= 0:
+                                transfer_volume = EcoFlex_protocol.transfer_volume("level_1_part_1_2")
+                            elif level_1_output[destination_well][0].find("reaction 2:1") >= 0:
+                                transfer_volume = EcoFlex_protocol.transfer_volume("level_1_part_2_1")
+                            if level_1_384PP[source_well][1] >= dead_volume_dna + transfer_volume:
+                                level_1_384PP[source_well][1] -= transfer_volume
+                                row += 1
+                                uid += 1
+                                worksheet.write(row, 0, uid)
+                                worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
+                                worksheet.write(row, 2, "384LDV_AQ_B")
+                                worksheet.write(row, 3, source_well)
+                                worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
+                                worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
+                                                        "384PP)")
+                                worksheet.write(row, 6, destination_well)
+                                worksheet.write(row, 7, transfer_volume)
+                                worksheet.write(row, 8, part)
+                                break
 
     # Plasmid backbones
     for destination_well in level_1_output.keys():
@@ -568,6 +584,7 @@ def level_2_transcription_units():
                         break
 
     workbook.close()
+
 
 def create_csv_files():
     wb = openpyxl.load_workbook("protocols_and_scripts\\" + protocol_name + "_6res.xlsx")

@@ -1,10 +1,10 @@
 UID,Source Plate Name,Source plate Type,Source Well,Destination Plate Name,Destination Plate Type,Destination Well,Transfer Volume,Reagent
 1,level 1 384 source plate (DNA components),384LDV_AQ_B,A1,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A1,500,bba2222
-2,level 1 384 source plate (DNA components),384LDV_AQ_B,A2,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A1,500,BBa_B0032
+2,level 1 384 source plate (DNA components),384LDV_AQ_B,A2,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A1,500,bba3333
 3,level 1 384 source plate (DNA components),384LDV_AQ_B,A3,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A1,500,bba4444
 4,level 1 384 source plate (DNA components),384LDV_AQ_B,A4,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A1,500,BBa_J63002
 5,level 1 384 source plate (DNA components),384LDV_AQ_B,A1,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A2,500,bba2222
-6,level 1 384 source plate (DNA components),384LDV_AQ_B,A2,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A2,500,BBa_B0032
+6,level 1 384 source plate (DNA components),384LDV_AQ_B,A2,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A2,500,bba3333
 7,level 1 384 source plate (DNA components),384LDV_AQ_B,A3,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A2,500,bba4444
 8,level 1 384 source plate (DNA components),384LDV_AQ_B,A4,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A2,500,BBa_J63002
 9,level 1 384 source plate (DNA components),384LDV_AQ_B,A5,384-Well Level 1 MoClo output plate,Echo® Qualified 384-Well Polypropylene Source Microplate (384PP),A1,250,pTU1-A-RFP

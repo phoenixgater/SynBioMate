@@ -36,7 +36,6 @@ def add_file_part(event):
 # Storing a part/design for assembly
 def add_part(temp_doc, sbol_file, import_type):
     global import_count
-    import_count += 1
     # Detect whether SBOL file is a design or single part
     design_detected = False
     for component in temp_doc.componentDefinitions:
@@ -75,6 +74,7 @@ def add_part(temp_doc, sbol_file, import_type):
                             previously_imported = True
 
                     if previously_imported:
+                        import_count += 1
                         part_cd = doc.getComponentDefinition(part_uri_string)
                         design_display_lists(part_cd)
                         GUI.display_assembled_design(design_roles)
@@ -84,6 +84,7 @@ def add_part(temp_doc, sbol_file, import_type):
                         if check_sequence_constraints(part_uri, temp_doc, 0) == "invalid":
                             GUI.no_sequence_constraints()
                         else:
+                            import_count += 1
                             if import_type == "file":
                                 doc.append(sbol_file)
                             if import_type == "database":
@@ -106,6 +107,7 @@ def add_part(temp_doc, sbol_file, import_type):
                         previously_imported = True
 
                 if previously_imported:
+                    import_count += 1
                     part_cd = doc.getComponentDefinition(part_uri_string)
                     design_display_lists(part_cd)
                     GUI.display_assembled_design(design_roles)
@@ -115,6 +117,7 @@ def add_part(temp_doc, sbol_file, import_type):
                     if check_sequence_constraints(part_uri, temp_doc, 0) == "invalid":
                         GUI.no_sequence_constraints()
                     else:
+                        import_count += 1
                         if import_type == "file":
                             doc.append(sbol_file)
                         if import_type == "database":

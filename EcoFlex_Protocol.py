@@ -8,9 +8,6 @@ import MoClo
 # Document for writing protocol with docx (This is NOT a pySBOL document)
 document = Document()
 
-# Protocol name
-protocol_name = (str(GUI.protocol_name_entry.get())).replace(" ", "_")
-
 # Dictionaries for well allocations
 level_1_384PP = {}
 level_1_LDV = {}
@@ -25,9 +22,17 @@ well_letters_384 = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", 
 well_numbers_384 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18",
                     "19", "20", "21", "22", "23", "24"]
 
-# Imported user input parameters
-transcription_unit_quantity = GUI.transcription_unit_quantity_combo.get()
-signal_peptide_choice = GUI.include_signal_combo.get()
+
+def get_variables():
+    # Protocol name
+    global protocol_name
+    protocol_name = (str(GUI.protocol_name_entry.get())).replace(" ", "_")
+
+    # Imported user input parameters
+    global transcription_unit_quantity
+    transcription_unit_quantity = GUI.transcription_unit_quantity_combo.get()
+    global signal_peptide_choice
+    signal_peptide_choice = GUI.include_signal_combo.get()
 
 
 def create_selected_reaction_list():
@@ -1091,6 +1096,8 @@ def create_automatic_protocol():
     level_2_transform.add_run("\n" + "f) Transform 5 uL of each output mixture into 50uL of chemically" +
                               " compotent Escherichia coli (E. coli) dH10a by heat shock transformation" +
                               " (One mixture per cell culture)")
+
+
 # Appendix of document, containing all parts, transcription units, and final designs
 def create_appendix():
     # Parts
@@ -1354,7 +1361,7 @@ def create_appendix():
 
 # Create EcoFlex protocol
 def create_protocol(event):
-    protocol_name = (str(GUI.protocol_name_entry.get())).replace(" ", "_")
+    get_variables()
     MoClo.swap_codons_ecoflex()
     MoClo.check_biopart_sites_ecoflex()
     MoClo.ecoflex_fusion_sites()
@@ -1377,4 +1384,28 @@ def create_protocol(event):
 
     create_appendix()
     document.save("protocols_and_scripts\\" + protocol_name + ".docx")
+    GUI.moclo_reset("<Button-1>")
+    clear_protocol_globals()
     GUI.successful_creation()
+
+
+# Clear ecoflex protocol generation globals
+def clear_protocol_globals():
+    global document
+    document = Document()
+    global level_1_384PP
+    level_1_384PP = {}
+    global level_1_LDV
+    level_1_LDV = {}
+    global level_1_6RES
+    level_1_6RES = {}
+    global level_1_output
+    level_1_output = {}
+    global level_2_384PP
+    level_2_384PP = {}
+    global level_2_LDV
+    level_2_LDV = {}
+    global level_2_6RES
+    level_2_6RES = {}
+    global level_2_output
+    level_2_output = {}

@@ -832,11 +832,6 @@ import_design_button_moclo.bind("<Button-1>", MoClo.import_design)
 import_design_button_moclo.grid(column=0, row=2)
 
 
-# Stage 1 GUI
-def stage_1_GUI():
-    print("test")
-
-
 # Refresh display canvas in MoClo tab
 def refresh_canvas_moclo():
     try:
@@ -1119,31 +1114,6 @@ def display_level_0_library():
     level_0_library_frame.grid(column=0, row=5)
 
 
-# Option to include signal peptide label
-include_signal_label = tk.Label(tab4, text="Include signal peptide?")
-include_signal_label.grid(column=0, row=10)
-
-# Option to include signal peptide combo selection
-include_signal_combo = ttk.Combobox(tab4, state="readonly", values=["Yes", "No"])
-include_signal_combo.grid(column=0, row=12)
-
-# Select toolkit label
-chassis_selection_label = tk.Label(tab4, text="Toolkit")
-chassis_selection_label.grid(column=1, row=10)
-
-# Select chassis system combo box
-chassis_selection_combo = ttk.Combobox(tab4, state="readonly", values=["EcoFlex"])
-chassis_selection_combo.grid(column=1, row=12)
-
-# Label for transcription unit quantity entry
-transcription_unit_quantity_label = tk.Label(tab4, text="transcription unit (TU) quantity")
-transcription_unit_quantity_label.grid(column=2, row=10)
-
-# Entry for transcription unit quantity
-transcription_unit_quantity_combo = ttk.Combobox(tab4, state="readonly", values=["2", "3", "4", "5"])
-transcription_unit_quantity_combo.grid(column=2, row=12)
-
-
 # Move level 0 library parts to different part types
 def move_parts_library():
     global part_to_move_entry
@@ -1167,11 +1137,6 @@ def move_parts_library():
     part_move_button = tk.Button(tab4, text="Move")
     part_move_button.bind("<Button-1>", MoClo.move_parts_in_library)
     part_move_button.grid(column=2, row=8, sticky="w")
-
-
-# Protocol design title
-protocol_design_title = tk.Label(tab4, font=("Arial", "11", "bold"), text="Protocol design")
-protocol_design_title.grid(column=0, row=9, pady=(20, 0))
 
 
 # Remove stage 1 GUI
@@ -1382,19 +1347,138 @@ def stage_2_GUI(event):
         protocol_name_entry_gui()
 
 
-# Create stage 2 GUI
-transcription_unit_create = tk.Button(tab4, text="Create")
-transcription_unit_create.bind("<Button-1>", stage_2_GUI)
-transcription_unit_create.grid(column=1, row=21)
+# Stage 1 GUI
+def stage_1_GUI():
+    # Option to include signal peptide label
+    global include_signal_label
+    include_signal_label = tk.Label(tab4, text="Include signal peptide?")
+    include_signal_label.grid(column=0, row=10)
+
+    # Option to include signal peptide combo selection
+    global include_signal_combo
+    include_signal_combo = ttk.Combobox(tab4, state="readonly", values=["Yes", "No"])
+    include_signal_combo.grid(column=0, row=12)
+
+    # Select toolkit label
+    global chassis_selection_label
+    chassis_selection_label = tk.Label(tab4, text="Toolkit")
+    chassis_selection_label.grid(column=1, row=10)
+
+    # Select chassis system combo box
+    global chassis_selection_combo
+    chassis_selection_combo = ttk.Combobox(tab4, state="readonly", values=["EcoFlex"])
+    chassis_selection_combo.grid(column=1, row=12)
+
+    # Label for transcription unit quantity entry
+    global transcription_unit_quantity_label
+    transcription_unit_quantity_label = tk.Label(tab4, text="transcription unit (TU) quantity")
+    transcription_unit_quantity_label.grid(column=2, row=10)
+
+    # Entry for transcription unit quantity
+    global transcription_unit_quantity_combo
+    transcription_unit_quantity_combo = ttk.Combobox(tab4, state="readonly", values=["2", "3", "4", "5"])
+    transcription_unit_quantity_combo.grid(column=2, row=12)
+
+    # Protocol design title
+    global protocol_design_title
+    protocol_design_title = tk.Label(tab4, font=("Arial", "11", "bold"), text="Protocol design")
+    protocol_design_title.grid(column=0, row=9, pady=(20, 0))
+
+    # Create stage 2 GUI button
+    global transcription_unit_create
+    transcription_unit_create = tk.Button(tab4, text="Create")
+    transcription_unit_create.bind("<Button-1>", stage_2_GUI)
+    transcription_unit_create.grid(column=1, row=21)
+
+    # Automatic/Manual selection
+    global assembly_method_label
+    assembly_method_label = tk.Label(tab4, text="Assembly method")
+    assembly_method_label.grid(column=3, row=10)
+    global assembly_method_combo
+    assembly_method_combo = ttk.Combobox(tab4, state="readonly", values=["Automatic", "Manual"])
+    assembly_method_combo.grid(column=3, row=12)
+
+    # User selection for part:level 1 backbone volume ratio
+    global level_1_ratio_1_1
+    global level_1_ratio_1_2
+    global level_1_ratio_2_1
+    level_1_ratio_1_1 = tk.IntVar()
+    level_1_ratio_1_2 = tk.IntVar()
+    level_1_ratio_2_1 = tk.IntVar()
+
+    global level_1_volume_ratio_label
+    level_1_volume_ratio_label = tk.Label(tab4,
+                                          text="Part : level 1 backbone reaction volumetric ratios (2:1 is default "
+                                               "if none selected, "
+                                               "multiple selection is allowed):")
+    level_1_volume_ratio_label.grid(column=0, row=16, columnspan=6, sticky="w")
+    global level_1_volume_ratio_checkbox_1_1
+    global level_1_volume_ratio_checkbox_1_2
+    global level_1_volume_ratio_checkbox_2_1
+    level_1_volume_ratio_checkbox_1_1 = ttk.Checkbutton(tab4, text="1:1", variable=level_1_ratio_1_1)
+    level_1_volume_ratio_checkbox_1_1.grid(column=0, row=17)
+    level_1_volume_ratio_checkbox_1_2 = ttk.Checkbutton(tab4, text="1:2", variable=level_1_ratio_1_2)
+    level_1_volume_ratio_checkbox_1_2.grid(column=1, row=17)
+    level_1_volume_ratio_checkbox_2_1 = ttk.Checkbutton(tab4, text="2:1", variable=level_1_ratio_2_1)
+    level_1_volume_ratio_checkbox_2_1.grid(column=2, row=17)
+
+    # User selection for TU: level 2 backbone ratio
+    global level_2_ratio_1_1
+    global level_2_ratio_1_2
+    global level_2_ratio_2_1
+    level_2_ratio_1_1 = tk.IntVar()
+    level_2_ratio_1_2 = tk.IntVar()
+    level_2_ratio_2_1 = tk.IntVar()
+
+    global level_2_volume_ratio_label
+    level_2_volume_ratio_label = tk.Label(tab4,
+                                          text="TU : level 2 backbone reaction volumetric ratios (2:1 is default if "
+                                               "none selected, "
+                                               "multiple selection is allowed):")
+    level_2_volume_ratio_label.grid(column=0, row=18, columnspan=6, sticky="w")
+
+    global level_2_volume_ratio_checkbox_1_1
+    global level_2_volume_ratio_checkbox_1_2
+    global level_2_volume_ratio_checkbox_2_1
+    level_2_volume_ratio_checkbox_1_1 = ttk.Checkbutton(tab4, text="1:1", variable=level_2_ratio_1_1)
+    level_2_volume_ratio_checkbox_1_1.grid(column=0, row=19)
+    level_2_volume_ratio_checkbox_1_2 = ttk.Checkbutton(tab4, text="1:2", variable=level_2_ratio_1_2)
+    level_2_volume_ratio_checkbox_1_2.grid(column=1, row=19)
+    level_2_volume_ratio_checkbox_2_1 = ttk.Checkbutton(tab4, text="2:1", variable=level_2_ratio_2_1)
+    level_2_volume_ratio_checkbox_2_1.grid(column=2, row=19)
+
+    # User selection to include codon swap
+    global include_codon_swap_label
+    global include_codon_swap_combo
+    include_codon_swap_label = tk.Label(tab4, text="Substitute CDS restriction sites?")
+    include_codon_swap_label.grid(column=0, row=13)
+    include_codon_swap_combo = ttk.Combobox(tab4, state="readonly", values=["Yes", "No"])
+    include_codon_swap_combo.grid(column=0, row=15)
+
+    # User selection to turn fusion site addition off
+    global include_fusion_site_label
+    global include_fusion_site_combo
+    include_fusion_site_label = tk.Label(tab4, text="Add fusion sites to parts?")
+    include_fusion_site_label.grid(column=1, row=13)
+    include_fusion_site_combo = ttk.Combobox(tab4, state="readonly", values=["Yes", "No"])
+    include_fusion_site_combo.grid(column=1, row=15)
+
+
+# Initialise stage 1 GUI on startup
+stage_1_GUI()
 
 
 # Clear stage 2 GUI
 def clear_stage_2_GUI():
-    part_move_button.grid_forget()
-    part_to_move_label.grid_forget()
-    destination_library_label.grid_forget()
-    part_to_move_entry.grid_forget()
-    destination_library_select.grid_forget()
+    try:
+        part_move_button.grid_forget()
+        part_to_move_label.grid_forget()
+        destination_library_label.grid_forget()
+        part_to_move_entry.grid_forget()
+        destination_library_select.grid_forget()
+    except NameError:
+        pass
+
     protocol_design_title.grid_forget()
     clear_all_errors_moclo()
     stage_2_label.grid_forget()
@@ -1421,32 +1505,35 @@ def clear_stage_2_GUI():
     transcription_unit_2_cds_entry.grid_forget()
     transcription_unit_2_terminator_entry.grid_forget()
 
-    if int(transcription_unit_quantity_combo.get()) > 2:
-        transcription_unit_3_label.grid_forget()
-        transcription_unit_3_promoter_entry.grid_forget()
-        transcription_unit_3_rbs_entry.grid_forget()
-        if include_signal_combo.get() == "Yes":
-            transcription_unit_3_signal_entry.grid_forget()
-        transcription_unit_3_cds_entry.grid_forget()
-        transcription_unit_3_terminator_entry.grid_forget()
+    try:
+        if int(transcription_unit_quantity_combo.get()) > 2:
+            transcription_unit_3_label.grid_forget()
+            transcription_unit_3_promoter_entry.grid_forget()
+            transcription_unit_3_rbs_entry.grid_forget()
+            if include_signal_combo.get() == "Yes":
+                transcription_unit_3_signal_entry.grid_forget()
+            transcription_unit_3_cds_entry.grid_forget()
+            transcription_unit_3_terminator_entry.grid_forget()
 
-    if int(transcription_unit_quantity_combo.get()) > 3:
-        transcription_unit_4_label.grid_forget()
-        transcription_unit_4_promoter_entry.grid_forget()
-        transcription_unit_4_rbs_entry.grid_forget()
-        if include_signal_combo.get() == "Yes":
-            transcription_unit_4_signal_entry.grid_forget()
-        transcription_unit_4_cds_entry.grid_forget()
-        transcription_unit_4_terminator_entry.grid_forget()
+        if int(transcription_unit_quantity_combo.get()) > 3:
+            transcription_unit_4_label.grid_forget()
+            transcription_unit_4_promoter_entry.grid_forget()
+            transcription_unit_4_rbs_entry.grid_forget()
+            if include_signal_combo.get() == "Yes":
+                transcription_unit_4_signal_entry.grid_forget()
+            transcription_unit_4_cds_entry.grid_forget()
+            transcription_unit_4_terminator_entry.grid_forget()
 
-    if int(transcription_unit_quantity_combo.get()) > 4:
-        transcription_unit_5_label.grid_forget()
-        transcription_unit_5_promoter_entry.grid_forget()
-        transcription_unit_5_rbs_entry.grid_forget()
-        if include_signal_combo.get() == "Yes":
-            transcription_unit_5_signal_entry.grid_forget()
-        transcription_unit_5_cds_entry.grid_forget()
-        transcription_unit_5_terminator_entry.grid_forget()
+        if int(transcription_unit_quantity_combo.get()) > 4:
+            transcription_unit_5_label.grid_forget()
+            transcription_unit_5_promoter_entry.grid_forget()
+            transcription_unit_5_rbs_entry.grid_forget()
+            if include_signal_combo.get() == "Yes":
+                transcription_unit_5_signal_entry.grid_forget()
+            transcription_unit_5_cds_entry.grid_forget()
+            transcription_unit_5_terminator_entry.grid_forget()
+    except ValueError:
+        pass
 
     if assembly_method_combo.get() == "Automatic":
         liquid_handler_selection_label.grid_forget()
@@ -1454,13 +1541,6 @@ def clear_stage_2_GUI():
     create_protocol_button.grid_forget()
     protocol_name_label.grid_forget()
     protocol_name_entry.grid_forget()
-
-
-# Automatic/Manual selection
-assembly_method_label = tk.Label(tab4, text="Assembly method")
-assembly_method_label.grid(column=3, row=10)
-assembly_method_combo = ttk.Combobox(tab4, state="readonly", values=["Automatic", "Manual"])
-assembly_method_combo.grid(column=3, row=12)
 
 
 # Create protocol button
@@ -1551,39 +1631,6 @@ def revert_stage_2_GUI(event):
     move_parts_library()
 
 
-# User selection for part:level 1 backbone volume ratio
-level_1_ratio_1_1 = tk.IntVar()
-level_1_ratio_1_2 = tk.IntVar()
-level_1_ratio_2_1 = tk.IntVar()
-level_1_volume_ratio_label = tk.Label(tab4,
-                                      text="Part : level 1 backbone reaction volumetric ratios (2:1 is default "
-                                           "if none selected, "
-                                           "multiple selection is allowed):")
-level_1_volume_ratio_label.grid(column=0, row=16, columnspan=6, sticky="w")
-level_1_volume_ratio_checkbox_1_1 = ttk.Checkbutton(tab4, text="1:1", variable=level_1_ratio_1_1)
-level_1_volume_ratio_checkbox_1_1.grid(column=0, row=17)
-level_1_volume_ratio_checkbox_1_2 = ttk.Checkbutton(tab4, text="1:2", variable=level_1_ratio_1_2)
-level_1_volume_ratio_checkbox_1_2.grid(column=1, row=17)
-level_1_volume_ratio_checkbox_2_1 = ttk.Checkbutton(tab4, text="2:1", variable=level_1_ratio_2_1)
-level_1_volume_ratio_checkbox_2_1.grid(column=2, row=17)
-
-# User selection for TU: level 2 backbone ratio
-level_2_ratio_1_1 = tk.IntVar()
-level_2_ratio_1_2 = tk.IntVar()
-level_2_ratio_2_1 = tk.IntVar()
-level_2_volume_ratio_label = tk.Label(tab4,
-                                      text="TU : level 2 backbone reaction volumetric ratios (2:1 is default if "
-                                           "none selected, "
-                                           "multiple selection is allowed):")
-level_2_volume_ratio_label.grid(column=0, row=18, columnspan=6, sticky="w")
-level_2_volume_ratio_checkbox_1_1 = ttk.Checkbutton(tab4, text="1:1", variable=level_2_ratio_1_1)
-level_2_volume_ratio_checkbox_1_1.grid(column=0, row=19)
-level_2_volume_ratio_checkbox_1_2 = ttk.Checkbutton(tab4, text="1:2", variable=level_2_ratio_1_2)
-level_2_volume_ratio_checkbox_1_2.grid(column=1, row=19)
-level_2_volume_ratio_checkbox_2_1 = ttk.Checkbutton(tab4, text="2:1", variable=level_2_ratio_2_1)
-level_2_volume_ratio_checkbox_2_1.grid(column=2, row=19)
-
-
 # Liquid handler selection
 def liquid_handler_selection():
     global liquid_handler_selection_combo
@@ -1602,19 +1649,6 @@ def protocol_name_entry_gui():
     protocol_name_label.grid(column=2, row=25)
     protocol_name_entry = tk.Entry(tab4)
     protocol_name_entry.grid(column=2, row=27)
-
-
-# User selection to include codon swap
-include_codon_swap_label = tk.Label(tab4, text="Substitute CDS restriction sites?")
-include_codon_swap_label.grid(column=0, row=13)
-include_codon_swap_combo = ttk.Combobox(tab4, state="readonly", values=["Yes", "No"])
-include_codon_swap_combo.grid(column=0, row=15)
-
-# User selection to turn fusion site addition off
-include_fusion_site_label = tk.Label(tab4, text="Add fusion sites to parts?")
-include_fusion_site_label.grid(column=1, row=13)
-include_fusion_site_combo = ttk.Combobox(tab4, state="readonly", values=["Yes", "No"])
-include_fusion_site_combo.grid(column=1, row=15)
 
 
 # SBOL import failed error
@@ -1876,10 +1910,6 @@ def moclo_reset(event):
     except NameError:
         pass
     try:
-        clear_stage_2_GUI()
-    except NameError:
-        pass
-    try:
         final_check_title.grid_forget()
     except NameError:
         pass
@@ -1919,9 +1949,15 @@ def moclo_reset(event):
         protocol_design_title.grid_forget()
     except NameError:
         pass
-
+    try:
+        clear_stage_2_GUI()
+    except NameError:
+        pass
     # Reinstate stage 1 GUI
+    stage_1_GUI()
 
+    # Clear global variables
+    MoClo.clear_moclo_globals()
 
 clear_all_button = tk.Button(tab4, fg="red", text="Clear all")
 clear_all_button.bind("<Button-1>", moclo_reset)
