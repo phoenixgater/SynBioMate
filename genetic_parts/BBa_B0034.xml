@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:gbConv="http://sbols.org/genBankConversion#" xmlns:sbol="http://sbols.org/v2#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:genbank="http://www.ncbi.nlm.nih.gov/genbank#" xmlns:prov="http://www.w3.org/ns/prov#" xmlns:om="http://www.ontology-of-units-of-measure.org/resource/om-2/">
+  <sbol:ComponentDefinition rdf:about="https://synbiohub.org/public/igem/BBa_B0034/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/BBa_B0034"/>
+    <sbol:displayId>BBa_B0034</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <dcterms:description>RBS (Elowitz 1999) -- defines RBS efficiency</dcterms:description>
+    <genbank:locus>BBa_B0034</genbank:locus>
+    <genbank:molecule>DNA</genbank:molecule>
+    <genbank:date>23-Aug-2020</genbank:date>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:type rdf:resource="http://identifiers.org/so/SO:0000987"/>
+    <sbol:role rdf:resource="http://identifiers.org/so/SO:0001411"/>
+    <sbol:sequenceAnnotation>
+      <sbol:SequenceAnnotation rdf:about="https://synbiohub.org/public/igem/BBa_B0034/annotation0/1">
+        <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/BBa_B0034/annotation0"/>
+        <sbol:displayId>annotation0</sbol:displayId>
+        <sbol:version>1</sbol:version>
+        <dcterms:title>conserved</dcterms:title>
+        <gbConv:label>conserved</gbConv:label>
+        <sbol:role rdf:resource="http://identifiers.org/so/SO:0001411"/>
+        <sbol:location>
+          <sbol:Range rdf:about="https://synbiohub.org/public/igem/BBa_B0034/annotation0/range/1">
+            <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/BBa_B0034/annotation0/range"/>
+            <sbol:displayId>range</sbol:displayId>
+            <sbol:version>1</sbol:version>
+            <sbol:start>5</sbol:start>
+            <sbol:end>8</sbol:end>
+            <sbol:orientation rdf:resource="http://sbols.org/v2#inline"/>
+          </sbol:Range>
+        </sbol:location>
+      </sbol:SequenceAnnotation>
+    </sbol:sequenceAnnotation>
+    <sbol:sequence rdf:resource="https://synbiohub.org/public/igem/BBa_B0034_seq/1"/>
+  </sbol:ComponentDefinition>
+  <sbol:Sequence rdf:about="https://synbiohub.org/public/igem/BBa_B0034_seq/1">
+    <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/BBa_B0034_seq"/>
+    <sbol:displayId>BBa_B0034_seq</sbol:displayId>
+    <sbol:version>1</sbol:version>
+    <sbol:elements>aaagaggagaaa</sbol:elements>
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+  </sbol:Sequence>
+</rdf:RDF>

@@ -246,6 +246,7 @@ def successful_conversion():
                                            )
     successful_conversion_label.grid(column=1, row=16)
 
+
 # Failed conversion label
 def conversion_failure():
     global failed_conversion_label
@@ -339,7 +340,6 @@ def refresh_gui_part_creation():
         failed_conversion_label.grid_forget()
     except NameError:
         pass
-
 
 
 # Create part
@@ -1378,7 +1378,7 @@ def stage_1_GUI():
 
     # Entry for transcription unit quantity
     global transcription_unit_quantity_combo
-    transcription_unit_quantity_combo = ttk.Combobox(tab4, state="readonly", values=["2", "3", "4", "5"])
+    transcription_unit_quantity_combo = ttk.Combobox(tab4, state="readonly", values=["1", "2", "3", "4", "5"])
     transcription_unit_quantity_combo.grid(column=2, row=12)
 
     # Protocol design title
@@ -1485,29 +1485,30 @@ def clear_stage_2_GUI():
     clear_all_errors_moclo()
     stage_2_label.grid_forget()
 
-    transcription_unit_1_label.grid_forget()
-    transcription_unit_1_promoter_label.grid_forget()
-    transcription_unit_1_rbs_label.grid_forget()
-    if include_signal_combo.get() == "Yes":
-        transcription_unit_1_signal_label.grid_forget()
-    transcription_unit_1_cds_label.grid_forget()
-    transcription_unit_1_terminator_label.grid_forget()
-    transcription_unit_1_promoter_entry.grid_forget()
-    transcription_unit_1_rbs_entry.grid_forget()
-    if include_signal_combo.get() == "Yes":
-        transcription_unit_1_signal_entry.grid_forget()
-    transcription_unit_1_cds_entry.grid_forget()
-    transcription_unit_1_terminator_entry.grid_forget()
-
-    transcription_unit_2_label.grid_forget()
-    transcription_unit_2_promoter_entry.grid_forget()
-    transcription_unit_2_rbs_entry.grid_forget()
-    if include_signal_combo.get() == "Yes":
-        transcription_unit_2_signal_entry.grid_forget()
-    transcription_unit_2_cds_entry.grid_forget()
-    transcription_unit_2_terminator_entry.grid_forget()
-
     try:
+        transcription_unit_1_label.grid_forget()
+        transcription_unit_1_promoter_label.grid_forget()
+        transcription_unit_1_rbs_label.grid_forget()
+        if include_signal_combo.get() == "Yes":
+            transcription_unit_1_signal_label.grid_forget()
+        transcription_unit_1_cds_label.grid_forget()
+        transcription_unit_1_terminator_label.grid_forget()
+        transcription_unit_1_promoter_entry.grid_forget()
+        transcription_unit_1_rbs_entry.grid_forget()
+        if include_signal_combo.get() == "Yes":
+            transcription_unit_1_signal_entry.grid_forget()
+        transcription_unit_1_cds_entry.grid_forget()
+        transcription_unit_1_terminator_entry.grid_forget()
+
+        if int(transcription_unit_quantity_combo.get()) > 1:
+            transcription_unit_2_label.grid_forget()
+            transcription_unit_2_promoter_entry.grid_forget()
+            transcription_unit_2_rbs_entry.grid_forget()
+            if include_signal_combo.get() == "Yes":
+                transcription_unit_2_signal_entry.grid_forget()
+            transcription_unit_2_cds_entry.grid_forget()
+            transcription_unit_2_terminator_entry.grid_forget()
+
         if int(transcription_unit_quantity_combo.get()) > 2:
             transcription_unit_3_label.grid_forget()
             transcription_unit_3_promoter_entry.grid_forget()
@@ -1633,7 +1634,6 @@ def revert_stage_2_GUI(event):
     move_parts_library()
 
 
-
 # Liquid handler selection
 def liquid_handler_selection():
     global liquid_handler_selection_combo
@@ -1659,6 +1659,20 @@ def import_failed_moclo():
     global import_failed_label
     import_failed_label = tk.Label(tab4, fg="red", text="Import failed")
     import_failed_label.grid(row=1, column=0)
+
+
+# Multiple parts no structure error import error
+def no_structure_error_moclo():
+    global structure_error_label
+    structure_error_label = tk.Label(tab4, fg="red", text="Specified file contains multiple parts, but no structure")
+    structure_error_label.grid(row=1, column=0)
+
+
+# Multiple primary structures import error
+def multiple_primary_structure_moclo():
+    global multiple_primary_structures_label
+    multiple_primary_structures_label = tk.Label(tab4, fg="red", text="File contains multiple primary structures")
+    multiple_primary_structures_label.grid(row=1, column=0)
 
 
 # Error message for invalid part key for level 0 library move
@@ -1850,6 +1864,14 @@ def clear_all_errors_moclo():
         successful_creation_label.grid_forget()
     except NameError:
         pass
+    try:
+        structure_error_label.grid_forget()
+    except NameError:
+        pass
+    try:
+        multiple_primary_structures_label.grid_forget()
+    except NameError:
+        pass
 
 
 # Reset GUI and global variables
@@ -1961,6 +1983,7 @@ def moclo_reset(event):
 
     # Clear global variables
     MoClo.clear_moclo_globals()
+
 
 clear_all_button = tk.Button(tab4, fg="red", text="Clear all")
 clear_all_button.bind("<Button-1>", moclo_reset)

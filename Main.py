@@ -10,8 +10,8 @@ import Genetic_Design
 import MoClo
 
 
-# Setting homespace for pySBOL
-setHomespace('https://synbiohub.org/public/igem/')
+# Setting homespace for pySBOL document
+setHomespace('https://synbiohub.org/synbiomate')
 
 
 

@@ -1,14 +1,15 @@
 # Import libraries
 from sbol import *
 import xlsxwriter
+import csv
+import openpyxl
+import os
 
 # import scripts
 import GUI
 import MoClo
 import EcoFlex_protocol
-import csv
-import openpyxl
-import os
+
 
 
 def get_variables():
@@ -47,7 +48,8 @@ def get_variables():
 def create_scripts():
     get_variables()
     level_1_transcription_units()
-    level_2_transcription_units()
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+        level_2_transcription_units()
     create_csv_files()
 
 
@@ -196,7 +198,7 @@ def level_1_transcription_units():
                                 uid += 1
                                 worksheet.write(row, 0, uid)
                                 worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
-                                worksheet.write(row, 2, "384LDV_AQ_B")
+                                worksheet.write(row, 2, "384PP_AQ_BP")
                                 worksheet.write(row, 3, source_well)
                                 worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
                                 worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
@@ -223,7 +225,7 @@ def level_1_transcription_units():
                         uid += 1
                         worksheet.write(row, 0, uid)
                         worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
-                        worksheet.write(row, 2, "384LDV_AQ_B")
+                        worksheet.write(row, 2, "384PP_AQ_BP")
                         worksheet.write(row, 3, source_well)
                         worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
                         worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
@@ -248,7 +250,7 @@ def level_1_transcription_units():
                         uid += 1
                         worksheet.write(row, 0, uid)
                         worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
-                        worksheet.write(row, 2, "384LDV_AQ_B")
+                        worksheet.write(row, 2, "384PP_AQ_BP")
                         worksheet.write(row, 3, source_well)
                         worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
                         worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
@@ -273,7 +275,7 @@ def level_1_transcription_units():
                         uid += 1
                         worksheet.write(row, 0, uid)
                         worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
-                        worksheet.write(row, 2, "384LDV_AQ_B")
+                        worksheet.write(row, 2, "384PP_AQ_BP")
                         worksheet.write(row, 3, source_well)
                         worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
                         worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
@@ -299,7 +301,7 @@ def level_1_transcription_units():
                             uid += 1
                             worksheet.write(row, 0, uid)
                             worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
-                            worksheet.write(row, 2, "384LDV_AQ_B")
+                            worksheet.write(row, 2, "384PP_AQ_BP")
                             worksheet.write(row, 3, source_well)
                             worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
                             worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
@@ -324,7 +326,7 @@ def level_1_transcription_units():
                             uid += 1
                             worksheet.write(row, 0, uid)
                             worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
-                            worksheet.write(row, 2, "384LDV_AQ_B")
+                            worksheet.write(row, 2, "384PP_AQ_BP")
                             worksheet.write(row, 3, source_well)
                             worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
                             worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
@@ -349,7 +351,7 @@ def level_1_transcription_units():
                         uid += 1
                         worksheet.write(row, 0, uid)
                         worksheet.write(row, 1, "level 1 384 source plate (DNA components)")
-                        worksheet.write(row, 2, "384LDV_AQ_B")
+                        worksheet.write(row, 2, "384PP_AQ_BP")
                         worksheet.write(row, 3, source_well)
                         worksheet.write(row, 4, "384-Well Level 1 MoClo output plate")
                         worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
@@ -359,7 +361,6 @@ def level_1_transcription_units():
                         worksheet.write(row, 8, "pTU1-E-RFP")
                         break
     workbook.close()
-
 
 def level_2_transcription_units():
     # 6RES reagents (deionised water) level 2
@@ -478,7 +479,7 @@ def level_2_transcription_units():
 
     for destination_well in level_2_output.keys():
         for construct_name in level_2_dictionary.keys():
-            if level_2_output[destination_well][0] == construct_name:
+            if level_2_output[destination_well][0].find(construct_name) >= 0:
                 tu_list = level_2_dictionary[construct_name]
                 for tu in tu_list:
                     for source_well in level_2_384PP.keys():
@@ -495,7 +496,7 @@ def level_2_transcription_units():
                                 uid += 1
                                 worksheet.write(row, 0, uid)
                                 worksheet.write(row, 1, "level 2 384 source plate (DNA components)")
-                                worksheet.write(row, 2, "384LDV_AQ_B")
+                                worksheet.write(row, 2, "384PP_AQ_BP")
                                 worksheet.write(row, 3, source_well)
                                 worksheet.write(row, 4, "384-Well Level 2 MoClo output plate")
                                 worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
@@ -523,7 +524,7 @@ def level_2_transcription_units():
                         uid += 1
                         worksheet.write(row, 0, uid)
                         worksheet.write(row, 1, "level 2 384 source plate (DNA components)")
-                        worksheet.write(row, 2, "384LDV_AQ_B")
+                        worksheet.write(row, 2, "384PP_AQ_BP")
                         worksheet.write(row, 3, source_well)
                         worksheet.write(row, 4, "384-Well Level 2 MoClo output plate")
                         worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
@@ -548,7 +549,7 @@ def level_2_transcription_units():
                         uid += 1
                         worksheet.write(row, 0, uid)
                         worksheet.write(row, 1, "level 2 384 source plate (DNA components)")
-                        worksheet.write(row, 2, "384LDV_AQ_B")
+                        worksheet.write(row, 2, "384PP_AQ_BP")
                         worksheet.write(row, 3, source_well)
                         worksheet.write(row, 4, "384-Well Level 2 MoClo output plate")
                         worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
@@ -573,7 +574,7 @@ def level_2_transcription_units():
                         uid += 1
                         worksheet.write(row, 0, uid)
                         worksheet.write(row, 1, "level 2 384 source plate (DNA components)")
-                        worksheet.write(row, 2, "384LDV_AQ_B")
+                        worksheet.write(row, 2, "384PP_AQ_BP")
                         worksheet.write(row, 3, source_well)
                         worksheet.write(row, 4, "384-Well Level 2 MoClo output plate")
                         worksheet.write(row, 5, "Echo® Qualified 384-Well Polypropylene Source Microplate ("
@@ -611,26 +612,27 @@ def create_csv_files():
             c.writerow([cell.value for cell in r])
     os.remove("protocols_and_scripts\\" + protocol_name + "_dna.xlsx")
 
-    wb = openpyxl.load_workbook("protocols_and_scripts\\" + protocol_name + "_6res_2.xlsx")
-    ws = wb.get_sheet_by_name("Sheet1")
-    with open("protocols_and_scripts\\" + protocol_name + "_6res_2.csv", "w", newline="") as f:
-        c = csv.writer(f)
-        for r in ws.rows:
-            c.writerow([cell.value for cell in r])
-    os.remove("protocols_and_scripts\\" + protocol_name + "_6res_2.xlsx")
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+        wb = openpyxl.load_workbook("protocols_and_scripts\\" + protocol_name + "_6res_2.xlsx")
+        ws = wb.get_sheet_by_name("Sheet1")
+        with open("protocols_and_scripts\\" + protocol_name + "_6res_2.csv", "w", newline="") as f:
+            c = csv.writer(f)
+            for r in ws.rows:
+                c.writerow([cell.value for cell in r])
+        os.remove("protocols_and_scripts\\" + protocol_name + "_6res_2.xlsx")
 
-    wb = openpyxl.load_workbook("protocols_and_scripts\\" + protocol_name + "_ldv_2.xlsx")
-    ws = wb.get_sheet_by_name("Sheet1")
-    with open("protocols_and_scripts\\" + protocol_name + "_ldv_2.csv", "w", newline="") as f:
-        c = csv.writer(f)
-        for r in ws.rows:
-            c.writerow([cell.value for cell in r])
-    os.remove("protocols_and_scripts\\" + protocol_name + "_ldv_2.xlsx")
+        wb = openpyxl.load_workbook("protocols_and_scripts\\" + protocol_name + "_ldv_2.xlsx")
+        ws = wb.get_sheet_by_name("Sheet1")
+        with open("protocols_and_scripts\\" + protocol_name + "_ldv_2.csv", "w", newline="") as f:
+            c = csv.writer(f)
+            for r in ws.rows:
+                c.writerow([cell.value for cell in r])
+        os.remove("protocols_and_scripts\\" + protocol_name + "_ldv_2.xlsx")
 
-    wb = openpyxl.load_workbook("protocols_and_scripts\\" + protocol_name + "_dna_2.xlsx")
-    ws = wb.get_sheet_by_name("Sheet1")
-    with open("protocols_and_scripts\\" + protocol_name + "_dna_2.csv", "w", newline="") as f:
-        c = csv.writer(f)
-        for r in ws.rows:
-            c.writerow([cell.value for cell in r])
-    os.remove("protocols_and_scripts\\" + protocol_name + "_dna_2.xlsx")
+        wb = openpyxl.load_workbook("protocols_and_scripts\\" + protocol_name + "_dna_2.xlsx")
+        ws = wb.get_sheet_by_name("Sheet1")
+        with open("protocols_and_scripts\\" + protocol_name + "_dna_2.csv", "w", newline="") as f:
+            c = csv.writer(f)
+            for r in ws.rows:
+                c.writerow([cell.value for cell in r])
+        os.remove("protocols_and_scripts\\" + protocol_name + "_dna_2.xlsx")

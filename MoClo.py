@@ -97,7 +97,7 @@ def import_design(event):
                         doc.append(imported_design)
                         import_single_part_to_library(part_uri_string)
                 else:
-                    print("ERROR PLACEHOLDER")
+                    GUI.no_structure_error_moclo()
 
         # If a primary structure is detected, the contents of the file will be assumed to encode a genetic design
         elif design_detected:
@@ -111,7 +111,7 @@ def import_design(event):
                 except LookupError:
                     pass
             if primary_structure_count > 1:
-                print("Multiple primary structures detected error")
+                GUI.multiple_primary_structure_moclo()
             else:
                 # Retrieving the component definitions of the parts contained within the design
                 primary_structure_cd = design_uri.getPrimaryStructure()
@@ -450,7 +450,7 @@ def part_selection_lists():
     tu3_keys_valid = True
     tu4_keys_valid = True
     tu5_keys_valid = True
-    if transcription_unit_quantity > 1:
+    if transcription_unit_quantity > 0:
         selected_promoter_1 = (GUI.transcription_unit_1_promoter_entry.get())
         transcription_unit_1_promoter_keys = (selected_promoter_1.split(", "))
         global transcription_unit_1_promoter
@@ -529,6 +529,7 @@ def part_selection_lists():
                     tu1_keys_valid = False
                     break
 
+    if transcription_unit_quantity > 1:
         selected_promoter_2 = (GUI.transcription_unit_2_promoter_entry.get())
         transcription_unit_2_promoter_keys = (selected_promoter_2.split(", "))
         global transcription_unit_2_promoter
@@ -901,7 +902,7 @@ def final_ecoflex_check():
         signal_choice = GUI.include_signal_combo.get()
         global ecoflex_check_list
         ecoflex_check_list = []
-        if transcription_unit_quantity > 1:
+        if transcription_unit_quantity > 0:
             for component in transcription_unit_1_promoter:
                 ecoflex_restriction_site_check(component, 1)
             for component in transcription_unit_1_rbs:
@@ -914,6 +915,7 @@ def final_ecoflex_check():
             for component in transcription_unit_1_terminator:
                 ecoflex_restriction_site_check(component, 1)
 
+        if transcription_unit_quantity > 1:
             for component in transcription_unit_2_promoter:
                 ecoflex_restriction_site_check(component, 2)
             for component in transcription_unit_2_rbs:
@@ -978,35 +980,37 @@ def calculate_well_requirements():
     transcription_unit_5_variants_temp = []
     level_2_variants_temp = []
 
-    counter = 0
-    for promoter in transcription_unit_1_promoter:
-        for rbs in transcription_unit_1_rbs:
-            if GUI.include_signal_combo.get() == "Yes":
-                for signal in transcription_unit_1_signal:
+    if int(GUI.transcription_unit_quantity_combo.get()) > 0:
+        counter = 0
+        for promoter in transcription_unit_1_promoter:
+            for rbs in transcription_unit_1_rbs:
+                if GUI.include_signal_combo.get() == "Yes":
+                    for signal in transcription_unit_1_signal:
+                        for cds in transcription_unit_1_cds:
+                            for terminator in transcription_unit_1_terminator:
+                                counter += 1
+                                transcription_unit_1_variants_temp.append("variant " + str(counter))
+                else:
                     for cds in transcription_unit_1_cds:
                         for terminator in transcription_unit_1_terminator:
                             counter += 1
                             transcription_unit_1_variants_temp.append("variant " + str(counter))
-            else:
-                for cds in transcription_unit_1_cds:
-                    for terminator in transcription_unit_1_terminator:
-                        counter += 1
-                        transcription_unit_1_variants_temp.append("variant " + str(counter))
 
-    counter = 0
-    for promoter in transcription_unit_2_promoter:
-        for rbs in transcription_unit_2_rbs:
-            if GUI.include_signal_combo.get() == "Yes":
-                for signal in transcription_unit_2_signal:
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+        counter = 0
+        for promoter in transcription_unit_2_promoter:
+            for rbs in transcription_unit_2_rbs:
+                if GUI.include_signal_combo.get() == "Yes":
+                    for signal in transcription_unit_2_signal:
+                        for cds in transcription_unit_2_cds:
+                            for terminator in transcription_unit_2_terminator:
+                                counter += 1
+                                transcription_unit_2_variants_temp.append("variant " + str(counter))
+                else:
                     for cds in transcription_unit_2_cds:
                         for terminator in transcription_unit_2_terminator:
                             counter += 1
                             transcription_unit_2_variants_temp.append("variant " + str(counter))
-            else:
-                for cds in transcription_unit_2_cds:
-                    for terminator in transcription_unit_2_terminator:
-                        counter += 1
-                        transcription_unit_2_variants_temp.append("variant " + str(counter))
 
     if int(GUI.transcription_unit_quantity_combo.get()) > 2:
         counter = 0
@@ -1113,6 +1117,9 @@ def calculate_well_requirements():
     level_1_ratios = len(selected_reaction_ratios_level_1)
     level_2_ratios = len(selected_reaction_ratios_level_2)
 
+    if int(GUI.transcription_unit_quantity_combo.get()) == 1:
+        level_1_output_quantity = len(transcription_unit_1_variants_temp) * level_1_ratios
+
     if int(GUI.transcription_unit_quantity_combo.get()) == 2:
         level_1_output_quantity = (len(transcription_unit_1_variants_temp) + len(
             transcription_unit_2_variants_temp)) * level_1_ratios
@@ -1131,9 +1138,12 @@ def calculate_well_requirements():
             transcription_unit_2_variants_temp) + len(transcription_unit_3_variants_temp) + len(
             transcription_unit_4_variants_temp) + len(transcription_unit_5_variants_temp)) * level_1_ratios
 
-    level_2_output_quantity = len(level_2_variants_temp) * level_2_ratios
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+        level_2_output_quantity = len(level_2_variants_temp) * level_2_ratios
+        return [level_1_output_quantity, level_2_output_quantity]
 
-    return [level_1_output_quantity, level_2_output_quantity]
+    if int(GUI.transcription_unit_quantity_combo.get()) == 1:
+        return [level_1_output_quantity, 0]
 
 
 # Library for codon swapping for EcoFlex protocols
@@ -1301,11 +1311,10 @@ def restriction_site_name_library(sequence):
 
 # Create codon-swapped variants of CDS parts that contain excluded restriction sites - For EcoFlex
 def swap_codons_ecoflex():
-    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+    if int(GUI.transcription_unit_quantity_combo.get()) > 0:
         # Transcription unit 1
         cds_number = 0
         for cds in transcription_unit_1_cds:
-            print(transcription_unit_1_cds)
             cds_number = cds_number + 1
             part_key = "unit1_c" + str(cds_number)
             global modification_dictionary
@@ -1350,7 +1359,9 @@ def swap_codons_ecoflex():
                                     sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                              " (" + site_name + ")" + " detected, "
-                                                                                                      " but was unable to be changed due " +
+                                                                                                      "but was unable "
+                                                                                                      "to be changed "
+                                                                                                      "due " +
                                                                              "to unavailable codon alternative " +
                                                                              "for " +
                                                                              str(codon) + "." +
@@ -1402,6 +1413,7 @@ def swap_codons_ecoflex():
                                             pass
                 cds.sequence.elements = sequence
 
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
         # Transcription unit 2
         cds_number = 0
         for cds in transcription_unit_2_cds:
@@ -1448,7 +1460,9 @@ def swap_codons_ecoflex():
                                     sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                              " (" + site_name + ")" + " detected"
-                                                                                                      " but was unable to be changed due " +
+                                                                                                      "but was unable "
+                                                                                                      "to be changed "
+                                                                                                      "due " +
                                                                              "to unavailable codon alternative " +
                                                                              "for " +
                                                                              str(codon) + "." +
@@ -1477,11 +1491,12 @@ def swap_codons_ecoflex():
                                     codon_string = (", ".join(codon_list))
                                     sequence = codon_string.replace(", ", "")
                                     site_name = restriction_site_name_library(forbidden_site)
-                                    modification_dictionary[part_key].append("Codon " + str(codon) + " replaced with " +
-                                                                             str(new_codon)
-                                                                             + " to remove " +
-                                                                             forbidden_site + " (" + site_name + ")" +
-                                                                             " restriction site")
+                                    modification_dictionary[part_key].append(
+                                        "Codon " + str(codon) + " replaced with " +
+                                        str(new_codon)
+                                        + " to remove " +
+                                        forbidden_site + " (" + site_name + ")" +
+                                        " restriction site")
                                     count = count - 1
                                     if count == 0:
                                         if forbidden_site == forbidden_sites_ecoflex[-1]:
@@ -1547,7 +1562,9 @@ def swap_codons_ecoflex():
                                     sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                              " (" + site_name + ")" + " detected,"
-                                                                                                      " but was unable to be changed due " +
+                                                                                                      "but was unable "
+                                                                                                      "to be changed "
+                                                                                                      "due " +
                                                                              "to unavailable codon alternative " +
                                                                              "for " +
                                                                              str(codon) + "." +
@@ -1646,7 +1663,9 @@ def swap_codons_ecoflex():
                                     sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                              " (" + site_name + ")" + " detected,"
-                                                                                                      " but was unable to be changed due " +
+                                                                                                      "but was unable "
+                                                                                                      "to be changed "
+                                                                                                      "due " +
                                                                              "to unavailable codon alternative " +
                                                                              "for " +
                                                                              str(codon) + "." +
@@ -1745,7 +1764,9 @@ def swap_codons_ecoflex():
                                     sequence = codon_string.replace(", ", "")
                                     modification_dictionary[part_key].append("Restriction site " + forbidden_site +
                                                                              " (" + site_name + ")" + " detected,"
-                                                                                                      " but was unable to be changed due " +
+                                                                                                      "but was unable "
+                                                                                                      "to be changed "
+                                                                                                      "due " +
                                                                              "to unavailable codon alternative " +
                                                                              "for " +
                                                                              str(codon) + "." +
@@ -1800,7 +1821,7 @@ def swap_codons_ecoflex():
 
 # Note restriction sites present in bioparts (promoter, rbs, signal peptide, terminator)
 def check_biopart_sites_ecoflex():
-    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+    if int(GUI.transcription_unit_quantity_combo.get()) > 0:
         # Transcription unit 1
         promoter_number = 0
         for promoter in transcription_unit_1_promoter:
@@ -1938,6 +1959,7 @@ def check_biopart_sites_ecoflex():
                         modification_dictionary[part_key].append("Restriction site " + forbidden_site + " (" +
                                                                  site_name + ")" + " detected")
 
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
         # Transcription unit 2
         promoter_number = 0
         for promoter in transcription_unit_2_promoter:
@@ -2488,7 +2510,7 @@ def check_biopart_sites_ecoflex():
 def ecoflex_fusion_sites():
     # Transcription unit 1
     if GUI.include_fusion_site_combo.get() == "Yes":
-        if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+        if int(GUI.transcription_unit_quantity_combo.get()) > 0:
             counter = 0
             for promoter in transcription_unit_1_promoter:
                 counter = counter + 1
@@ -2616,6 +2638,7 @@ def ecoflex_fusion_sites():
                                                                              "site" +
                                                                              " (agagacc), and SphI overhang (catg)")
 
+        if int(GUI.transcription_unit_quantity_combo.get()) > 1:
             # Transcription unit 2
             counter = 0
             for promoter in transcription_unit_2_promoter:
@@ -3129,7 +3152,7 @@ def ecoflex_fusion_sites():
 
 
 def create_transcription_unit_variants():
-    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+    if int(GUI.transcription_unit_quantity_combo.get()) > 0:
         # Variants for transcription unit 1
         global transcription_unit_1_variants
         counter = 0
@@ -3156,6 +3179,7 @@ def create_transcription_unit_variants():
                             transcription_unit_1_variants["unit1_v" + str(counter)].append(cds)
                             transcription_unit_1_variants["unit1_v" + str(counter)].append(terminator)
 
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
         # Variants for transcription unit 2
         global transcription_unit_2_variants
         counter = 0
@@ -3269,8 +3293,9 @@ def final_oligonucleotides_1():
     all_promoters_1 = []
     for promoter in transcription_unit_1_promoter:
         all_promoters_1.append(promoter)
-    for promoter in transcription_unit_2_promoter:
-        all_promoters_1.append(promoter)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+        for promoter in transcription_unit_2_promoter:
+            all_promoters_1.append(promoter)
     if int(GUI.transcription_unit_quantity_combo.get()) > 2:
         for promoter in transcription_unit_3_promoter:
             all_promoters_1.append(promoter)
@@ -3285,8 +3310,9 @@ def final_oligonucleotides_1():
     all_rbs_1 = []
     for rbs in transcription_unit_1_rbs:
         all_rbs_1.append(rbs)
-    for rbs in transcription_unit_2_rbs:
-        all_rbs_1.append(rbs)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+        for rbs in transcription_unit_2_rbs:
+            all_rbs_1.append(rbs)
     if int(GUI.transcription_unit_quantity_combo.get()) > 2:
         for rbs in transcription_unit_3_rbs:
             all_rbs_1.append(rbs)
@@ -3302,8 +3328,9 @@ def final_oligonucleotides_1():
         all_signal_1 = []
         for signal in transcription_unit_1_signal:
             all_signal_1.append(signal)
-        for signal in transcription_unit_2_signal:
-            all_signal_1.append(signal)
+        if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+            for signal in transcription_unit_2_signal:
+                all_signal_1.append(signal)
         if int(GUI.transcription_unit_quantity_combo.get()) > 2:
             for signal in transcription_unit_3_signal:
                 all_signal_1.append(signal)
@@ -3318,8 +3345,9 @@ def final_oligonucleotides_1():
     all_cds_1 = []
     for cds in transcription_unit_1_cds:
         all_cds_1.append(cds)
-    for cds in transcription_unit_2_cds:
-        all_cds_1.append(cds)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+        for cds in transcription_unit_2_cds:
+            all_cds_1.append(cds)
     if int(GUI.transcription_unit_quantity_combo.get()) > 2:
         for cds in transcription_unit_3_cds:
             all_cds_1.append(cds)
@@ -3334,8 +3362,9 @@ def final_oligonucleotides_1():
     all_terminator_1 = []
     for terminator in transcription_unit_1_terminator:
         all_terminator_1.append(terminator)
-    for terminator in transcription_unit_2_terminator:
-        all_terminator_1.append(terminator)
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+        for terminator in transcription_unit_2_terminator:
+            all_terminator_1.append(terminator)
     if int(GUI.transcription_unit_quantity_combo.get()) > 2:
         for terminator in transcription_unit_3_terminator:
             all_terminator_1.append(terminator)
@@ -3601,7 +3630,7 @@ def transcription_unit_format():
     global level_1_transcription_unit_dictionary
     level_1_transcription_unit_dictionary = {}
 
-    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
+    if int(GUI.transcription_unit_quantity_combo.get()) > 0:
         # Transcription unit 1
         if GUI.include_signal_combo.get() == "No":
             counter = 0
@@ -3656,6 +3685,7 @@ def transcription_unit_format():
                 level_1_transcription_unit_dictionary["Transcription unit 1 variant " + str(counter)] = (
                     transcription_unit_1_part_id[counter - 1])
 
+    if int(GUI.transcription_unit_quantity_combo.get()) > 1:
         # Transcription unit 2
         if GUI.include_signal_combo.get() == "No":
             counter = 0
@@ -3905,8 +3935,10 @@ def level_2_format():
     level_2_vector_name = ""
     global level_2_transcription_unit_dictionary
     level_2_transcription_unit_dictionary = {}
-
     counter = 0
+    if int(GUI.transcription_unit_quantity_combo.get()) == 1:
+        return
+
     if int(GUI.transcription_unit_quantity_combo.get()) == 2:
         level_2_vector_name = "pTU2-a-RFP, available from 'http://www.addgene.org/72958/'"
 
