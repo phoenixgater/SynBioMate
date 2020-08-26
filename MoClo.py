@@ -2747,7 +2747,7 @@ def ecoflex_fusion_sites():
                     modification_dictionary["unit2_c" + str(counter)].append("Suffix added for BamHI overhang (ctag)")
 
             counter = 0
-            for terminator in transcription_unit_1_terminator:
+            for terminator in transcription_unit_2_terminator:
                 counter = counter + 1
                 if terminator.sequence.elements.startswith("taggtctcatcga"):
                     pass
@@ -3146,7 +3146,7 @@ def ecoflex_fusion_sites():
                 else:
                     terminator.sequence.elements = terminator.sequence.elements + "tgttagagccccatg"
                     modification_dictionary["unit5_t" + str(counter)].append("Suffix added for golden gate terminator" +
-                                                                             "fusion site (tgtt), BsaI restriction "
+                                                                             " fusion site (tgtt), BsaI restriction "
                                                                              "site" +
                                                                              " (agagacc), and SphI overhang (catg)")
 
